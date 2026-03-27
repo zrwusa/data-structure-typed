@@ -7,7 +7,7 @@ describe('Individual package BST operations test', () => {
     bst.add([11, 11]);
     bst.add([3, 3]);
     const idsOrValues = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    bst.addMany(idsOrValues, undefined);
+    bst.addMany(idsOrValues);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -207,7 +207,7 @@ describe('Individual package BST operations test', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objBST.addMany(values, undefined);
+    objBST.addMany(values);
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 

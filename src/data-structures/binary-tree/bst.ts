@@ -458,6 +458,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    
    
    
+   
+   
     * @example
  * // Depth-first traversal
  *  const bst = new BST<number>([5, 3, 7, 1, 4]);
@@ -499,6 +501,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     /**
    * BinaryTree level-order traversal
   
+   
+   
    
    
    
@@ -566,6 +570,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    
    
    
+   
+   
     * @example
  * // Level-order grouping
  *  const bst = new BST<number>([5, 3, 7, 1, 4]);
@@ -609,6 +615,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The first matching node, or undefined if not found.
+   
+   
    
    
    
@@ -700,6 +708,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     /**
    * Search nodes by predicate
   
+   
+   
    
    
    
@@ -885,6 +895,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    
    
    
+   
     * @example
  * // Find all keys in a range
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
@@ -927,6 +938,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
+   
+   
    
    
    
@@ -1018,6 +1032,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [isBalanceAdd=true] - If true, builds a balanced tree from the items.
    * @param [iterationType=this.iterationType] - The traversal method for balanced set (recursive or iterative).
    * @returns An array of booleans indicating the success of each individual `set` operation.
+   
+   
    
    
    
@@ -1147,6 +1163,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    
    
    
+   
     * @example
  * // Find the least key ≥ target
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
@@ -1230,6 +1247,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    
    
    
+   
     * @example
  * // Find the least key strictly > target
  *  const bst = new BST<number>([10, 20, 30, 40]);
@@ -1300,6 +1318,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.floor.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
    
    
    
@@ -1426,6 +1445,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.lower.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
    
    
    
@@ -1620,6 +1640,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    
    
    
+   
     * @example
  * // Rebalance the tree
  *  const bst = new BST<number>();
@@ -1660,6 +1681,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    *
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns True if the tree is AVL balanced, false otherwise.
+   
    
    
    
@@ -1731,6 +1753,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [options] - Options for the new BST.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped BST.
+   
+   
    
    
    

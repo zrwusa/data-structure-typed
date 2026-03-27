@@ -30,7 +30,98 @@
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm-legacy/index.mjs",
       "require": "./dist/cjs-legacy/index.cjs"
-    }
+    },
+    "./binary-tree": {
+      "types": "./dist/types/data-structures/binary-tree/index.d.ts",
+      "node": {
+        "import": "./dist/esm/binary-tree.mjs",
+        "require": "./dist/cjs/binary-tree.cjs"
+      },
+      "import": "./dist/esm-legacy/binary-tree.mjs",
+      "require": "./dist/cjs-legacy/binary-tree.cjs"
+    },
+    "./graph": {
+      "types": "./dist/types/data-structures/graph/index.d.ts",
+      "node": {
+        "import": "./dist/esm/graph.mjs",
+        "require": "./dist/cjs/graph.cjs"
+      },
+      "import": "./dist/esm-legacy/graph.mjs",
+      "require": "./dist/cjs-legacy/graph.cjs"
+    },
+    "./hash": {
+      "types": "./dist/types/data-structures/hash/index.d.ts",
+      "node": {
+        "import": "./dist/esm/hash.mjs",
+        "require": "./dist/cjs/hash.cjs"
+      },
+      "import": "./dist/esm-legacy/hash.mjs",
+      "require": "./dist/cjs-legacy/hash.cjs"
+    },
+    "./heap": {
+      "types": "./dist/types/data-structures/heap/index.d.ts",
+      "node": {
+        "import": "./dist/esm/heap.mjs",
+        "require": "./dist/cjs/heap.cjs"
+      },
+      "import": "./dist/esm-legacy/heap.mjs",
+      "require": "./dist/cjs-legacy/heap.cjs"
+    },
+    "./linked-list": {
+      "types": "./dist/types/data-structures/linked-list/index.d.ts",
+      "node": {
+        "import": "./dist/esm/linked-list.mjs",
+        "require": "./dist/cjs/linked-list.cjs"
+      },
+      "import": "./dist/esm-legacy/linked-list.mjs",
+      "require": "./dist/cjs-legacy/linked-list.cjs"
+    },
+    "./matrix": {
+      "types": "./dist/types/data-structures/matrix/index.d.ts",
+      "node": {
+        "import": "./dist/esm/matrix.mjs",
+        "require": "./dist/cjs/matrix.cjs"
+      },
+      "import": "./dist/esm-legacy/matrix.mjs",
+      "require": "./dist/cjs-legacy/matrix.cjs"
+    },
+    "./priority-queue": {
+      "types": "./dist/types/data-structures/priority-queue/index.d.ts",
+      "node": {
+        "import": "./dist/esm/priority-queue.mjs",
+        "require": "./dist/cjs/priority-queue.cjs"
+      },
+      "import": "./dist/esm-legacy/priority-queue.mjs",
+      "require": "./dist/cjs-legacy/priority-queue.cjs"
+    },
+    "./queue": {
+      "types": "./dist/types/data-structures/queue/index.d.ts",
+      "node": {
+        "import": "./dist/esm/queue.mjs",
+        "require": "./dist/cjs/queue.cjs"
+      },
+      "import": "./dist/esm-legacy/queue.mjs",
+      "require": "./dist/cjs-legacy/queue.cjs"
+    },
+    "./stack": {
+      "types": "./dist/types/data-structures/stack/index.d.ts",
+      "node": {
+        "import": "./dist/esm/stack.mjs",
+        "require": "./dist/cjs/stack.cjs"
+      },
+      "import": "./dist/esm-legacy/stack.mjs",
+      "require": "./dist/cjs-legacy/stack.cjs"
+    },
+    "./trie": {
+      "types": "./dist/types/data-structures/trie/index.d.ts",
+      "node": {
+        "import": "./dist/esm/trie.mjs",
+        "require": "./dist/cjs/trie.cjs"
+      },
+      "import": "./dist/esm-legacy/trie.mjs",
+      "require": "./dist/cjs-legacy/trie.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "engines": {
@@ -126,7 +217,7 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
     "typedoc": "^0.26.10",
-    "typescript": "^5.6.3"
+    "typescript": "~5.9"
   },
   "keywords": [
     "data structures typescript",
