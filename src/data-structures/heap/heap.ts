@@ -193,6 +193,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -264,6 +265,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -296,6 +298,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Add multiple elements
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -322,6 +325,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove and return the top element.
    * @remarks Time O(log N), Space O(1)
    * @returns Top element or undefined.
+   
    
    
    
@@ -372,6 +376,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
    
    
    
@@ -455,6 +460,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Check if heap is empty
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -471,6 +477,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
+   
    
    
    
@@ -505,6 +512,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to search for.
    * @returns True if found.
+    * @example
+ * // Check element existence
+ *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+ *     console.log(heap.has(1)); // true;
+ *     console.log(heap.has(99)); // false;
    */
 
   override has(element: E): boolean {
@@ -517,6 +529,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to delete.
    * @returns True if an element was removed.
+   
    
    
    
@@ -595,6 +608,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(H)
    * @param [order] - Traversal order: 'PRE' | 'IN' | 'POST'.
    * @returns Array of visited elements.
+    * @example
+ * // Depth-first traversal
+ *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+ *     const result = heap.dfs('IN');
+ *     console.log(result.length); // 3;
    */
 
   dfs(order: DFSOrderPattern = 'PRE'): E[] {
@@ -648,6 +666,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
@@ -676,6 +695,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Create independent copy
  *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
@@ -697,6 +717,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param callback - Predicate (element, index, heap) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with the kept elements.
+   
    
    
    
@@ -732,6 +753,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
+   
    
    
    

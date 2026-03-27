@@ -39,8 +39,8 @@ describe('classic use', () => {
       { id: 3, name: 'Doohickey', price: 15 }
     ];
 
-    const index = new SkipList<number, Product>(products, {
-      toEntryFn: p => [p.price, p]
+    const index = new SkipList<number, Product>(products as any, {
+      toEntryFn: (p: any) => [p.price, p]
     });
 
     // Iterate in sorted order by price

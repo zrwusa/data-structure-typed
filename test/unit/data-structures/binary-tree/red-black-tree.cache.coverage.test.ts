@@ -173,31 +173,31 @@ describe('RedBlackTree cache coverage', () => {
       // Need: parent of new node IS current hMax, and new node > parent.
       // Insert ascending sequence so each new node's parent is current max.
       const t = new RedBlackTree<number, number>();
-      t.add(10, 10); // root, min=max=10
-      t.add(20, 20); // parent=10 (=hMax), lastCompared>0 → line 601
+      t.add([10, 10]); // root, min=max=10
+      t.add([20, 20]); // parent=10 (=hMax), lastCompared>0 → line 601
       expect(t.getRightMost()).toBe(20);
-      t.add(30, 30); // after rebalance, parent of 30 might be 20 (=hMax) → line 601
+      t.add([30, 30]); // after rebalance, parent of 30 might be 20 (=hMax) → line 601
       expect(t.getRightMost()).toBe(30);
     });
 
     it('line 603: parent === hMin && lastCompared < 0 (prepend to min)', () => {
       const t = new RedBlackTree<number, number>();
-      t.add(30, 30); // root, min=max=30
-      t.add(20, 20); // parent=30 (=hMin), lastCompared<0 → line 603
+      t.add([30, 30]); // root, min=max=30
+      t.add([20, 20]); // parent=30 (=hMin), lastCompared<0 → line 603
       expect(t.getLeftMost()).toBe(20);
-      t.add(10, 10); // parent might be 20 (=hMin) → line 603
+      t.add([10, 10]); // parent might be 20 (=hMin) → line 603
       expect(t.getLeftMost()).toBe(10);
     });
 
     it('else branch: new min/max but parent is neither hMin nor hMax', () => {
       const t = new RedBlackTree<number, number>();
       // Build a tree where min/max are leaves deep in the tree
-      for (const k of [50, 30, 70, 20, 40, 60, 80]) t.add(k, k);
+      for (const k of [50, 30, 70, 20, 40, 60, 80]) t.add([k, k]);
       // Now insert 5: parent=20 (which may not be hMin after rebalancing)
       // and 90: parent=80 (which may not be hMax)
-      t.add(5, 5);
+      t.add([5, 5]);
       expect(t.getLeftMost()).toBe(5);
-      t.add(90, 90);
+      t.add([90, 90]);
       expect(t.getRightMost()).toBe(90);
     });
   });

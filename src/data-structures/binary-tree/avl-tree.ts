@@ -384,34 +384,16 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
+   
     * @example
- * // basic BST creation and add operation
- *  // Create a simple BST with numeric keys
- *     const avl = new AVLTree<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
- *
- *     // Keep the example output in source comments but avoid noisy test logs.
- *     await withMutedConsole(() => avl.print());
- *     //         _______8__________
- *     //        /                  \
- *     //     ___4___          ____12_____
- *     //    /       \        /           \
- *     //   _2_     _6_     _10__       _14__
- *     //  /   \   /   \   /     \     /     \
- *     //  1   3   5   7   9    11    13    15__
- *     //                                       \
- *     //                                      16
- *
- *     // Verify size
- *     console.log(avl.size); // 16;
- *
- *     // Add new elements
- *     avl.set(17);
- *     avl.set(0);
- *     console.log(avl.size); // 18;
- *
- *     // Verify keys are searchable
- *     console.log(avl.has(11)); // true;
- *     console.log(avl.has(100)); // false;
+ * // Set a key-value pair
+ *  const avl = new AVLTree<number, string>();
+ *     avl.set(1, 'one');
+ *     avl.set(2, 'two');
+ *     console.log(avl.get(1)); // 'one';
    */
   override set(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -430,6 +412,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
+   
+   
+   
    
    
    
@@ -487,6 +472,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
     * @example
  * // Rebalance the tree
  *  const avl = new AVLTree<number>();
@@ -536,6 +523,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
+   
+   
+   
    
    
    

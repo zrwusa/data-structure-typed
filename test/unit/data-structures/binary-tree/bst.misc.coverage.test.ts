@@ -1,5 +1,4 @@
 import { BST, BSTNode, Range } from '../../../../src';
-import { Range } from '../../../../src/common';
 
 describe('BST misc coverage', () => {
 
@@ -424,9 +423,9 @@ describe('BST Date key comparator', () => {
     const d1 = new Date('2024-01-01');
     const d2 = new Date('2024-06-01');
     const d3 = new Date('2023-01-01');
-    bst.add(d1, 'jan');
-    bst.add(d2, 'jun');
-    bst.add(d3, 'old');
+    bst.add([d1, 'jan']);
+    bst.add([d2, 'jun']);
+    bst.add([d3, 'old']);
     expect(bst.has(d2)).toBe(true);
     expect(bst.getLeftMost()).toEqual(d3);
     expect(bst.getRightMost()).toEqual(d2);

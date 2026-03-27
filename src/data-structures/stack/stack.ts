@@ -170,6 +170,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Get number of elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -211,6 +212,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Check if stack has elements
  *  const stack = new Stack<number>();
@@ -235,6 +237,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // View the top element without removing it
  *  const stack = new Stack<string>(['a', 'b', 'c']);
@@ -251,6 +254,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
+   
    
    
    
@@ -284,6 +288,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+   
    
    
    
@@ -342,6 +347,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Remove element
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -394,6 +400,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Remove all elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -409,6 +416,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this stack.
    * @remarks Time O(N), Space O(N)
    * @returns A new stack with the same content.
+   
    
    
    
@@ -436,6 +444,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param predicate - Predicate (value, index, stack) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new stack with kept values.
+   
    
    
    
@@ -486,6 +495,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options for the output stack (e.g., toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Stack with mapped elements.
+   
    
    
    

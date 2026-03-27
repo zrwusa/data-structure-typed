@@ -2096,7 +2096,7 @@ describe('Classic usage examples', () => {
 
   it('@example [BinaryTree.search] Search by predicate', () => {
     const tree = new BinaryTree<number>([5, 3, 7, 1, 9]);
-    const found = tree.search(n => n.key > 5, true);
+    const found = tree.search(n => n!.key > 5, true);
     expect(found.length).toBeGreaterThanOrEqual(1);
   });
 

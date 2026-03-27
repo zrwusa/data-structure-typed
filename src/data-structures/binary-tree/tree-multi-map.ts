@@ -136,6 +136,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Check if empty
  *  console.log(new TreeMultiMap().isEmpty()); // true;
@@ -170,11 +175,17 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Remove all entries
- *  const tmm = new TreeMultiMap<number>([1, 2, 3]);
- *     tmm.clear();
- *     console.log(tmm.isEmpty()); // true;
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.clear();
+ *       console.log(mm.isEmpty()); // true;
    */
   clear(): void {
     this.#core.clear();
@@ -183,6 +194,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Bucket length for a key (missing => 0).
    * @remarks Time O(log n), Space O(1)
+    * @example
+ * // Count values for key
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       console.log(mm.count(1)); // 2;
    */
   count(key: K): number {
     const b = this.get(key);
@@ -192,6 +209,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Total number of values across all buckets (Σ bucket.length).
    * @remarks Time O(n), Space O(1)
+    * @example
+ * // Total number of values
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       mm.add(2, 'c');
+ *       console.log(mm.totalSize); // 3;
    */
   get totalSize(): number {
     let sum = 0;
@@ -236,15 +260,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // Check key existence
- *  const mm = new TreeMultiMap<number, string>([
- *       [1, ['a']],
- *       [3, ['c']]
- *     ]);
- *
- *     console.log(mm.has(1)); // true;
- *     console.log(mm.has(2)); // false;
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       console.log(mm.has(1)); // true;
+ *       console.log(mm.has(2)); // false;
    */
   has(key: K): boolean {
     this._validateKey(key);
@@ -288,15 +315,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
- * // Retrieve grouped values by key
- *  const scores = new TreeMultiMap<string, number>([
- *       ['Alice', [95, 88, 92]],
- *       ['Bob', [80, 85]]
- *     ]);
- *
- *     console.log(scores.get('Alice')); // [95, 88, 92];
- *     console.log(scores.get('Unknown')); // undefined;
+ * // Get values for key
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       console.log(mm.get(1)); // ['a', 'b'];
    */
   get(key: K): V[] | undefined {
     this._validateKey(key);
@@ -323,14 +353,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Insert a key
- *  const tmm = new TreeMultiMap<number>();
- *     tmm.add(10);
- *     tmm.add(5);
- *     tmm.add(15);
- *     console.log(tmm.size); // 3;
- *     console.log(tmm.has(10)); // true;
+ * // Add key-value pair
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       mm.add(2, 'c');
+ *       console.log(mm.get(1)); // ['a', 'b'];
    */
   add(key: K, value: V): boolean {
     this._validateKey(key);
@@ -377,16 +411,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
- * // Multi-value dictionary for tag grouping
- *  const tags = new TreeMultiMap<string, string>([
- *       ['frontend', ['react', 'vue']],
- *       ['backend', ['node', 'python']]
- *     ]);
- *
- *     console.log(tags.get('frontend')); // ['react', 'vue'];
- *     console.log(tags.size); // 2;
- *     console.log([...tags.keys()]); // ['backend', 'frontend'];
+ * // Set values for key
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.set(1, 'a');
+ *       mm.set(1, 'b');
+ *       console.log(mm.get(1)); // ['a', 'b'];
    */
   set(entry: [K | null | undefined, V[] | undefined] | K | null | undefined, value?: V): boolean;
   set(key: K, value: V): boolean;
@@ -450,17 +486,19 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
- * // Remove a key and all its values
- *  const mm = new TreeMultiMap<number, string>([
- *       [1, ['a', 'b']],
- *       [2, ['c']],
- *       [3, ['d']]
- *     ]);
- *
- *     mm.delete(2);
- *     console.log(mm.has(2)); // false;
- *     console.log(mm.size); // 2;
+ * // Remove key
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(2, 'b');
+ *       mm.delete(1);
+ *       console.log(mm.has(1)); // false;
    */
   delete(key: K): boolean {
     this._validateKey(key);
@@ -470,6 +508,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Check if a specific value exists in a key's bucket.
    * @remarks Time O(log n + m), Space O(1) where m is bucket size
+    * @example
+ * // Check specific key-value
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       console.log(mm.hasEntry(1, 'a')); // true;
+ *       console.log(mm.hasEntry(1, 'z')); // false;
    */
   hasEntry(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): boolean {
     const bucket = this.get(key);
@@ -480,6 +524,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Delete a single occurrence of a value from a key's bucket.
    * @remarks Time O(log n + m), Space O(1) where m is bucket size
+    * @example
+ * // Delete specific value
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       mm.deleteValue(1, 'a');
+ *       console.log(mm.get(1)); // ['b'];
    */
   deleteValue(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): boolean {
     const bucket = this.get(key);
@@ -494,6 +545,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Delete all occurrences of a value from a key's bucket.
    * @remarks Time O(log n + m), Space O(1) where m is bucket size
+    * @example
+ * // Delete all matching values
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       const count = mm.deleteValues(1, 'a');
+ *       console.log(count); // 2;
    */
   deleteValues(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): number {
     const bucket = this.get(key);
@@ -548,10 +607,17 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Get sorted keys
- *  const tmm = new TreeMultiMap<number>([30, 10, 20]);
- *     console.log([...tmm.keys()]); // [10, 20, 30];
+ * // Iterate keys
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(3, 'c');
+ *       mm.add(1, 'a');
+ *       console.log([...mm.keys()]); // [1, 3];
    */
   *keys(): IterableIterator<K> {
     yield* this.#core.keys();
@@ -583,10 +649,17 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Get values in key order
- *  const tmm = new TreeMultiMap<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
- *     console.log([...tmm.values()]); // ['a', 'b', 'c'];
+ * // Iterate value arrays
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       console.log([...mm.values()]); // [['a', 'b']];
    */
   *values(): IterableIterator<V[]> {
     for (const [, bucket] of this) yield bucket;
@@ -597,6 +670,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Iterates over all entries for a specific key.
    * @remarks Time O(log n + m), Space O(1) where m is bucket size
+    * @example
+ * // Get entries for key
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       console.log([...mm.entriesOf(1)]); // [[1, 'a'], [1, 'b']];
    */
   *entriesOf(key: K): IterableIterator<[K, V]> {
     const bucket = this.get(key);
@@ -607,6 +686,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Iterates over all values for a specific key.
    * @remarks Time O(log n + m), Space O(1) where m is bucket size
+    * @example
+ * // Get flat values for key
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       console.log([...mm.valuesOf(1)]); // ['a', 'b'];
    */
   *valuesOf(key: K): IterableIterator<V> {
     const bucket = this.get(key);
@@ -617,6 +702,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Iterates over all [key, value] pairs (flattened from buckets).
    * @remarks Time O(T), Space O(1) where T is totalSize
+    * @example
+ * // All key-value pairs flattened
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(1, 'b');
+ *       mm.add(2, 'c');
+ *       console.log([...mm.flatEntries()]); // [[1, 'a'], [1, 'b'], [2, 'c']];
    */
   *flatEntries(): IterableIterator<[K, V]> {
     for (const [k, bucket] of this) {
@@ -637,15 +729,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
     * @example
- * // Access the minimum entry
- *  const mm = new TreeMultiMap<number, string>([
- *       [5, ['e']],
- *       [1, ['a']],
- *       [3, ['c']]
- *     ]);
- *
- *     console.log(mm.first()); // [1, ['a']];
+ * // First entry
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(3, 'c');
+ *       mm.add(1, 'a');
+ *       console.log(mm.first()?.[0]); // 1;
    */
   first(): [K, V[]] | undefined {
     const k = this.#core.getLeftMost();
@@ -665,15 +756,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
     * @example
- * // Access the maximum entry
- *  const mm = new TreeMultiMap<number, string>([
- *       [5, ['e']],
- *       [1, ['a']],
- *       [3, ['c']]
- *     ]);
- *
- *     console.log(mm.last()); // [5, ['e']];
+ * // Last entry
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(3, 'c');
+ *       console.log(mm.last()?.[0]); // 3;
    */
   last(): [K, V[]] | undefined {
     const k = this.#core.getRightMost();
@@ -685,10 +775,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Removes and returns the entry with the smallest key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
-   * map.pollFirst();  // [1, ['a']]
-   * map.has(1);       // false
+  
+    * @example
+ * // Remove and return first
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(2, 'b');
+ *       mm.add(1, 'a');
+ *       const first = mm.pollFirst();
+ *       console.log(first?.[0]); // 1;
+ *       console.log(mm.has(1)); // false;
    */
   pollFirst(): [K, V[]] | undefined {
     const e = this.first();
@@ -700,10 +795,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Removes and returns the entry with the largest key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
-   * map.pollLast();  // [2, ['b']]
-   * map.has(2);      // false
+  
+    * @example
+ * // Remove and return last
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(3, 'c');
+ *       const last = mm.pollLast();
+ *       console.log(last?.[0]); // 3;
    */
   pollLast(): [K, V[]] | undefined {
     const e = this.last();
@@ -741,16 +840,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Least entry ≥ key
- *  const mm = new TreeMultiMap<number, string>([
- *       [10, ['a']],
- *       [20, ['b']],
- *       [30, ['c']]
- *     ]);
- *
- *     console.log(mm.ceiling(15)); // [20, ['b']];
- *     console.log(mm.ceiling(20)); // [20, ['b']];
+ * // Least key ≥ target
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(10, 'a');
+ *       mm.add(20, 'b');
+ *       mm.add(30, 'c');
+ *       console.log(mm.ceiling(15)?.[0]); // 20;
    */
   ceiling(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -789,16 +890,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Greatest entry ≤ key
- *  const mm = new TreeMultiMap<number, string>([
- *       [10, ['a']],
- *       [20, ['b']],
- *       [30, ['c']]
- *     ]);
- *
- *     console.log(mm.floor(25)); // [20, ['b']];
- *     console.log(mm.floor(5)); // undefined;
+ * // Greatest key ≤ target
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(10, 'a');
+ *       mm.add(20, 'b');
+ *       mm.add(30, 'c');
+ *       console.log(mm.floor(25)?.[0]); // 20;
    */
   floor(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -829,10 +932,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Least key > target
- *  const tmm = new TreeMultiMap<number>([10, 20, 30]);
- *     console.log(tmm.higher(20)); // 30;
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(10, 'a');
+ *       mm.add(20, 'b');
+ *       console.log(mm.higher(10)?.[0]); // 20;
    */
   higher(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -863,10 +972,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Greatest key < target
- *  const tmm = new TreeMultiMap<number>([10, 20, 30]);
- *     console.log(tmm.lower(20)); // 10;
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(10, 'a');
+ *       mm.add(20, 'b');
+ *       console.log(mm.lower(20)?.[0]); // 10;
    */
   lower(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -904,10 +1019,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Display tree
- *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
- *     expect(() => tmm.print()).not.toThrow();
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       expect(() => mm.print()).not.toThrow();
    */
   print(): void {
     this.#core.print();
@@ -939,12 +1060,19 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Execute for each entry
- *  const tmm = new TreeMultiMap<number>([3, 1, 2]);
- *     const keys: number[] = [];
- *     tmm.forEach((v, k) => keys.push(k));
- *     console.log(keys); // [1, 2, 3];
+ * // Iterate entries
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(2, 'b');
+ *       const keys: number[] = [];
+ *       mm.forEach((v, k) => keys.push(k));
+ *       console.log(keys); // [1, 2];
    */
   forEach(callback: (value: V[], key: K, map: this) => void): void {
     for (const [k, v] of this) {
@@ -978,11 +1106,19 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Filter entries
- *  const tmm = new TreeMultiMap<number>([1, 2, 3, 4, 5]);
- *     const evens = tmm.filter((v, k) => k % 2 === 0);
- *     console.log([...evens.keys()]); // [2, 4];
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       mm.add(2, 'b');
+ *       mm.add(3, 'c');
+ *       const filtered = mm.filter((v, k) => k > 1);
+ *       console.log([...filtered.keys()]); // [2, 3];
    */
   filter(predicate: (value: V[], key: K, map: this) => boolean): TreeMultiMap<K, V, R> {
     const filtered: [K, V[]][] = [];
@@ -1018,11 +1154,17 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Transform to new tree
- *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20]]);
- *     const doubled = tmm.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
- *     console.log([...doubled.values()]); // [20, 40];
+ * // Transform values
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       const mapped = mm.map((v, k) => [k, v.map(s => s.toUpperCase())] as [number, string[]]);
+ *       console.log(mapped.get(1)); // ['A'];
    */
   map<V2>(
     mapper: (value: V[], key: K, map: this) => [K, V2[]]
@@ -1060,11 +1202,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Aggregate values
- *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const sum = tmm.reduce((acc, v) => acc + (v ?? 0), 0);
- *     console.log(sum); // 60;
+ * // Aggregate
+ *  const mm = new TreeMultiMap<number, number>();
+ *       mm.add(1, 10);
+ *       mm.add(2, 20);
+ *       const sum = mm.reduce((acc, v) => acc + v.reduce((a, b) => a + b, 0), 0);
+ *       console.log(sum); // 30;
    */
   reduce<U>(callback: (accumulator: U, value: V[], key: K, map: this) => U, initialValue: U): U {
     let acc = initialValue;
@@ -1092,11 +1241,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Set multiple key-value pairs
- *  const tmm = new TreeMultiMap<number, string>();
- *     tmm.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
- *     console.log(tmm.size); // 3;
+ * // Set multiple entries
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.setMany([[1, ['a']], [2, ['b']]]);
+ *       console.log(mm.size); // 2;
    */
   setMany(keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined]>): boolean[] {
     const results: boolean[] = [];
@@ -1128,10 +1282,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Find keys in range
- *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40, 50]);
- *     console.log(tmm.rangeSearch([15, 35])); // [20, 30];
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(10, 'a');
+ *       mm.add(20, 'b');
+ *       mm.add(30, 'c');
+ *       const result = mm.rangeSearch([15, 25]);
+ *       console.log(result.length); // 1;
    */
   rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => unknown>(
     range: Range<K> | [K, K],
@@ -1166,12 +1328,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
- * // Create independent copy
- *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
- *     const copy = tmm.clone();
- *     copy.delete(3);
- *     console.log(tmm.has(3)); // true;
+ * // Deep clone
+ *  const mm = new TreeMultiMap<number, string>();
+ *       mm.add(1, 'a');
+ *       const copy = mm.clone();
+ *       copy.delete(1);
+ *       console.log(mm.has(1)); // true;
    */
   clone(): TreeMultiMap<K, V, R> {
     return new TreeMultiMap<K, V, R>(this, { comparator: this.comparator, isMapMode: this.#core.isMapMode });

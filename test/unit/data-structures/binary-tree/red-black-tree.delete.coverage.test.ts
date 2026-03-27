@@ -144,7 +144,7 @@ describe('RedBlackTree delete coverage', () => {
       const t = new RedBlackTree<number, number>();
       // Build a specific tree shape
       for (const k of [20, 10, 30, 5, 15, 25, 35, 3, 7]) {
-        t.add(k, k);
+        t.add([k, k]);
       }
       // Delete right-leaning nodes to trigger right-child fixup
       t.delete(35);
@@ -161,7 +161,7 @@ describe('RedBlackTree delete coverage', () => {
       const t = new RedBlackTree<number, number>();
       // Create tree that forces right-child with red left sibling
       for (const k of [50, 30, 70, 20, 40, 60, 80, 10, 25, 35, 45, 55, 65, 75, 85]) {
-        t.add(k, k);
+        t.add([k, k]);
       }
       // Delete several right-side nodes
       t.delete(85);
@@ -178,7 +178,7 @@ describe('RedBlackTree delete coverage', () => {
     it('should handle successive right-child deletions', () => {
       const t = new RedBlackTree<number, number>();
       for (const k of [10, 20, 30, 40, 50, 60, 70, 80]) {
-        t.add(k, k);
+        t.add([k, k]);
       }
       t.delete(80);
       t.delete(70);
@@ -195,7 +195,7 @@ describe('RedBlackTree delete coverage', () => {
       // replacement node is a right child of its parent
       const t = new RedBlackTree<number, number>();
       for (const k of [40, 20, 60, 10, 30, 50, 70, 5, 15, 25, 35]) {
-        t.add(k, k);
+        t.add([k, k]);
       }
       // Delete left-side leaves first
       t.delete(5);
@@ -216,7 +216,7 @@ describe('RedBlackTree delete coverage', () => {
       const t = new RedBlackTree<number, number>();
       // Insert to create specific structure
       for (const k of [7, 3, 18, 10, 22, 8, 11, 26]) {
-        t.add(k, k);
+        t.add([k, k]);
       }
       // Delete sequence that forces right-child fixup
       t.delete(3);
@@ -228,7 +228,7 @@ describe('RedBlackTree delete coverage', () => {
     it('should exercise all fixup branches with many deletions', () => {
       const t = new RedBlackTree<number, number>();
       const keys = Array.from({ length: 31 }, (_, i) => i + 1);
-      for (const k of keys) t.add(k, k);
+      for (const k of keys) t.add([k, k]);
       for (let i = 1; i <= 15; i++) t.delete(i);
       expect(t.size).toBe(16);
       t.delete(31);
@@ -254,7 +254,7 @@ describe('RedBlackTree delete coverage', () => {
 
       for (const seq of sequences) {
         const t = new RedBlackTree<number, number>();
-        for (const k of seq.insert) t.add(k, k);
+        for (const k of seq.insert) t.add([k, k]);
         for (const k of seq.delete) {
           t.delete(k);
           // Verify tree integrity after each deletion

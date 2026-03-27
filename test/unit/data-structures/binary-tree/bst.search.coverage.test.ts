@@ -104,8 +104,8 @@ describe('BST ceiling/higher with callback + iterationType', () => {
   const bst = new BST<number, number>([5, 10, 15, 20, 25].map(k => [k, k]));
 
   it('ceiling with iterationType string', () => {
-    expect(bst.ceiling(10, 'ITERATIVE')).toBe(10);
-    expect(bst.ceiling(10, 'RECURSIVE')).toBe(10);
+    expect((bst as any).ceiling(10, 'ITERATIVE')).toBe(10);
+    expect((bst as any).ceiling(10, 'RECURSIVE')).toBe(10);
   });
 
   it('ceiling with node callback', () => {
@@ -121,8 +121,8 @@ describe('BST ceiling/higher with callback + iterationType', () => {
   });
 
   it('higher with iterationType string', () => {
-    expect(bst.higher(10, 'ITERATIVE')).toBe(15);
-    expect(bst.higher(10, 'RECURSIVE')).toBe(15);
+    expect((bst as any).higher(10, 'ITERATIVE')).toBe(15);
+    expect((bst as any).higher(10, 'RECURSIVE')).toBe(15);
   });
 
   it('higher with node callback', () => {

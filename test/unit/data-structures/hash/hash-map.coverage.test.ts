@@ -98,7 +98,7 @@ describe('HashMap misc coverage', () => {
 
   describe('getter coverage', () => {
     it('toEntryFn returns the converter function', () => {
-      const fn = (raw: number): [number, string] => [raw, String(raw)];
+      const fn = (raw: [number, string]): [number, string] => [raw[0], raw[1]];
       const hm = new HashMap<number, string>([], { toEntryFn: fn });
       expect(hm.toEntryFn).toBe(fn);
     });
@@ -137,8 +137,8 @@ describe('HashMap misc coverage', () => {
 
   describe('LinkedHashMap begin iterator', () => {
     it('iterates multiple entries via begin()', () => {
-      const { LinkedHashMap } = require('../../../../src');
-      const lhm = new LinkedHashMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+      const { LinkedHashMap: LHM } = require('../../../../src');
+      const lhm = new (LHM as any)([[1, 'a'], [2, 'b'], [3, 'c']]);
       const entries: [number, string][] = [];
       for (const entry of lhm.begin()) {
         entries.push(entry as [number, string]);
