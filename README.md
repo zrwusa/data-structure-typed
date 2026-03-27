@@ -258,11 +258,8 @@ while (score !== undefined && top3.length < 3) {
 }
 
 // Range query — players scoring 90~100, O(log n + k)
-let s = leaderboard.ceiling(100);             // greatest score ≤ 100 in desc tree
-while (s !== undefined && s >= 90) {
-  console.log(`${leaderboard.get(s)}: ${s}`);
-  s = leaderboard.higher(s);
-}
+const scores90to100 = leaderboard.rangeSearch([90, 100]);
+// [100, 95, 92] — automatically respects tree order
 ```
 
 ### Task Queue (Scheduling)
