@@ -242,10 +242,10 @@ const leaderboard = new RedBlackTree<number, string>([
 // Top-2 via lazy iterator — O(2 log n), no full traversal
 const iter = leaderboard.entries();
 for (let i = 0; i < 2; i++) {
-  const { value } = iter.next();
-  if (value) console.log(`${value[1]}: ${value[0]}`);
+  const { value: [score, player] } = iter.next();
+  console.log(`${score}: ${player}`);
 }
-// Output: Alice: 100 → Charlie: 92
+// Output: 100: Alice → 92: Charlie
 
 // Update score — O(log n)
 leaderboard.delete(85);
