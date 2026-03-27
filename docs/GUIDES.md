@@ -2,7 +2,7 @@
 
 Production-ready code examples for common use cases. Learn by doing.
 
-**[Back to README](../README.md) • [API Reference](./REFERENCE.md) • [See INTEGRATIONS](./INTEGRATIONS.md)**
+**[Back to README](../README.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [See INTEGRATIONS](./INTEGRATIONS.md)**
 
 ---
 

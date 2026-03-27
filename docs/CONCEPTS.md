@@ -2,7 +2,7 @@
 
 This guide explains the foundational concepts behind data structures through plain language and practical understanding.
 
-**👈 [Back to README](../README.md) • [API Reference](./REFERENCE.md) • [Real-World Guides](./GUIDES.md)**
+**👈 [Back to README](../README.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Guides](./GUIDES.md)**
 
 ---
 
@@ -396,7 +396,7 @@ Need a sorted key-value map?
 → [See real-world examples](./GUIDES.md)
 
 **Want to use immediately?**
-→ [Check API Reference](./REFERENCE.md)
+→ [Full API Docs](https://data-structure-typed-docs.vercel.app/)
 
 **Curious about performance?**
 → [Read performance comparison](./PERFORMANCE.md)
@@ -408,7 +408,7 @@ Need a sorted key-value map?
 
 **Related:**
 
-- [REFERENCE.md](./REFERENCE.md) - API / structures / methods
+- [OVERVIEW.md](./OVERVIEW.md) - API / structures / methods
 - [GUIDES.md](./GUIDES.md) - Leaderboard / LRU / Queue / real-world examples
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Design / JIT / internal abstractions
 - [PERFORMANCE.md](./PERFORMANCE.md) - Benchmarks / comparisons

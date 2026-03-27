@@ -14,7 +14,7 @@ A comprehensive TypeScript data structures library with production-ready impleme
 ![NPM](https://img.shields.io/npm/l/data-structure-typed)
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
 
-**📦 [Installation](#-installation) • 🎮 [Playground](#-playground) • ⚡ [Quick Start](#-quick-start-30-seconds) • 📖 [Docs](#-documentation) • 📋 [API](./docs/REFERENCE.md) • 💡 [Examples](./docs/GUIDES.md)**
+**📦 [Installation](#-installation) • 🎮 [Playground](#-playground) • ⚡ [Quick Start](#-quick-start-30-seconds) • 📖 [Docs](#-documentation) • 📋 [API](https://data-structure-typed-docs.vercel.app/) • 💡 [Examples](./docs/GUIDES.md)**
 
 ---
 
@@ -299,7 +299,7 @@ queue.push(6);  // Add to back: O(1)
 | **BinaryIndexedTree**    | Prefix sums, frequency counting   | O(log n)        | —                                                         |
 | **Matrix**               | 2D grid arithmetic                | O(n²) add       | —                                                         |
 
-👉 [See all 20+ structures →](./docs/REFERENCE.md)
+👉 [See all 20+ structures →](./docs/OVERVIEW.md) | [Full API docs →](https://data-structure-typed-docs.vercel.app/)
 
 ---
 
@@ -310,8 +310,8 @@ queue.push(6);  // Add to back: O(1)
 | Your Goal                 | Start Here                                | Next Steps                              |
 |---------------------------|-------------------------------------------|-----------------------------------------|
 | **Learn concepts**        | [CONCEPTS.md](./docs/CONCEPTS.md)         | [GUIDES.md](./docs/GUIDES.md)           |
-| **Use in my project**     | [GUIDES.md](./docs/GUIDES.md)             | [REFERENCE.md](./docs/REFERENCE.md)     |
-| **Look up API**           | [REFERENCE.md](./docs/REFERENCE.md)       | [PERFORMANCE.md](./docs/PERFORMANCE.md) |
+| **Use in my project**     | [GUIDES.md](./docs/GUIDES.md)             | [OVERVIEW.md](./docs/OVERVIEW.md)       |
+| **Look up API**           | [API Docs](https://data-structure-typed-docs.vercel.app/) | [PERFORMANCE.md](./docs/PERFORMANCE.md) |
 | **Performance questions** | [PERFORMANCE.md](./docs/PERFORMANCE.md)   | [ARCHITECTURE.md](./docs/ARCHITECTURE.md)    |
 | **Framework integration** | [INTEGRATIONS.md](./docs/INTEGRATIONS.md) | [GUIDES.md](./docs/GUIDES.md)           |
 | **Understand design**     | [ARCHITECTURE.md](./docs/ARCHITECTURE.md)      | [CONCEPTS.md](./docs/CONCEPTS.md)       |
@@ -325,14 +325,19 @@ queue.push(6);  // Add to back: O(1)
   - 5 Comparisons with Native JavaScript
   - Complete Decision Guide
 
-2. **[REFERENCE.md](./docs/REFERENCE.md)** - Complete API & Data Structures
+2. **[API Docs](https://data-structure-typed-docs.vercel.app/)** - Full API Reference (TypeDoc)
+  - Complete method signatures, parameters, return types
+  - Real-world `@example` code for every method
+  - Inheritance hierarchy and type details
+
+3. **[OVERVIEW.md](./docs/OVERVIEW.md)** - Data Structures Overview
   - Quick Reference Table
   - All 20+ Structures with Examples
   - CRUD Operations
   - Common Methods
   - TypeScript Support
 
-3. **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - Design & Implementation
+4. **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - Design & Implementation
   - Design Philosophy & Principles
   - 3 Pain Points Solved
   - Why Deque is 484x Faster
@@ -340,20 +345,20 @@ queue.push(6);  // Add to back: O(1)
   - Self-Balancing Strategy
   - V8 JIT Optimizations
 
-4. **[PERFORMANCE.md](./docs/PERFORMANCE.md)** - Benchmarks & Comparisons
+5. **[PERFORMANCE.md](./docs/PERFORMANCE.md)** - Benchmarks & Comparisons
   - Performance Summary
   - 3 Real-World Scenarios
   - Detailed Benchmarks
   - When to Use What
   - Optimization Tips
 
-5. **[GUIDES.md](./docs/GUIDES.md)** - Real-World Examples
+6. **[GUIDES.md](./docs/GUIDES.md)** - Real-World Examples
   - 4 Design Patterns
   - 5 Production Code Examples
   - Common Mistakes
   - Best Practices
 
-6. **[INTEGRATIONS.md](./docs/INTEGRATIONS.md)** - Framework Integration
+7. **[INTEGRATIONS.md](./docs/INTEGRATIONS.md)** - Framework Integration
   - React Integration (State Management, Leaderboard)
   - Express Integration (LRU Cache, Rate Limiting)
   - Nest.js Integration (Ranking Service, Task Queue)
@@ -583,7 +588,7 @@ MIT
 README.md (this file)
 docs/
 ├── CONCEPTS.md (theory & fundamentals)
-├── REFERENCE.md (API documentation)
+├── OVERVIEW.md (Data structures overview)
 ├── ARCHITECTURE.md (design principles)
 ├── PERFORMANCE.md (benchmarks)
 ├── GUIDES.md (real-world examples)
@@ -600,7 +605,7 @@ docs/
 
 **Want to build?** → [GUIDES.md](./docs/GUIDES.md)
 
-**Need API?** → [REFERENCE.md](./docs/REFERENCE.md)
+**Need API?** → [API Docs](https://data-structure-typed-docs.vercel.app/) | [Overview](./docs/OVERVIEW.md)
 
 **Curious about performance?** → [PERFORMANCE.md](./docs/PERFORMANCE.md)
 

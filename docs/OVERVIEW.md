@@ -1,8 +1,8 @@
-# REFERENCE: Complete API & Data Structures
+# OVERVIEW: Data Structures at a Glance
 
-The authoritative guide to all APIs, structures, and methods. Use this when you need to look up how to call something.
+A quick-reference guide to all structures, common operations, and usage patterns. For complete API details with method signatures and examples, see the **[Full API Docs](https://data-structure-typed-docs.vercel.app/)**.
 
-**[Back to README](../README.md) • [Real-World Examples](./GUIDES.md) • [Performance](./PERFORMANCE.md)**
+**[Back to README](../README.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Examples](./GUIDES.md) • [Performance](./PERFORMANCE.md)**
 
 ---
 

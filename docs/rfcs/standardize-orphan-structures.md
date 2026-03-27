@@ -470,7 +470,7 @@ class Matrix {
 
 All four structures are currently absent from key documentation. Must update:
 
-**REFERENCE.md**:
+**OVERVIEW.md**:
 - Add to Quick Reference Table:
   | SegmentTree | Range queries | O(log n) query/update | O(n) |
   | BinaryIndexedTree | Prefix sums | O(log n) query/update | O(n) |

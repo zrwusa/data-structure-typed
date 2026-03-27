@@ -8,7 +8,24 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v2.4.5](https://github.com/zrwusa/data-structure-typed/compare/v2.4.3...main) (upcoming)
+## [v2.5.0](https://github.com/zrwusa/data-structure-typed/compare/v2.4.3...v2.5.0) (27 March 2026)
+
+### Breaking Changes
+
+- Removed deprecated `SegmentTreeNode` class, `TreeMultiMapNode` class, and `SegmentTreeNodeVal` type alias
+- Removed deprecated `SkipListEntryCallback`, `SkipListReduceCallback`, `SkipLinkedListOptions` types
+
+### Highlights
+
+- **Critical bug fix**: RedBlackTree `_deleteFixup` was dead code — early return prevented double-black repair from ever running. Rewrote to standard CLRS algorithm
+- **SkipList** now extends `IterableEntryBase` — inherits 14 shared methods
+- **Complete @example coverage**: 9 core classes at 100% from own tests (530 injected, 145 inherited stripped)
+- **Test consolidation**: 135 → 78 files (-42%), 2431 tests passing
+- **Coverage**: 99.3% branches, 99.21% lines
+- **TypeDoc plugin**: replaces HTML postprocessor for @example injection
+- **API docs**: now hosted at https://data-structure-typed-docs.vercel.app/
+
+### Changes
 
 ### Changes
 
