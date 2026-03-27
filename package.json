@@ -216,7 +216,7 @@
     "ts-morph": "^27.0.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
-    "typedoc": "^0.26.10",
+    "typedoc": "^0.28.18",
     "typescript": "~5.9"
   },
   "keywords": [

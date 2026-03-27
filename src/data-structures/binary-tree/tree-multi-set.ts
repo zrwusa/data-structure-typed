@@ -88,6 +88,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Unique key count
  *  const ms = new TreeMultiSet<number>();
@@ -102,6 +104,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Whether the multiset is empty.
    * @remarks Time O(1), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -212,6 +224,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check existence
  *  const ms = new TreeMultiSet<number>();
@@ -231,6 +253,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Get occurrence count
  *  const ms = new TreeMultiSet<number>();
@@ -246,6 +270,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Add `n` occurrences of `key`.
    * @returns True if the multiset changed.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -317,6 +351,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Set occurrence count
  *  const ms = new TreeMultiSet<number>();
@@ -344,6 +380,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Delete `n` occurrences of `key` (default 1).
    * @returns True if any occurrence was removed.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -428,6 +474,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Remove all occurrences
  *  const ms = new TreeMultiSet<number>();
@@ -451,6 +499,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Iterate unique keys
  *  const ms = new TreeMultiSet<number>();
@@ -465,6 +515,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Iterates over entries as [key, count] pairs.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -586,6 +646,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // All elements (with duplicates)
  *  const ms = new TreeMultiSet<number>();
@@ -604,6 +674,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Unique keys only
  *  const ms = new TreeMultiSet<number>();
@@ -618,6 +690,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Returns an array of [key, count] entries.
    * @remarks Time O(n), Space O(n)
+   
+   
    
    
    
@@ -695,6 +769,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove all
  *  const ms = new TreeMultiSet<number>();
@@ -713,6 +797,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the smallest key, or undefined if empty.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
    
    
    
@@ -736,6 +822,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Largest element
  *  const ms = new TreeMultiSet<number>();
@@ -751,6 +839,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Removes all occurrences of the smallest key and returns it.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
    
    
    
@@ -778,6 +868,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Remove and return largest
  *  const ms = new TreeMultiSet<number>();
@@ -796,6 +888,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the smallest key >= given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -887,6 +987,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Greatest key ≤ target
  *  const ms = new TreeMultiSet<number>();
@@ -941,6 +1049,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Least key > target
  *  const ms = new TreeMultiSet<number>();
@@ -957,6 +1073,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the largest key < given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1060,6 +1184,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Iterate
  *  const ms = new TreeMultiSet<number>();
@@ -1079,6 +1213,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Creates a new TreeMultiSet with entries that match the predicate.
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1201,6 +1345,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Aggregate
  *  const ms = new TreeMultiSet<number>();
@@ -1222,6 +1376,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * When multiple keys map to the same new key, counts are merged (added).
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1345,6 +1509,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Deep clone
  *  const ms = new TreeMultiSet<number>();
@@ -1407,6 +1581,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Find in range
  *  const ms = new TreeMultiSet<number>();
@@ -1428,6 +1610,16 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Prints the internal tree structure (for debugging).
    * @remarks Time O(n), Space O(n)
   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    

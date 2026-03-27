@@ -156,7 +156,7 @@ function convertExpectsToComments(body: string): string {
 export function load(app: Application) {
   const projectRoot = process.cwd();
 
-  app.converter.on(Converter.EVENT_RESOLVE_END, (context) => {
+  (app.converter as any).on(Converter.EVENT_RESOLVE_END, (context: any) => {
     // Parse all test examples
     const testExamples = parseTestExamples(projectRoot);
     let injected = 0;
