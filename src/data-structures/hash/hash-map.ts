@@ -178,6 +178,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
     * @example
  * // Check if empty
  *  const map = new HashMap();
@@ -191,6 +193,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Remove all entries and reset counters.
    * @remarks Time O(N), Space O(1)
    * @returns void
+   
+   
    
    
    
@@ -225,6 +229,10 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
+   
+   
+   
+   
    
    
    
@@ -286,6 +294,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
     * @example
  * // Add multiple entries
  *  const map = new HashMap<string, number>();
@@ -308,6 +318,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
+   
+   
    
    
    
@@ -359,6 +371,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
     * @example
  * // Check key existence
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -377,6 +391,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
+   
+   
    
    
    
@@ -432,6 +448,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
     * @example
  * // Create independent copy
  *  const map = new HashMap<string, number>([['a', 1]]);
@@ -451,6 +469,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
+   
+   
    
    
    
@@ -481,6 +501,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
+   
+   
    
    
    

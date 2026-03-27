@@ -277,6 +277,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // basic DoublyLinkedList creation and push operation
  *  // Create a simple DoublyLinkedList with initial values
@@ -313,6 +315,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove and return the tail element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+   
+   
    
    
    
@@ -366,6 +370,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // Remove from the front
  *  const list = new DoublyLinkedList<number>([10, 20, 30]);
@@ -392,6 +398,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
+   
+   
    
    
    
@@ -469,6 +477,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // Access by index
  *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
@@ -488,6 +498,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Node or undefined.
+   
+   
    
    
    
@@ -552,6 +564,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param index - Zero-based index.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
+   
+   
    
    
    
@@ -658,6 +672,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // Remove by index
  *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
@@ -684,6 +700,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param [elementOrNode] - Element or node to remove.
    * @returns True if removed.
+   
+   
    
    
    
@@ -724,6 +742,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // Check empty
  *  console.log(new DoublyLinkedList().isEmpty()); // true;
@@ -737,6 +757,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
+   
+   
    
    
    
@@ -762,6 +784,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param elementNodeOrPredicate - Element, node, or predicate to match.
    * @returns Matched value or undefined.
+   
+   
    
    
    
@@ -798,6 +822,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // Find value scanning from tail
  *  const list = new DoublyLinkedList<number>([1, 2, 3, 4]);
@@ -822,6 +848,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
+   
+   
    
    
    
@@ -872,6 +900,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    
    
    
+   
+   
     * @example
  * // Deep copy
  *  const list = new DoublyLinkedList<number>([1, 2, 3]);
@@ -892,6 +922,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
+   
+   
    
    
    
@@ -942,6 +974,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new DoublyLinkedList with mapped values.
+   
+   
    
    
    
