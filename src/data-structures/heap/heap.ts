@@ -207,6 +207,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -292,6 +294,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -319,6 +323,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(1)
    * @param elements - Iterable of elements or raw values.
    * @returns Array of per-element success flags.
+   
+   
    
    
    
@@ -386,6 +392,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Heap with custom comparator (MaxHeap behavior)
  *  interface Task {
@@ -428,6 +436,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
+   
    
    
    
@@ -539,6 +549,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Check if heap is empty
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -555,6 +567,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
+   
+   
    
    
    
@@ -616,6 +630,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Check element existence
  *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
@@ -633,6 +649,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to delete.
    * @returns True if an element was removed.
+   
+   
    
    
    
@@ -738,6 +756,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Depth-first traversal
  *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
@@ -810,6 +830,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
@@ -832,6 +854,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this heap.
    * @remarks Time O(N), Space O(N)
    * @returns A new heap with the same elements.
+   
+   
    
    
    
@@ -893,6 +917,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
     * @example
  * // Filter elements
  *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
@@ -922,6 +948,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
+   
+   
    
    
    

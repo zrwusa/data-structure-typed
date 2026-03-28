@@ -167,7 +167,11 @@
     "publish:subs": "npm run copy:to-subs && sh scripts/publish_all_subs.sh",
     "publish:docs": "sh scripts/publish_docs.sh",
     "publish:all": "npm run ci && npm publish && npm run publish:docs && npm run check:exist-latest && npm run publish:subs",
-    "generate:schema": "ts-node scripts/generate-schema.ts"
+    "generate:schema": "ts-node scripts/generate-schema.ts",
+    "docs:api": "npm run gen:examples && npm run build:typedoc-plugin && typedoc --options typedoc-vitepress.json && node scripts/fix-api-generics.mjs",
+    "docs:dev": "npm run docs:api && vitepress dev docs-site",
+    "docs:build": "npm run docs:api && vitepress build docs-site",
+    "docs:preview": "vitepress preview docs-site"
   },
   "repository": {
     "type": "git",
@@ -217,7 +221,10 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
     "typedoc": "^0.28.18",
-    "typescript": "~5.9"
+    "typedoc-plugin-markdown": "^4.11.0",
+    "typedoc-vitepress-theme": "^1.1.2",
+    "typescript": "~5.9",
+    "vitepress": "^1.6.4"
   },
   "keywords": [
     "data structures typescript",

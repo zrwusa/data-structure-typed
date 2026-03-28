@@ -230,6 +230,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check empty
  *  console.log(new TreeMap().isEmpty()); // true;
@@ -241,6 +251,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Set or overwrite a value for a key.
    * @remarks Expected time O(log n)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -477,6 +497,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Configuration registry with typed lookups
  *  const config = new TreeMap<string, number>([
@@ -497,6 +527,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -725,6 +765,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Session management with expiry
  *  const sessions = new TreeMap<string, number>([
@@ -839,6 +889,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove all
  *  const tm = new TreeMap<number, string>([[1, 'a']]);
@@ -851,6 +911,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Iterate over keys in ascending order.
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1056,6 +1126,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Get values in key order
  *  const tm = new TreeMap<number, string>([[2, 'b'], [1, 'a']]);
@@ -1069,6 +1149,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Iterate over `[key, value]` entries in ascending key order.
    *
    * Note: values may be `undefined`.
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1272,6 +1362,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Execute for each entry
  *  const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
@@ -1288,6 +1388,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    *
    * This mirrors `RedBlackTree.map`: mapping produces a new ordered container.
    * @remarks Time O(n log n) expected, Space O(n)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1499,6 +1609,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Filter entries
  *  const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
@@ -1613,6 +1733,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Aggregate values
  *  const tm = new TreeMap<number, number>([[1, 10], [2, 20]]);
@@ -1628,6 +1758,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Test whether all entries satisfy a predicate.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1829,6 +1969,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Test any entry
  *  const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
@@ -1849,6 +1999,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Find the first entry that satisfies a predicate.
    * @returns The first matching `[key, value]` tuple, or `undefined`.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -2052,6 +2212,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Convert to array
  *  const tm = new TreeMap<number, string>([[2, 'b'], [1, 'a']]);
@@ -2064,6 +2234,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Print a human-friendly representation.
    * @remarks Time O(n), Space O(n)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -2194,6 +2374,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
     * @example
  * // Leaderboard with ranked scores
  *  // Use score as key (descending), player name as value
@@ -2250,6 +2432,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
     * @example
  * // Access the maximum entry
  *  const scores = new TreeMap<number, string>([
@@ -2268,6 +2452,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Remove and return the smallest entry.
+   
+   
    
    
    
@@ -2334,6 +2520,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
     * @example
  * // Remove the maximum entry
  *  const bids = new TreeMap<number, string>([
@@ -2356,6 +2544,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry whose key is >= the given key.
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -2560,6 +2756,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Find the largest key ≤ target
  *  const versions = new TreeMap<number, string>([
@@ -2666,6 +2870,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Find the smallest key strictly > target
  *  const prices = new TreeMap<number, string>([
@@ -2690,6 +2902,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry whose key is < the given key.
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -2879,6 +3099,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Inventory system with price-sorted products
  *  interface Product {
@@ -2934,6 +3162,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Creates a shallow clone of this map.
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
