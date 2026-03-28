@@ -132,7 +132,7 @@ class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefin
   keys(): IterableIterator<K>;
   values(): IterableIterator<V | undefined>;
   entries(): IterableIterator<[K, V | undefined]>;
-  forEach(callback: (value: V | undefined, key: K, map: this) => void, thisArg?: any): void;
+  forEach(callback: (value: V | undefined, key: K, map: this) => void, thisArg?: unknown): void;
 
   // Functional (same as TreeMap)
   map<NK, NV>(callback: (value: V | undefined, key: K) => [NK, NV], options?: SkipListOptions<NK, NV>): SkipList<NK, NV>;
@@ -190,7 +190,7 @@ class SkipListSet<K = any, R = K> implements Iterable<K> {
   keys(): IterableIterator<K>;
   values(): IterableIterator<K>;
   entries(): IterableIterator<[K, K]>;
-  forEach(callback: (value: K, key: K, set: this) => void, thisArg?: any): void;
+  forEach(callback: (value: K, key: K, set: this) => void, thisArg?: unknown): void;
   map<NK>(callback: (value: K) => NK, options?: SkipListSetOptions<NK>): SkipListSet<NK>;
   filter(predicate: (value: K) => boolean): SkipListSet<K>;
   reduce<U>(callback: (acc: U, value: K) => U, initialValue: U): U;

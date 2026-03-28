@@ -2,7 +2,7 @@ import { isComparable } from '../../../src';
 
 describe('isNaN', () => {
   it('should isNaN', function () {
-    expect(isNaN('string' as unknown as number)).toBe(true);
+    expect(isNaN('string' as any as number)).toBe(true);
   });
 });
 

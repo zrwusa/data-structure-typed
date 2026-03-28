@@ -1,5 +1,6 @@
 ---
 sidebar_label: "OVERVIEW"
+description: "Complete overview of all 20+ data structures: trees, heaps, graphs, queues, linked lists, hash maps, and more."
 ---
 
 # OVERVIEW

@@ -272,7 +272,7 @@ describe('AbstractGraph misc coverage', () => {
       g.addVertex(b);
 
       // goes through addEdge(srcOrEdge, dest) branch where dest is AbstractVertex
-      expect(g.addEdge(a as unknown as AbstractVertex<any>, b as unknown as AbstractVertex<any>, 2)).toBe(true);
+      expect(g.addEdge(a as any as AbstractVertex<any>, b as any as AbstractVertex<any>, 2)).toBe(true);
       expect(g.hasEdge('A', 'B')).toBe(true);
     });
 

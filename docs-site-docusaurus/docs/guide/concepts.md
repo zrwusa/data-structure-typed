@@ -1,5 +1,6 @@
 ---
 sidebar_label: "CONCEPTS"
+description: "Core concepts behind data-structure-typed: uniform API, iterators, generics, comparators, and the 5 design traits."
 ---
 
 # CONCEPTS

@@ -311,6 +311,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // basic Trie creation and add words
  *  // Create a simple Trie with initial words
@@ -353,6 +360,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(ΣL), Space O(ΣL)
    * @param words - Iterable of strings (or raw records if toElementFn is provided).
    * @returns Array of per-word 'added' flags.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -430,6 +444,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check if a word exists
  *  const dict = new Trie(['apple', 'app', 'application']);
@@ -454,6 +475,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Check whether the trie is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -518,6 +546,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove all words
  *  const trie = new Trie(['a', 'b', 'c']);
@@ -535,6 +570,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to delete.
    * @returns True if a word was removed.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -693,6 +735,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check if a prefix exists
  *  const trie = new Trie(['hello', 'help', 'world']);
@@ -765,6 +814,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Find shared prefix
  *  const trie = new Trie(['flower', 'flow', 'flight']);
@@ -791,6 +847,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
    * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
    * @returns Array of collected words (at most max).
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -894,6 +957,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Create independent copy
  *  const trie = new Trie(['hello', 'world']);
@@ -938,6 +1008,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Filter words
  *  const trie = new Trie(['cat', 'car', 'dog', 'card']);
@@ -945,7 +1022,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
  *     console.log(result.size); // 3;
    */
 
-  filter(predicate: ElementCallback<string, R, boolean>, thisArg?: any): this {
+  filter(predicate: ElementCallback<string, R, boolean>, thisArg?: unknown): this {
     const results = this._createInstance();
     let index = 0;
     for (const word of this) {
@@ -983,13 +1060,20 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Transform words
  *  const trie = new Trie(['hello', 'world']);
  *     const upper = trie.map(w => w.toUpperCase());
  *     console.log(upper.has('HELLO')); // true;
    */
-  map<RM>(callback: ElementCallback<string, R, string>, options?: TrieOptions<RM>, thisArg?: any): Trie<RM>;
+  map<RM>(callback: ElementCallback<string, R, string>, options?: TrieOptions<RM>, thisArg?: unknown): Trie<RM>;
 
   /**
    * Map words into a new trie (possibly different record type).
@@ -1005,10 +1089,10 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   map<EM, RM>(
     callback: ElementCallback<string, R, EM>,
     options?: TrieOptions<RM>,
-    thisArg?: any
+    thisArg?: unknown
   ): IterableElementBase<EM, RM>;
 
-  map<EM, RM>(callback: ElementCallback<string, R, EM>, options?: TrieOptions<RM>, thisArg?: any): any {
+  map<EM, RM>(callback: ElementCallback<string, R, EM>, options?: TrieOptions<RM>, thisArg?: unknown): any {
     const newTrie = this._createLike<RM>([], options);
     let i = 0;
     for (const x of this) {
@@ -1029,7 +1113,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @returns A new trie with mapped words.
    */
 
-  mapSame(callback: ElementCallback<string, R, string>, thisArg?: any): this {
+  mapSame(callback: ElementCallback<string, R, string>, thisArg?: unknown): this {
     const next = this._createInstance();
     let i = 0;
     for (const key of this) {

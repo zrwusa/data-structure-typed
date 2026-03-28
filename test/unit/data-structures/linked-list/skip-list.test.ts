@@ -39,8 +39,8 @@ describe('classic use', () => {
       { id: 3, name: 'Doohickey', price: 15 }
     ];
 
-    const index = new SkipList<number, Product>(products as any, {
-      toEntryFn: (p: any) => [p.price, p]
+    const index = new SkipList<number, Product, Product>(products, {
+      toEntryFn: (p: Product) => [p.price, p]
     });
 
     // Iterate in sorted order by price
@@ -391,7 +391,7 @@ describe('SkipList constructor options', () => {
   });
 
   it('should throw on invalid entries', () => {
-    expect(() => new SkipList([42 as any])).toThrow();
+    expect(() => new SkipList([42 as any as [number, number]])).toThrow();
   });
 
   it('should support string keys with default comparator', () => {

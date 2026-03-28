@@ -478,7 +478,7 @@ class TreeStructure<K, V> {
     return this;  // Chain continues!
   }
 
-  reduce(reducer: (acc: any, v: V, k: K) => any, init: any) {
+  reduce<A>(reducer: (acc: A, v: V, k: K) => A, init: A): A {
     // ... reduce logic ...
     return result;  // Terminal operation
   }

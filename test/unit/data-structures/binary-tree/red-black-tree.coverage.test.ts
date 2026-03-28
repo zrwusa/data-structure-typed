@@ -2,8 +2,8 @@ import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 
 
 function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
-  const NIL = tree.NIL as unknown as RedBlackTreeNode<K, V>;
-  const root = tree.root as unknown as RedBlackTreeNode<K, V> | undefined;
+  const NIL = tree.NIL as any as RedBlackTreeNode<K, V>;
+  const root = tree.root as any as RedBlackTreeNode<K, V> | undefined;
 
   // Empty tree is valid.
   if (!root || root === NIL) return;

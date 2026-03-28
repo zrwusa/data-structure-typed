@@ -11,11 +11,11 @@ export type DFSOrderPattern = 'PRE' | 'IN' | 'POST';
 export type NodeDisplayLayout = [string[], number, number, number];
 
 export interface IterableWithSize<T> extends Iterable<T> {
-  size: number | ((...args: any[]) => number);
+  size: number | ((...args: unknown[]) => number);
 }
 
 export interface IterableWithLength<T> extends Iterable<T> {
-  length: number | ((...args: any[]) => number);
+  length: number | ((...args: unknown[]) => number);
 }
 
 export type OptValue<V> = V | undefined;

@@ -196,6 +196,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check if empty
  *  const map = new HashMap();
@@ -209,6 +216,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Remove all entries and reset counters.
    * @remarks Time O(N), Space O(1)
    * @returns void
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -251,7 +265,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @returns True if the value is a 2-tuple.
    */
-  isEntry(rawElement: any): rawElement is [K, V] {
+  isEntry(rawElement: unknown): rawElement is [K, V] {
     return Array.isArray(rawElement) && rawElement.length === 2;
   }
 
@@ -261,6 +275,20 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -376,6 +404,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Add multiple entries
  *  const map = new HashMap<string, number>();
@@ -398,6 +433,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -485,6 +527,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check key existence
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -503,6 +552,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -594,6 +650,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Create independent copy
  *  const map = new HashMap<string, number>([['a', 1]]);
@@ -640,6 +703,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Transform all values
  *  const prices = new HashMap<string, number>([['apple', 1], ['banana', 2]]);
@@ -648,8 +718,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
  *     console.log(doubled.get('apple')); // 2;
  *     console.log(doubled.get('banana')); // 4;
    */
-  map<VM>(callbackfn: EntryCallback<K, V, VM>, thisArg?: any): any {
-    const out = this._createLike<K, VM, [K, VM]>();
+  map<VM>(callbackfn: EntryCallback<K, V, VM>, thisArg?: unknown): HashMap<K, VM> {
+    const out = this._createLike<K, VM, [K, VM]>() as unknown as HashMap<K, VM>;
     let index = 0;
     for (const [key, value] of this) out.set(key, callbackfn.call(thisArg, value, key, index++, this));
     return out;
@@ -661,6 +731,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -715,7 +792,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
  *     console.log(values); // contains 7;
    */
 
-  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: any): any {
+  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): any {
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;
     for (const [key, value] of this) if (predicate.call(thisArg, value, key, index++, this)) out.set(key, value);
@@ -732,8 +809,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param [options] - Options forwarded to the constructor.
    * @returns A like-kind map instance.
    */
-  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(entries: Iterable<[TK, TV] | TR> = [], options?: any): any {
-    const Ctor = this.constructor as new (e?: Iterable<[TK, TV] | TR>, o?: any) => any;
+  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(entries: Iterable<[TK, TV] | TR> = [], options?: Record<string, unknown>): this {
+    const Ctor = this.constructor as new (e?: Iterable<[TK, TV] | TR>, o?: Record<string, unknown>) => this;
     return new Ctor(entries, options);
   }
 
@@ -751,7 +828,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     for (const node of this.objMap) yield node as [K, V];
   }
 
-  protected _isObjKey(key: any): key is object | ((...args: any[]) => any) {
+  protected _isObjKey(key: unknown): key is object | ((...args: unknown[]) => unknown) {
     const keyType = typeof key;
     return (keyType === 'object' || keyType === 'function') && key !== null;
   }
@@ -1073,7 +1150,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     return this._size === 0;
   }
 
-  isEntry(rawElement: any): rawElement is [K, V] {
+  isEntry(rawElement: unknown): rawElement is [K, V] {
     return Array.isArray(rawElement) && rawElement.length === 2;
   }
 
@@ -1083,12 +1160,12 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     this._head = this._tail = this._sentinel.prev = this._sentinel.next = this._sentinel;
   }
 
-  clone(): any {
+  clone(): this {
     const opts = { hashFn: this._hashFn, objHashFn: this._objHashFn };
-    return this._createLike<[K, V], [K, V], [K, V]>(this, opts);
+    return this._createLike<K, V, [K, V]>(this, opts);
   }
 
-  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: any): any {
+  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): this {
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;
     for (const [key, value] of this) {
@@ -1107,8 +1184,8 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map of the same class with transformed entries.
    */
-  map<MK, MV>(callback: EntryCallback<K, V, [MK, MV]>, thisArg?: any): any {
-    const out = this._createLike<MK, MV, [MK, MV]>();
+  map<MK, MV>(callback: EntryCallback<K, V, [MK, MV]>, thisArg?: unknown): LinkedHashMap<MK, MV> {
+    const out = this._createLike<MK, MV, [MK, MV]>() as unknown as LinkedHashMap<MK, MV>;
     let index = 0;
     for (const [key, value] of this) {
       const [newKey, newValue] = callback.call(thisArg, value, key, index, this);
@@ -1148,8 +1225,8 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     return true;
   }
 
-  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(entries: Iterable<[TK, TV] | TR> = [], options?: any): any {
-    const Ctor = this.constructor as new (e?: Iterable<[TK, TV] | TR>, o?: any) => any;
+  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(entries: Iterable<[TK, TV] | TR> = [], options?: Record<string, unknown>): this {
+    const Ctor = this.constructor as new (e?: Iterable<[TK, TV] | TR>, o?: Record<string, unknown>) => this;
     return new Ctor(entries, options);
   }
 }

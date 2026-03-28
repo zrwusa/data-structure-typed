@@ -301,8 +301,8 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
   });
 
   test('constructor throws TypeError for invalid entries (native Map behavior)', () => {
-    expect(() => new TreeMap([['a', 1], ['b'] as unknown as [string, number]])).toThrow(TypeError);
-    expect(() => new TreeMap([123 as unknown as [string, number]])).toThrow(TypeError);
+    expect(() => new TreeMap([['a', 1], ['b'] as any as [string, number]])).toThrow(TypeError);
+    expect(() => new TreeMap([123 as any as [string, number]])).toThrow(TypeError);
   });
 
   test('constructor throws when encountering invalid keys under default comparator', () => {
@@ -376,7 +376,7 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
 
   test('createDefaultComparator throws for unsupported key types', () => {
     const cmp = TreeMap.createDefaultComparator<object>();
-    expect(() => cmp({} as unknown as object, {} as unknown as object)).toThrow(TypeError);
+    expect(() => cmp({} as any as object, {} as any as object)).toThrow(TypeError);
   });
 
   test('navigable operations: first/last/pollFirst/pollLast', () => {

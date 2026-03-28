@@ -40,5 +40,5 @@ export interface IGraph<V, E, VO, EO> {
 
   clone(): this;
 
-  filter(...args: any[]): this;
+  filter(...args: unknown[]): this;
 }

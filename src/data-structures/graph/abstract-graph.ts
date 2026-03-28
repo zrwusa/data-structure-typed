@@ -212,7 +212,7 @@ export abstract class AbstractGraph<
    * @returns `true` if string/number; else `false`.
    * @remarks Time O(1), Space O(1)
    */
-  isVertexKey(potentialKey: any): potentialKey is VertexKey {
+  isVertexKey(potentialKey: unknown): potentialKey is VertexKey {
     const potentialKeyType = typeof potentialKey;
     return potentialKeyType === 'string' || potentialKeyType === 'number';
   }
@@ -894,7 +894,7 @@ export abstract class AbstractGraph<
    * @returns A new graph of the same concrete class (`this` type).
    * @remarks Time O(V + E), Space O(V + E)
    */
-  filter(predicate: EntryCallback<VertexKey, V | undefined, boolean>, thisArg?: any): this {
+  filter(predicate: EntryCallback<VertexKey, V | undefined, boolean>, thisArg?: unknown): this {
     const filtered: [VertexKey, V | undefined][] = [];
     let index = 0;
     for (const [key, value] of this) {
@@ -912,7 +912,7 @@ export abstract class AbstractGraph<
    */
   filterEntries(
     predicate: EntryCallback<VertexKey, V | undefined, boolean>,
-    thisArg?: any
+    thisArg?: unknown
   ): [VertexKey, V | undefined][] {
     const filtered: [VertexKey, V | undefined][] = [];
     let index = 0;
@@ -925,7 +925,7 @@ export abstract class AbstractGraph<
     return filtered;
   }
 
-  map<T>(callback: EntryCallback<VertexKey, V | undefined, T>, thisArg?: any): T[] {
+  map<T>(callback: EntryCallback<VertexKey, V | undefined, T>, thisArg?: unknown): T[] {
     const mapped: T[] = [];
     let index = 0;
     for (const [key, value] of this) {

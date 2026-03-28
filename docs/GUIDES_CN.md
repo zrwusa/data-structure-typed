@@ -142,7 +142,7 @@ const affordable = index.getAffordable(100);
 import { DoublyLinkedList } from 'data-structure-typed';
 
 class LRUCache<K, V> {
-  private cache = new Map<K, { value: V; node: any }>();
+  private cache = new Map<K, { value: V; node: DoublyLinkedList<K> }>();
   private order = new DoublyLinkedList<K>();
   private readonly capacity: number;
 

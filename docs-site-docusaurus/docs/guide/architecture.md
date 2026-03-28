@@ -1,5 +1,6 @@
 ---
 sidebar_label: "ARCHITECTURE"
+description: "Internal architecture: inheritance hierarchy, iterator protocol, memory layout, and algorithmic guarantees."
 ---
 
 # ARCHITECTURE

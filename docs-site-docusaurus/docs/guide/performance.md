@@ -1,5 +1,6 @@
 ---
 sidebar_label: "PERFORMANCE"
+description: "Benchmarks comparing data-structure-typed vs native Arrays, Maps, and C++ implementations. Includes methodology."
 ---
 
 # PERFORMANCE

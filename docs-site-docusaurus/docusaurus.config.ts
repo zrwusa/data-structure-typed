@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'data-structure-typed',
-  tagline: 'JavaScript/TypeScript Data Structure Library — STL-like, zero-dependency',
-  favicon: 'img/favicon.ico',
+  tagline: 'Advanced JavaScript/TypeScript data structures that feel like arrays.',
+  favicon: 'img/favicon.png',
   url: 'https://data-structure-typed-docs.vercel.app',
   baseUrl: '/',
   organizationName: 'zrwusa',
@@ -21,6 +21,51 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'algolia-site-verification',
+        content: '3BBF0EECA7FC2D22',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'google-site-verification',
+        content: 'w6GgmRPPZZtNCDgG46ooge-oljMn_cm4-FCaRHoSYrQ',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'keywords',
+        content: 'data structures, TypeScript, JavaScript, RedBlackTree, HashMap, Trie, Heap, PriorityQueue, Deque, Graph, BST, AVL Tree, zero-dependency, tree-shaking',
+      },
+    },
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: 'data-structure-typed',
+        description: 'A comprehensive TypeScript and JavaScript data structures library featuring production-ready implementations, zero dependencies, and an intuitive Array-like API.',
+        url: 'https://data-structure-typed-docs.vercel.app',
+        codeRepository: 'https://github.com/zrwusa/data-structure-typed',
+        programmingLanguage: ['TypeScript', 'JavaScript'],
+        license: 'https://opensource.org/licenses/MIT',
+        author: {
+          '@type': 'Person',
+          name: 'Pablo Zeng',
+          url: 'https://github.com/zrwusa',
+        },
+      }),
+    },
+  ],
 
   plugins: [],
 
@@ -42,8 +87,19 @@ const config: Config = {
   ],
 
   themeConfig: {
+    image: 'img/og-image.png',
+    metadata: [
+      {name: 'og:image:width', content: '1200'},
+      {name: 'og:image:height', content: '630'},
+    ],
     navbar: {
       title: 'data-structure-typed',
+      logo: {
+        alt: 'data-structure-typed logo',
+        src: 'img/logo.png',
+        width: 32,
+        height: 32,
+      },
       items: [
         {type: 'docSidebar', sidebarId: 'guideSidebar', position: 'left', label: 'Guide'},
         {to: '/docs/api/', label: 'API', position: 'left'},
@@ -89,8 +145,13 @@ const config: Config = {
       appId: '2CK3V43PRR',
       apiKey: 'ab7ce559e3114987b4f26430427409ae',
       indexName: 'data-structure-typed-docs-crawler',
-      contextualSearch: true,
+      contextualSearch: false,
       searchPagePath: 'search',
+      searchParameters: {
+        hitsPerPage: 30,
+        distinct: false,
+      },
+      maxResultsPerGroup: 20,
     },
   } satisfies Preset.ThemeConfig,
 };

@@ -89,7 +89,7 @@ export interface IRedBlackTreeNode<K, V> extends IBSTNode<K, V> {
 ```typescript
 // 共享的 NIL 节点 (RBT)
 const NIL: IRedBlackTreeNode<any, any> = {
-  key: undefined as any,
+  key: undefined as unknown as K,
   value: undefined,
   color: 'BLACK',
   left: undefined,  // 指向自己，构造后设置

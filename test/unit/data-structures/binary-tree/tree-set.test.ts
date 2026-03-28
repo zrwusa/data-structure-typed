@@ -239,7 +239,7 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
 
   test('createDefaultComparator throws for unsupported key types', () => {
     const cmp = TreeSet.createDefaultComparator<object>();
-    expect(() => cmp({} as unknown as object, {} as unknown as object)).toThrow(TypeError);
+    expect(() => cmp({} as any as object, {} as any as object)).toThrow(TypeError);
   });
 
   test('navigable operations: first/last/pollFirst/pollLast', () => {

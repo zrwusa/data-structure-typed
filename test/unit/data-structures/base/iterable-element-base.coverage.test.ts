@@ -22,7 +22,7 @@ class TestIterable extends IterableElementBase<number, number> {
   }
 
   clone(): this {
-    return new TestIterable(this._arr, { toElementFn: this.toElementFn }) as unknown as this;
+    return new TestIterable(this._arr, { toElementFn: this.toElementFn }) as any as this;
   }
 
   map<EM, RM>(cb: any, options?: any, thisArg?: unknown): IterableElementBase<EM, RM> {
@@ -32,7 +32,7 @@ class TestIterable extends IterableElementBase<number, number> {
   }
 
   mapSame(cb: any, thisArg?: unknown): this {
-    return new TestIterable(this._arr.map((v, i) => cb.call(thisArg, v, i, this))) as unknown as this;
+    return new TestIterable(this._arr.map((v, i) => cb.call(thisArg, v, i, this))) as any as this;
   }
 
   filter(pred: any, thisArg?: unknown): this {
@@ -41,7 +41,7 @@ class TestIterable extends IterableElementBase<number, number> {
     for (const v of this) {
       if (pred.call(thisArg, v, i++, this)) out.push(v);
     }
-    return new TestIterable(out) as unknown as this;
+    return new TestIterable(out) as any as this;
   }
 }
 

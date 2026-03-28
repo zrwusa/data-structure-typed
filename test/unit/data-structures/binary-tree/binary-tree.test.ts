@@ -727,13 +727,13 @@ describe('BinaryTree', () => {
   //
   //   expect(binTree.keyValueNodeEntryRawToNodeAndValue([undefined, 2])).toEqual([undefined, undefined]);
   //
-  //   expect(binTree.keyValueNodeEntryRawToNodeAndValue(Symbol('test') as unknown as number)).toEqual([
+  //   expect(binTree.keyValueNodeEntryRawToNodeAndValue(Symbol('test') as any as number)).toEqual([
   //     undefined,
   //     undefined
   //   ]);
   //
   //   const bTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
-  //     toEntryFn: (ele: { obj: { id: number } }) => [Symbol('test') as unknown as number, ele.obj.id]
+  //     toEntryFn: (ele: { obj: { id: number } }) => [Symbol('test') as any as number, ele.obj.id]
   //   });
   //   expect(bTree.keyValueNodeEntryRawToNodeAndValue({ obj: { id: 1 } })).toEqual([undefined, undefined]);
   // });
@@ -774,7 +774,7 @@ describe('BinaryTree.ensureNode', () => {
     expect(binTree.ensureNode([1, 'Pablo'])).toBe(node);
     expect(binTree.ensureNode([null, 'Pablo'])).toBe(null);
     expect(binTree.ensureNode([undefined, 'Pablo'])).toBe(undefined);
-    expect(binTree.ensureNode(Symbol('test') as unknown as number)).toBe(undefined);
+    expect(binTree.ensureNode(Symbol('test') as any as number)).toBe(undefined);
   });
 });
 
@@ -833,7 +833,7 @@ describe('BinaryTree.toEntryFn', () => {
   it('toEntryFn: non-function throws toEntryFn must be a function type', () => {
     expect(() => {
       new BinaryTree<number, number, { obj: { id: number } }>([], {
-        toEntryFn: `ele => [ele.obj.id, ele.obj.id]` as unknown as (rawElement: {
+        toEntryFn: `ele => [ele.obj.id, ele.obj.id]` as any as (rawElement: {
           obj: { id: number };
         }) => BTNEntry<number, number>
       });

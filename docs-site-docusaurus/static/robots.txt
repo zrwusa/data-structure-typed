@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://data-structure-typed-docs.vercel.app/sitemap.xml

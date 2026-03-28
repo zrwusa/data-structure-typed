@@ -2,8 +2,8 @@ import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 
 // --- from delete-fixup ---
 function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
-  const NIL = tree.NIL as unknown as RedBlackTreeNode<K, V>;
-  const root = tree.root as unknown as RedBlackTreeNode<K, V> | undefined;
+  const NIL = tree.NIL as any as RedBlackTreeNode<K, V>;
+  const root = tree.root as any as RedBlackTreeNode<K, V> | undefined;
   if (!root || root === NIL) return;
   expect(root.color).toBe('BLACK');
   const seen = new Set<RedBlackTreeNode<K, V>>();

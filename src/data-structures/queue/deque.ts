@@ -276,6 +276,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Deque peek at both ends
  *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
@@ -301,6 +308,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the last element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -367,6 +381,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to append.
    * @returns True when appended.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -464,6 +485,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove from the back
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -494,6 +522,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the first element.
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -552,6 +587,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to prepend.
    * @returns True when prepended.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -682,6 +724,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check if empty
  *  const dq = new Deque();
@@ -696,6 +745,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove all elements and reset structure.
    * @remarks Time O(1), Space O(1)
    * @returns void
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -740,6 +796,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param pos - Zero-based position from the front.
    * @returns Element or undefined.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -980,6 +1043,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove element
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -1038,6 +1108,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Reverse the deque by reversing buckets and pointers.
    * @remarks Time O(N), Space O(N)
    * @returns This deque.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1177,6 +1254,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Reclaim memory
  *  const dq = new Deque<number>([1, 2, 3, 4, 5]);
@@ -1217,6 +1301,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Deep clone this deque, preserving options.
    * @remarks Time O(N), Space O(N)
    * @returns A new deque with the same content and options.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1290,6 +1381,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Filter elements
  *  const dq = new Deque<number>([1, 2, 3, 4]);
@@ -1297,7 +1395,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *     console.log(result.length); // 2;
    */
 
-  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): this {
+  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setBucketSize(this._bucketSize);
     let index = 0;
@@ -1316,7 +1414,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @returns A new deque with mapped values.
    */
 
-  mapSame(callback: ElementCallback<E, R, E>, thisArg?: any): this {
+  mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
     out._setBucketSize(this._bucketSize);
     let index = 0;
@@ -1360,6 +1458,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Transform elements
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -1370,7 +1475,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options?: IterableElementBaseOptions<EM, RM>,
-    thisArg?: any
+    thisArg?: unknown
   ): Deque<EM, RM> {
     const out = this._createLike<EM, RM>([], {
       ...(options ?? {}),
@@ -1503,11 +1608,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   protected _createLike<T = E, RR = R>(
     elements: IterableWithSizeOrLength<T> | IterableWithSizeOrLength<RR> = [],
     options?: DequeOptions<T, RR>
-  ): any {
+  ): Deque<T, RR> {
     const Ctor = this.constructor as new (
       elements?: IterableWithSizeOrLength<T> | IterableWithSizeOrLength<RR>,
       options?: DequeOptions<T, RR>
-    ) => any;
+    ) => Deque<T, RR>;
     return new Ctor(elements, options);
   }
 

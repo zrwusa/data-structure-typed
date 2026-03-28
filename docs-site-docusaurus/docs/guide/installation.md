@@ -1,3 +1,7 @@
+---
+description: "Install data-structure-typed via npm, yarn, or pnpm. Supports tree-shaking with subpath imports for minimal bundle size."
+---
+
 # Installation
 
 ## Package Manager

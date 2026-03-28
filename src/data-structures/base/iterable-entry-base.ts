@@ -19,7 +19,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @returns Iterator of `[K, V]`.
    * @remarks Time O(n) to iterate, Space O(1)
    */
-  *[Symbol.iterator](...args: any[]): IterableIterator<[K, V]> {
+  *[Symbol.iterator](...args: unknown[]): IterableIterator<[K, V]> {
     yield* this._getIterator(...args);
   }
 
@@ -63,7 +63,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @returns `true` if all pass; otherwise `false`.
    * @remarks Time O(n), Space O(1)
    */
-  every(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
+  every(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): boolean {
     let index = 0;
     for (const item of this) {
       if (!predicate.call(thisArg, item[1], item[0], index++, this)) {
@@ -80,7 +80,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @returns `true` if any passes; otherwise `false`.
    * @remarks Time O(n), Space O(1)
    */
-  some(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
+  some(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): boolean {
     let index = 0;
     for (const item of this) {
       if (predicate.call(thisArg, item[1], item[0], index++, this)) {
@@ -96,7 +96,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param thisArg - Optional `this` for callback.
    * @remarks Time O(n), Space O(1)
    */
-  forEach(callbackfn: EntryCallback<K, V, void>, thisArg?: any): void {
+  forEach(callbackfn: EntryCallback<K, V, void>, thisArg?: unknown): void {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
@@ -111,7 +111,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @returns Matching `[key, value]` or `undefined`.
    * @remarks Time O(n), Space O(1)
    */
-  find(callbackfn: EntryCallback<K, V, boolean>, thisArg?: any): [K, V] | undefined {
+  find(callbackfn: EntryCallback<K, V, boolean>, thisArg?: unknown): [K, V] | undefined {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
@@ -228,19 +228,19 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Map entries using an implementation-specific strategy.
    * @remarks Time O(n), Space O(n)
    */
-  abstract map(...args: any[]): any;
+  abstract map(...args: unknown[]): unknown;
 
   /**
    * Filter entries and return the same-species structure.
    * @returns A new instance of the same concrete class (`this` type).
    * @remarks Time O(n), Space O(n)
    */
-  abstract filter(...args: any[]): this;
+  abstract filter(...args: unknown[]): this;
 
   /**
    * Underlying iterator for the default iteration protocol.
    * @returns Iterator of `[K, V]`.
    * @remarks Time O(n), Space O(1)
    */
-  protected abstract _getIterator(...args: any[]): IterableIterator<[K, V]>;
+  protected abstract _getIterator(...args: unknown[]): IterableIterator<[K, V]>;
 }

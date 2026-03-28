@@ -61,7 +61,7 @@ Minimal surface (Set-like), plus navigable operations (Java TreeSet / NavigableS
 - `values(): IterableIterator<K>` (same as keys)
 - `entries(): IterableIterator<[K, K]>` (Set convention)
 - `[Symbol.iterator](): IterableIterator<K>`
-- `forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void`
+- `forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: unknown): void`
 - `map(cb, options?, thisArg?) -> TreeSet<MK>`
 - `filter(predicate, thisArg?) -> TreeSet<K>`
 - `reduce(reducer, initialValue) -> A` (initial value required)
@@ -105,7 +105,7 @@ Minimal surface (Map-like), plus navigable operations (Java TreeMap / NavigableM
 - `values(): IterableIterator<V | undefined>`
 - `entries(): IterableIterator<[K, V | undefined]>`
 - `[Symbol.iterator](): IterableIterator<[K, V | undefined]>` (Map convention)
-- `forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void`
+- `forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: unknown): void`
 - `map(cb, options?, thisArg?) -> TreeMap<MK, MV>` (cb returns `[MK, MV]`)
 - `filter(predicate, thisArg?) -> TreeMap<K, V>`
 - `reduce(reducer, initialValue) -> A` (initial value required)

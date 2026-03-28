@@ -28,17 +28,15 @@
   color: #fff !important;
 }
 
-/* Right-side TOC: sticky + scrollable when content is long */
-.table-of-contents {
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-}
-/* Ensure the TOC wrapper stays in viewport */
+/* Right-side TOC: single scrollbar on the wrapper only */
 .theme-doc-toc-desktop {
   position: sticky;
   top: calc(var(--ifm-navbar-height) + 1rem);
   max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
   overflow-y: auto;
+}
+.table-of-contents {
+  overflow-y: visible; /* no inner scrollbar */
 }
 
 /* Active TOC item: green background + white text */
@@ -51,6 +49,38 @@
 .table-of-contents__link--active:hover {
   background-color: var(--ifm-color-primary-dark) !important;
   color: #fff !important;
+}
+
+/* DocSearch: single-line — method left, class right */
+.DocSearch-Hit-content-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 8px !important;
+}
+.DocSearch-Hit-title {
+  font-size: 16px !important;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.DocSearch-Hit-path {
+  font-size: 16px !important;
+  color: #888 !important;
+  white-space: nowrap;
+  text-align: right !important;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Highlight matching text in search results */
+.DocSearch-Hit-title mark,
+.DocSearch-Hit-path mark {
+  background-color: var(--ifm-color-primary) !important;
+  color: #fff !important;
+  padding: 1px 3px;
+  border-radius: 2px;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */

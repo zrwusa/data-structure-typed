@@ -94,7 +94,7 @@ class TestArrayLinear extends LinearBase<number, number> {
   }
 
   protected _createInstance(options?: LinearBaseOptions<number, number>): this {
-    return new TestArrayLinear([], options) as unknown as this;
+    return new TestArrayLinear([], options) as any as this;
   }
 
   protected *_getIterator(): IterableIterator<number> {

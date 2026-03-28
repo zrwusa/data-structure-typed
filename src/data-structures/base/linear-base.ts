@@ -148,7 +148,7 @@ export abstract class LinearBase<
    * @returns Index or `-1`.
    * @remarks Time O(n), Space O(1)
    */
-  findIndex(predicate: ElementCallback<E, R, boolean>, thisArg?: any): number {
+  findIndex(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): number {
     for (let i = 0; i < this.length; i++) {
       const item = this.at(i);
       if (item !== undefined && predicate.call(thisArg, item, i, this)) return i;
@@ -389,7 +389,7 @@ export abstract class LinearBase<
    * @returns Iterator of elements from tail to head.
    * @remarks Time O(n), Space O(1)
    */
-  protected abstract _getReverseIterator(...args: any[]): IterableIterator<E>;
+  protected abstract _getReverseIterator(...args: unknown[]): IterableIterator<E>;
 }
 
 /**
@@ -621,7 +621,7 @@ export abstract class LinearLinkedBase<
    * @returns Iterator over nodes.
    * @remarks Time O(n), Space O(1)
    */
-  protected abstract _getNodeIterator(...args: any[]): IterableIterator<NODE>;
+  protected abstract _getNodeIterator(...args: unknown[]): IterableIterator<NODE>;
 
   /**
    * Get previous node of a given node.

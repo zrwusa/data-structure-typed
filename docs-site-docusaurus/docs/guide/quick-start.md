@@ -1,3 +1,7 @@
+---
+description: "Get started with data-structure-typed in 30 seconds. Create trees, queues, and maps with a familiar JavaScript API."
+---
+
 # Quick Start
 
 ## Leaderboard (Ranked Collections)

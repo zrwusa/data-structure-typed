@@ -105,7 +105,7 @@ class TreeMultiSet<K> implements Iterable<K> {
   clone(): TreeMultiSet<K>;
 
   // ━━━ Tree Utilities ━━━
-  rangeSearch(range: [K, K], callback?: (key: K) => any): any[];
+  rangeSearch(range: [K, K], callback?: (key: K) => unknown): unknown[];
   print(): void;
 }
 ```
@@ -202,7 +202,7 @@ class TreeMultiMap<K, V, R = any> implements Iterable<[K, V[]]> {
   clone(): TreeMultiMap<K, V, R>;
 
   // ━━━ Tree Utilities ━━━
-  rangeSearch(range: [K, K], callback?: (node: ...) => any): any[];
+  rangeSearch(range: [K, K], callback?: (node: ...) => unknown): unknown[];
   print(): void;
 }
 ```

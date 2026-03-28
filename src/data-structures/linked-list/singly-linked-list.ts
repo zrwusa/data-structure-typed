@@ -323,6 +323,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // basic SinglyLinkedList creation and push operation
  *  // Create a simple SinglyLinkedList with initial values
@@ -357,6 +364,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -450,6 +464,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove from the front
  *  const list = new SinglyLinkedList<number>([10, 20, 30]);
@@ -471,6 +492,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -615,6 +643,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Access element by index
  *  const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
@@ -672,6 +707,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Get node at index
  *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
@@ -690,6 +732,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Removed element or undefined.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -762,6 +811,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove first occurrence
  *  const list = new SinglyLinkedList<number>([1, 2, 3, 2]);
@@ -792,6 +848,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param index - Zero-based index.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -879,6 +942,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Check empty
  *  console.log(new SinglyLinkedList().isEmpty()); // true;
@@ -892,6 +962,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -934,6 +1011,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1199,6 +1283,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Deep copy
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
@@ -1247,6 +1338,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // SinglyLinkedList filter and map operations
  *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
@@ -1264,7 +1362,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
  *     console.log(sum); // 15;
    */
 
-  filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): this {
+  filter(callback: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance();
     let index = 0;
     for (const value of this) if (callback.call(thisArg, value, index++, this)) out.push(value);
@@ -1279,7 +1377,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @returns A new list with mapped values.
    */
 
-  mapSame(callback: ElementCallback<E, R, E>, thisArg?: any): this {
+  mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
     const out = this._createInstance();
     let index = 0;
     for (const value of this) {
@@ -1325,6 +1423,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    
    
    
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Transform elements
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
@@ -1335,7 +1440,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   map<EM, RM = any>(
     callback: ElementCallback<E, R, EM>,
     options?: SinglyLinkedListOptions<EM, RM>,
-    thisArg?: any
+    thisArg?: unknown
   ): SinglyLinkedList<EM, RM> {
     const out = this._createLike<EM, RM>([], { ...(options ?? {}), maxLen: this._maxLen as number });
     let index = 0;

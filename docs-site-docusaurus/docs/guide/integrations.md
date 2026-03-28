@@ -1,5 +1,6 @@
 ---
 sidebar_label: "INTEGRATIONS"
+description: "Integrate data-structure-typed with React, Express, NestJS, and other frameworks. Production-ready patterns."
 ---
 
 # INTEGRATIONS

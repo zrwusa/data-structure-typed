@@ -34,18 +34,9 @@ build/
 # Marketing materials (internal)
 docs/marketing/
 
-# VitePress
-docs-site/.vitepress/dist
-docs-site/.vitepress/cache
-.vitepress/cache
-
-docs-site-starlight/node_modules/
+# Docusaurus
 docs-site-docusaurus/node_modules/
-docs-site-starlight/dist/
 docs-site-docusaurus/build/
 docs-site-docusaurus/.docusaurus/
 docs-site-docusaurus/docs/api/
-docs-site-starlight/src/content/docs/api/
-docs-site-starlight/.astro/
-docs-site-starlight/src/content/docs/
-docs-site-starlight/src/content/docs/
+.vitepress/

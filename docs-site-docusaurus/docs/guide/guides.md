@@ -1,5 +1,6 @@
 ---
 sidebar_label: "GUIDES"
+description: "Real-world examples: leaderboards with RedBlackTree, task scheduling with PriorityQueue, autocomplete with Trie, and more."
 ---
 
 # GUIDES
