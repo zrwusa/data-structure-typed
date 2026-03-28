@@ -1,0 +1,13 @@
+/* Custom styles for data-structure-typed docs */
+
+:root {
+  --sl-color-accent-low: #1a2b4a;
+  --sl-color-accent: #3b82f6;
+  --sl-color-accent-high: #93bbfc;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #c7dbfc;
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #1a2b4a;
+}
