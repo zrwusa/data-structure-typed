@@ -6,7 +6,7 @@
 
 # Class: BinaryTreeNode\<K, V\>
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:37](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L37)
+Defined in: [data-structures/binary-tree/binary-tree.ts:37](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L37)
 
 ## Type Parameters
 
@@ -30,7 +30,7 @@ The type of the value.
 new BinaryTreeNode<K, V>(key, value?): BinaryTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:49](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L49)
+Defined in: [data-structures/binary-tree/binary-tree.ts:49](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L49)
 
 Creates an instance of BinaryTreeNode.
 
@@ -66,7 +66,7 @@ Time O(1), Space O(1)
 get color(): RBTNColor;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:134](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L134)
+Defined in: [data-structures/binary-tree/binary-tree.ts:134](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L134)
 
 Gets the color of the node (used in Red-Black trees).
 
@@ -86,7 +86,7 @@ The node's color.
 set color(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:144](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L144)
+Defined in: [data-structures/binary-tree/binary-tree.ts:144](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L144)
 
 Sets the color of the node.
 
@@ -116,7 +116,7 @@ The new color.
 get count(): number;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:156](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L156)
+Defined in: [data-structures/binary-tree/binary-tree.ts:156](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L156)
 
 Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
 
@@ -136,7 +136,7 @@ The subtree node count.
 set count(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:166](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L166)
+Defined in: [data-structures/binary-tree/binary-tree.ts:166](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L166)
 
 Sets the count of nodes in the subtree.
 
@@ -166,7 +166,7 @@ The new count.
 get familyPosition(): FamilyPosition;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:176](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L176)
+Defined in: [data-structures/binary-tree/binary-tree.ts:176](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L176)
 
 Gets the position of the node relative to its parent.
 
@@ -190,7 +190,7 @@ The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
 get height(): number;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:112](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L112)
+Defined in: [data-structures/binary-tree/binary-tree.ts:112](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L112)
 
 Gets the height of the node (used in self-balancing trees).
 
@@ -210,7 +210,7 @@ The height.
 set height(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:122](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L122)
+Defined in: [data-structures/binary-tree/binary-tree.ts:122](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L122)
 
 Sets the height of the node.
 
@@ -240,7 +240,7 @@ The new height.
 get left(): BinaryTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:62](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L62)
+Defined in: [data-structures/binary-tree/binary-tree.ts:62](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L62)
 
 Gets the left child of the node.
 
@@ -260,7 +260,7 @@ The left child.
 set left(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:72](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L72)
+Defined in: [data-structures/binary-tree/binary-tree.ts:72](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L72)
 
 Sets the left child of the node and updates its parent reference.
 
@@ -290,7 +290,7 @@ The node to set as the left child.
 get right(): BinaryTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:87](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L87)
+Defined in: [data-structures/binary-tree/binary-tree.ts:87](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L87)
 
 Gets the right child of the node.
 
@@ -310,7 +310,7 @@ The right child.
 set right(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:97](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L97)
+Defined in: [data-structures/binary-tree/binary-tree.ts:97](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L97)
 
 Sets the right child of the node and updates its parent reference.
 

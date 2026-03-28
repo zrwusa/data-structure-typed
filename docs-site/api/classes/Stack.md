@@ -6,7 +6,7 @@
 
 # Class: Stack\<E, R\>
 
-Defined in: [data-structures/stack/stack.ts:135](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L135)
+Defined in: [data-structures/stack/stack.ts:135](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L135)
 
 LIFO stack with array storage and optional record→element conversion.
 
@@ -170,7 +170,7 @@ Time O(1), Space O(1)
 new Stack<E, R>(elements?, options?): Stack<E, R>;
 ```
 
-Defined in: [data-structures/stack/stack.ts:146](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L146)
+Defined in: [data-structures/stack/stack.ts:146](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L146)
 
 Create a Stack and optionally bulk-push elements.
 
@@ -200,37 +200,9 @@ Time O(N), Space O(N)
 
 #### Overrides
 
-[`IterableElementBase`](IterableElementBase.md).[`constructor`](IterableElementBase.md#constructor)
-
-## Properties
-
-### \_toElementFn?
-
 ```ts
-protected optional _toElementFn?: (rawElement) => E;
+IterableElementBase<E, R>.constructor
 ```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`IterableElementBase`](IterableElementBase.md).[`_toElementFn`](IterableElementBase.md#toelementfn)
 
 ## Accessors
 
@@ -242,7 +214,7 @@ Time O(1), Space O(1).
 get elements(): E[];
 ```
 
-Defined in: [data-structures/stack/stack.ts:159](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L159)
+Defined in: [data-structures/stack/stack.ts:159](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L159)
 
 Get the backing array of elements.
 
@@ -266,7 +238,7 @@ Internal elements array.
 get size(): number;
 ```
 
-Defined in: [data-structures/stack/stack.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L195)
+Defined in: [data-structures/stack/stack.ts:198](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L198)
 
 Get the number of stored elements.
 
@@ -299,7 +271,7 @@ Current size.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -319,145 +291,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/stack/stack.ts:706](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L706)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`StackOptions`\<`E`, `R`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`this`
-
-An empty like-kind stack instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<T, RR>(elements?, options?): Stack<T, RR>;
-```
-
-Defined in: [data-structures/stack/stack.ts:721](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L721)
-
-(Protected) Create a like-kind stack and seed it from an iterable.
-
-#### Type Parameters
-
-##### T
-
-`T` = `E`
-
-##### RR
-
-`RR` = `R`
-
-#### Parameters
-
-##### elements?
-
-`Iterable`\<`T`, `any`, `any`\> \| `Iterable`\<`RR`, `any`, `any`\>
-
-Iterable used to seed the new stack.
-
-##### options?
-
-`StackOptions`\<`T`, `RR`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`Stack`\<`T`, `RR`\>
-
-A like-kind Stack instance.
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/stack/stack.ts:738](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L738)
-
-(Protected) Iterate elements from bottom to top.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of elements.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`IterableElementBase`](IterableElementBase.md).[`_getIterator`](IterableElementBase.md#getiterator)
-
-***
-
-### \_indexOfByEquals()
-
-```ts
-protected _indexOfByEquals(target): number;
-```
-
-Defined in: [data-structures/stack/stack.ts:694](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L694)
-
-(Protected) Find the index of a target element using the equality function.
-
-#### Parameters
-
-##### target
-
-`E`
-
-Element to search for.
-
-#### Returns
-
-`number`
-
-Index or -1 if not found.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -491,7 +331,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 clear(): void;
 ```
 
-Defined in: [data-structures/stack/stack.ts:516](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L516)
+Defined in: [data-structures/stack/stack.ts:537](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L537)
 
 Remove all elements and reset storage.
 
@@ -527,7 +367,7 @@ console.log(stack.isEmpty()); // true
 clone(): this;
 ```
 
-Defined in: [data-structures/stack/stack.ts:555](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L555)
+Defined in: [data-structures/stack/stack.ts:579](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L579)
 
 Deep clone this stack.
 
@@ -565,7 +405,7 @@ console.log(copy.size); // 2
 delete(element): boolean;
 ```
 
-Defined in: [data-structures/stack/stack.ts:448](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L448)
+Defined in: [data-structures/stack/stack.ts:466](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L466)
 
 Delete the first occurrence of a specific element.
 
@@ -605,7 +445,7 @@ console.log(stack.toArray()); // [1, 3]
 deleteAt(index): boolean;
 ```
 
-Defined in: [data-structures/stack/stack.ts:460](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L460)
+Defined in: [data-structures/stack/stack.ts:478](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L478)
 
 Delete the element at an index.
 
@@ -635,7 +475,7 @@ Time O(N), Space O(1)
 deleteWhere(predicate): boolean;
 ```
 
-Defined in: [data-structures/stack/stack.ts:473](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L473)
+Defined in: [data-structures/stack/stack.ts:491](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L491)
 
 Delete the first element that satisfies a predicate.
 
@@ -665,7 +505,7 @@ Time O(N), Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -712,7 +552,7 @@ console.log(stack.every(x => x % 2 === 0)); // true
 filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/stack/stack.ts:596](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L596)
+Defined in: [data-structures/stack/stack.ts:623](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L623)
 
 Filter elements into a new stack of the same class.
 
@@ -764,7 +604,7 @@ console.log(evens.toArray()); // [2, 4]
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -817,7 +657,7 @@ console.log(stack.find(x => x > 2)); // 3
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -866,7 +706,7 @@ console.log(stack.find(x => x > 2)); // 3
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -915,7 +755,7 @@ console.log(items); // [1, 2, 3]
 has(element): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L188)
+Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L188)
 
 Checks whether a strictly-equal element exists in the structure.
 
@@ -957,7 +797,7 @@ console.log(stack.has(9)); // false
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/stack/stack.ts:254](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L254)
+Defined in: [data-structures/stack/stack.ts:260](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L260)
 
 Check whether the stack is empty.
 
@@ -997,7 +837,7 @@ map<EM, RM>(
 thisArg?): Stack<EM, RM>;
 ```
 
-Defined in: [data-structures/stack/stack.ts:661](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L661)
+Defined in: [data-structures/stack/stack.ts:691](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L691)
 
 Map values into a new stack (possibly different element type).
 
@@ -1063,7 +903,7 @@ console.log(doubled.toArray()); // [2, 4, 6]
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/stack/stack.ts:614](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L614)
+Defined in: [data-structures/stack/stack.ts:641](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L641)
 
 Map values into a new stack of the same element type.
 
@@ -1103,7 +943,7 @@ Time O(N), Space O(N)
 peek(): E | undefined;
 ```
 
-Defined in: [data-structures/stack/stack.ts:293](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L293)
+Defined in: [data-structures/stack/stack.ts:302](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L302)
 
 Get the top element without removing it.
 
@@ -1135,7 +975,7 @@ console.log(stack.size); // 3
 pop(): E | undefined;
 ```
 
-Defined in: [data-structures/stack/stack.ts:395](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L395)
+Defined in: [data-structures/stack/stack.ts:410](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L410)
 
 Pop and return the top element.
 
@@ -1180,7 +1020,7 @@ console.log(stack.size); // 3
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1212,7 +1052,7 @@ const stack = new Stack<number>([1, 2, 3]);
 push(element): boolean;
 ```
 
-Defined in: [data-structures/stack/stack.ts:342](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L342)
+Defined in: [data-structures/stack/stack.ts:354](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L354)
 
 Push one element onto the top.
 
@@ -1261,7 +1101,7 @@ console.log(stack.size); // 6
 pushMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/stack/stack.ts:406](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L406)
+Defined in: [data-structures/stack/stack.ts:421](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L421)
 
 Push many elements from an iterable.
 
@@ -1323,7 +1163,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -1352,7 +1192,7 @@ console.log(stack.reduce((acc, x) => acc + x, 0)); // 6
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -1385,7 +1225,7 @@ console.log(stack.reduce((acc, x) => acc + x, 0)); // 6
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -1426,7 +1266,7 @@ console.log(stack.reduce((acc, x) => acc + x, 0)); // 6
 setEquality(equals): this;
 ```
 
-Defined in: [data-structures/stack/stack.ts:682](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L682)
+Defined in: [data-structures/stack/stack.ts:712](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L712)
 
 Set the equality comparator used by delete/search operations.
 
@@ -1456,7 +1296,7 @@ Time O(1), Space O(1)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -1503,7 +1343,7 @@ console.log(stack.some(x => x % 2 === 0)); // true
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -1536,7 +1376,7 @@ console.log(stack.toArray()); // [1, 2, 3]
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -1563,7 +1403,7 @@ Time O(n), Space O(n).
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 
@@ -1599,7 +1439,7 @@ static fromArray<E, R>(
    options?): any;
 ```
 
-Defined in: [data-structures/stack/stack.ts:210](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/stack/stack.ts#L210)
+Defined in: [data-structures/stack/stack.ts:213](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/stack/stack.ts#L213)
 
 Create a stack from an array of elements.
 

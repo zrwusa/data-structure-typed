@@ -6,7 +6,7 @@
 
 # Class: LinkedListNode\<E\>
 
-Defined in: [data-structures/base/linear-base.ts:9](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L9)
+Defined in: [data-structures/base/linear-base.ts:9](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L9)
 
 Singly-linked list node.
 
@@ -35,7 +35,7 @@ Element type.
 new LinkedListNode<E>(value): LinkedListNode<E>;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:15](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L15)
+Defined in: [data-structures/base/linear-base.ts:15](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L15)
 
 Initialize a node.
 
@@ -65,7 +65,7 @@ Time O(1), Space O(1)
 get next(): LinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L47)
+Defined in: [data-structures/base/linear-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L47)
 
 Next node getter.
 
@@ -85,7 +85,7 @@ Next node or `undefined`.
 set next(value): void;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:56](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L56)
+Defined in: [data-structures/base/linear-base.ts:56](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L56)
 
 Next node setter.
 
@@ -115,7 +115,7 @@ Next node or `undefined`.
 get value(): E;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:27](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L27)
+Defined in: [data-structures/base/linear-base.ts:27](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L27)
 
 Element payload getter.
 
@@ -135,7 +135,7 @@ Element value.
 set value(value): void;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:36](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L36)
+Defined in: [data-structures/base/linear-base.ts:36](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L36)
 
 Element payload setter.
 

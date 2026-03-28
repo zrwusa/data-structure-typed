@@ -6,7 +6,7 @@
 
 # Class: TreeNode\<V\>
 
-Defined in: [data-structures/tree/tree.ts:1](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L1)
+Defined in: [data-structures/tree/tree.ts:1](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L1)
 
 ## Type Parameters
 
@@ -25,7 +25,7 @@ new TreeNode<V>(
 children?): TreeNode<V>;
 ```
 
-Defined in: [data-structures/tree/tree.ts:12](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L12)
+Defined in: [data-structures/tree/tree.ts:12](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L12)
 
 The constructor function initializes a TreeNode object with a key, optional value, and optional
 children.
@@ -67,7 +67,7 @@ default value is an empty array.
 get children(): TreeNode<V>[] | undefined;
 ```
 
-Defined in: [data-structures/tree/tree.ts:63](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L63)
+Defined in: [data-structures/tree/tree.ts:63](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L63)
 
 The function returns an array of TreeNode objects or undefined.
 
@@ -84,7 +84,7 @@ which means it can either be an array of `TreeNode<V>` objects or `undefined`.
 set children(value): void;
 ```
 
-Defined in: [data-structures/tree/tree.ts:72](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L72)
+Defined in: [data-structures/tree/tree.ts:72](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L72)
 
 The function sets the value of the children property of a TreeNode object.
 
@@ -111,7 +111,7 @@ undefined. This means that it can accept an array of TreeNode objects or undefin
 get key(): string;
 ```
 
-Defined in: [data-structures/tree/tree.ts:24](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L24)
+Defined in: [data-structures/tree/tree.ts:24](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L24)
 
 The function returns the value of the protected variable _key.
 
@@ -127,7 +127,7 @@ The value of the `_key` property, which is a string.
 set key(value): void;
 ```
 
-Defined in: [data-structures/tree/tree.ts:33](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L33)
+Defined in: [data-structures/tree/tree.ts:33](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L33)
 
 The above function sets the value of a protected variable called "key".
 
@@ -154,7 +154,7 @@ to the key.
 get value(): V | undefined;
 ```
 
-Defined in: [data-structures/tree/tree.ts:43](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L43)
+Defined in: [data-structures/tree/tree.ts:43](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L43)
 
 The function returns the value stored in a variable, or undefined if the variable is empty.
 
@@ -170,7 +170,7 @@ The value of the variable `_value` is being returned.
 set value(value): void;
 ```
 
-Defined in: [data-structures/tree/tree.ts:52](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L52)
+Defined in: [data-structures/tree/tree.ts:52](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L52)
 
 The function sets the value of a variable.
 
@@ -195,7 +195,7 @@ can accept a value of type "V" or it can be undefined.
 addChildren(children): void;
 ```
 
-Defined in: [data-structures/tree/tree.ts:81](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L81)
+Defined in: [data-structures/tree/tree.ts:81](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L81)
 
 The function `addChildren` adds one or more child nodes to the current node.
 
@@ -220,7 +220,7 @@ The `children` parameter can be either a single
 getHeight(): number;
 ```
 
-Defined in: [data-structures/tree/tree.ts:97](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/tree/tree.ts#L97)
+Defined in: [data-structures/tree/tree.ts:97](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/tree/tree.ts#L97)
 
 The function `getHeight()` calculates the maximum depth of a tree structure by performing a
 breadth-first search.

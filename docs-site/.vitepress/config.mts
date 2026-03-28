@@ -8,7 +8,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 function loadApiSidebar() {
   const sidebarPath = path.resolve(__dirname, '../api/typedoc-sidebar.json');
   if (fs.existsSync(sidebarPath)) {
-    return JSON.parse(fs.readFileSync(sidebarPath, 'utf-8'));
+    const raw = JSON.parse(fs.readFileSync(sidebarPath, 'utf-8'));
+    // Fix sidebar links: remove /docs-site prefix and .md suffix
+    const fixLinks = (items: any[]): any[] =>
+      items.map((item: any) => ({
+        ...item,
+        ...(item.link ? { link: item.link.replace('/docs-site', '').replace(/\.md$/, '') } : {}),
+        ...(item.items ? { items: fixLinks(item.items) } : {})
+      }));
+    return fixLinks(raw);
   }
   return [{ text: 'API Reference', items: [{ text: 'Overview', link: '/api/' }] }];
 }
@@ -30,6 +38,11 @@ export default defineConfig({
   description: 'JavaScript/TypeScript Data Structure Library — STL-like, zero-dependency',
   base: '/',
   cleanUrls: true,
+
+  // Show right-side outline (method navigation) up to h4
+  markdown: {
+    headers: { level: [2, 3, 4] }
+  },
 
   head: [
     ['meta', { property: 'og:type', content: 'website' }],
@@ -89,6 +102,11 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/zrwusa/data-structure-typed' }
     ],
+
+    outline: {
+      level: [2, 3, 4],
+      label: 'On this page'
+    },
 
     search: {
       provider: 'local'

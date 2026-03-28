@@ -6,7 +6,7 @@
 
 # Class: BSTNode\<K, V\>
 
-Defined in: [data-structures/binary-tree/bst.ts:37](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L37)
+Defined in: [data-structures/binary-tree/bst.ts:37](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L37)
 
 Represents a Node in a Binary Search Tree.
 
@@ -32,7 +32,7 @@ The type of the value.
 new BSTNode<K, V>(key, value?): BSTNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:49](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L49)
+Defined in: [data-structures/binary-tree/bst.ts:49](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L49)
 
 Creates an instance of BSTNode.
 
@@ -68,7 +68,7 @@ Time O(1), Space O(1)
 get color(): RBTNColor;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:133](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L133)
+Defined in: [data-structures/binary-tree/bst.ts:133](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L133)
 
 Gets the color of the node (used in Red-Black trees).
 
@@ -88,7 +88,7 @@ The node's color.
 set color(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:144](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L144)
+Defined in: [data-structures/binary-tree/bst.ts:144](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L144)
 
 Sets the color of the node.
 
@@ -118,7 +118,7 @@ The new color.
 get count(): number;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:157](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L157)
+Defined in: [data-structures/binary-tree/bst.ts:157](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L157)
 
 Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
 
@@ -138,7 +138,7 @@ The subtree node count.
 set count(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:168](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L168)
+Defined in: [data-structures/binary-tree/bst.ts:168](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L168)
 
 Sets the count of nodes in the subtree.
 
@@ -168,7 +168,7 @@ The new count.
 get familyPosition(): FamilyPosition;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:178](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L178)
+Defined in: [data-structures/binary-tree/bst.ts:178](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L178)
 
 Gets the position of the node relative to its parent.
 
@@ -192,7 +192,7 @@ The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
 get height(): number;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L109)
+Defined in: [data-structures/binary-tree/bst.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L109)
 
 Gets the height of the node (used in self-balancing trees).
 
@@ -212,7 +212,7 @@ The height.
 set height(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:120](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L120)
+Defined in: [data-structures/binary-tree/bst.ts:120](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L120)
 
 Sets the height of the node.
 
@@ -242,7 +242,7 @@ The new height.
 get left(): BSTNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:62](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L62)
+Defined in: [data-structures/binary-tree/bst.ts:62](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L62)
 
 Gets the left child of the node.
 
@@ -262,7 +262,7 @@ The left child.
 set left(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:72](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L72)
+Defined in: [data-structures/binary-tree/bst.ts:72](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L72)
 
 Sets the left child of the node and updates its parent reference.
 
@@ -292,7 +292,7 @@ The node to set as the left child.
 get right(): BSTNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:85](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L85)
+Defined in: [data-structures/binary-tree/bst.ts:85](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L85)
 
 Gets the right child of the node.
 
@@ -312,7 +312,7 @@ The right child.
 set right(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:95](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L95)
+Defined in: [data-structures/binary-tree/bst.ts:95](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L95)
 
 Sets the right child of the node and updates its parent reference.
 

@@ -8,6 +8,8 @@
   ],
   "cleanOutputDir": true,
   "excludeNotDocumented": true,
+  "excludeProtected": true,
+  "excludePrivate": true,
   "excludeNotDocumentedKinds": [
     "Module",
     "Namespace",

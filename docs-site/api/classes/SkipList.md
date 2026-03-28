@@ -6,7 +6,7 @@
 
 # Class: SkipList\<K, V, R\>
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:49](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L49)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:49](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L49)
 
 SkipList — a probabilistic sorted key-value container.
 
@@ -49,7 +49,7 @@ Reference: Java ConcurrentSkipListMap (NavigableMap interface).
 get size(): number;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:122](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L122)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:122](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L122)
 
 Total number of entries.
 
@@ -69,83 +69,13 @@ Entry count.
 
 ## Methods
 
-### \_findNode()
-
-```ts
-protected _findNode(key): SkipListNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/linked-list/skip-linked-list.ts:984](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L984)
-
-Finds the node for a given key, or undefined.
-
-#### Parameters
-
-##### key
-
-`K`
-
-#### Returns
-
-[`SkipListNode`](SkipListNode.md)\<`K`, `V`\> \| `undefined`
-
-***
-
-### \_findUpdate()
-
-```ts
-protected _findUpdate(key): SkipListNode<K, V>[];
-```
-
-Defined in: [data-structures/linked-list/skip-linked-list.ts:966](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L966)
-
-Finds the update array (predecessors at each level) for a given key.
-
-#### Parameters
-
-##### key
-
-`K`
-
-#### Returns
-
-[`SkipListNode`](SkipListNode.md)\<`K`, `V`\>[]
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<[K, V | undefined]>;
-```
-
-Defined in: [data-structures/linked-list/skip-linked-list.ts:950](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L950)
-
-Underlying iterator for the default iteration protocol.
-
-#### Returns
-
-`IterableIterator`\<\[`K`, `V` \| `undefined`\]\>
-
-Iterator of `[K, V]`.
-
-#### Remarks
-
-Time O(n), Space O(1)
-
-#### Overrides
-
-[`IterableEntryBase`](IterableEntryBase.md).[`_getIterator`](IterableEntryBase.md#getiterator)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L22)
+Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L22)
 
 Default iterator yielding `[key, value]` entries.
 
@@ -177,7 +107,7 @@ Time O(n) to iterate, Space O(1)
 ceiling(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:651](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L651)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:687](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L687)
 
 Least entry ≥ key, or `undefined`.
 
@@ -209,7 +139,7 @@ console.log(sl.ceiling(20)); // [20, 'b']
 clear(): void;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:199](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L199)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:205](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L205)
 
 Remove all entries
 
@@ -239,7 +169,7 @@ console.log(sl.isEmpty()); // true
 clone(): this;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:235](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L235)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:244](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L244)
 
 Create independent copy
 
@@ -270,7 +200,7 @@ console.log(sl.has(1)); // true
 delete(key): boolean;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:448](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L448)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:469](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L469)
 
 Delete a key. Returns `true` if the key was found and removed.
 
@@ -309,7 +239,7 @@ console.log(cache.size); // 2
 entries(): IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L31)
+Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L31)
 
 Iterate over `[key, value]` pairs (may yield `undefined` values).
 
@@ -342,7 +272,7 @@ console.log([...sl.entries()]); // [[1, 'a'], [2, 'b'], [3, 'c']]
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L66)
+Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L66)
 
 Test whether all entries satisfy the predicate.
 
@@ -389,7 +319,7 @@ console.log(sl.every((v, k) => k > 0)); // true
 filter(callbackfn, thisArg?): this;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:931](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L931)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:985](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L985)
 
 Creates a new SkipList with entries that pass the predicate.
 
@@ -429,7 +359,7 @@ console.log(result.size); // 2
 find(callbackfn, thisArg?): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L114)
+Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L114)
 
 Find the first entry that matches a predicate.
 
@@ -478,7 +408,7 @@ console.log(found?.[1]); // 'beta'
 first(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:501](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L501)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:525](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L525)
 
 Returns the first (smallest key) entry, or `undefined` if empty.
 
@@ -503,7 +433,7 @@ console.log(sl.first()); // [1, 'a']
 floor(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:695](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L695)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:734](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L734)
 
 Greatest entry ≤ key, or `undefined`.
 
@@ -534,7 +464,7 @@ console.log(sl.floor(25)); // [20, 'b']
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L99)
+Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L99)
 
 Visit each entry, left-to-right.
 
@@ -581,7 +511,7 @@ console.log(keys); // [1, 2]
 get(key): V | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:367](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L367)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:382](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L382)
 
 Get the value for a key, or `undefined` if not found.
 Overrides base O(n) with O(log n) skip-list search.
@@ -633,7 +563,7 @@ console.log(range.map(([, p]) => p!.name)); // ['Widget', 'Gadget']
 has(key): boolean;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:405](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L405)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:423](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L423)
 
 Check if a key exists.
 Overrides base O(n) with O(log n) skip-list search.
@@ -670,7 +600,7 @@ console.log(sl.has(4)); // false
 hasValue(value): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L143)
+Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L143)
 
 Whether there exists an entry with the given value.
 
@@ -704,7 +634,7 @@ Time O(n), Space O(1)
 higher(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:739](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L739)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:781](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L781)
 
 Least entry strictly > key, or `undefined`.
 
@@ -735,7 +665,7 @@ console.log(sl.higher(15)); // [20, 'b']
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:166](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L166)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:169](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L169)
 
 Check if empty
 
@@ -764,7 +694,7 @@ console.log(sl.isEmpty()); // true
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L42)
+Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L42)
 
 Iterate over keys only.
 
@@ -797,7 +727,7 @@ console.log([...sl.keys()]); // [1, 3]
 last(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:537](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L537)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:564](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L564)
 
 Returns the last (largest key) entry, or `undefined` if empty.
 
@@ -822,7 +752,7 @@ console.log(sl.last()); // [5, 'e']
 lower(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:780](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L780)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:825](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L825)
 
 Greatest entry strictly < key, or `undefined`.
 
@@ -853,7 +783,7 @@ console.log(sl.lower(25)); // [20, 'b']
 map<MK, MV>(callback, options?): SkipList<MK, MV>;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:889](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L889)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:940](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L940)
 
 Creates a new SkipList with entries transformed by callback.
 
@@ -903,7 +833,7 @@ console.log([...mapped.values()]); // ['A', 'B']
 pollFirst(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:576](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L576)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:606](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L606)
 
 Remove and return the first (smallest key) entry.
 
@@ -929,7 +859,7 @@ console.log(sl.size); // 2
 pollLast(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:612](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L612)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:645](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L645)
 
 Remove and return the last (largest key) entry.
 
@@ -955,7 +885,7 @@ console.log(sl.size); // 2
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:203](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L203)
+Defined in: [data-structures/base/iterable-entry-base.ts:203](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L203)
 
 Print a human-friendly representation to the console.
 
@@ -985,7 +915,7 @@ const sl = new SkipList<number, string>([[1, 'a']]);
 rangeSearch(range, options?): [K, V | undefined][];
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:827](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L827)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:875](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L875)
 
 Returns entries within the given key range.
 
@@ -1021,7 +951,7 @@ console.log(result); // [[2, 'b'], [3, 'c'], [4, 'd']]
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L171)
+Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L171)
 
 Reduce entries into a single accumulator.
 
@@ -1075,7 +1005,7 @@ console.log(sum); // 30
 set(key, value): this;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:289](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L289)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:301](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L301)
 
 Insert or update a key-value pair. Returns `this` for chaining.
 Unique keys only — if key exists, value is updated in place.
@@ -1123,7 +1053,7 @@ console.log(store.get(3)); // 'THREE'
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L83)
+Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L83)
 
 Test whether any entry satisfies the predicate.
 
@@ -1170,7 +1100,7 @@ console.log(sl.some((v, k) => k === 2)); // true
 toArray(): [K, V | undefined][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L186)
+Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L186)
 
 Converts data structure to `[key, value]` pairs.
 
@@ -1203,7 +1133,7 @@ console.log(sl.toArray()); // [[1, 'a'], [2, 'b']]
 toVisual(): string | [K, V | undefined][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L195)
+Defined in: [data-structures/base/iterable-entry-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L195)
 
 Visualize the iterable as an array of `[key, value]` pairs (or a custom string).
 
@@ -1229,7 +1159,7 @@ Time O(n), Space O(n)
 values(): IterableIterator<V | undefined>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L53)
+Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L53)
 
 Iterate over values only.
 
@@ -1262,7 +1192,7 @@ console.log([...sl.values()]); // ['a', 'b']
 static createDefaultComparator<K>(): Comparator<K>;
 ```
 
-Defined in: [data-structures/linked-list/skip-linked-list.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/skip-linked-list.ts#L86)
+Defined in: [data-structures/linked-list/skip-linked-list.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/skip-linked-list.ts#L86)
 
 Creates a default comparator supporting number, string, Date, and bigint.
 

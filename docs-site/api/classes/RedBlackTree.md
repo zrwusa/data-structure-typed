@@ -6,7 +6,7 @@
 
 # Class: RedBlackTree\<K, V, R\>
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:254](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L254)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:254](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L254)
 
 Represents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
 
@@ -122,87 +122,6 @@ Operation complexity depends on the method; see each method's docs.
 
 - `IBinaryTree`\<`K`, `V`, `R`\>
 
-## Properties
-
-### \_comparator
-
-```ts
-protected readonly _comparator: Comparator<K>;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:372](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L372)
-
-The comparator function used to determine the order of keys in the tree.
-
-#### Remarks
-
-Time O(1) Space O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_comparator`](BST.md#comparator)
-
-***
-
-### \_DEFAULT\_NODE\_CALLBACK
-
-```ts
-protected readonly _DEFAULT_NODE_CALLBACK: NodeCallback<BinaryTreeNode<K, V> | null | undefined, K | undefined>;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:2816](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2816)
-
-(Protected) Default callback function, returns the node's key.
-
-#### Remarks
-
-Time O(1)
-
-#### Param
-
-The node.
-
-#### Returns
-
-The node's key or undefined.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_DEFAULT_NODE_CALLBACK`](BST.md#default-node-callback)
-
-***
-
-### \_header
-
-```ts
-protected _header: RedBlackTreeNode<K, V>;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:291](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L291)
-
-(Internal) Header sentinel:
-- header.parent -> root
-- header._left  -> min (or NIL)
-- header._right -> max (or NIL)
-
-IMPORTANT:
-- This header is NOT part of the actual tree.
-- Do NOT use `header.left` / `header.right` accessors for wiring: those setters update `NIL.parent`
-  and can corrupt sentinel invariants / cause hangs. Only touch `header._left/_right`.
-
-***
-
-### \_minNode
-
-```ts
-protected _minNode: RedBlackTreeNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:297](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L297)
-
-(Internal) Cache of the current minimum and maximum nodes.
-Used for fast-path insert/update when keys are monotonic or near-boundary.
-
 ## Accessors
 
 ### comparator
@@ -213,7 +132,7 @@ Used for fast-path insert/update when keys are monotonic or near-boundary.
 get comparator(): Comparator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:380](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L380)
+Defined in: [data-structures/binary-tree/bst.ts:380](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L380)
 
 Gets the comparator function used by the tree.
 
@@ -241,7 +160,7 @@ The comparator function.
 get isDuplicate(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:322](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L322)
+Defined in: [data-structures/binary-tree/binary-tree.ts:322](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L322)
 
 Gets whether the tree allows duplicate keys.
 
@@ -275,7 +194,7 @@ IBinaryTree.isDuplicate
 get isMapMode(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:310](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L310)
+Defined in: [data-structures/binary-tree/binary-tree.ts:310](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L310)
 
 Gets whether the tree is in Map mode.
 
@@ -309,7 +228,7 @@ IBinaryTree.isMapMode
 get NIL(): BinaryTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:373](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L373)
+Defined in: [data-structures/binary-tree/binary-tree.ts:373](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L373)
 
 Gets the sentinel NIL node (used in self-balancing trees like Red-Black Tree).
 
@@ -343,7 +262,7 @@ IBinaryTree.NIL
 get root(): RedBlackTreeNode<K, V> | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:305](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L305)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:305](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L305)
 
 Get the current root node.
 
@@ -377,7 +296,7 @@ IBinaryTree.root
 get size(): number;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:361](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L361)
+Defined in: [data-structures/binary-tree/binary-tree.ts:361](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L361)
 
 Gets the number of nodes in the tree.
 
@@ -411,7 +330,7 @@ IBinaryTree.size
 get store(): Map<K, BinaryTreeNode<K, V>>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:337](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L337)
+Defined in: [data-structures/binary-tree/binary-tree.ts:337](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L337)
 
 Gets the external value store (used in Map mode).
 
@@ -445,7 +364,7 @@ IBinaryTree.store
 get toEntryFn(): ToEntryFn<K, V, R> | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:385](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L385)
+Defined in: [data-structures/binary-tree/binary-tree.ts:385](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L385)
 
 Gets the function used to convert raw data objects (R) into [key, value] entries.
 
@@ -471,1640 +390,13 @@ IBinaryTree.toEntryFn
 
 ## Methods
 
-### \_attachNewNode()
-
-```ts
-protected _attachNewNode(
-   parent, 
-   side, 
-   node): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:517](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L517)
-
-(Internal) Attach a new node directly under a known parent/side (no search).
-
-This is a performance-oriented helper used by boundary fast paths and hinted insertion.
-It will:
-- wire parent/child pointers (using accessors, so parent pointers are updated)
-- initialize children to NIL
-- mark the new node RED, then run insert fix-up
-
-Precondition: the chosen slot (parent.left/parent.right) is empty (NIL/null/undefined).
-
-#### Parameters
-
-##### parent
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-##### side
-
-`"right"` \| `"left"`
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_bound()
-
-```ts
-protected _bound(
-   keyNodeEntryOrPredicate, 
-   isLower, 
-   iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2403](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2403)
-
-(Protected) Core bound search implementation supporting all parameter types.
-Unified logic for both lowerBound and upperBound.
-Resolves various input types (Key, Node, Entry, Predicate) using parent class utilities.
-
-#### Parameters
-
-##### keyNodeEntryOrPredicate
-
-  \| `K`
-  \| [`BSTNode`](BSTNode.md)\<`K`, `V`\>
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| `NodePredicate`\<[`BSTNode`](BSTNode.md)\<`K`, `V`\>\>
-  \| `null`
-  \| `undefined`
-
-The key, node, entry, or predicate function to search for.
-
-##### isLower
-
-`boolean`
-
-True for lowerBound (>=), false for upperBound (>).
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The first matching node, or undefined if no such node exists.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_bound`](BST.md#bound)
-
-***
-
-### \_boundByKey()
-
-```ts
-protected _boundByKey(
-   key, 
-   isLower, 
-   iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2460](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2460)
-
-(Protected) Binary search for bound by key with pruning optimization.
-Performs standard BST binary search, choosing left or right subtree based on comparator result.
-For lowerBound: finds first node where key >= target.
-For upperBound: finds first node where key > target.
-
-#### Parameters
-
-##### key
-
-`K`
-
-The target key to search for.
-
-##### isLower
-
-`boolean`
-
-True for lowerBound (>=), false for upperBound (>).
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The first node matching the bound condition, or undefined if none exists.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_boundByKey`](BST.md#boundbykey)
-
-***
-
-### \_boundByPredicate()
-
-```ts
-protected _boundByPredicate(predicate, iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2515](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2515)
-
-(Protected) In-order traversal search by predicate.
-Falls back to linear in-order traversal when predicate-based search is required.
-Returns the first node that satisfies the predicate function.
-Note: Predicate-based search cannot leverage BST's binary search optimization.
-Time Complexity: O(n) since it may visit every node.
-
-#### Parameters
-
-##### predicate
-
-`NodePredicate`\<[`BSTNode`](BSTNode.md)\<`K`, `V`\>\>
-
-The predicate function to test nodes.
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The first node satisfying predicate, or undefined if none found.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_boundByPredicate`](BST.md#boundbypredicate)
-
-***
-
-### \_clearNodes()
-
-```ts
-protected _clearNodes(): void;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3250](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3250)
-
-(Protected) Clears all nodes from the tree.
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_clearNodes`](BST.md#clearnodes)
-
-***
-
-### \_clearValues()
-
-```ts
-protected _clearValues(): void;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3259](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3259)
-
-(Protected) Clears all values from the external store.
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(N)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_clearValues`](BST.md#clearvalues)
-
-***
-
-### \_clone()
-
-```ts
-protected _clone(cloned): void;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:2909](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2909)
-
-(Protected) Helper for cloning. Performs a BFS and sets all nodes to the new tree.
-
-#### Parameters
-
-##### cloned
-
-[`BinaryTree`](BinaryTree.md)\<`K`, `V`, `R`\>
-
-The new, empty tree instance to populate.
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(N * M) (O(N) BFS + O(M) `set` for each node).
-
-#### Inherited from
-
-[`BST`](BST.md).[`_clone`](BST.md#clone)
-
-***
-
-### \_compare()
-
-```ts
-protected _compare(a, b): number;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2655](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2655)
-
-(Protected) Compares two keys using the tree's comparator and reverse setting.
-
-#### Parameters
-
-##### a
-
-`K`
-
-The first key.
-
-##### b
-
-`K`
-
-The second key.
-
-#### Returns
-
-`number`
-
-A number (1, -1, or 0) representing the comparison.
-
-#### Remarks
-
-Time O(1) Space O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_compare`](BST.md#compare)
-
-***
-
-### \_createDefaultComparator()
-
-```ts
-protected _createDefaultComparator(): Comparator<K>;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2128](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2128)
-
-(Protected) Creates the default comparator function for keys that don't have a custom comparator.
-
-#### Returns
-
-`Comparator`\<`K`\>
-
-The default comparator function.
-
-#### Remarks
-
-Time O(1) Space O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_createDefaultComparator`](BST.md#createdefaultcomparator)
-
-***
-
-### \_createInstance()
-
-```ts
-protected _createInstance<TK, TV, TR>(options?): this;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1389](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1389)
-
-(Internal) Create an empty instance of the same concrete tree type.
-
-#### Type Parameters
-
-##### TK
-
-`TK` = `K`
-
-##### TV
-
-`TV` = `V`
-
-##### TR
-
-`TR` = `R`
-
-#### Parameters
-
-##### options?
-
-`Partial`\<`RedBlackTreeOptions`\<`TK`, `TV`, `TR`\>\>
-
-#### Returns
-
-`this`
-
-#### Remarks
-
-Time O(1) average, Space O(1)
-
-#### Overrides
-
-[`BST`](BST.md).[`_createInstance`](BST.md#createinstance)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<TK, TV, TR>(iter?, options?): RedBlackTree<TK, TV, TR>;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1401](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1401)
-
-(Internal) Create a like-kind tree (same concrete class) populated from an iterable.
-
-#### Type Parameters
-
-##### TK
-
-`TK` = `K`
-
-##### TV
-
-`TV` = `V`
-
-##### TR
-
-`TR` = `R`
-
-#### Parameters
-
-##### iter?
-
-`Iterable`\<
-  \| `TK`
-  \| `TR`
-  \| [`RedBlackTreeNode`](RedBlackTreeNode.md)\<`TK`, `TV`\>
-  \| \[`TK` \| `null` \| `undefined`, `TV` \| `undefined`\]
-  \| `null`
-  \| `undefined`\> = `[]`
-
-##### options?
-
-`Partial`\<`RedBlackTreeOptions`\<`TK`, `TV`, `TR`\>\>
-
-#### Returns
-
-`RedBlackTree`\<`TK`, `TV`, `TR`\>
-
-#### Remarks
-
-Time O(m log m) average (m = iterable length), Space O(m)
-
-#### Overrides
-
-[`BST`](BST.md).[`_createLike`](BST.md#createlike)
-
-***
-
-### \_deleteByKey()
-
-```ts
-protected _deleteByKey(key): boolean;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2666](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2666)
-
-(Private) Deletes a node by its key.
-
-#### Parameters
-
-##### key
-
-`K`
-
-The key of the node to delete.
-
-#### Returns
-
-`boolean`
-
-True if the node was found and deleted, false otherwise.
-
-#### Remarks
-
-Standard BST deletion algorithm. Time O(log N), O(N) worst-case. Space O(1).
-
-#### Inherited from
-
-[`BST`](BST.md).[`_deleteByKey`](BST.md#deletebykey)
-
-***
-
-### \_deleteFixup()
-
-```ts
-protected _deleteFixup(node): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1583](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1583)
-
-(Protected) Restore red-black properties after deletion (recolor/rotate).
-
-#### Parameters
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-Child that replaced the deleted node (may be undefined).
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_dfs()
-
-```ts
-protected _dfs<C>(
-   callback, 
-   pattern?, 
-   onlyOne?, 
-   startNode?, 
-   iterationType?, 
-   includeNull?, 
-   shouldVisitLeft?, 
-   shouldVisitRight?, 
-   shouldVisitRoot?, 
-   shouldProcessRoot?): ReturnType<C>[];
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:2627](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2627)
-
-#### Type Parameters
-
-##### C
-
-`C` *extends* `NodeCallback`\<[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>\>
-
-Callback type.
-
-#### Parameters
-
-##### callback
-
-`C`
-
-Function to call on nodes.
-
-##### pattern?
-
-`DFSOrderPattern`
-
-Traversal order.
-
-##### onlyOne?
-
-`boolean`
-
-Stop after first match.
-
-##### startNode?
-
-  \| `K`
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| [`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>
-  \| `null`
-
-Starting node.
-
-##### iterationType?
-
-`IterationType`
-
-Traversal method.
-
-##### includeNull?
-
-`boolean`
-
-Include nulls.
-
-##### shouldVisitLeft?
-
-(`node`) => `boolean`
-
-Predicate to traverse left.
-
-##### shouldVisitRight?
-
-(`node`) => `boolean`
-
-Predicate to traverse right.
-
-##### shouldVisitRoot?
-
-(`node`) => `boolean`
-
-Predicate to visit root.
-
-##### shouldProcessRoot?
-
-(`node`) => `boolean`
-
-Predicate to process root.
-
-#### Returns
-
-`ReturnType`\<`C`\>[]
-
-Array of callback results.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_dfs`](BST.md#dfs)
-
-***
-
-### \_displayAux()
-
-```ts
-protected _displayAux(node, options): NodeDisplayLayout;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:2933](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2933)
-
-(Protected) Recursive helper for `toVisual`.
-
-#### Parameters
-
-##### node
-
-[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\> \| `null` \| `undefined`
-
-The current node.
-
-##### options
-
-`BinaryTreePrintOptions`
-
-Print options.
-
-#### Returns
-
-`NodeDisplayLayout`
-
-Layout information for this subtree.
-
-#### Remarks
-
-Time O(N), Space O(N*H) or O(N^2)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_displayAux`](BST.md#displayaux)
-
-***
-
-### \_ensurePredicate()
-
-```ts
-protected _ensurePredicate(keyNodeEntryOrPredicate): NodePredicate<BinaryTreeNode<K, V>>;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3156](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3156)
-
-(Protected) Converts a key, node, entry, or predicate into a standardized predicate function.
-
-#### Parameters
-
-##### keyNodeEntryOrPredicate
-
-  \| `K`
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| [`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>
-  \| `NodePredicate`\<[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>\>
-  \| `null`
-  \| `undefined`
-
-The item to convert.
-
-#### Returns
-
-`NodePredicate`\<[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>\>
-
-A predicate function.
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_ensurePredicate`](BST.md#ensurepredicate)
-
-***
-
-### \_extractKey()
-
-```ts
-protected _extractKey(keyNodeOrEntry): K | null | undefined;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3216](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3216)
-
-(Protected) Extracts the key from a key, node, or entry.
-
-#### Parameters
-
-##### keyNodeOrEntry
-
-  \| `K`
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| [`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>
-  \| `null`
-  \| `undefined`
-
-The item.
-
-#### Returns
-
-`K` \| `null` \| `undefined`
-
-The extracted key.
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_extractKey`](BST.md#extractkey)
-
-***
-
-### \_findNodeByKey()
-
-```ts
-protected _findNodeByKey(key): RedBlackTreeNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:451](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L451)
-
-(Internal) Find a node by key using a tight BST walk (no allocations).
-
-NOTE: This uses `header.parent` as the canonical root pointer.
-
-#### Parameters
-
-##### key
-
-`K`
-
-#### Returns
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_floorByKey()
-
-```ts
-protected _floorByKey(key, iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2168](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2168)
-
-(Protected) Binary search for floor by key with pruning optimization.
-Performs standard BST binary search, choosing left or right subtree based on comparator result.
-Finds first node where key <= target.
-
-#### Parameters
-
-##### key
-
-`K`
-
-The target key to search for.
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The first node with key <= target, or undefined if none exists.
-
-#### Remarks
-
-Time O(h) where h is tree height.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_floorByKey`](BST.md#floorbykey)
-
-***
-
-### \_floorByPredicate()
-
-```ts
-protected _floorByPredicate(predicate, iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2221](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2221)
-
-(Protected) In-order traversal search for floor by predicate.
-Falls back to linear in-order traversal when predicate-based search is required.
-Returns the last node that satisfies the predicate function.
-
-#### Parameters
-
-##### predicate
-
-`NodePredicate`\<[`BSTNode`](BSTNode.md)\<`K`, `V`\>\>
-
-The predicate function to test nodes.
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The last node satisfying predicate (highest key), or undefined if none found.
-
-#### Remarks
-
-Time Complexity: O(n) since it may visit every node.
-Space Complexity: O(h) for recursion, O(h) for iterative stack.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_floorByPredicate`](BST.md#floorbypredicate)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(node?): IterableIterator<[K, V | undefined]>;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:2772](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2772)
-
-(Protected) Gets the iterator for the tree (default in-order).
-
-#### Parameters
-
-##### node?
-
-[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\> \| `null`
-
-The node to start iteration from.
-
-#### Returns
-
-`IterableIterator`\<\[`K`, `V` \| `undefined`\]\>
-
-An iterator for [key, value] pairs.
-
-#### Remarks
-
-Time O(N) for full iteration. O(H) to get the first element. Space O(H) for the iterative stack. O(H) for recursive stack.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_getIterator`](BST.md#getiterator)
-
-***
-
-### \_insert()
-
-```ts
-protected _insert(node): CRUD;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1448](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1448)
-
-(Protected) Standard BST insert followed by red-black fix-up.
-
-#### Parameters
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-Node to insert.
-
-#### Returns
-
-`CRUD`
-
-Status string: 'CREATED' or 'UPDATED'.
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_insertFixup()
-
-```ts
-protected _insertFixup(z): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1514](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1514)
-
-(Protected) Restore red-black properties after insertion (recolor/rotate).
-
-#### Parameters
-
-##### z
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-Recently inserted node.
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_isDisplayLeaf()
-
-```ts
-protected _isDisplayLeaf(node, options): boolean;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3028](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3028)
-
-Check if a node is a display leaf (empty, null, undefined, NIL, or real leaf).
-
-#### Parameters
-
-##### node
-
-[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\> \| `null` \| `undefined`
-
-##### options
-
-`BinaryTreePrintOptions`
-
-#### Returns
-
-`boolean`
-
-#### Inherited from
-
-[`BST`](BST.md).[`_isDisplayLeaf`](BST.md#isdisplayleaf)
-
-***
-
-### \_isPredicate()
-
-```ts
-protected _isPredicate(p): p is NodePredicate<BinaryTreeNode<K, V>>;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3205](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3205)
-
-(Protected) Checks if an item is a predicate function.
-
-#### Parameters
-
-##### p
-
-`any`
-
-The item to check.
-
-#### Returns
-
-`p is NodePredicate<BinaryTreeNode<K, V>>`
-
-True if it's a function.
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_isPredicate`](BST.md#ispredicate)
-
-***
-
-### \_keyValueNodeOrEntryToNodeAndValue()
-
-```ts
-protected _keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value?): [OptNode<BSTNode<K, V>>, V | undefined];
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2627](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2627)
-
-(Protected) Converts a key, node, or entry into a standardized [node, value] tuple.
-
-#### Parameters
-
-##### keyNodeOrEntry
-
-  \| `K`
-  \| [`BSTNode`](BSTNode.md)\<`K`, `V`\>
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| `null`
-  \| `undefined`
-
-The input item.
-
-##### value?
-
-`V`
-
-An optional value (used if input is just a key).
-
-#### Returns
-
-\[`OptNode`\<[`BSTNode`](BSTNode.md)\<`K`, `V`\>\>, `V` \| `undefined`\]
-
-A tuple of [node, value].
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_keyValueNodeOrEntryToNodeAndValue`](BST.md#keyvaluenodeorentrytonodeandvalue)
-
-***
-
-### \_leftRotate()
-
-```ts
-protected _leftRotate(x): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1662](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1662)
-
-(Protected) Perform a left rotation around x.
-
-#### Parameters
-
-##### x
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-Pivot node to rotate around.
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_lowerByKey()
-
-```ts
-protected _lowerByKey(key, iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2286](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2286)
-
-(Protected) Binary search for lower by key with pruning optimization.
-Performs standard BST binary search, choosing left or right subtree based on comparator result.
-Finds first node where key < target.
-
-#### Parameters
-
-##### key
-
-`K`
-
-The target key to search for.
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The first node with key < target, or undefined if none exists.
-
-#### Remarks
-
-Time O(h) where h is tree height.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_lowerByKey`](BST.md#lowerbykey)
-
-***
-
-### \_lowerByPredicate()
-
-```ts
-protected _lowerByPredicate(predicate, iterationType): BSTNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2339](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2339)
-
-(Protected) In-order traversal search for lower by predicate.
-Falls back to linear in-order traversal when predicate-based search is required.
-Returns the node that satisfies the predicate and appears last in in-order traversal.
-
-#### Parameters
-
-##### predicate
-
-`NodePredicate`\<[`BSTNode`](BSTNode.md)\<`K`, `V`\>\>
-
-The predicate function to test nodes.
-
-##### iterationType
-
-`IterationType`
-
-The iteration type (RECURSIVE or ITERATIVE).
-
-#### Returns
-
-[`BSTNode`](BSTNode.md)\<`K`, `V`\> \| `undefined`
-
-The last node satisfying predicate (highest key < target), or undefined if none found.
-
-#### Remarks
-
-Time Complexity: O(n) since it may visit every node.
-Space Complexity: O(h) for recursion, O(h) for iterative stack.
-
-#### Inherited from
-
-[`BST`](BST.md).[`_lowerByPredicate`](BST.md#lowerbypredicate)
-
-***
-
-### \_predecessorOf()
-
-```ts
-protected _predecessorOf(node): RedBlackTreeNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:469](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L469)
-
-(Internal) In-order predecessor of a node in a BST.
-
-#### Parameters
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-#### Returns
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_replaceNode()
-
-```ts
-protected _replaceNode(oldNode, newNode): RedBlackTreeNode<K, V>;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1433](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1433)
-
-(Internal) Replace a node in place while preserving its color.
-
-#### Parameters
-
-##### oldNode
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-##### newNode
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-#### Returns
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-#### Remarks
-
-Time O(1) average, Space O(1)
-
-#### Overrides
-
-[`BST`](BST.md).[`_replaceNode`](BST.md#replacenode)
-
-***
-
-### \_resolveDisplayLeaf()
-
-```ts
-protected _resolveDisplayLeaf(
-   node, 
-   options, 
-   emptyDisplayLayout): NodeDisplayLayout;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3058](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3058)
-
-Resolve a display leaf node to its layout.
-
-#### Parameters
-
-##### node
-
-[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\> \| `null` \| `undefined`
-
-##### options
-
-`BinaryTreePrintOptions`
-
-##### emptyDisplayLayout
-
-`NodeDisplayLayout`
-
-#### Returns
-
-`NodeDisplayLayout`
-
-#### Inherited from
-
-[`BST`](BST.md).[`_resolveDisplayLeaf`](BST.md#resolvedisplayleaf)
-
-***
-
-### \_rightRotate()
-
-```ts
-protected _rightRotate(y): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1694](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1694)
-
-(Protected) Perform a right rotation around y.
-
-#### Parameters
-
-##### y
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-Pivot node to rotate around.
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_setKV()
-
-```ts
-protected _setKV(key, nextValue?): boolean;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:692](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L692)
-
-(Internal) Boolean wrapper around `_setKVNode`.
-
-Includes a map-mode update fast-path:
-- If `isMapMode=true` and the key already exists in `_store`, then updating the value does not
-  require any tree search/rotation (tree shape depends only on key).
-- This path is intentionally limited to `nextValue !== undefined` to preserve existing
-  semantics for `undefined` values.
-
-#### Parameters
-
-##### key
-
-`K`
-
-##### nextValue?
-
-`V`
-
-#### Returns
-
-`boolean`
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_setKVNode()
-
-```ts
-protected _setKVNode(key, nextValue?): 
-  | {
-  created: boolean;
-  node: RedBlackTreeNode<K, V>;
-}
-  | undefined;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:566](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L566)
-
-(Internal) Core set implementation returning the affected node.
-
-Hot path goals:
-- Avoid double walks (search+insert): do a single traversal that either updates or inserts.
-- Use header min/max caches to fast-path boundary inserts.
-- Keep header._left/_right as canonical min/max pointers.
-
-Return value:
-- `{ node, created:false }` when an existing key is updated
-- `{ node, created:true }` when a new node is inserted
-- `undefined` only on unexpected internal failure.
-
-#### Parameters
-
-##### key
-
-`K`
-
-##### nextValue?
-
-`V`
-
-#### Returns
-
-  \| \{
-  `created`: `boolean`;
-  `node`: [`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>;
-\}
-  \| `undefined`
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_setMaxCache()
-
-```ts
-protected _setMaxCache(node): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:547](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L547)
-
-(Internal) Update max cache pointers (header._right is the canonical max pointer).
-
-#### Parameters
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_setMinCache()
-
-```ts
-protected _setMinCache(node): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:538](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L538)
-
-(Internal) Update min cache pointers (header._left is the canonical min pointer).
-
-#### Parameters
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_setRoot()
-
-```ts
-protected _setRoot(v): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1418](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1418)
-
-(Internal) Set the root pointer and keep header.parent in sync.
-
-#### Parameters
-
-##### v
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-#### Returns
-
-`void`
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Overrides
-
-[`BST`](BST.md).[`_setRoot`](BST.md#setroot)
-
-***
-
-### \_setValue()
-
-```ts
-protected _setValue(key, value): boolean;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3237)
-
-(Protected) Sets a value in the external store (Map mode).
-
-#### Parameters
-
-##### key
-
-`K` \| `null` \| `undefined`
-
-The key.
-
-##### value
-
-`V` \| `undefined`
-
-The value.
-
-#### Returns
-
-`boolean`
-
-True if successful.
-
-#### Remarks
-
-Time O(1) (average for Map.set).
-
-#### Inherited from
-
-[`BST`](BST.md).[`_setValue`](BST.md#setvalue)
-
-***
-
-### \_snapshotOptions()
-
-```ts
-protected _snapshotOptions<TK, TV, TR>(): BSTOptions<TK, TV, TR>;
-```
-
-Defined in: [data-structures/binary-tree/bst.ts:2612](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2612)
-
-(Protected) Snapshots the current BST's configuration options.
-
-#### Type Parameters
-
-##### TK
-
-`TK` = `K`
-
-##### TV
-
-`TV` = `V`
-
-##### TR
-
-`TR` = `R`
-
-#### Returns
-
-`BSTOptions`\<`TK`, `TV`, `TR`\>
-
-The options object.
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_snapshotOptions`](BST.md#snapshotoptions)
-
-***
-
-### \_successorOf()
-
-```ts
-protected _successorOf(node): RedBlackTreeNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:489](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L489)
-
-(Internal) In-order successor of a node in a BST.
-
-#### Parameters
-
-##### node
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-#### Returns
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-#### Remarks
-
-Time O(log n) average, Space O(1)
-
-***
-
-### \_swapProperties()
-
-```ts
-protected _swapProperties(srcNode, destNode): BinaryTreeNode<K, V> | undefined;
-```
-
-Defined in: [data-structures/binary-tree/binary-tree.ts:3084](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L3084)
-
-(Protected) Swaps the key/value properties of two nodes.
-
-#### Parameters
-
-##### srcNode
-
-  \| `K`
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| [`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>
-  \| `null`
-  \| `undefined`
-
-The source node.
-
-##### destNode
-
-  \| `K`
-  \| \[`K` \| `null` \| `undefined`, `V` \| `undefined`\]
-  \| [`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\>
-  \| `null`
-  \| `undefined`
-
-The destination node.
-
-#### Returns
-
-[`BinaryTreeNode`](BinaryTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-The `destNode` (now holding `srcNode`'s properties).
-
-#### Remarks
-
-Time O(1)
-
-#### Inherited from
-
-[`BST`](BST.md).[`_swapProperties`](BST.md#swapproperties)
-
-***
-
-### \_transplant()
-
-```ts
-protected _transplant(u, v): void;
-```
-
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1494](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1494)
-
-(Protected) Transplant a subtree in place of another during deletion.
-
-#### Parameters
-
-##### u
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\>
-
-Node to replace.
-
-##### v
-
-[`RedBlackTreeNode`](RedBlackTreeNode.md)\<`K`, `V`\> \| `undefined`
-
-Replacement subtree root (may be undefined).
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L22)
+Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L22)
 
 Default iterator yielding `[key, value]` entries.
 
@@ -2142,7 +434,7 @@ IBinaryTree.[iterator]
 add(keyNodeOrEntry): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:597](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L597)
+Defined in: [data-structures/binary-tree/binary-tree.ts:600](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L600)
 
 Adds a new node to the tree.
 
@@ -2199,7 +491,7 @@ IBinaryTree.add
 addMany(keysNodesEntriesOrRaws): boolean[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:748](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L748)
+Defined in: [data-structures/binary-tree/binary-tree.ts:757](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L757)
 
 Adds multiple items to the tree.
 
@@ -2279,7 +571,7 @@ The traversal method.
 bfs(): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:571](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L571)
+Defined in: [data-structures/binary-tree/bst.ts:583](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L583)
 
 BinaryTree level-order traversal
 
@@ -2316,7 +608,7 @@ bfs<C>(
    iterationType?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:572](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L572)
+Defined in: [data-structures/binary-tree/bst.ts:584](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L584)
 
 BinaryTree level-order traversal
 
@@ -2377,7 +669,7 @@ IBinaryTree.bfs
 ceiling(keyNodeEntryOrPredicate): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1361](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1361)
+Defined in: [data-structures/binary-tree/bst.ts:1412](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1412)
 
 Returns the first key with a value >= target.
 Equivalent to Java TreeMap.ceiling.
@@ -2421,7 +713,7 @@ ceiling<C>(
 iterationType?): ReturnType<C>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1376](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1376)
+Defined in: [data-structures/binary-tree/bst.ts:1427](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1427)
 
 Returns the first node with a key >= target and applies callback.
 Time Complexity: O(log n) average, O(h) worst case.
@@ -2475,7 +767,7 @@ console.log(rbt.ceiling(25)); // 30
 clear(): void;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:436](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L436)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:448](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L448)
 
 Remove all nodes and clear internal caches.
 
@@ -2515,7 +807,7 @@ IBinaryTree.clear
 clone(): this;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2455](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2455)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2521](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2521)
 
 Clones the tree.
 
@@ -2561,7 +853,7 @@ createNode(
 color?): RedBlackTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:317](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L317)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:317](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L317)
 
 Create a red-black node for the given key/value (value ignored in map mode).
 
@@ -2613,7 +905,7 @@ IBinaryTree.createNode
 createTree(options?): this;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:408](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L408)
+Defined in: [data-structures/binary-tree/binary-tree.ts:408](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L408)
 
 Creates a new, empty tree of the same type and configuration.
 
@@ -2653,7 +945,7 @@ IBinaryTree.createTree
 delete(keyNodeEntryRawOrPredicate): BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[];
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1091](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1091)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:1127](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L1127)
 
 Delete a node by key/node/entry and rebalance as needed.
 
@@ -2709,7 +1001,7 @@ deleteWhere(
    iterationType?): BinaryTreeDeleteResult<BSTNode<K, V>>[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:2099](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L2099)
+Defined in: [data-structures/binary-tree/bst.ts:2171](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L2171)
 
 Deletes nodes that match a key, node, entry, predicate, or range.
 
@@ -2820,7 +1112,7 @@ The traversal method.
 dfs(): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:491](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L491)
+Defined in: [data-structures/binary-tree/bst.ts:497](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L497)
 
 Depth-first search traversal
 
@@ -2859,7 +1151,7 @@ dfs<C>(
    iterationType?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:493](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L493)
+Defined in: [data-structures/binary-tree/bst.ts:499](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L499)
 
 Depth-first search traversal
 
@@ -2926,7 +1218,7 @@ IBinaryTree.dfs
 ensureNode(keyNodeOrEntry, iterationType?): OptNode<BSTNode<K, V>>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:404](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L404)
+Defined in: [data-structures/binary-tree/bst.ts:404](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L404)
 
 Ensures the input is a node. If it's a key or entry, it searches for the node.
 
@@ -2970,7 +1262,7 @@ Time O(log N) (height of the tree), O(N) worst-case.
 entries(): IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L31)
+Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L31)
 
 Iterate over `[key, value]` pairs (may yield `undefined` values).
 
@@ -3009,7 +1301,7 @@ IBinaryTree.entries
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L66)
+Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L66)
 
 Test whether all entries satisfy the predicate.
 
@@ -3062,7 +1354,7 @@ IBinaryTree.every
 filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2496](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2496)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2565](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2565)
 
 Creates a new tree containing only the entries that satisfy the predicate.
 
@@ -3118,7 +1410,7 @@ IBinaryTree.filter
 find(callbackfn, thisArg?): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L114)
+Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L114)
 
 Find the first entry that matches a predicate.
 
@@ -3174,7 +1466,7 @@ IBinaryTree.find
 floor(keyNodeEntryOrPredicate): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1550](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1550)
+Defined in: [data-structures/binary-tree/bst.ts:1607](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1607)
 
 Returns the first key with a value <= target.
 Equivalent to Java TreeMap.floor.
@@ -3218,7 +1510,7 @@ floor<C>(
 iterationType?): ReturnType<C>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1565](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1565)
+Defined in: [data-structures/binary-tree/bst.ts:1622](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1622)
 
 Returns the first node with a key <= target and applies callback.
 Time Complexity: O(log n) average, O(h) worst case.
@@ -3272,7 +1564,7 @@ console.log(rbt.floor(25)); // 20
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L99)
+Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L99)
 
 Visit each entry, left-to-right.
 
@@ -3328,7 +1620,7 @@ get(
    iterationType?): V | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1239](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1239)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1269](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1269)
 
 Gets the value associated with a key.
 
@@ -3396,7 +1688,7 @@ IBinaryTree.get
 getDepth(dist, startNode?): number;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1545](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1545)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1590](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1590)
 
 Gets the depth of a node (distance from `startNode`).
 
@@ -3451,7 +1743,7 @@ IBinaryTree.getDepth
 getHeight(startNode?, iterationType?): number;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1598](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1598)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1646](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1646)
 
 Gets the maximum height of the tree (longest path from startNode to a leaf).
 
@@ -3533,7 +1825,7 @@ The traversal method.
 getLeftMost(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1725](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1725)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1773](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1773)
 
 ##### Returns
 
@@ -3558,7 +1850,7 @@ getLeftMost<C>(
 iterationType?): ReturnType<C>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1727](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1727)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1775](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1775)
 
 ##### Type Parameters
 
@@ -3605,7 +1897,7 @@ IBinaryTree.getLeftMost
 getMinHeight(startNode?, iterationType?): number;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1640](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1640)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1688](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1688)
 
 Gets the minimum height of the tree (shortest path from startNode to a leaf).
 
@@ -3657,7 +1949,7 @@ getNode(
 iterationType?): OptNode<BSTNode<K, V>>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:736](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L736)
+Defined in: [data-structures/binary-tree/bst.ts:760](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L760)
 
 Gets the first node matching a predicate.
 
@@ -3727,7 +2019,7 @@ getNodes(
    iterationType?): BinaryTreeNode<K, V>[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1117](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1117)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1141](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1141)
 
 Gets all nodes matching a predicate.
 
@@ -3821,7 +2113,7 @@ If true, returns the path from root-to-node.
 getPathToRoot(beginNode): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1687](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1687)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1735](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1735)
 
 ##### Parameters
 
@@ -3856,7 +2148,7 @@ getPathToRoot<C>(
    isReverse?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1691](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1691)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1739](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1739)
 
 ##### Type Parameters
 
@@ -3904,7 +2196,7 @@ IBinaryTree.getPathToRoot
 getPredecessor(node): BinaryTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1825](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1825)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1873](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1873)
 
 Gets the Morris traversal predecessor (rightmost node in the left subtree, or node itself).
 
@@ -3962,7 +2254,7 @@ The traversal method.
 getRightMost(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1772](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1772)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1820](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1820)
 
 ##### Returns
 
@@ -3987,7 +2279,7 @@ getRightMost<C>(
 iterationType?): ReturnType<C>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1774](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1774)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1822](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1822)
 
 ##### Type Parameters
 
@@ -4034,7 +2326,7 @@ IBinaryTree.getRightMost
 getSuccessor(x?): BinaryTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1846](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1846)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1894](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1894)
 
 Gets the in-order successor of a node in a BST.
 
@@ -4071,7 +2363,7 @@ has(
    iterationType?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1313](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1313)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1346](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1346)
 
 Checks if a node matching the predicate exists in the tree.
 
@@ -4140,7 +2432,7 @@ IBinaryTree.has
 hasValue(value): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L143)
+Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L143)
 
 Whether there exists an entry with the given value.
 
@@ -4182,7 +2474,7 @@ IBinaryTree.hasValue
 higher(keyNodeEntryOrPredicate): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1455](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1455)
+Defined in: [data-structures/binary-tree/bst.ts:1509](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1509)
 
 Returns the first key with a value > target.
 Equivalent to Java TreeMap.higher.
@@ -4226,7 +2518,7 @@ higher<C>(
 iterationType?): ReturnType<C>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1470](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1470)
+Defined in: [data-structures/binary-tree/bst.ts:1524](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1524)
 
 Returns the first node with a key > target and applies callback.
 Time Complexity: O(log n) average, O(h) worst case.
@@ -4280,7 +2572,7 @@ console.log(rbt.higher(20)); // 30
 isAVLBalanced(iterationType?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1942](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1942)
+Defined in: [data-structures/binary-tree/bst.ts:2008](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L2008)
 
 Checks if the tree meets the AVL balance condition (height difference <= 1).
 
@@ -4324,7 +2616,7 @@ console.log(typeof rbt.isAVLBalanced()); // 'boolean'
 isBST(startNode?, iterationType?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1465](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1465)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1507](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1507)
 
 Checks if the tree is a valid Binary Search Tree (BST).
 
@@ -4382,7 +2674,7 @@ IBinaryTree.isBST
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1413](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1413)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1452](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1452)
 
 Checks if the tree is empty.
 
@@ -4422,7 +2714,7 @@ IBinaryTree.isEmpty
 isEntry(keyNodeOrEntry): keyNodeOrEntry is BTNEntry<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:545](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L545)
+Defined in: [data-structures/binary-tree/binary-tree.ts:545](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L545)
 
 Checks if the given item is a [key, value] entry pair.
 
@@ -4460,7 +2752,7 @@ Time O(1), Space O(1)
 isLeaf(keyNodeOrEntry): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:531](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L531)
+Defined in: [data-structures/binary-tree/binary-tree.ts:531](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L531)
 
 Checks if a node is a leaf (has no real children).
 
@@ -4498,7 +2790,7 @@ Time O(N) if a key/entry is passed (due to `ensureNode`). O(1) if a node is pass
 isNIL(keyNodeOrEntry): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:500](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L500)
+Defined in: [data-structures/binary-tree/binary-tree.ts:500](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L500)
 
 Checks if the given item is the sentinel NIL node.
 
@@ -4536,7 +2828,7 @@ Time O(1), Space O(1)
 isNode(keyNodeOrEntry): keyNodeOrEntry is RedBlackTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:328](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L328)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:328](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L328)
 
 Type guard: check whether the input is a RedBlackTreeNode.
 
@@ -4574,7 +2866,7 @@ Time O(1), Space O(1)
 isPerfectlyBalanced(startNode?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:1424](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L1424)
+Defined in: [data-structures/binary-tree/binary-tree.ts:1463](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L1463)
 
 Checks if the tree is perfectly balanced.
 
@@ -4617,7 +2909,7 @@ IBinaryTree.isPerfectlyBalanced
 isRange(keyNodeEntryOrPredicate): keyNodeEntryOrPredicate is Range<K>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:511](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L511)
+Defined in: [data-structures/binary-tree/binary-tree.ts:511](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L511)
 
 Checks if the given item is a `Range` object.
 
@@ -4657,7 +2949,7 @@ Time O(1), Space O(1)
 isRaw(keyNodeEntryOrRaw): keyNodeEntryOrRaw is R;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:460](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L460)
+Defined in: [data-structures/binary-tree/binary-tree.ts:460](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L460)
 
 Checks if the given item is a raw data object (R) that needs conversion via `toEntryFn`.
 
@@ -4696,7 +2988,7 @@ Time O(1), Space O(1)
 isRealNode(keyNodeOrEntry): keyNodeOrEntry is BinaryTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:473](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L473)
+Defined in: [data-structures/binary-tree/binary-tree.ts:473](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L473)
 
 Checks if the given item is a "real" node (i.e., not null, undefined, or NIL).
 
@@ -4734,7 +3026,7 @@ Time O(1), Space O(1)
 isRealNodeOrNull(keyNodeOrEntry): keyNodeOrEntry is BinaryTreeNode<K, V> | null;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:487](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L487)
+Defined in: [data-structures/binary-tree/binary-tree.ts:487](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L487)
 
 Checks if the given item is either a "real" node or null.
 
@@ -4772,7 +3064,7 @@ Time O(1), Space O(1)
 isValidKey(key): key is K;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:431](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L431)
+Defined in: [data-structures/binary-tree/bst.ts:431](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L431)
 
 Checks if the given key is valid (comparable).
 
@@ -4806,7 +3098,7 @@ Time O(1)
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L42)
+Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L42)
 
 Iterate over keys only.
 
@@ -4869,7 +3161,7 @@ The traversal method.
 leaves(): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2107](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2107)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2164](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2164)
 
 Get leaf nodes
 
@@ -4906,7 +3198,7 @@ leaves<C>(
    iterationType?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2109)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2166](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2166)
 
 Get leaf nodes
 
@@ -4993,7 +3285,7 @@ The traversal method.
 lesserOrGreaterTraverse(): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1790](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1790)
+Defined in: [data-structures/binary-tree/bst.ts:1850](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1850)
 
 ##### Returns
 
@@ -5013,7 +3305,7 @@ lesserOrGreaterTraverse<C>(
    iterationType?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1792](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1792)
+Defined in: [data-structures/binary-tree/bst.ts:1852](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1852)
 
 ##### Type Parameters
 
@@ -5082,7 +3374,7 @@ The traversal method.
 listLevels(): (K | undefined)[][];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:650](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L650)
+Defined in: [data-structures/binary-tree/bst.ts:668](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L668)
 
 Level-order grouping
 
@@ -5122,7 +3414,7 @@ listLevels<C>(
    iterationType?): ReturnType<C>[][];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:652](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L652)
+Defined in: [data-structures/binary-tree/bst.ts:670](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L670)
 
 Level-order grouping
 
@@ -5186,7 +3478,7 @@ IBinaryTree.listLevels
 lower(keyNodeEntryOrPredicate): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1687](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1687)
+Defined in: [data-structures/binary-tree/bst.ts:1747](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1747)
 
 Returns the first key with a value < target.
 Equivalent to Java TreeMap.lower.
@@ -5230,7 +3522,7 @@ lower<C>(
 iterationType?): ReturnType<C>;
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1702](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1702)
+Defined in: [data-structures/binary-tree/bst.ts:1762](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1762)
 
 Returns the first node with a key < target and applies callback.
 Time Complexity: O(log n) average, O(h) worst case.
@@ -5287,7 +3579,7 @@ map<MK, MV, MR>(
 thisArg?): RedBlackTree<MK, MV, MR>;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1371](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1371)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:1428](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L1428)
 
 Transform to new tree
 
@@ -5351,7 +3643,7 @@ IBinaryTree.map
 merge(anotherTree): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:847](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L847)
+Defined in: [data-structures/binary-tree/binary-tree.ts:862](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L862)
 
 Merges another tree into this one by seting all its nodes.
 
@@ -5424,7 +3716,7 @@ The node to start from.
 morris(): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2303](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2303)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2366](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2366)
 
 Morris traversal (O(1) space)
 
@@ -5461,7 +3753,7 @@ morris<C>(
    startNode?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2305](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2305)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2368](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2368)
 
 Morris traversal (O(1) space)
 
@@ -5520,7 +3812,7 @@ IBinaryTree.morris
 perfectlyBalance(_iterationType?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:1262](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L1262)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:1307](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L1307)
 
 Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
 sorted bulk insert, which naturally produces a balanced RBT.
@@ -5561,7 +3853,7 @@ console.log(rbt.isAVLBalanced()); // true
 print(options?, startNode?): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2620](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2620)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2695](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2695)
 
 Prints a visual representation of the tree to the console.
 
@@ -5638,7 +3930,7 @@ The traversal method.
 rangeSearch(range): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1025](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1025)
+Defined in: [data-structures/binary-tree/bst.ts:1058](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1058)
 
 Find all keys in a range
 
@@ -5675,7 +3967,7 @@ rangeSearch<C>(
    iterationType?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1027](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1027)
+Defined in: [data-structures/binary-tree/bst.ts:1060](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1060)
 
 Find all keys in a range
 
@@ -5731,7 +4023,7 @@ console.log(rbt.rangeSearch([15, 35])); // [20, 30]
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L171)
+Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L171)
 
 Reduce entries into a single accumulator.
 
@@ -5791,7 +4083,7 @@ IBinaryTree.reduce
 refill(keysNodesEntriesOrRaws, values?): void;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:858](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L858)
+Defined in: [data-structures/binary-tree/binary-tree.ts:873](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L873)
 
 Clears the tree and refills it with new items.
 
@@ -5875,7 +4167,7 @@ Whether to use 'RECURSIVE' or 'ITERATIVE' search.
 search(keyNodeEntryOrPredicate, onlyOne?): (K | undefined)[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:842](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L842)
+Defined in: [data-structures/binary-tree/bst.ts:872](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L872)
 
 Search nodes by predicate
 
@@ -5930,7 +4222,7 @@ search<C>(
    iterationType?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:854](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L854)
+Defined in: [data-structures/binary-tree/bst.ts:884](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L884)
 
 Search nodes by predicate
 
@@ -6003,7 +4295,7 @@ IBinaryTree.search
 set(keyNodeOrEntry, value?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:934](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L934)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:958](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L958)
 
 Insert or update a key/value (map mode) or key-only (set mode).
 
@@ -6077,7 +4369,7 @@ setMany(
    iterationType?): boolean[];
 ```
 
-Defined in: [data-structures/binary-tree/bst.ts:1233](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/bst.ts#L1233)
+Defined in: [data-structures/binary-tree/bst.ts:1281](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/bst.ts#L1281)
 
 Adds multiple items to the tree.
 
@@ -6144,7 +4436,7 @@ setWithHint(
    hint?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:816](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L816)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:828](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L828)
 
 Boolean wrapper for setWithHintNode.
 
@@ -6181,7 +4473,7 @@ setWithHintNode(
    hint?): RedBlackTreeNode<K, V> | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:716](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L716)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:728](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L728)
 
 Insert/update using a hint node to speed up nearby insertions.
 
@@ -6222,7 +4514,7 @@ Time O(log n) average, Space O(1)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L83)
+Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L83)
 
 Test whether any entry satisfies the predicate.
 
@@ -6275,7 +4567,7 @@ IBinaryTree.some
 toArray(): [K, V | undefined][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L186)
+Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L186)
 
 Converts data structure to `[key, value]` pairs.
 
@@ -6308,7 +4600,7 @@ console.log(rbt.toArray().map(([k]) => k)); // [10, 20, 30]
 toVisual(startNode?, options?): string;
 ```
 
-Defined in: [data-structures/binary-tree/binary-tree.ts:2561](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/binary-tree.ts#L2561)
+Defined in: [data-structures/binary-tree/binary-tree.ts:2633](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/binary-tree.ts#L2633)
 
 Generates a string representation of the tree for visualization.
 
@@ -6351,7 +4643,7 @@ Time O(N), visits every node. Space O(N*H) or O(N^2) in the worst case, as the s
 values(): IterableIterator<V | undefined>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L53)
+Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L53)
 
 Iterate over values only.
 

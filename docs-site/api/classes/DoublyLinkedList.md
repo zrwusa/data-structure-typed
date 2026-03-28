@@ -6,7 +6,7 @@
 
 # Class: DoublyLinkedList\<E, R\>
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:150](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L150)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:150](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L150)
 
 Doubly linked list with O(1) push/pop/unshift/shift and linear scans.
 
@@ -112,7 +112,7 @@ Caution: Although our linked list classes provide methods such as at, setAt, add
 new DoublyLinkedList<E, R>(elements?, options?): DoublyLinkedList<E, R>;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:161](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L161)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:161](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L161)
 
 Create a DoublyLinkedList and optionally bulk-insert elements.
 
@@ -148,36 +148,6 @@ Time O(N), Space O(N)
 LinearLinkedBase<E, R, DoublyLinkedListNode<E>>.constructor
 ```
 
-## Properties
-
-### \_toElementFn?
-
-```ts
-protected optional _toElementFn?: (rawElement) => E;
-```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_toElementFn`](LinearLinkedBase.md#toelementfn)
-
 ## Accessors
 
 ### first
@@ -188,7 +158,7 @@ Time O(1), Space O(1).
 get first(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:219](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L219)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:219](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L219)
 
 Get the first element value.
 
@@ -212,7 +182,7 @@ First element or undefined.
 get head(): DoublyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L185)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L185)
 
 Get the head node.
 
@@ -236,7 +206,7 @@ Head node or undefined.
 get last(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:229](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L229)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:229](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L229)
 
 Get the last element value.
 
@@ -260,7 +230,7 @@ Last element or undefined.
 get length(): number;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:209](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L209)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:209](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L209)
 
 Get the number of elements.
 
@@ -288,7 +258,7 @@ Current length.
 get maxLen(): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L100)
+Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L100)
 
 Upper bound for length (if positive), or `-1` when unbounded.
 
@@ -316,7 +286,7 @@ Maximum allowed length.
 get tail(): DoublyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:197](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L197)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:197](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L197)
 
 Get the tail node.
 
@@ -340,7 +310,7 @@ Tail node or undefined.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -360,269 +330,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1287](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1287)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`LinearBaseOptions`\<`E`, `R`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`this`
-
-An empty like-kind list instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_createInstance`](LinearLinkedBase.md#createinstance)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<EM, RM>(elements?, options?): DoublyLinkedList<EM, RM>;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1305](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1305)
-
-(Protected) Create a like-kind instance and seed it from an iterable.
-
-#### Type Parameters
-
-##### EM
-
-`EM` = `E`
-
-##### RM
-
-`RM` = `R`
-
-#### Parameters
-
-##### elements?
-
-  \| `Iterable`\<`EM`, `any`, `any`\>
-  \| `Iterable`\<`RM`, `any`, `any`\>
-  \| `Iterable`\<[`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`EM`\>, `any`, `any`\>
-
-Iterable used to seed the new list.
-
-##### options?
-
-`DoublyLinkedListOptions`\<`EM`, `RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`DoublyLinkedList`\<`EM`, `RM`\>
-
-A like-kind DoublyLinkedList instance.
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_ensureNode()
-
-```ts
-protected _ensureNode(elementOrNode): DoublyLinkedListNode<E>;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1243](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1243)
-
-(Protected) Create or return a node for the given input (node or raw element).
-
-#### Parameters
-
-##### elementOrNode
-
-`E` \| [`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`E`\>
-
-Element value or node to normalize.
-
-#### Returns
-
-[`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`E`\>
-
-A DoublyLinkedListNode for the provided input.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_ensurePredicate()
-
-```ts
-protected _ensurePredicate(elementNodeOrPredicate): (node) => boolean;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1255](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1255)
-
-(Protected) Normalize input into a predicate over nodes.
-
-#### Parameters
-
-##### elementNodeOrPredicate
-
-  \| `E`
-  \| [`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`E`\>
-  \| ((`node`) => `boolean`)
-
-Element, node, or node predicate.
-
-#### Returns
-
-A predicate function taking a node and returning true/false.
-
-(`node`) => `boolean`
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1316](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1316)
-
-Internal iterator factory used by the default iterator.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-An iterator over elements.
-
-#### Remarks
-
-Implementations should yield in O(1) per element with O(1) extra space when possible.
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getIterator`](LinearLinkedBase.md#getiterator)
-
-***
-
-### \_getNodeIterator()
-
-```ts
-protected _getNodeIterator(): IterableIterator<DoublyLinkedListNode<E>>;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1332](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1332)
-
-Iterate linked nodes from head to tail.
-
-#### Returns
-
-`IterableIterator`\<[`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`E`\>\>
-
-Iterator over nodes.
-
-#### Remarks
-
-Time O(n), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getNodeIterator`](LinearLinkedBase.md#getnodeiterator)
-
-***
-
-### \_getPrevNode()
-
-```ts
-protected _getPrevNode(node): DoublyLinkedListNode<E> | undefined;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1276](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1276)
-
-(Protected) Get the previous node of a given node.
-
-#### Parameters
-
-##### node
-
-[`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`E`\>
-
-A node in the list.
-
-#### Returns
-
-[`DoublyLinkedListNode`](DoublyLinkedListNode.md)\<`E`\> \| `undefined`
-
-Previous node or undefined.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getPrevNode`](LinearLinkedBase.md#getprevnode)
-
-***
-
-### \_getReverseIterator()
-
-```ts
-protected _getReverseIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1324](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1324)
-
-Reverse-direction iterator over elements.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of elements from tail to head.
-
-#### Remarks
-
-Time O(n), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getReverseIterator`](LinearLinkedBase.md#getreverseiterator)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -656,7 +370,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 addAfter(existingElementOrNode, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:724](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L724)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:745](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L745)
 
 Insert a new element/node after an existing one.
 
@@ -696,7 +410,7 @@ Time O(N), Space O(1)
 addAt(index, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:673](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L673)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:694](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L694)
 
 Insert a new element/node at an index, shifting following nodes.
 
@@ -746,7 +460,7 @@ console.log(list.toArray()); // [1, 2, 3]
 addBefore(existingElementOrNode, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:697](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L697)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:718](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L718)
 
 Insert a new element/node before an existing one.
 
@@ -786,7 +500,7 @@ Time O(N), Space O(1)
 at(index): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:554](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L554)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:569](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L569)
 
 Get the element at a given index.
 
@@ -830,7 +544,7 @@ console.log(list.at(2)); // 'c'
 clear(): void;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:919](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L919)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:952](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L952)
 
 Remove all nodes and reset length.
 
@@ -866,7 +580,7 @@ console.log(list.isEmpty()); // true
 clone(): this;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1108](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1108)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1153](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1153)
 
 Deep clone this list (values are copied by reference).
 
@@ -903,7 +617,7 @@ console.log(list.length); // 3
 concat(...items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:473](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L473)
+Defined in: [data-structures/base/linear-base.ts:473](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L473)
 
 Concatenate lists/elements preserving order.
 
@@ -939,7 +653,7 @@ Time O(sum(length)), Space O(sum(length))
 delete(elementOrNode?): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:835](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L835)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:862](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L862)
 
 Delete the first match by value/node.
 
@@ -983,7 +697,7 @@ console.log(list.toArray()); // [1, 3, 2]
 deleteAt(index): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:788](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L788)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:812](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L812)
 
 Delete the element at an index.
 
@@ -1027,7 +741,7 @@ console.log(list.toArray()); // ['a', 'c']
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -1077,7 +791,7 @@ fill(
    end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L292)
+Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L292)
 
 Fill a range with a value.
 
@@ -1123,7 +837,7 @@ Time O(n), Space O(1)
 filter(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1151)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1199](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1199)
 
 Filter values into a new list of the same class.
 
@@ -1175,7 +889,7 @@ console.log([...evens]); // [2, 4]
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1228,7 +942,7 @@ console.log(list.find(x => x > 1)); // 2
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1277,7 +991,7 @@ console.log(list.find(x => x > 1)); // 2
 findIndex(predicate, thisArg?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L151)
+Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L151)
 
 Find the first index matching a predicate.
 
@@ -1317,7 +1031,7 @@ Time O(n), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -1357,7 +1071,7 @@ Time O(n), Space O(1).
 getBackward(elementNodeOrPredicate): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1004](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1004)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1043](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1043)
 
 Find the first value matching a predicate scanning backward.
 
@@ -1400,7 +1114,7 @@ console.log(found); // 3
 getNode(elementNodeOrPredicate?): DoublyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:607](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L607)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:625](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L625)
 
 Find a node by value, reference, or predicate.
 
@@ -1432,7 +1146,7 @@ Time O(N), Space O(1)
 getNodeAt(index): DoublyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:593](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L593)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:611](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L611)
 
 Get the node reference at a given index.
 
@@ -1475,7 +1189,7 @@ console.log(list.getNodeAt(1)?.value); // 'b'
 has(element): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L188)
+Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L188)
 
 Checks whether a strictly-equal element exists in the structure.
 
@@ -1516,7 +1230,7 @@ console.log(list.has(2)); // true
 indexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:422](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L422)
+Defined in: [data-structures/base/linear-base.ts:422](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L422)
 
 Linked-list optimized `indexOf` (forwards scan).
 
@@ -1563,7 +1277,7 @@ console.log(list.indexOf('b')); // 1
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:882](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L882)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:912](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L912)
 
 Check whether the list is empty.
 
@@ -1597,7 +1311,7 @@ console.log(new DoublyLinkedList().isEmpty()); // true
 isNode(elementNodeOrPredicate): elementNodeOrPredicate is DoublyLinkedListNode<E>;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:260](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L260)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:260](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L260)
 
 Type guard: check whether the input is a DoublyLinkedListNode.
 
@@ -1629,7 +1343,7 @@ Time O(1), Space O(1)
 join(separator?): string;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L228)
+Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L228)
 
 Join all elements into a string.
 
@@ -1663,7 +1377,7 @@ Time O(n), Space O(n)
 lastIndexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:448](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L448)
+Defined in: [data-structures/base/linear-base.ts:448](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L448)
 
 Linked-list optimized `lastIndexOf` (reverse scan).
 
@@ -1706,7 +1420,7 @@ map<EM, RM>(
 thisArg?): DoublyLinkedList<EM, RM>;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1225](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1225)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1276](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1276)
 
 Map values into a new list (possibly different element type).
 
@@ -1781,7 +1495,7 @@ console.log(result); // [1, 2, 3, 4, 5]
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1166](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1166)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1214](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1214)
 
 Map values into a new list of the same class.
 
@@ -1821,7 +1535,7 @@ Time O(N), Space O(N)
 pop(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:372](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L372)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:378](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L378)
 
 Remove and return the tail element.
 
@@ -1863,7 +1577,7 @@ console.log(list.length); // 3
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1895,7 +1609,7 @@ const list = new DoublyLinkedList<number>([1, 2, 3]);
 push(elementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:312](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L312)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:315](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L315)
 
 Append an element/node to the tail.
 
@@ -1949,7 +1663,7 @@ console.log([...list]); // [1, 2, 3, 4, 5, 6]
 pushMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:493](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L493)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:505](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L505)
 
 Append a sequence of elements/nodes.
 
@@ -2017,7 +1731,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -2047,7 +1761,7 @@ console.log(sum); // 6
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -2081,7 +1795,7 @@ console.log(sum); // 6
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -2123,7 +1837,7 @@ console.log(sum); // 6
 reduceRight<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:574](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L574)
+Defined in: [data-structures/base/linear-base.ts:574](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L574)
 
 Right-to-left reduction using reverse iterator.
 
@@ -2169,7 +1883,7 @@ Time O(n), Space O(1)
 reverse(): this;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1051](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1051)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1093](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1093)
 
 Reverse the list in place.
 
@@ -2205,7 +1919,7 @@ console.log([...list]); // [3, 2, 1]
 search(elementNodeOrPredicate): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:958](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L958)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:994](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L994)
 
 Find the first value matching a predicate scanning forward.
 
@@ -2247,7 +1961,7 @@ console.log(found); // 20
 setAt(index, value): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:748](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L748)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:769](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L769)
 
 Set the element value at an index.
 
@@ -2287,7 +2001,7 @@ Time O(N), Space O(1)
 setEquality(equals): this;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:1069](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L1069)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:1111](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L1111)
 
 Set the equality comparator used to compare values.
 
@@ -2317,7 +2031,7 @@ Time O(1), Space O(1)
 shift(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:421](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L421)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:430](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L430)
 
 Remove and return the head element.
 
@@ -2349,7 +2063,7 @@ console.log(list.first); // 20
 slice(start?, end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:494](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L494)
+Defined in: [data-structures/base/linear-base.ts:494](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L494)
 
 Slice via forward iteration (no random access required).
 
@@ -2389,7 +2103,7 @@ Time O(n), Space O(n)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -2436,7 +2150,7 @@ console.log(list.some(x => x > 3)); // true
 sort(compareFn?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L185)
+Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L185)
 
 In-place stable order via array sort semantics.
 
@@ -2481,7 +2195,7 @@ splice(
    items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:522](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L522)
+Defined in: [data-structures/base/linear-base.ts:522](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L522)
 
 Splice by walking node iterators from the start index.
 
@@ -2527,7 +2241,7 @@ Time O(n + m), Space O(min(n, m)) where `m = items.length`
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -2560,7 +2274,7 @@ console.log(list.toArray()); // [3, 1, 2]
 toReversedArray(): E[];
 ```
 
-Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L237)
+Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L237)
 
 Snapshot elements into a reversed array.
 
@@ -2586,7 +2300,7 @@ Time O(n), Space O(n)
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -2613,7 +2327,7 @@ Time O(n), Space O(n).
 unshift(elementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:471](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L471)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:483](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L483)
 
 Prepend an element/node to the head.
 
@@ -2653,7 +2367,7 @@ console.log([...list]); // [1, 2, 3]
 unshiftMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:509](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L509)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:521](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L521)
 
 Prepend a sequence of elements/nodes.
 
@@ -2685,7 +2399,7 @@ Time O(N), Space O(1)
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 
@@ -2718,7 +2432,7 @@ console.log([...list.values()]); // [1, 2, 3]
 static fromArray<E, R>(this, data): any;
 ```
 
-Defined in: [data-structures/linked-list/doubly-linked-list.ts:243](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/doubly-linked-list.ts#L243)
+Defined in: [data-structures/linked-list/doubly-linked-list.ts:243](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/doubly-linked-list.ts#L243)
 
 Create a new list from an array of elements.
 

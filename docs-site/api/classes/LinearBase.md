@@ -6,7 +6,7 @@
 
 # Abstract Class: LinearBase\<E, R, NODE\>
 
-Defined in: [data-structures/base/linear-base.ts:68](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L68)
+Defined in: [data-structures/base/linear-base.ts:68](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L68)
 
 Abstract linear container with array-like utilities.
 
@@ -52,7 +52,7 @@ Linked node type used by some implementations.
 new LinearBase<E, R, NODE>(options?): LinearBase<E, R, NODE>;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:78](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L78)
+Defined in: [data-structures/base/linear-base.ts:78](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L78)
 
 Construct a linear container with runtime options.
 
@@ -74,37 +74,9 @@ Time O(1), Space O(1)
 
 #### Overrides
 
-[`IterableElementBase`](IterableElementBase.md).[`constructor`](IterableElementBase.md#constructor)
-
-## Properties
-
-### \_toElementFn?
-
 ```ts
-protected optional _toElementFn?: (rawElement) => E;
+IterableElementBase<E, R>.constructor
 ```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`IterableElementBase`](IterableElementBase.md).[`_toElementFn`](IterableElementBase.md#toelementfn)
 
 ## Accessors
 
@@ -116,7 +88,7 @@ Time O(1), Space O(1).
 get abstract length(): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:91](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L91)
+Defined in: [data-structures/base/linear-base.ts:91](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L91)
 
 Element count.
 
@@ -140,7 +112,7 @@ Number of elements.
 get maxLen(): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L100)
+Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L100)
 
 Upper bound for length (if positive), or `-1` when unbounded.
 
@@ -164,7 +136,7 @@ Maximum allowed length.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -184,105 +156,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_createInstance()
-
-```ts
-abstract protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/base/linear-base.ts:385](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L385)
-
-Create an empty list of the same species.
-
-#### Parameters
-
-##### options?
-
-`LinearBaseOptions`\<`E`, `R`\>
-
-Runtime options to carry.
-
-#### Returns
-
-`this`
-
-Empty list (`this` type).
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_getIterator()
-
-```ts
-abstract protected _getIterator(...args): IterableIterator<E>;
-```
-
-Defined in: [data-structures/base/iterable-element-base.ts:351](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L351)
-
-Internal iterator factory used by the default iterator.
-
-#### Parameters
-
-##### args
-
-...`unknown`[]
-
-Optional iterator arguments.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-An iterator over elements.
-
-#### Remarks
-
-Implementations should yield in O(1) per element with O(1) extra space when possible.
-
-#### Inherited from
-
-[`IterableElementBase`](IterableElementBase.md).[`_getIterator`](IterableElementBase.md#getiterator)
-
-***
-
-### \_getReverseIterator()
-
-```ts
-abstract protected _getReverseIterator(...args): IterableIterator<E>;
-```
-
-Defined in: [data-structures/base/linear-base.ts:392](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L392)
-
-Reverse-direction iterator over elements.
-
-#### Parameters
-
-##### args
-
-...`any`[]
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of elements from tail to head.
-
-#### Remarks
-
-Time O(n), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -316,7 +196,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 abstract addAt(index, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:377](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L377)
+Defined in: [data-structures/base/linear-base.ts:377](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L377)
 
 Insert an element/node at a position.
 
@@ -352,7 +232,7 @@ Time O(1)~O(n) depending on implementation, Space O(1)
 abstract at(index): E | undefined;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:360](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L360)
+Defined in: [data-structures/base/linear-base.ts:360](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L360)
 
 Get element at an index.
 
@@ -382,7 +262,7 @@ Time O(1)~O(n) depending on implementation, Space O(1)
 abstract clear(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:288](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L288)
+Defined in: [data-structures/base/iterable-element-base.ts:288](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L288)
 
 Removes all elements from the structure.
 
@@ -408,7 +288,7 @@ Expected Time O(1) or O(n) depending on the implementation; Space O(1).
 abstract clone(): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:321](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L321)
+Defined in: [data-structures/base/linear-base.ts:321](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L321)
 
 Deep clone while preserving concrete subtype.
 
@@ -434,7 +314,7 @@ Time O(n), Space O(n)
 concat(...items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:165](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L165)
+Defined in: [data-structures/base/linear-base.ts:165](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L165)
 
 Concatenate elements and/or containers.
 
@@ -464,7 +344,7 @@ Time O(sum(length)), Space O(sum(length))
 abstract delete(elementOrNode): boolean;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:352](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L352)
+Defined in: [data-structures/base/linear-base.ts:352](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L352)
 
 Remove one element or node if present.
 
@@ -494,7 +374,7 @@ Time O(1)~O(n) depending on implementation, Space O(1)
 abstract deleteAt(pos): E | undefined;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:368](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L368)
+Defined in: [data-structures/base/linear-base.ts:368](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L368)
 
 Remove element at a position.
 
@@ -524,7 +404,7 @@ Time O(1)~O(n) depending on implementation, Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -567,7 +447,7 @@ fill(
    end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L292)
+Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L292)
 
 Fill a range with a value.
 
@@ -609,7 +489,7 @@ Time O(n), Space O(1)
 abstract filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:340](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L340)
+Defined in: [data-structures/base/iterable-element-base.ts:340](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L340)
 
 Filters elements using the provided predicate and returns the same concrete structure type.
 
@@ -651,7 +531,7 @@ Time O(n), Space O(k) where `k` is the number of kept elements.
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -697,7 +577,7 @@ Time O(n) in the worst case; may exit early on the first match. Space O(1).
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -739,7 +619,7 @@ Time O(n) in the worst case; may exit early on the first match. Space O(1).
 findIndex(predicate, thisArg?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L151)
+Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L151)
 
 Find the first index matching a predicate.
 
@@ -775,7 +655,7 @@ Time O(n), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -815,7 +695,7 @@ Time O(n), Space O(1).
 has(element): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L188)
+Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L188)
 
 Checks whether a strictly-equal element exists in the structure.
 
@@ -849,7 +729,7 @@ Time O(n) in the worst case. Space O(1).
 indexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:111](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L111)
+Defined in: [data-structures/base/linear-base.ts:111](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L111)
 
 First index of a value from the left.
 
@@ -885,7 +765,7 @@ Time O(n), Space O(1)
 abstract isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:279](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L279)
+Defined in: [data-structures/base/iterable-element-base.ts:279](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L279)
 
 Indicates whether the structure currently contains no elements.
 
@@ -911,7 +791,7 @@ Expected Time O(1), Space O(1) for most implementations.
 join(separator?): string;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L228)
+Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L228)
 
 Join all elements into a string.
 
@@ -941,7 +821,7 @@ Time O(n), Space O(n)
 lastIndexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:131](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L131)
+Defined in: [data-structures/base/linear-base.ts:131](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L131)
 
 Last index of a value from the right.
 
@@ -980,7 +860,7 @@ abstract map<EM, RM>(
 thisArg?): IterableElementBase<EM, RM>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:312](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L312)
+Defined in: [data-structures/base/iterable-element-base.ts:312](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L312)
 
 Maps each element to a new element and returns a new iterable structure.
 
@@ -1040,7 +920,7 @@ Time O(n), Space O(n).
 abstract mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:328](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L328)
+Defined in: [data-structures/base/iterable-element-base.ts:328](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L328)
 
 Maps each element to the same element type and returns the same concrete structure type.
 
@@ -1080,7 +960,7 @@ Time O(n), Space O(n).
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1106,7 +986,7 @@ Time O(n) due to materialization, Space O(n) for the intermediate representation
 abstract push(elementOrNode): boolean;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:336](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L336)
+Defined in: [data-structures/base/linear-base.ts:336](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L336)
 
 Append one element or node to the tail.
 
@@ -1136,7 +1016,7 @@ Time O(1) amortized typical, Space O(1)
 abstract pushMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/base/linear-base.ts:344](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L344)
+Defined in: [data-structures/base/linear-base.ts:344](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L344)
 
 Append many elements/nodes at once.
 
@@ -1200,7 +1080,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -1222,7 +1102,7 @@ Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.c
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -1248,7 +1128,7 @@ Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.c
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -1282,7 +1162,7 @@ Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.c
 reduceRight<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:256](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L256)
+Defined in: [data-structures/base/linear-base.ts:256](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L256)
 
 Right-to-left reduction over elements.
 
@@ -1324,7 +1204,7 @@ Time O(n), Space O(1)
 abstract reverse(): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:328](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L328)
+Defined in: [data-structures/base/linear-base.ts:328](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L328)
 
 Reverse the order of elements in-place (or equivalent).
 
@@ -1346,7 +1226,7 @@ Time O(n), Space O(1)
 abstract setAt(index, value): boolean;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:314](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L314)
+Defined in: [data-structures/base/linear-base.ts:314](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L314)
 
 Set the value at an index.
 
@@ -1382,7 +1262,7 @@ Time O(1) typical, Space O(1)
 slice(start?, end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:273](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L273)
+Defined in: [data-structures/base/linear-base.ts:273](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L273)
 
 Create a shallow copy of a subrange.
 
@@ -1418,7 +1298,7 @@ Time O(n), Space O(n)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -1458,7 +1338,7 @@ Time O(n) in the worst case; may exit early on first success. Space O(1).
 sort(compareFn?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L185)
+Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L185)
 
 In-place stable order via array sort semantics.
 
@@ -1491,7 +1371,7 @@ splice(
    items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:201](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L201)
+Defined in: [data-structures/base/linear-base.ts:201](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L201)
 
 Remove and/or insert elements at a position (array-compatible).
 
@@ -1533,7 +1413,7 @@ Time O(n + m), Space O(min(n, m)) where `m = items.length`
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -1559,7 +1439,7 @@ Time O(n), Space O(n).
 toReversedArray(): E[];
 ```
 
-Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L237)
+Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L237)
 
 Snapshot elements into a reversed array.
 
@@ -1581,7 +1461,7 @@ Time O(n), Space O(n)
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -1608,7 +1488,7 @@ Time O(n), Space O(n).
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 

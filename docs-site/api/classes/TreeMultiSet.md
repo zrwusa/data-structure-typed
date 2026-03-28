@@ -6,7 +6,7 @@
 
 # Class: TreeMultiSet\<K, R\>
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:16](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L16)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:16](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L16)
 
 ## Type Parameters
 
@@ -30,7 +30,7 @@ Defined in: [data-structures/binary-tree/tree-multi-set.ts:16](https://github.co
 new TreeMultiSet<K, R>(elements?, options?): TreeMultiSet<K, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:34](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L34)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:34](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L34)
 
 Creates a new TreeMultiSet.
 
@@ -77,7 +77,7 @@ const mset = new TreeMultiSet<number, Item>(items, { toElementFn: item => item.s
 get comparator(): Comparator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1047](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1047)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1158](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1158)
 
 Expose comparator for advanced usage/testing (read-only).
 
@@ -99,7 +99,7 @@ Time O(1), Space O(1)
 get distinctSize(): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L109)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:112](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L112)
 
 Number of distinct keys.
 
@@ -132,7 +132,7 @@ console.log(ms.distinctSize); // 2
 get size(): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:80](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L80)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:80](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L80)
 
 Total occurrences (sumCounts).
 
@@ -152,7 +152,7 @@ Time O(1), Space O(1)
 iterator: Iterator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:862](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L862)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:952](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L952)
 
 Expanded iteration (default). Each key is yielded `count(key)` times.
 
@@ -178,7 +178,7 @@ Iterable.[iterator]
 add(key, n?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:487](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L487)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:538](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L538)
 
 Add `n` occurrences of `key`.
 
@@ -223,7 +223,7 @@ console.log(ms.size); // 3
 ceiling(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1394](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1394)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1544](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1544)
 
 Returns the smallest key >= given key, or undefined.
 
@@ -261,7 +261,7 @@ console.log(ms.ceiling(15)); // 20
 clear(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1167](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1167)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1293](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1293)
 
 Remove all elements from the multiset.
 
@@ -292,7 +292,7 @@ console.log(ms.isEmpty()); // true
 clone(): TreeMultiSet<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:2313](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L2313)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2574](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2574)
 
 Creates an independent copy of this multiset.
 
@@ -324,7 +324,7 @@ console.log(ms.has(1)); // true
 count(key): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:372](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L372)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:408](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L408)
 
 Returns the count of occurrences for the given key.
 
@@ -360,7 +360,7 @@ console.log(ms.count(1)); // 5
 delete(key, n?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:658](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L658)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:727](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L727)
 
 Delete `n` occurrences of `key` (default 1).
 
@@ -403,7 +403,7 @@ console.log(ms.count(1)); // 2
 deleteAll(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:702](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L702)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:774](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L774)
 
 Delete all occurrences of the given key.
 
@@ -442,7 +442,7 @@ console.log(ms.has(1)); // false
 entries(): IterableIterator<[K, number]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:852](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L852)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:942](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L942)
 
 Iterates over entries as [key, count] pairs.
 
@@ -472,7 +472,7 @@ console.log([...ms.entries()].length); // > 0
 filter(predicate): TreeMultiSet<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1931](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1931)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2147](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2147)
 
 Creates a new TreeMultiSet with entries that match the predicate.
 
@@ -511,7 +511,7 @@ console.log([...filtered.keysDistinct()]); // [1, 3]
 first(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1200](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1200)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1329](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1329)
 
 Returns the smallest key, or undefined if empty.
 
@@ -542,7 +542,7 @@ console.log(ms.first()); // 1
 floor(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1492](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1492)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1654](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1654)
 
 Returns the largest key <= given key, or undefined.
 
@@ -580,7 +580,7 @@ console.log(ms.floor(25)); // 20
 forEach(callback): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1809](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1809)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2010](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2010)
 
 Iterates over distinct keys with their counts.
 
@@ -619,7 +619,7 @@ console.log(pairs); // [[1, 2], [2, 1]]
 has(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:343](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L343)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:376](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L376)
 
 Whether the multiset contains the given key.
 
@@ -656,7 +656,7 @@ console.log(ms.has(2)); // false
 higher(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1589](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1589)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1763](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1763)
 
 Returns the smallest key > given key, or undefined.
 
@@ -693,7 +693,7 @@ console.log(ms.higher(10)); // 20
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:223](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L223)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:241](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L241)
 
 Whether the multiset is empty.
 
@@ -721,7 +721,7 @@ console.log(new TreeMultiSet().isEmpty()); // true
 keysDistinct(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:736](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L736)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:811](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L811)
 
 Iterates over distinct keys (each key yielded once).
 
@@ -752,7 +752,7 @@ console.log([...ms.keysDistinct()]); // [1, 2]
 last(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1230](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1230)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1362](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1362)
 
 Returns the largest key, or undefined if empty.
 
@@ -783,7 +783,7 @@ console.log(ms.last()); // 3
 lower(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1686](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1686)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1872](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1872)
 
 Returns the largest key < given key, or undefined.
 
@@ -820,7 +820,7 @@ console.log(ms.lower(20)); // 10
 map<K2>(mapper, options?): TreeMultiSet<K2>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:2183](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L2183)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2429](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2429)
 
 Maps keys and counts to a new TreeMultiSet.
 When multiple keys map to the same new key, counts are merged (added).
@@ -871,7 +871,7 @@ console.log([...doubled.keysDistinct()]); // [10, 20]
 pollFirst(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1261](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1261)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1396](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1396)
 
 Removes all occurrences of the smallest key and returns it.
 
@@ -903,7 +903,7 @@ console.log(ms.has(1)); // false
 pollLast(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1294](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1294)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1432](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1432)
 
 Removes all occurrences of the largest key and returns it.
 
@@ -934,7 +934,7 @@ console.log(ms.pollLast()); // 3
 print(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:2541](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L2541)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2829](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2829)
 
 Prints the internal tree structure (for debugging).
 
@@ -963,7 +963,7 @@ const ms = new TreeMultiSet<number>();
 rangeSearch<C>(range, callback?): C extends undefined ? K : ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:2420](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L2420)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2693](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2693)
 
 Returns keys within the given range.
 
@@ -1012,7 +1012,7 @@ console.log(result.length); // 1
 reduce<U>(callback, initialValue): U;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:2059](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L2059)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:2290](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L2290)
 
 Reduces the multiset to a single value.
 
@@ -1060,7 +1060,7 @@ console.log(sum); // 8
 setCount(key, n): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:524](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L524)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:578](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L578)
 
 Set count for `key` to exactly `n`.
 
@@ -1102,7 +1102,7 @@ console.log(ms.count(1)); // 3
 toArray(): K[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:981](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L981)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1086](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1086)
 
 Returns an array with all elements (expanded).
 
@@ -1133,7 +1133,7 @@ console.log(ms.toArray()); // [1, 1, 2]
 toDistinctArray(): K[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1010](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1010)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1118](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1118)
 
 Returns an array with distinct keys only.
 
@@ -1164,7 +1164,7 @@ console.log(ms.toDistinctArray()); // [1, 2]
 toEntries(): [K, number][];
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-set.ts:1039](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-set.ts#L1039)
+Defined in: [data-structures/binary-tree/tree-multi-set.ts:1150](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-set.ts#L1150)
 
 Returns an array of [key, count] entries.
 

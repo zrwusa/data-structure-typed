@@ -96,6 +96,12 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // Add delta at index
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
@@ -112,6 +118,12 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -206,6 +218,12 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // Get value at index
  *  const bit = new BinaryIndexedTree([1, 2, 3]);
@@ -261,6 +279,12 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // Prefix sum
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4]);
@@ -275,6 +299,12 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Range sum query: returns sum of elements [start..end] (inclusive, 0-based).
    * Time: O(log n)
   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -375,6 +405,12 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // Find index with prefix sum ≥ target
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4]);
@@ -402,6 +438,9 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Requires all values to be non-negative (behavior undefined otherwise).
    * Returns size if no such index exists.
    * Time: O(log n)
+   
+   
+   
    
    
    
@@ -460,6 +499,9 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Returns the point values as a plain array.
    * Time: O(n log n)
+   
+   
+   
    
    
    

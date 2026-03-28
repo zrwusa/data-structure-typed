@@ -6,7 +6,7 @@
 
 # Class: Character
 
-Defined in: [data-structures/matrix/navigator.ts:10](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L10)
+Defined in: [data-structures/matrix/navigator.ts:10](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L10)
 
 ## Constructors
 
@@ -16,7 +16,7 @@ Defined in: [data-structures/matrix/navigator.ts:10](https://github.com/zrwusa/d
 new Character(direction, turning): Character;
 ```
 
-Defined in: [data-structures/matrix/navigator.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L22)
+Defined in: [data-structures/matrix/navigator.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L22)
 
 The constructor function takes in a direction and turning object and sets the direction and turn properties of the
 Character class.

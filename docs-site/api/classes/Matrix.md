@@ -6,7 +6,7 @@
 
 # Class: Matrix
 
-Defined in: [data-structures/matrix/matrix.ts:97](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L97)
+Defined in: [data-structures/matrix/matrix.ts:97](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L97)
 
 Matrix — a numeric matrix with standard linear algebra operations.
 
@@ -107,7 +107,7 @@ Matrix — a numeric matrix with standard linear algebra operations.
 new Matrix(data, options?): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:105](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L105)
+Defined in: [data-structures/matrix/matrix.ts:105](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L105)
 
 The constructor function initializes a matrix object with the provided data and options, or with
 default values if no options are provided.
@@ -141,7 +141,7 @@ properties:
 get addFn(): (a, b) => number | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:164](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L164)
+Defined in: [data-structures/matrix/matrix.ts:164](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L164)
 
 The above function returns the value of the _addFn property.
 
@@ -161,7 +161,7 @@ The value of the property `_addFn` is being returned.
 get cols(): number;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:146](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L146)
+Defined in: [data-structures/matrix/matrix.ts:146](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L146)
 
 The function returns the value of the protected variable _cols.
 
@@ -181,7 +181,7 @@ The number of columns.
 get data(): number[][];
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:156](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L156)
+Defined in: [data-structures/matrix/matrix.ts:156](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L156)
 
 The function returns a two-dimensional array of numbers.
 
@@ -201,7 +201,7 @@ The data property, which is a two-dimensional array of numbers.
 get multiplyFn(): (a, b) => number;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:180](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L180)
+Defined in: [data-structures/matrix/matrix.ts:180](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L180)
 
 The function returns the value of the _multiplyFn property.
 
@@ -221,7 +221,7 @@ The `_multiplyFn` property is being returned.
 get rows(): number;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:136](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L136)
+Defined in: [data-structures/matrix/matrix.ts:136](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L136)
 
 The function returns the number of rows.
 
@@ -241,7 +241,7 @@ The number of rows.
 get size(): [number, number];
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:816](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L816)
+Defined in: [data-structures/matrix/matrix.ts:840](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L840)
 
 Returns [rows, cols] dimensions tuple.
 
@@ -259,7 +259,7 @@ Returns [rows, cols] dimensions tuple.
 get subtractFn(): (a, b) => number;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:172](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L172)
+Defined in: [data-structures/matrix/matrix.ts:172](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L172)
 
 The function returns the value of the _subtractFn property.
 
@@ -271,119 +271,13 @@ The `_subtractFn` property is being returned.
 
 ## Methods
 
-### \_addScaledRow()
-
-```ts
-protected _addScaledRow(
-   targetRow, 
-   sourceRow, 
-   scalar): void;
-```
-
-Defined in: [data-structures/matrix/matrix.ts:988](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L988)
-
-The function `_addScaledRow` multiplies a row in a matrix by a scalar value and adds it to another
-row.
-
-#### Parameters
-
-##### targetRow
-
-`number`
-
-The targetRow parameter represents the index of the row in which the
-scaled values will be added.
-
-##### sourceRow
-
-`number`
-
-The sourceRow parameter represents the index of the row from which the
-values will be scaled and added to the targetRow.
-
-##### scalar
-
-`number`
-
-The scalar parameter is a number that is used to scale the values in the
-source row before adding them to the target row.
-
-#### Returns
-
-`void`
-
-***
-
-### \_scaleRow()
-
-```ts
-protected _scaleRow(row, scalar): void;
-```
-
-Defined in: [data-structures/matrix/matrix.ts:970](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L970)
-
-The function scales a specific row in a matrix by a given scalar value.
-
-#### Parameters
-
-##### row
-
-`number`
-
-The `row` parameter represents the index of the row in the matrix that you
-want to scale. It is a number that indicates the position of the row within the matrix.
-
-##### scalar
-
-`number`
-
-The scalar parameter is a number that is used to multiply each element in
-a specific row of a matrix.
-
-#### Returns
-
-`void`
-
-***
-
-### \_swapRows()
-
-```ts
-protected _swapRows(row1, row2): void;
-```
-
-Defined in: [data-structures/matrix/matrix.ts:957](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L957)
-
-The function `_swapRows` swaps the positions of two rows in an array.
-
-#### Parameters
-
-##### row1
-
-`number`
-
-The `row1` parameter is the index of the first row that you want to swap.
-
-##### row2
-
-`number`
-
-The `row2` parameter is the index of the second row that you want to swap
-with the first row.
-
-#### Returns
-
-`void`
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<number[]>;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:845](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L845)
+Defined in: [data-structures/matrix/matrix.ts:869](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L869)
 
 Iterates over rows.
 
@@ -399,7 +293,7 @@ Iterates over rows.
 add(matrix): Matrix | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:352](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L352)
+Defined in: [data-structures/matrix/matrix.ts:361](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L361)
 
 The `add` function adds two matrices together, returning a new matrix with the result.
 
@@ -451,7 +345,7 @@ const a = new Matrix([
 clone(): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:798](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L798)
+Defined in: [data-structures/matrix/matrix.ts:822](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L822)
 
 The `clone` function returns a new instance of the Matrix class with the same data and properties
 as the original instance.
@@ -471,7 +365,7 @@ and properties as the current instance.
 dot(matrix): Matrix | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:747](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L747)
+Defined in: [data-structures/matrix/matrix.ts:771](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L771)
 
 The dot function calculates the dot product of two matrices and returns a new matrix.
 
@@ -508,7 +402,7 @@ console.log(result?.toArray()); // [[19, 22], [43, 50]]
 flatten(): number[];
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:834](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L834)
+Defined in: [data-structures/matrix/matrix.ts:858](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L858)
 
 Returns a flat row-major array.
 
@@ -524,7 +418,7 @@ Returns a flat row-major array.
 forEach(callback): void;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:864](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L864)
+Defined in: [data-structures/matrix/matrix.ts:888](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L888)
 
 Visits each element with its row and column index.
 
@@ -546,7 +440,7 @@ Visits each element with its row and column index.
 get(row, col): number | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:233](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L233)
+Defined in: [data-structures/matrix/matrix.ts:236](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L236)
 
 The `get` function returns the value at the specified row and column index if it is a valid index.
 
@@ -601,7 +495,7 @@ console.log(m.get(0, 0)); // 0
 inverse(): Matrix | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:637](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L637)
+Defined in: [data-structures/matrix/matrix.ts:658](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L658)
 
 The `inverse` function calculates the inverse of a square matrix using Gaussian elimination.
 
@@ -630,7 +524,7 @@ const m = Matrix.from([[4, 7], [2, 6]]);
 isMatchForCalculate(matrix): boolean;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:296](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L296)
+Defined in: [data-structures/matrix/matrix.ts:302](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L302)
 
 The function checks if the dimensions of the given matrix match the dimensions of the current
 matrix.
@@ -657,7 +551,7 @@ a boolean value.
 isValidIndex(row, col): boolean;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:788](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L788)
+Defined in: [data-structures/matrix/matrix.ts:812](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L812)
 
 The function checks if a given row and column index is valid within a specified range.
 
@@ -691,7 +585,7 @@ A boolean value is being returned.
 map(callback): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:875](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L875)
+Defined in: [data-structures/matrix/matrix.ts:899](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L899)
 
 Maps each element (number → number) and returns a new Matrix.
 
@@ -713,7 +607,7 @@ Maps each element (number → number) and returns a new Matrix.
 multiply(matrix): Matrix | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:493](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L493)
+Defined in: [data-structures/matrix/matrix.ts:508](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L508)
 
 The `multiply` function performs matrix multiplication between two matrices and returns the result
 as a new matrix.
@@ -769,7 +663,7 @@ set(
    value): boolean;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:282](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L282)
+Defined in: [data-structures/matrix/matrix.ts:288](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L288)
 
 The set function updates the value at a specified row and column in a two-dimensional array.
 
@@ -824,7 +718,7 @@ console.log(m.get(1, 1)); // 10
 subtract(matrix): Matrix | undefined;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:415](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L415)
+Defined in: [data-structures/matrix/matrix.ts:427](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L427)
 
 The `subtract` function performs element-wise subtraction between two matrices and returns a new
 matrix with the result.
@@ -863,7 +757,7 @@ console.log(result?.toArray()); // [[4, 4], [4, 4]]
 toArray(): number[][];
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:827](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L827)
+Defined in: [data-structures/matrix/matrix.ts:851](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L851)
 
 Returns a deep copy of the data as a plain 2D array.
 
@@ -879,7 +773,7 @@ Returns a deep copy of the data as a plain 2D array.
 transpose(): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:574](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L574)
+Defined in: [data-structures/matrix/matrix.ts:592](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L592)
 
 The transpose function takes a matrix and returns a new matrix that is the transpose of the
 original matrix.
@@ -921,7 +815,7 @@ console.log(transposed.transpose().data); // m.data
 static from(data): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:934](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L934)
+Defined in: [data-structures/matrix/matrix.ts:958](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L958)
 
 Creates a Matrix from a plain 2D array (deep copy).
 
@@ -943,7 +837,7 @@ Creates a Matrix from a plain 2D array (deep copy).
 static identity(n): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:919](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L919)
+Defined in: [data-structures/matrix/matrix.ts:943](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L943)
 
 Creates an n×n identity matrix.
 
@@ -965,7 +859,7 @@ Creates an n×n identity matrix.
 static zeros(rows, cols): Matrix;
 ```
 
-Defined in: [data-structures/matrix/matrix.ts:907](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/matrix.ts#L907)
+Defined in: [data-structures/matrix/matrix.ts:931](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/matrix.ts#L931)
 
 Creates a rows×cols zero matrix.
 

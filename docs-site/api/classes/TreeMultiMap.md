@@ -6,7 +6,7 @@
 
 # Class: TreeMultiMap\<K, V, R\>
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:28](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L28)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:28](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L28)
 
 TreeMultiMap (ordered MultiMap) — key → bucket (Array of values).
 
@@ -51,7 +51,7 @@ Semantics (RFC):
 new TreeMultiMap<K, V, R>(keysNodesEntriesOrRaws?, options?): TreeMultiMap<K, V, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:45](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L45)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:45](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L45)
 
 Creates a new TreeMultiMap.
 
@@ -103,7 +103,7 @@ const mmap = new TreeMultiMap(players, { toEntryFn: p => [p.score, p.items] });
 get comparator(): Comparator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:3152](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L3152)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:3512](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L3512)
 
 Expose comparator for advanced usage/testing (read-only).
 
@@ -125,7 +125,7 @@ Time O(1), Space O(1)
 get size(): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L109)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L109)
 
 Number of distinct keys.
 
@@ -147,7 +147,7 @@ Time O(1), Space O(1)
 get totalSize(): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:400](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L400)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:436](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L436)
 
 Total number of values across all buckets (Σ bucket.length).
 
@@ -179,7 +179,7 @@ console.log(mm.totalSize); // 3
 iterator: Iterator<[K, V[]]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1237)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1369](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1369)
 
 Iterates over all entries as [key, bucket] pairs.
 
@@ -205,7 +205,7 @@ Iterable.[iterator]
 add(key, value): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:804](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L804)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:891](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L891)
 
 Append a single value.
 
@@ -247,7 +247,7 @@ console.log(mm.get(1)); // ['a', 'b']
 ceiling(key): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1876](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1876)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2080](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2080)
 
 Returns the entry with the smallest key >= given key.
 
@@ -285,7 +285,7 @@ console.log(mm.ceiling(15)?.[0]); // 20
 clear(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:340](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L340)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:370](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L370)
 
 Removes all entries from the map.
 
@@ -316,7 +316,7 @@ console.log(mm.isEmpty()); // true
 clone(): TreeMultiMap<K, V, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:3144](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L3144)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:3504](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L3504)
 
 Creates a shallow clone of this map.
 
@@ -348,7 +348,7 @@ console.log(mm.has(1)); // true
 count(key): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:369](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L369)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:402](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L402)
 
 Bucket length for a key (missing => 0).
 
@@ -385,7 +385,7 @@ console.log(mm.count(1)); // 2
 delete(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1118](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1118)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1241](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1241)
 
 Deletes a key and its entire bucket.
 
@@ -426,7 +426,7 @@ deleteValue(
    eq?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1180](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1180)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1309](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1309)
 
 Delete a single occurrence of a value from a key's bucket.
 
@@ -475,7 +475,7 @@ deleteValues(
    eq?): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1217](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1217)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1349](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1349)
 
 Delete all occurrences of a value from a key's bucket.
 
@@ -522,7 +522,7 @@ console.log(count); // 2
 entriesOf(key): IterableIterator<[K, V]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1505](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1505)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1670](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1670)
 
 Iterates over all entries for a specific key.
 
@@ -559,7 +559,7 @@ console.log([...mm.entriesOf(1)]); // [[1, 'a'], [1, 'b']]
 filter(predicate): TreeMultiMap<K, V, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2563](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2563)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2851](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2851)
 
 Creates a new map with entries that pass the predicate.
 
@@ -598,7 +598,7 @@ console.log([...filtered.keys()]); // [2, 3]
 first(): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1626](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1626)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1803](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1803)
 
 Returns the entry with the smallest key.
 
@@ -629,7 +629,7 @@ console.log(mm.first()?.[0]); // 1
 flatEntries(): IterableIterator<[K, V]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1568](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1568)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1739](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1739)
 
 Iterates over all [key, value] pairs (flattened from buckets).
 
@@ -661,7 +661,7 @@ console.log([...mm.flatEntries()]); // [[1, 'a'], [1, 'b'], [2, 'c']]
 floor(key): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2001](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2001)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2220](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2220)
 
 Returns the entry with the largest key <= given key.
 
@@ -699,7 +699,7 @@ console.log(mm.floor(25)?.[0]); // 20
 forEach(callback): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2442](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2442)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2715](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2715)
 
 Executes a callback for each entry.
 
@@ -738,7 +738,7 @@ console.log(keys); // [1, 2]
 get(key): V[] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:691](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L691)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:763](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L763)
 
 Live bucket reference (do not auto-delete key if bucket becomes empty via mutation).
 
@@ -775,7 +775,7 @@ console.log(mm.get(1)); // ['a', 'b']
 has(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:546](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L546)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:600](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L600)
 
 Whether the map contains the given key.
 
@@ -815,7 +815,7 @@ hasEntry(
    eq?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1148](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1148)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1274](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1274)
 
 Check if a specific value exists in a key's bucket.
 
@@ -860,7 +860,7 @@ console.log(mm.hasEntry(1, 'z')); // false
 higher(key): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2101](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2101)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2332](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2332)
 
 Returns the entry with the smallest key > given key.
 
@@ -897,7 +897,7 @@ console.log(mm.higher(10)?.[0]); // 20
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:223](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L223)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:238](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L238)
 
 Whether the map is empty.
 
@@ -925,7 +925,7 @@ console.log(new TreeMultiMap().isEmpty()); // true
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1357](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1357)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1504](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1504)
 
 Iterates over all keys.
 
@@ -956,7 +956,7 @@ console.log([...mm.keys()]); // [1, 3]
 last(): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1683](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1683)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1866](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1866)
 
 Returns the entry with the largest key.
 
@@ -987,7 +987,7 @@ console.log(mm.last()?.[0]); // 3
 lower(key): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2201](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2201)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2444](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2444)
 
 Returns the entry with the largest key < given key.
 
@@ -1024,7 +1024,7 @@ console.log(mm.lower(20)?.[0]); // 10
 map<V2>(mapper): TreeMultiMap<K, V2, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2684](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2684)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2987](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2987)
 
 Creates a new map by transforming each entry.
 
@@ -1067,7 +1067,7 @@ console.log(mapped.get(1)); // ['A']
 pollFirst(): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1718](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1718)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1904](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1904)
 
 Removes and returns the entry with the smallest key.
 
@@ -1100,7 +1100,7 @@ console.log(mm.has(1)); // false
 pollLast(): [K, V[]] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1752](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1752)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1941](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1941)
 
 Removes and returns the entry with the largest key.
 
@@ -1132,7 +1132,7 @@ console.log(last?.[0]); // 3
 print(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2323](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2323)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:2581](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L2581)
 
 Prints the internal tree structure (for debugging).
 
@@ -1161,7 +1161,7 @@ const mm = new TreeMultiMap<number, string>();
 rangeSearch<C>(range, callback?): ReturnType<C>[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:3023](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L3023)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:3368](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L3368)
 
 Searches for entries within a key range.
 
@@ -1210,7 +1210,7 @@ console.log(result.length); // 1
 reduce<U>(callback, initialValue): U;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2808](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2808)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:3126](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L3126)
 
 Reduces all entries to a single value.
 
@@ -1260,7 +1260,7 @@ console.log(sum); // 30
 set(entry, value?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:952](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L952)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1057](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1057)
 
 Alias for compatibility with existing TreeMultiMap semantics.
 
@@ -1302,7 +1302,7 @@ console.log(mm.get(1)); // ['a', 'b']
 set(key, value): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:953](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L953)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1058](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1058)
 
 Alias for compatibility with existing TreeMultiMap semantics.
 
@@ -1343,7 +1343,7 @@ console.log(mm.get(1)); // ['a', 'b']
 setMany(keysNodesEntriesOrRaws): boolean[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:2920](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L2920)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:3253](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L3253)
 
 Sets multiple entries at once.
 
@@ -1379,7 +1379,7 @@ console.log(mm.size); // 2
 values(): IterableIterator<V[]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1474](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1474)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1636](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1636)
 
 Iterates over all buckets.
 
@@ -1410,7 +1410,7 @@ console.log([...mm.values()]); // [['a', 'b']]
 valuesOf(key): IterableIterator<V>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-multi-map.ts:1536](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-multi-map.ts#L1536)
+Defined in: [data-structures/binary-tree/tree-multi-map.ts:1704](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-multi-map.ts#L1704)
 
 Iterates over all values for a specific key.
 

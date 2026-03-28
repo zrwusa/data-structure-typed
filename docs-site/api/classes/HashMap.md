@@ -6,7 +6,7 @@
 
 # Class: HashMap\<K, V, R\>
 
-Defined in: [data-structures/hash/hash-map.ts:97](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L97)
+Defined in: [data-structures/hash/hash-map.ts:97](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L97)
 
 Hash-based map. Supports object keys and custom hashing; offers O(1) average set/get/has.
 
@@ -119,7 +119,7 @@ If you try to insert another entry with the same key, the new one will replace t
 new HashMap<K, V, R>(entryOrRawElements?, options?): HashMap<K, V, R>;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:105](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L105)
+Defined in: [data-structures/hash/hash-map.ts:105](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L105)
 
 Create a HashMap and optionally bulk-insert entries.
 
@@ -163,7 +163,7 @@ IterableEntryBase<K, V>.constructor
 get hashFn(): (key) => string;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:166](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L166)
+Defined in: [data-structures/hash/hash-map.ts:166](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L166)
 
 Get the current hash function for non-object keys.
 
@@ -187,7 +187,7 @@ Hash function.
 get objMap(): Map<object, V>;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:133](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L133)
+Defined in: [data-structures/hash/hash-map.ts:133](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L133)
 
 Get the internal Map used for object/function keys.
 
@@ -211,7 +211,7 @@ Map of object→value.
 get size(): number;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:155](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L155)
+Defined in: [data-structures/hash/hash-map.ts:155](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L155)
 
 Get the number of distinct keys stored.
 
@@ -239,7 +239,7 @@ Current size.
 get store(): object;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:122](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L122)
+Defined in: [data-structures/hash/hash-map.ts:122](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L122)
 
 Get the internal store for non-object keys.
 
@@ -263,7 +263,7 @@ Internal record of string→{key,value}.
 get toEntryFn(): ((rawElement) => [K, V]) | undefined;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:144](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L144)
+Defined in: [data-structures/hash/hash-map.ts:144](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L144)
 
 Get the raw→entry converter function if present.
 
@@ -279,89 +279,13 @@ Converter function or undefined.
 
 ## Methods
 
-### \_createLike()
-
-```ts
-protected _createLike<TK, TV, TR>(entries?, options?): any;
-```
-
-Defined in: [data-structures/hash/hash-map.ts:702](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L702)
-
-(Protected) Create a like-kind instance and seed it from an iterable.
-
-#### Type Parameters
-
-##### TK
-
-`TK` = `K`
-
-##### TV
-
-`TV` = `V`
-
-##### TR
-
-`TR` = \[`TK`, `TV`\]
-
-#### Parameters
-
-##### entries?
-
-`Iterable`\<`TR` \| \[`TK`, `TV`\]\> = `[]`
-
-Iterable used to seed the new map.
-
-##### options?
-
-`any`
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`any`
-
-A like-kind map instance.
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<[K, V]>;
-```
-
-Defined in: [data-structures/hash/hash-map.ts:716](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L716)
-
-Underlying iterator for the default iteration protocol.
-
-#### Returns
-
-`IterableIterator`\<\[`K`, `V`\]\>
-
-Iterator of `[K, V]`.
-
-#### Remarks
-
-Time O(n), Space O(1)
-
-#### Overrides
-
-[`IterableEntryBase`](IterableEntryBase.md).[`_getIterator`](IterableEntryBase.md#getiterator)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<[K, V]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L22)
+Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L22)
 
 Default iterator yielding `[key, value]` entries.
 
@@ -393,7 +317,7 @@ Time O(n) to iterate, Space O(1)
 clear(): void;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L237)
+Defined in: [data-structures/hash/hash-map.ts:243](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L243)
 
 Remove all entries and reset counters.
 
@@ -429,7 +353,7 @@ console.log(map.isEmpty()); // true
 clone(): this;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:577](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L577)
+Defined in: [data-structures/hash/hash-map.ts:604](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L604)
 
 Deep clone this map, preserving hashing behavior.
 
@@ -466,7 +390,7 @@ console.log(map.get('a')); // 1
 delete(key): boolean;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:517](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L517)
+Defined in: [data-structures/hash/hash-map.ts:541](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L541)
 
 Delete an entry by key.
 
@@ -508,7 +432,7 @@ console.log(map.size); // 2
 entries(): IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L31)
+Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L31)
 
 Iterate over `[key, value]` pairs (may yield `undefined` values).
 
@@ -542,7 +466,7 @@ console.log(entries.length); // 2
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L66)
+Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L66)
 
 Test whether all entries satisfy the predicate.
 
@@ -589,7 +513,7 @@ console.log(map.every(v => v > 0)); // true
 filter(predicate, thisArg?): any;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:685](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L685)
+Defined in: [data-structures/hash/hash-map.ts:718](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L718)
 
 Filter entries into a new map.
 
@@ -656,7 +580,7 @@ console.log(filtered.length); // 3
 find(callbackfn, thisArg?): [K, V] | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L114)
+Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L114)
 
 Find the first entry that matches a predicate.
 
@@ -705,7 +629,7 @@ console.log(found?.[1]); // 20
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L99)
+Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L99)
 
 Visit each entry, left-to-right.
 
@@ -752,7 +676,7 @@ console.log(sum); // 3
 get(key): V | undefined;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:432](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L432)
+Defined in: [data-structures/hash/hash-map.ts:450](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L450)
 
 Get the value for a key.
 
@@ -809,7 +733,7 @@ console.log(map.get('banana')); // 2
 has(key): boolean;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:474](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L474)
+Defined in: [data-structures/hash/hash-map.ts:495](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L495)
 
 Check if a key exists.
 
@@ -854,7 +778,7 @@ console.log(map.has('z')); // false
 hasValue(value): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L143)
+Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L143)
 
 Whether there exists an entry with the given value.
 
@@ -888,7 +812,7 @@ Time O(n), Space O(1)
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:201](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L201)
+Defined in: [data-structures/hash/hash-map.ts:204](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L204)
 
 Check whether the map is empty.
 
@@ -923,7 +847,7 @@ console.log(map.isEmpty()); // true
 isEntry(rawElement): rawElement is [K, V];
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:248](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L248)
+Defined in: [data-structures/hash/hash-map.ts:254](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L254)
 
 Type guard: check if a raw value is a [key, value] entry.
 
@@ -951,7 +875,7 @@ Time O(1), Space O(1)
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L42)
+Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L42)
 
 Iterate over keys only.
 
@@ -984,7 +908,7 @@ console.log([...map.keys()].sort()); // ['x', 'y']
 map<VM>(callbackfn, thisArg?): any;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:621](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L621)
+Defined in: [data-structures/hash/hash-map.ts:651](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L651)
 
 Map values to a new map with the same keys.
 
@@ -1042,7 +966,7 @@ console.log(doubled.get('banana')); // 4
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:203](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L203)
+Defined in: [data-structures/base/iterable-entry-base.ts:203](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L203)
 
 Print a human-friendly representation to the console.
 
@@ -1072,7 +996,7 @@ const map = new HashMap<string, number>([['a', 1]]);
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L171)
+Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L171)
 
 Reduce entries into a single accumulator.
 
@@ -1126,7 +1050,7 @@ console.log(total); // 60
 set(key, value): boolean;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:325](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L325)
+Defined in: [data-structures/hash/hash-map.ts:337](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L337)
 
 Insert or replace a single entry.
 
@@ -1184,7 +1108,7 @@ console.log(map.size); // 4
 setHashFn(fn): this;
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:537](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L537)
+Defined in: [data-structures/hash/hash-map.ts:561](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L561)
 
 Replace the hash function and rehash the non-object store.
 
@@ -1214,7 +1138,7 @@ Time O(N), Space O(N)
 setMany(entryOrRawElements): boolean[];
 ```
 
-Defined in: [data-structures/hash/hash-map.ts:370](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/hash/hash-map.ts#L370)
+Defined in: [data-structures/hash/hash-map.ts:385](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/hash/hash-map.ts#L385)
 
 Insert many entries from an iterable.
 
@@ -1254,7 +1178,7 @@ console.log(map.size); // 3
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L83)
+Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L83)
 
 Test whether any entry satisfies the predicate.
 
@@ -1301,7 +1225,7 @@ console.log(map.some(v => v > 3)); // true
 toArray(): [K, V][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L186)
+Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L186)
 
 Converts data structure to `[key, value]` pairs.
 
@@ -1334,7 +1258,7 @@ console.log(map.toArray().length); // 1
 toVisual(): string | [K, V][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L195)
+Defined in: [data-structures/base/iterable-entry-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L195)
 
 Visualize the iterable as an array of `[key, value]` pairs (or a custom string).
 
@@ -1360,7 +1284,7 @@ Time O(n), Space O(n)
 values(): IterableIterator<V>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L53)
+Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L53)
 
 Iterate over values only.
 

@@ -6,7 +6,7 @@
 
 # Class: TrieNode
 
-Defined in: [data-structures/trie/trie.ts:17](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L17)
+Defined in: [data-structures/trie/trie.ts:17](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L17)
 
 Node used by Trie to store one character and its children.
 
@@ -22,7 +22,7 @@ Time O(1), Space O(1)
 new TrieNode(key): TrieNode;
 ```
 
-Defined in: [data-structures/trie/trie.ts:24](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L24)
+Defined in: [data-structures/trie/trie.ts:24](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L24)
 
 Create a Trie node with a character key.
 
@@ -52,7 +52,7 @@ Time O(1), Space O(1)
 get children(): Map<string, TrieNode>;
 ```
 
-Defined in: [data-structures/trie/trie.ts:61](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L61)
+Defined in: [data-structures/trie/trie.ts:61](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L61)
 
 Get the child map of this node.
 
@@ -72,7 +72,7 @@ Map from character to child node.
 set children(value): void;
 ```
 
-Defined in: [data-structures/trie/trie.ts:72](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L72)
+Defined in: [data-structures/trie/trie.ts:72](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L72)
 
 Replace the child map of this node.
 
@@ -104,7 +104,7 @@ void
 get isEnd(): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:84](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L84)
+Defined in: [data-structures/trie/trie.ts:84](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L84)
 
 Check whether this node marks the end of a word.
 
@@ -124,7 +124,7 @@ True if this node ends a word.
 set isEnd(value): void;
 ```
 
-Defined in: [data-structures/trie/trie.ts:95](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L95)
+Defined in: [data-structures/trie/trie.ts:95](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L95)
 
 Mark this node as the end of a word or not.
 
@@ -156,7 +156,7 @@ void
 get key(): string;
 ```
 
-Defined in: [data-structures/trie/trie.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L38)
+Defined in: [data-structures/trie/trie.ts:38](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L38)
 
 Get the character key of this node.
 
@@ -176,7 +176,7 @@ Character key string.
 set key(value): void;
 ```
 
-Defined in: [data-structures/trie/trie.ts:49](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L49)
+Defined in: [data-structures/trie/trie.ts:49](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L49)
 
 Set the character key of this node.
 

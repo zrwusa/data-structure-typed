@@ -6,7 +6,7 @@
 
 # Class: AVLTreeNode\<K, V\>
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:29](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L29)
+Defined in: [data-structures/binary-tree/avl-tree.ts:29](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L29)
 
 Represents a Node in an AVL (Adelson-Velsky and Landis) Tree.
 It extends a BSTNode and ensures the 'height' property is maintained.
@@ -33,7 +33,7 @@ The type of the value.
 new AVLTreeNode<K, V>(key, value?): AVLTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:41](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L41)
+Defined in: [data-structures/binary-tree/avl-tree.ts:41](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L41)
 
 Creates an instance of AVLTreeNode.
 
@@ -69,7 +69,7 @@ Time O(1), Space O(1)
 get color(): RBTNColor;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:127](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L127)
+Defined in: [data-structures/binary-tree/avl-tree.ts:127](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L127)
 
 Gets the color of the node (used in Red-Black trees).
 
@@ -93,7 +93,7 @@ The node's color.
 get count(): number;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:145](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L145)
+Defined in: [data-structures/binary-tree/avl-tree.ts:145](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L145)
 
 Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
 
@@ -117,7 +117,7 @@ The subtree node count.
 get familyPosition(): FamilyPosition;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:160](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L160)
+Defined in: [data-structures/binary-tree/avl-tree.ts:160](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L160)
 
 Gets the position of the node relative to its parent.
 
@@ -141,7 +141,7 @@ The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
 get height(): number;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:104](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L104)
+Defined in: [data-structures/binary-tree/avl-tree.ts:104](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L104)
 
 Gets the height of the node (used in self-balancing trees).
 
@@ -161,7 +161,7 @@ The height.
 set height(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L114)
+Defined in: [data-structures/binary-tree/avl-tree.ts:114](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L114)
 
 Sets the height of the node.
 
@@ -191,7 +191,7 @@ The new height.
 get left(): AVLTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:54](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L54)
+Defined in: [data-structures/binary-tree/avl-tree.ts:54](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L54)
 
 Gets the left child of the node.
 
@@ -211,7 +211,7 @@ The left child.
 set left(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:64](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L64)
+Defined in: [data-structures/binary-tree/avl-tree.ts:64](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L64)
 
 Sets the left child of the node and updates its parent reference.
 
@@ -241,7 +241,7 @@ The node to set as the left child.
 get right(): AVLTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:79](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L79)
+Defined in: [data-structures/binary-tree/avl-tree.ts:79](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L79)
 
 Gets the right child of the node.
 
@@ -261,7 +261,7 @@ The right child.
 set right(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/avl-tree.ts:89](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/avl-tree.ts#L89)
+Defined in: [data-structures/binary-tree/avl-tree.ts:89](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/avl-tree.ts#L89)
 
 Sets the right child of the node and updates its parent reference.
 

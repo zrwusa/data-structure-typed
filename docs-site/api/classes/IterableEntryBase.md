@@ -6,7 +6,7 @@
 
 # Abstract Class: IterableEntryBase\<K, V\>
 
-Defined in: [data-structures/base/iterable-entry-base.ts:9](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L9)
+Defined in: [data-structures/base/iterable-entry-base.ts:9](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L9)
 
 Iterable view over key-value entries.
 
@@ -46,7 +46,7 @@ Value type.
 get abstract size(): number;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:15](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L15)
+Defined in: [data-structures/base/iterable-entry-base.ts:15](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L15)
 
 Total number of entries.
 
@@ -62,41 +62,13 @@ Entry count.
 
 ## Methods
 
-### \_getIterator()
-
-```ts
-abstract protected _getIterator(...args): IterableIterator<[K, V]>;
-```
-
-Defined in: [data-structures/base/iterable-entry-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L245)
-
-Underlying iterator for the default iteration protocol.
-
-#### Parameters
-
-##### args
-
-...`any`[]
-
-#### Returns
-
-`IterableIterator`\<\[`K`, `V`\]\>
-
-Iterator of `[K, V]`.
-
-#### Remarks
-
-Time O(n), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<[K, V]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L22)
+Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L22)
 
 Default iterator yielding `[key, value]` entries.
 
@@ -124,7 +96,7 @@ Time O(n) to iterate, Space O(1)
 abstract clear(): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:218](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L218)
+Defined in: [data-structures/base/iterable-entry-base.ts:218](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L218)
 
 Remove all entries.
 
@@ -144,7 +116,7 @@ Time O(n) typical, Space O(1)
 abstract clone(): this;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:225](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L225)
+Defined in: [data-structures/base/iterable-entry-base.ts:225](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L225)
 
 Deep clone preserving the concrete subtype.
 
@@ -166,7 +138,7 @@ Time O(n) typical, Space O(n)
 entries(): IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L31)
+Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L31)
 
 Iterate over `[key, value]` pairs (may yield `undefined` values).
 
@@ -188,7 +160,7 @@ Time O(n), Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L66)
+Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L66)
 
 Test whether all entries satisfy the predicate.
 
@@ -224,7 +196,7 @@ Time O(n), Space O(1)
 abstract filter(...args): this;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:238](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L238)
+Defined in: [data-structures/base/iterable-entry-base.ts:238](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L238)
 
 Filter entries and return the same-species structure.
 
@@ -252,7 +224,7 @@ Time O(n), Space O(n)
 find(callbackfn, thisArg?): [K, V] | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L114)
+Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L114)
 
 Find the first entry that matches a predicate.
 
@@ -288,7 +260,7 @@ Time O(n), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L99)
+Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L99)
 
 Visit each entry, left-to-right.
 
@@ -322,7 +294,7 @@ Time O(n), Space O(1)
 get(key): V | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:156](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L156)
+Defined in: [data-structures/base/iterable-entry-base.ts:156](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L156)
 
 Get the value under a key.
 
@@ -352,7 +324,7 @@ Time O(n) generic, Space O(1)
 has(key): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:129](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L129)
+Defined in: [data-structures/base/iterable-entry-base.ts:129](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L129)
 
 Whether the given key exists.
 
@@ -382,7 +354,7 @@ Time O(n) generic, Space O(1)
 hasValue(value): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L143)
+Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L143)
 
 Whether there exists an entry with the given value.
 
@@ -412,7 +384,7 @@ Time O(n), Space O(1)
 abstract isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:212](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L212)
+Defined in: [data-structures/base/iterable-entry-base.ts:212](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L212)
 
 Whether there are no entries.
 
@@ -434,7 +406,7 @@ Time O(1) typical, Space O(1)
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L42)
+Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L42)
 
 Iterate over keys only.
 
@@ -456,7 +428,7 @@ Time O(n), Space O(1)
 abstract map(...args): any;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:231](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L231)
+Defined in: [data-structures/base/iterable-entry-base.ts:231](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L231)
 
 Map entries using an implementation-specific strategy.
 
@@ -482,7 +454,7 @@ Time O(n), Space O(n)
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:203](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L203)
+Defined in: [data-structures/base/iterable-entry-base.ts:203](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L203)
 
 Print a human-friendly representation to the console.
 
@@ -502,7 +474,7 @@ Time O(n), Space O(n)
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L171)
+Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L171)
 
 Reduce entries into a single accumulator.
 
@@ -544,7 +516,7 @@ Time O(n), Space O(1)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L83)
+Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L83)
 
 Test whether any entry satisfies the predicate.
 
@@ -580,7 +552,7 @@ Time O(n), Space O(1)
 toArray(): [K, V][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L186)
+Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L186)
 
 Converts data structure to `[key, value]` pairs.
 
@@ -602,7 +574,7 @@ Time O(n), Space O(n)
 toVisual(): string | [K, V][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L195)
+Defined in: [data-structures/base/iterable-entry-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L195)
 
 Visualize the iterable as an array of `[key, value]` pairs (or a custom string).
 
@@ -624,7 +596,7 @@ Time O(n), Space O(n)
 values(): IterableIterator<V>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L53)
+Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L53)
 
 Iterate over values only.
 

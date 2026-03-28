@@ -6,7 +6,7 @@
 
 # Class: SinglyLinkedList\<E, R\>
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L194)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L194)
 
 Singly linked list with O(1) push/pop-like ends operations and linear scans.
 
@@ -184,7 +184,7 @@ Caution: Although our linked list classes provide methods such as at, setAt, add
 new SinglyLinkedList<E, R>(elements?, options?): SinglyLinkedList<E, R>;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:205](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L205)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:205](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L205)
 
 Create a SinglyLinkedList and optionally bulk-insert elements.
 
@@ -220,36 +220,6 @@ Time O(N), Space O(N)
 LinearLinkedBase<E, R, SinglyLinkedListNode<E>>.constructor
 ```
 
-## Properties
-
-### \_toElementFn?
-
-```ts
-protected optional _toElementFn?: (rawElement) => E;
-```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_toElementFn`](LinearLinkedBase.md#toelementfn)
-
 ## Accessors
 
 ### first
@@ -260,7 +230,7 @@ Time O(1), Space O(1).
 get first(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:255](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L255)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:255](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L255)
 
 Get the first element value.
 
@@ -284,7 +254,7 @@ First element or undefined.
 get head(): SinglyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:221](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L221)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:221](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L221)
 
 Get the head node.
 
@@ -308,7 +278,7 @@ Head node or undefined.
 get last(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:265](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L265)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:265](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L265)
 
 Get the last element value.
 
@@ -332,7 +302,7 @@ Last element or undefined.
 get length(): number;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L245)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L245)
 
 Get the number of elements.
 
@@ -360,7 +330,7 @@ Current length.
 get maxLen(): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L100)
+Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L100)
 
 Upper bound for length (if positive), or `-1` when unbounded.
 
@@ -388,7 +358,7 @@ Maximum allowed length.
 get tail(): SinglyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:233](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L233)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:233](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L233)
 
 Get the tail node.
 
@@ -412,7 +382,7 @@ Tail node or undefined.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -432,341 +402,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1413](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1413)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`SinglyLinkedListOptions`\<`E`, `R`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`this`
-
-An empty like-kind list instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_createInstance`](LinearLinkedBase.md#createinstance)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<EM, RM>(elements?, options?): SinglyLinkedList<EM, RM>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1431](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1431)
-
-(Protected) Create a like-kind instance and seed it from an iterable.
-
-#### Type Parameters
-
-##### EM
-
-`EM`
-
-##### RM
-
-`RM`
-
-#### Parameters
-
-##### elements?
-
-  \| `Iterable`\<`EM`, `any`, `any`\>
-  \| `Iterable`\<`RM`, `any`, `any`\>
-  \| `Iterable`\<[`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`EM`\>, `any`, `any`\>
-
-Iterable used to seed the new list.
-
-##### options?
-
-`SinglyLinkedListOptions`\<`EM`, `RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`SinglyLinkedList`\<`EM`, `RM`\>
-
-A like-kind SinglyLinkedList instance.
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_ensureNode()
-
-```ts
-protected _ensureNode(elementOrNode): SinglyLinkedListNode<E>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1332](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1332)
-
-(Protected) Normalize input into a node instance.
-
-#### Parameters
-
-##### elementOrNode
-
-`E` \| [`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>
-
-Element or node.
-
-#### Returns
-
-[`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>
-
-A SinglyLinkedListNode for the provided input.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_ensurePredicate()
-
-```ts
-protected _ensurePredicate(elementNodeOrPredicate): (node) => boolean;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1344](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1344)
-
-(Protected) Normalize input into a node predicate.
-
-#### Parameters
-
-##### elementNodeOrPredicate
-
-  \| `E`
-  \| [`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>
-  \| ((`node`) => `boolean`)
-
-Element, node, or predicate.
-
-#### Returns
-
-A predicate taking a node and returning true/false.
-
-(`node`) => `boolean`
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1373](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1373)
-
-(Protected) Iterate values from head to tail.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of values (E).
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getIterator`](LinearLinkedBase.md#getiterator)
-
-***
-
-### \_getNodeIterator()
-
-```ts
-protected _getNodeIterator(): IterableIterator<SinglyLinkedListNode<E>>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1398](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1398)
-
-(Protected) Iterate nodes from head to tail.
-
-#### Returns
-
-`IterableIterator`\<[`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>\>
-
-Iterator of nodes.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getNodeIterator`](LinearLinkedBase.md#getnodeiterator)
-
-***
-
-### \_getPrevNode()
-
-```ts
-protected _getPrevNode(node): SinglyLinkedListNode<E> | undefined;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1360](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1360)
-
-(Protected) Get the previous node of a given node.
-
-#### Parameters
-
-##### node
-
-[`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>
-
-A node in the list.
-
-#### Returns
-
-[`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\> \| `undefined`
-
-Previous node or undefined.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getPrevNode`](LinearLinkedBase.md#getprevnode)
-
-***
-
-### \_getReverseIterator()
-
-```ts
-protected _getReverseIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1387](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1387)
-
-(Protected) Iterate values from tail to head.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of values (E).
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-#### Overrides
-
-[`LinearLinkedBase`](LinearLinkedBase.md).[`_getReverseIterator`](LinearLinkedBase.md#getreverseiterator)
-
-***
-
-### \_isPredicate()
-
-```ts
-protected _isPredicate(elementNodeOrPredicate): elementNodeOrPredicate is (node: SinglyLinkedListNode<E>) => boolean;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1319](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1319)
-
-(Protected) Check if input is a node predicate function.
-
-#### Parameters
-
-##### elementNodeOrPredicate
-
-  \| `E`
-  \| [`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>
-  \| ((`node`) => `boolean`)
-
-Element, node, or node predicate.
-
-#### Returns
-
-`elementNodeOrPredicate is (node: SinglyLinkedListNode<E>) => boolean`
-
-True if input is a predicate function.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_spawnLike()
-
-```ts
-protected _spawnLike<EM, RM>(options?): SinglyLinkedList<EM, RM>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1451](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1451)
-
-(Protected) Spawn an empty like-kind list instance.
-
-#### Type Parameters
-
-##### EM
-
-`EM`
-
-##### RM
-
-`RM`
-
-#### Parameters
-
-##### options?
-
-`SinglyLinkedListOptions`\<`EM`, `RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`SinglyLinkedList`\<`EM`, `RM`\>
-
-An empty like-kind SinglyLinkedList instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -800,7 +442,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 addAfter(existingElementOrNode, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1009](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1009)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1045](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1045)
 
 Insert a new element/node after an existing one.
 
@@ -840,7 +482,7 @@ Time O(N), Space O(1)
 addAt(index, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:799](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L799)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:826](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L826)
 
 Insert a new element/node at an index, shifting following nodes.
 
@@ -890,7 +532,7 @@ console.log(list.toArray()); // [1, 2, 3]
 addBefore(existingElementOrNode, newElementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:979](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L979)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1015](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1015)
 
 Insert a new element/node before an existing one.
 
@@ -930,7 +572,7 @@ Time O(N), Space O(1)
 at(index): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:611](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L611)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:626](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L626)
 
 Get the element at a given index.
 
@@ -975,7 +617,7 @@ console.log(list.at(3)); // 'd'
 clear(): void;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:894](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L894)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:927](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L927)
 
 Remove all nodes and reset length.
 
@@ -1011,7 +653,7 @@ console.log(list.isEmpty()); // true
 clone(): this;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1172](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1172)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1211](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1211)
 
 Deep clone this list (values are copied by reference).
 
@@ -1049,7 +691,7 @@ console.log(copy.length); // 2
 concat(...items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:473](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L473)
+Defined in: [data-structures/base/linear-base.ts:473](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L473)
 
 Concatenate lists/elements preserving order.
 
@@ -1085,7 +727,7 @@ Time O(sum(length)), Space O(sum(length))
 countOccurrences(elementOrNode): number;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1085](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1085)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1121](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1121)
 
 Count how many nodes match a value/node/predicate.
 
@@ -1111,43 +753,13 @@ Time O(N), Space O(1)
 
 ***
 
-### createNode()
-
-```ts
-protected createNode(value): SinglyLinkedListNode<E>;
-```
-
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1308](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1308)
-
-(Protected) Create a node from a value.
-
-#### Parameters
-
-##### value
-
-`E`
-
-Value to wrap in a node.
-
-#### Returns
-
-[`SinglyLinkedListNode`](SinglyLinkedListNode.md)\<`E`\>
-
-A new SinglyLinkedListNode instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### delete()
 
 ```ts
 delete(elementOrNode?): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:748](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L748)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:772](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L772)
 
 Delete the first match by value/node.
 
@@ -1191,7 +803,7 @@ console.log(list.toArray()); // [1, 3, 2]
 deleteAt(index): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:703](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L703)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:724](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L724)
 
 Delete the element at an index.
 
@@ -1235,7 +847,7 @@ console.log(list.toArray()); // ['a', 'c']
 deleteWhere(predicate): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1115](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1115)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1151)
 
 Delete the first node whose value matches a predicate.
 
@@ -1265,7 +877,7 @@ Time O(N), Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -1315,7 +927,7 @@ fill(
    end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L292)
+Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L292)
 
 Fill a range with a value.
 
@@ -1361,7 +973,7 @@ Time O(n), Space O(1)
 filter(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1225](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1225)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1267](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1267)
 
 Filter values into a new list of the same class.
 
@@ -1423,7 +1035,7 @@ console.log(sum); // 15
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1476,7 +1088,7 @@ console.log(list.find(x => x > 2)); // 3
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1525,7 +1137,7 @@ console.log(list.find(x => x > 2)); // 3
 findIndex(predicate, thisArg?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L151)
+Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L151)
 
 Find the first index matching a predicate.
 
@@ -1565,7 +1177,7 @@ Time O(n), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -1605,7 +1217,7 @@ Time O(n), Space O(1).
 getNode(elementNodeOrPredicate?): SinglyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:957](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L957)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:993](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L993)
 
 Find a node by value, reference, or predicate.
 
@@ -1637,7 +1249,7 @@ Time O(N), Space O(1)
 getNodeAt(index): SinglyLinkedListNode<E> | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:663](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L663)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:681](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L681)
 
 Get the node reference at a given index.
 
@@ -1680,7 +1292,7 @@ console.log(list.getNodeAt(1)?.value); // 'b'
 has(element): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L188)
+Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L188)
 
 Checks whether a strictly-equal element exists in the structure.
 
@@ -1722,7 +1334,7 @@ console.log(list.has(9)); // false
 indexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:422](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L422)
+Defined in: [data-structures/base/linear-base.ts:422](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L422)
 
 Linked-list optimized `indexOf` (forwards scan).
 
@@ -1770,7 +1382,7 @@ console.log(list.indexOf('z')); // -1
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:857](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L857)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:887](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L887)
 
 Check whether the list is empty.
 
@@ -1804,7 +1416,7 @@ console.log(new SinglyLinkedList().isEmpty()); // true
 isNode(elementNodeOrPredicate): elementNodeOrPredicate is SinglyLinkedListNode<E>;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:625](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L625)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:640](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L640)
 
 Type guard: check whether the input is a SinglyLinkedListNode.
 
@@ -1836,7 +1448,7 @@ Time O(1), Space O(1)
 join(separator?): string;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L228)
+Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L228)
 
 Join all elements into a string.
 
@@ -1870,7 +1482,7 @@ Time O(n), Space O(n)
 lastIndexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:448](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L448)
+Defined in: [data-structures/base/linear-base.ts:448](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L448)
 
 Linked-list optimized `lastIndexOf` (reverse scan).
 
@@ -1913,7 +1525,7 @@ map<EM, RM>(
 thisArg?): SinglyLinkedList<EM, RM>;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1290](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1290)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1335](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1335)
 
 Map values into a new list (possibly different element type).
 
@@ -1979,7 +1591,7 @@ console.log([...doubled]); // [2, 4, 6]
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1240](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1240)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1282](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1282)
 
 Map values into a new list of the same class.
 
@@ -2019,7 +1631,7 @@ Time O(N), Space O(N)
 pop(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:398](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L398)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:404](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L404)
 
 Remove and return the tail element.
 
@@ -2061,7 +1673,7 @@ console.log(list.length); // 3
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -2093,7 +1705,7 @@ const list = new SinglyLinkedList<number>([1, 2, 3]);
 push(elementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:340](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L340)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:343](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L343)
 
 Append an element/node to the tail.
 
@@ -2147,7 +1759,7 @@ console.log([...list]); // [1, 2, 3, 4, 5, 6]
 pushMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:530](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L530)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:542](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L542)
 
 Append a sequence of elements/nodes.
 
@@ -2215,7 +1827,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -2245,7 +1857,7 @@ console.log(sum); // 10
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -2279,7 +1891,7 @@ console.log(sum); // 10
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -2321,7 +1933,7 @@ console.log(sum); // 10
 reduceRight<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:574](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L574)
+Defined in: [data-structures/base/linear-base.ts:574](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L574)
 
 Right-to-left reduction using reverse iterator.
 
@@ -2367,7 +1979,7 @@ Time O(n), Space O(1)
 reverse(): this;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:935](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L935)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:971](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L971)
 
 Reverse the list in place.
 
@@ -2403,7 +2015,7 @@ console.log([...list]); // [4, 3, 2, 1]
 search(elementNodeOrPredicate): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:562](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L562)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:574](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L574)
 
 Find the first value matching a predicate (by node).
 
@@ -2435,7 +2047,7 @@ Time O(N), Space O(1)
 setAt(index, value): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:819](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L819)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:846](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L846)
 
 Set the element value at an index.
 
@@ -2475,7 +2087,7 @@ Time O(N), Space O(1)
 setEquality(equals): this;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1103](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1103)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1139](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1139)
 
 Set the equality comparator used to compare values.
 
@@ -2505,7 +2117,7 @@ Time O(1), Space O(1)
 shift(): E | undefined;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:451](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L451)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:460](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L460)
 
 Remove and return the head element.
 
@@ -2537,7 +2149,7 @@ console.log(list.length); // 2
 slice(start?, end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:494](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L494)
+Defined in: [data-structures/base/linear-base.ts:494](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L494)
 
 Slice via forward iteration (no random access required).
 
@@ -2577,7 +2189,7 @@ Time O(n), Space O(n)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -2624,7 +2236,7 @@ console.log(list.some(x => x % 2 === 0)); // true
 sort(compareFn?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L185)
+Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L185)
 
 In-place stable order via array sort semantics.
 
@@ -2669,7 +2281,7 @@ splice(
    items?): this;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:1029](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L1029)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:1065](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L1065)
 
 Remove and/or insert elements at a position (array-like behavior).
 
@@ -2715,7 +2327,7 @@ Time O(N + M), Space O(M)
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -2748,7 +2360,7 @@ console.log(list.toArray()); // [3, 1, 2]
 toReversedArray(): E[];
 ```
 
-Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L237)
+Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L237)
 
 Snapshot elements into a reversed array.
 
@@ -2774,7 +2386,7 @@ Time O(n), Space O(n)
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -2801,7 +2413,7 @@ Time O(n), Space O(n).
 unshift(elementOrNode): boolean;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:511](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L511)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:523](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L523)
 
 Prepend an element/node to the head.
 
@@ -2856,7 +2468,7 @@ console.log(list.length); // 4
 unshiftMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:546](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L546)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:558](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L558)
 
 Prepend a sequence of elements/nodes.
 
@@ -2888,7 +2500,7 @@ Time O(N), Space O(1)
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 
@@ -2924,7 +2536,7 @@ static from<E, R, S>(
    options?): S;
 ```
 
-Defined in: [data-structures/linked-list/singly-linked-list.ts:281](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/linked-list/singly-linked-list.ts#L281)
+Defined in: [data-structures/linked-list/singly-linked-list.ts:281](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/linked-list/singly-linked-list.ts#L281)
 
 Create a new list from an iterable of elements.
 

@@ -6,7 +6,7 @@
 
 # Class: SegmentTree\<E\>
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:30](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L30)
+Defined in: [data-structures/binary-tree/segment-tree.ts:30](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L30)
 
 Generic Segment Tree with flat array internals.
 
@@ -43,7 +43,7 @@ minTree.query(0, 4);    // 1
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:496](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L496)
+Defined in: [data-structures/binary-tree/segment-tree.ts:514](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L514)
 
 Iterates over leaf values in index order.
 
@@ -65,7 +65,7 @@ Iterable.[iterator]
 get(index): E;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:300](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L300)
+Defined in: [data-structures/binary-tree/segment-tree.ts:312](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L312)
 
 Get element at index.
 Time: O(1)
@@ -98,7 +98,7 @@ console.log(st.get(2)); // 30
 maxRight(left, predicate): number;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:345](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L345)
+Defined in: [data-structures/binary-tree/segment-tree.ts:360](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L360)
 
 Find the largest r such that predicate(query(left, r)) is true.
 Returns left-1 if predicate(identity) is false.
@@ -140,7 +140,7 @@ console.log(result); // 3
 minLeft(right, predicate): number;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:425](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L425)
+Defined in: [data-structures/binary-tree/segment-tree.ts:443](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L443)
 
 Find the smallest l such that predicate(query(l, right)) is true.
 Returns right+1 if predicate(identity) is false.
@@ -181,7 +181,7 @@ console.log(result); // 3
 query(start, end): E;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:241](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L241)
+Defined in: [data-structures/binary-tree/segment-tree.ts:250](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L250)
 
 Range query: returns merger result over [start, end] (inclusive).
 Time: O(log n)
@@ -225,7 +225,7 @@ console.log(tree.query(2, 2)); // 5
 update(index, value): void;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:187](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L187)
+Defined in: [data-structures/binary-tree/segment-tree.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L193)
 
 Point update: set element at index to value.
 Time: O(log n)
@@ -274,7 +274,7 @@ console.log(tree.query(0, 5)); // 740
 static max(elements): SegmentTree<number>;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:133](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L133)
+Defined in: [data-structures/binary-tree/segment-tree.ts:136](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L136)
 
 Create a max segment tree.
 
@@ -296,7 +296,7 @@ Create a max segment tree.
 static min(elements): SegmentTree<number>;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:118](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L118)
+Defined in: [data-structures/binary-tree/segment-tree.ts:121](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L121)
 
 Create a min segment tree.
 
@@ -334,7 +334,7 @@ console.log(tree.query(6, 11)); // 164
 static sum(elements): SegmentTree<number>;
 ```
 
-Defined in: [data-structures/binary-tree/segment-tree.ts:72](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/segment-tree.ts#L72)
+Defined in: [data-structures/binary-tree/segment-tree.ts:72](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/segment-tree.ts#L72)
 
 Create a sum segment tree.
 

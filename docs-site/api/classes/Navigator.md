@@ -6,7 +6,7 @@
 
 # Class: Navigator\<T\>
 
-Defined in: [data-structures/matrix/navigator.ts:31](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L31)
+Defined in: [data-structures/matrix/navigator.ts:31](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L31)
 
 ## Type Parameters
 
@@ -22,7 +22,7 @@ Defined in: [data-structures/matrix/navigator.ts:31](https://github.com/zrwusa/d
 new Navigator<T>(-): Navigator<T>;
 ```
 
-Defined in: [data-structures/matrix/navigator.ts:43](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L43)
+Defined in: [data-structures/matrix/navigator.ts:43](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L43)
 
 The constructor initializes the Navigator object with the given parameters and sets the current position as visited
 in the matrix.
@@ -47,7 +47,7 @@ in the matrix.
 check(direction): boolean;
 ```
 
-Defined in: [data-structures/matrix/navigator.ts:74](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L74)
+Defined in: [data-structures/matrix/navigator.ts:74](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L74)
 
 The function checks if there is a valid move in the specified direction in a matrix.
 
@@ -74,7 +74,7 @@ a boolean value.
 move(direction): void;
 ```
 
-Defined in: [data-structures/matrix/navigator.ts:104](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L104)
+Defined in: [data-structures/matrix/navigator.ts:104](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L104)
 
 The `move` function updates the current position based on the given direction and updates the matrix accordingly.
 
@@ -99,7 +99,7 @@ It can have one of the following values: 'up', 'right', 'down', or 'left'.
 start(): void;
 ```
 
-Defined in: [data-structures/matrix/navigator.ts:57](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/matrix/navigator.ts#L57)
+Defined in: [data-structures/matrix/navigator.ts:57](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/matrix/navigator.ts#L57)
 
 The "start" function moves the character in its current direction until it encounters an obstacle, then it turns the
 character and repeats the process.

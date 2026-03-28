@@ -6,7 +6,7 @@
 
 # Class: TreeMap\<K, V, R\>
 
-Defined in: [data-structures/binary-tree/tree-map.ts:26](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L26)
+Defined in: [data-structures/binary-tree/tree-map.ts:26](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L26)
 
 An ordered Map backed by a red-black tree.
 
@@ -48,7 +48,7 @@ An ordered Map backed by a red-black tree.
 new TreeMap<K, V, R>(entries?, options?): TreeMap<K, V, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:46](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L46)
+Defined in: [data-structures/binary-tree/tree-map.ts:46](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L46)
 
 Create a TreeMap from an iterable of `[key, value]` entries or raw elements.
 
@@ -97,7 +97,7 @@ const map = new TreeMap<number, User, User>(users, { toEntryFn: u => [u.id, u] }
 get size(): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:134](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L134)
+Defined in: [data-structures/binary-tree/tree-map.ts:134](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L134)
 
 Number of entries in the map.
 
@@ -113,7 +113,7 @@ Number of entries in the map.
 ceiling(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2669](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2669)
+Defined in: [data-structures/binary-tree/tree-map.ts:2963](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2963)
 
 Smallest entry whose key is >= the given key.
 
@@ -170,7 +170,7 @@ console.log(window.map(([, v]) => v)); // ['Team Meeting', 'Lunch Break']
 clear(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:908](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L908)
+Defined in: [data-structures/binary-tree/tree-map.ts:998](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L998)
 
 Remove all entries.
 
@@ -196,7 +196,7 @@ console.log(tm.isEmpty()); // true
 clone(): TreeMap<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:3275](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L3275)
+Defined in: [data-structures/binary-tree/tree-map.ts:3632](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L3632)
 
 Creates a shallow clone of this map.
 
@@ -227,7 +227,7 @@ console.log(tm.has(1)); // true
 delete(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:791](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L791)
+Defined in: [data-structures/binary-tree/tree-map.ts:866](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L866)
 
 Delete a key.
 
@@ -272,7 +272,7 @@ console.log(sessions.size); // 2
 entries(): IterableIterator<[K, V | undefined]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1260](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1260)
+Defined in: [data-structures/binary-tree/tree-map.ts:1395](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1395)
 
 Iterate over `[key, value]` entries in ascending key order.
 
@@ -299,7 +299,7 @@ console.log([...tm.entries()]); // [[1, 'a'], [2, 'b'], [3, 'c']]
 every(callbackfn, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1867](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1867)
+Defined in: [data-structures/binary-tree/tree-map.ts:2077](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2077)
 
 Test whether all entries satisfy a predicate.
 
@@ -338,7 +338,7 @@ console.log(tm.every((v, k) => k > 0)); // true
 filter(callbackfn, thisArg?): TreeMap<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1628](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1628)
+Defined in: [data-structures/binary-tree/tree-map.ts:1808](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1808)
 
 Create a new TreeMap containing only entries that satisfy the predicate.
 
@@ -378,7 +378,7 @@ console.log([...filtered.keys()]); // [2, 3]
 find(callbackfn, thisArg?): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2108](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2108)
+Defined in: [data-structures/binary-tree/tree-map.ts:2348](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2348)
 
 Find the first entry that satisfies a predicate.
 
@@ -419,7 +419,7 @@ console.log(tm.find(v => v === 'b')?.[0]); // 2
 first(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2406](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2406)
+Defined in: [data-structures/binary-tree/tree-map.ts:2679](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2679)
 
 Smallest entry by key.
 
@@ -465,7 +465,7 @@ console.log(leaderboard.size); // 3
 floor(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2783](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2783)
+Defined in: [data-structures/binary-tree/tree-map.ts:3089](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L3089)
 
 Largest entry whose key is <= the given key.
 
@@ -506,7 +506,7 @@ console.log(versions.floor(5)); // [5, 'v5.0']
 forEach(cb, thisArg?): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1382](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1382)
+Defined in: [data-structures/binary-tree/tree-map.ts:1532](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1532)
 
 Visit each entry in ascending key order.
 
@@ -545,7 +545,7 @@ console.log(pairs); // ['1:a', '2:b']
 get(key): V | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:522](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L522)
+Defined in: [data-structures/binary-tree/tree-map.ts:567](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L567)
 
 Get the value under a key.
 
@@ -586,7 +586,7 @@ console.log(config.size); // 3
 has(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:655](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L655)
+Defined in: [data-structures/binary-tree/tree-map.ts:715](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L715)
 
 Test whether a key exists.
 
@@ -627,7 +627,7 @@ console.log(flags.has('unknownFlag')); // false
 higher(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2897](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2897)
+Defined in: [data-structures/binary-tree/tree-map.ts:3215](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L3215)
 
 Smallest entry whose key is > the given key.
 
@@ -668,7 +668,7 @@ console.log(prices.higher(99)); // [100, 'Enterprise']
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:247](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L247)
+Defined in: [data-structures/binary-tree/tree-map.ts:262](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L262)
 
 Whether the map is empty.
 
@@ -692,7 +692,7 @@ console.log(new TreeMap().isEmpty()); // true
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1022](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1022)
+Defined in: [data-structures/binary-tree/tree-map.ts:1127](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1127)
 
 Iterate over keys in ascending order.
 
@@ -717,7 +717,7 @@ console.log([...tm.keys()]); // [1, 3]
 last(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2448](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2448)
+Defined in: [data-structures/binary-tree/tree-map.ts:2724](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2724)
 
 Largest entry by key.
 
@@ -748,7 +748,7 @@ console.log(scores.first()); // [78, 'Charlie']
 lower(key): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:3009](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L3009)
+Defined in: [data-structures/binary-tree/tree-map.ts:3339](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L3339)
 
 Largest entry whose key is < the given key.
 
@@ -790,7 +790,7 @@ map<MK, MV>(
 thisArg?): TreeMap<MK, MV>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1500](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1500)
+Defined in: [data-structures/binary-tree/tree-map.ts:1665](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1665)
 
 Create a new TreeMap by mapping each entry to a new `[key, value]` entry.
 
@@ -846,7 +846,7 @@ console.log([...doubled.values()]); // [20, 40]
 pollFirst(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2492](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2492)
+Defined in: [data-structures/binary-tree/tree-map.ts:2771](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2771)
 
 Remove and return the smallest entry.
 
@@ -879,7 +879,7 @@ console.log(tasks.size); // 1
 pollLast(): [K, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2538](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2538)
+Defined in: [data-structures/binary-tree/tree-map.ts:2820](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2820)
 
 Remove and return the largest entry.
 
@@ -912,7 +912,7 @@ console.log(bids.last()); // [120, 'Charlie']
 print(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2345](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2345)
+Defined in: [data-structures/binary-tree/tree-map.ts:2615](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2615)
 
 Print a human-friendly representation.
 
@@ -940,7 +940,7 @@ const tm = new TreeMap<number, string>([[1, 'a']]);
 rangeSearch(range, options?): [K, V | undefined][];
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:3141](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L3141)
+Defined in: [data-structures/binary-tree/tree-map.ts:3483](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L3483)
 
 Return all entries in a given key range.
 
@@ -1004,7 +1004,7 @@ console.log([...highStock.keys()]); // ['Doohickey', 'Widget']
 reduce<A>(callbackfn, initialValue): A;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1751](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1751)
+Defined in: [data-structures/binary-tree/tree-map.ts:1946](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1946)
 
 Reduce entries into a single accumulator.
 
@@ -1049,7 +1049,7 @@ console.log(tm.reduce((acc, v) => acc + (v ?? 0), 0)); // 30
 set(key, value): this;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:387](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L387)
+Defined in: [data-structures/binary-tree/tree-map.ts:417](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L417)
 
 Set or overwrite a value for a key.
 
@@ -1103,7 +1103,7 @@ console.log(contacts.ceiling('B')); // ['Bob', '555-0102']
 some(callbackfn, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1987](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1987)
+Defined in: [data-structures/binary-tree/tree-map.ts:2212](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2212)
 
 Test whether any entry satisfies a predicate.
 
@@ -1142,7 +1142,7 @@ console.log(tm.some((v, k) => k === 2)); // true
 toArray(): [K, V | undefined][];
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:2230](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L2230)
+Defined in: [data-structures/binary-tree/tree-map.ts:2485](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L2485)
 
 Materialize the map into an array of `[key, value]` tuples.
 
@@ -1171,7 +1171,7 @@ console.log(tm.toArray()); // [[1, 'a'], [2, 'b']]
 values(): IterableIterator<V | undefined>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:1144](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L1144)
+Defined in: [data-structures/binary-tree/tree-map.ts:1264](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L1264)
 
 Iterate over values in ascending key order.
 
@@ -1198,7 +1198,7 @@ console.log([...tm.values()]); // ['a', 'b']
 static createDefaultComparator<K>(): Comparator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-map.ts:87](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-map.ts#L87)
+Defined in: [data-structures/binary-tree/tree-map.ts:87](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-map.ts#L87)
 
 Create the strict default comparator.
 

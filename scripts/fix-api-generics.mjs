@@ -3,10 +3,20 @@
  * Escapes bare TypeScript generic angle brackets <T> in plain text
  * to HTML entities so Vue's template compiler doesn't choke on them.
  */
-import { glob } from 'fast-glob';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { join } from 'path';
 
-const files = await glob('docs-site/api/**/*.md');
+function walk(dir) {
+  const results = [];
+  for (const f of readdirSync(dir)) {
+    const full = join(dir, f);
+    if (statSync(full).isDirectory()) results.push(...walk(full));
+    else if (full.endsWith('.md')) results.push(full);
+  }
+  return results;
+}
+
+const files = walk('docs-site/api');
 let count = 0;
 
 for (const f of files) {

@@ -6,7 +6,7 @@
 
 # Class: TreeSet\<K, R\>
 
-Defined in: [data-structures/binary-tree/tree-set.ts:26](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L26)
+Defined in: [data-structures/binary-tree/tree-set.ts:26](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L26)
 
 An ordered Set backed by a red-black tree.
 
@@ -44,7 +44,7 @@ An ordered Set backed by a red-black tree.
 new TreeSet<K, R>(elements?, options?): TreeSet<K, R>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:46](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L46)
+Defined in: [data-structures/binary-tree/tree-set.ts:46](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L46)
 
 Create a TreeSet from an iterable of keys or raw elements.
 
@@ -92,7 +92,7 @@ const set = new TreeSet<number, User>(users, { toElementFn: u => u.id });
 get size(): number;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:101](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L101)
+Defined in: [data-structures/binary-tree/tree-set.ts:101](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L101)
 
 Number of elements in the set.
 
@@ -108,7 +108,7 @@ Number of elements in the set.
 add(key): this;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:358](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L358)
+Defined in: [data-structures/binary-tree/tree-set.ts:388](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L388)
 
 Add a key to the set (no-op if already present).
 
@@ -150,7 +150,7 @@ console.log(tags.last()); // 'typescript'
 ceiling(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2460](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2460)
+Defined in: [data-structures/binary-tree/tree-set.ts:2739](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2739)
 
 Smallest key that is >= the given key.
 
@@ -193,7 +193,7 @@ console.log(slots.ceiling(630)); // 720
 clear(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:737](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L737)
+Defined in: [data-structures/binary-tree/tree-set.ts:812](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L812)
 
 Remove all keys.
 
@@ -219,7 +219,7 @@ console.log(ts.isEmpty()); // true
 clone(): TreeSet<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:3027](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L3027)
+Defined in: [data-structures/binary-tree/tree-set.ts:3369](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L3369)
 
 Creates a shallow clone of this set.
 
@@ -250,7 +250,7 @@ console.log(ts.has(1)); // true
 delete(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:620](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L620)
+Defined in: [data-structures/binary-tree/tree-set.ts:680](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L680)
 
 Delete a key.
 
@@ -290,7 +290,7 @@ console.log([...nums]); // [1, 3, 7, 9]
 entries(): IterableIterator<[K, K]>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1083](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1083)
+Defined in: [data-structures/binary-tree/tree-set.ts:1203](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1203)
 
 Iterate over `[value, value]` pairs (native Set convention).
 
@@ -317,7 +317,7 @@ console.log([...ts.entries()].map(([k]) => k)); // [1, 2, 3]
 every(callbackfn, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1691](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1691)
+Defined in: [data-structures/binary-tree/tree-set.ts:1886](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1886)
 
 Test whether all values satisfy a predicate.
 
@@ -356,7 +356,7 @@ console.log(ts.every(k => k > 0)); // true
 filter(callbackfn, thisArg?): TreeSet<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1451](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1451)
+Defined in: [data-structures/binary-tree/tree-set.ts:1616](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1616)
 
 Create a new TreeSet containing only values that satisfy the predicate.
 
@@ -396,7 +396,7 @@ console.log([...evens]); // [2, 4]
 find(callbackfn, thisArg?): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1932](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1932)
+Defined in: [data-structures/binary-tree/tree-set.ts:2157](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2157)
 
 Find the first value that satisfies a predicate.
 
@@ -436,7 +436,7 @@ console.log(found); // 2
 first(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2230](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2230)
+Defined in: [data-structures/binary-tree/tree-set.ts:2488](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2488)
 
 Smallest key in the set.
 
@@ -484,7 +484,7 @@ console.log(honors.toArray().map(s => s.name)); // ['Charlie', 'Alice']
 floor(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2566](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2566)
+Defined in: [data-structures/binary-tree/tree-set.ts:2857](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2857)
 
 Largest key that is <= the given key.
 
@@ -518,7 +518,7 @@ console.log(breakpoints.floor(1024)); // 1024
 forEach(cb, thisArg?): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1205](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1205)
+Defined in: [data-structures/binary-tree/tree-set.ts:1340](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1340)
 
 Visit each value in ascending order.
 
@@ -557,7 +557,7 @@ console.log(keys); // [1, 2, 3]
 has(key): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:489](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L489)
+Defined in: [data-structures/binary-tree/tree-set.ts:534](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L534)
 
 Test whether a key exists.
 
@@ -594,7 +594,7 @@ console.log(allowed.has('guest')); // false
 higher(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2670](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2670)
+Defined in: [data-structures/binary-tree/tree-set.ts:2973](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2973)
 
 Smallest key that is > the given key.
 
@@ -626,7 +626,7 @@ console.log(levels.higher(10)); // 25
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:214](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L214)
+Defined in: [data-structures/binary-tree/tree-set.ts:229](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L229)
 
 Whether the set is empty.
 
@@ -650,7 +650,7 @@ console.log(new TreeSet().isEmpty()); // true
 keys(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:851](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L851)
+Defined in: [data-structures/binary-tree/tree-set.ts:941](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L941)
 
 Iterate over keys in ascending order.
 
@@ -675,7 +675,7 @@ console.log([...ts.keys()]); // [10, 20, 30]
 last(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2266](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2266)
+Defined in: [data-structures/binary-tree/tree-set.ts:2527](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2527)
 
 Largest key in the set.
 
@@ -701,7 +701,7 @@ console.log(temps.first()); // 15
 lower(key): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2774](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2774)
+Defined in: [data-structures/binary-tree/tree-set.ts:3089](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L3089)
 
 Largest key that is < the given key.
 
@@ -736,7 +736,7 @@ map<MK>(
 thisArg?): TreeSet<MK>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1323](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1323)
+Defined in: [data-structures/binary-tree/tree-set.ts:1473](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1473)
 
 Create a new TreeSet by mapping each value to a new key.
 
@@ -788,7 +788,7 @@ console.log([...doubled]); // [2, 4, 6]
 pollFirst(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2304](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2304)
+Defined in: [data-structures/binary-tree/tree-set.ts:2568](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2568)
 
 Remove and return the smallest key.
 
@@ -816,7 +816,7 @@ console.log(queue.size); // 2
 pollLast(): K | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2344](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2344)
+Defined in: [data-structures/binary-tree/tree-set.ts:2611](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2611)
 
 Remove and return the largest key.
 
@@ -843,7 +843,7 @@ console.log(stack.size); // 2
 print(): void;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2169](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2169)
+Defined in: [data-structures/binary-tree/tree-set.ts:2424](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2424)
 
 Print a human-friendly representation.
 
@@ -871,7 +871,7 @@ const ts = new TreeSet<number>([1, 2, 3]);
 rangeSearch(range, options?): K[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2892](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2892)
+Defined in: [data-structures/binary-tree/tree-set.ts:3219](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L3219)
 
 Return all keys in a given range.
 
@@ -923,7 +923,7 @@ console.log(blocklist.has(167772800)); // false
 reduce<A>(callbackfn, initialValue): A;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1575](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1575)
+Defined in: [data-structures/binary-tree/tree-set.ts:1755](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1755)
 
 Reduce values into a single accumulator.
 
@@ -969,7 +969,7 @@ console.log(sum); // 6
 some(callbackfn, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:1811](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L1811)
+Defined in: [data-structures/binary-tree/tree-set.ts:2021](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2021)
 
 Test whether any value satisfies a predicate.
 
@@ -1008,7 +1008,7 @@ console.log(ts.some(k => k === 3)); // true
 toArray(): K[];
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:2054](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L2054)
+Defined in: [data-structures/binary-tree/tree-set.ts:2294](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L2294)
 
 Materialize the set into an array of keys.
 
@@ -1037,7 +1037,7 @@ console.log(ts.toArray()); // [1, 2, 3]
 values(): IterableIterator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:967](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L967)
+Defined in: [data-structures/binary-tree/tree-set.ts:1072](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L1072)
 
 Iterate over values in ascending order.
 
@@ -1064,7 +1064,7 @@ console.log([...ts.values()]); // [1, 2, 3]
 static createDefaultComparator<K>(): Comparator<K>;
 ```
 
-Defined in: [data-structures/binary-tree/tree-set.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/tree-set.ts#L71)
+Defined in: [data-structures/binary-tree/tree-set.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/tree-set.ts#L71)
 
 Create the strict default comparator.
 

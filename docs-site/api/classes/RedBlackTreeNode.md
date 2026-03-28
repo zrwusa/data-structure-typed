@@ -6,7 +6,7 @@
 
 # Class: RedBlackTreeNode\<K, V\>
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L22)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L22)
 
 ## Type Parameters
 
@@ -29,7 +29,7 @@ new RedBlackTreeNode<K, V>(
 color?): RedBlackTreeNode<K, V>;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:35](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L35)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:35](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L35)
 
 Create a Red-Black Tree node.
 
@@ -71,7 +71,7 @@ Time O(1), Space O(1)
 get color(): RBTNColor;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:119](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L119)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:119](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L119)
 
 Gets the color of the node (used in Red-Black trees).
 
@@ -91,7 +91,7 @@ The node's color.
 set color(value): void;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:129](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L129)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:129](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L129)
 
 Sets the color of the node.
 
@@ -121,7 +121,7 @@ The new color.
 get count(): number;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:142](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L142)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:142](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L142)
 
 Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
 
@@ -145,7 +145,7 @@ The subtree node count.
 get familyPosition(): FamilyPosition;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:152](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L152)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:152](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L152)
 
 Gets the position of the node relative to its parent.
 
@@ -169,7 +169,7 @@ The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
 get height(): number;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:102](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L102)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:102](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L102)
 
 Gets the height of the node (used in self-balancing trees).
 
@@ -193,7 +193,7 @@ The height.
 get left(): RedBlackTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:49](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L49)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:49](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L49)
 
 Get the left child pointer.
 
@@ -213,7 +213,7 @@ Left child node, or null/undefined.
 set left(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L60)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L60)
 
 Set the left child and update its parent pointer.
 
@@ -245,7 +245,7 @@ void
 get right(): RedBlackTreeNode<K, V> | null | undefined;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:75](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L75)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:75](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L75)
 
 Get the right child pointer.
 
@@ -265,7 +265,7 @@ Right child node, or null/undefined.
 set right(v): void;
 ```
 
-Defined in: [data-structures/binary-tree/red-black-tree.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/binary-tree/red-black-tree.ts#L86)
+Defined in: [data-structures/binary-tree/red-black-tree.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/binary-tree/red-black-tree.ts#L86)
 
 Set the right child and update its parent pointer.
 

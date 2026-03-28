@@ -6,7 +6,7 @@
 
 # Class: Deque\<E, R\>
 
-Defined in: [data-structures/queue/deque.ts:85](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L85)
+Defined in: [data-structures/queue/deque.ts:85](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L85)
 
 Deque implemented with circular buckets allowing O(1) amortized push/pop at both ends.
 
@@ -103,7 +103,7 @@ Time O(1), Space O(1)
 new Deque<E, R>(elements?, options?): Deque<E, R>;
 ```
 
-Defined in: [data-structures/queue/deque.ts:96](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L96)
+Defined in: [data-structures/queue/deque.ts:96](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L96)
 
 Create a Deque and optionally bulk-insert elements.
 
@@ -135,49 +135,6 @@ Time O(N), Space O(N)
 
 [`LinearBase`](LinearBase.md).[`constructor`](LinearBase.md#constructor)
 
-## Properties
-
-### \_compactCounter
-
-```ts
-protected _compactCounter: number = 0;
-```
-
-Defined in: [data-structures/queue/deque.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L162)
-
-Counter for shift/pop operations since last compaction check.
-Only checks ratio every `_bucketSize` operations to minimize overhead.
-
-***
-
-### \_toElementFn?
-
-```ts
-protected optional _toElementFn?: (rawElement) => E;
-```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`LinearBase`](LinearBase.md).[`_toElementFn`](LinearBase.md#toelementfn)
-
 ## Accessors
 
 ### autoCompactRatio
@@ -188,7 +145,7 @@ Time O(1), Space O(1).
 get autoCompactRatio(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:145](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L145)
+Defined in: [data-structures/queue/deque.ts:145](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L145)
 
 Get the auto-compaction ratio.
 When `elements / (bucketCount * bucketSize)` drops below this ratio after
@@ -210,7 +167,7 @@ Current ratio threshold. 0 means auto-compact is disabled.
 set autoCompactRatio(value): void;
 ```
 
-Defined in: [data-structures/queue/deque.ts:154](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L154)
+Defined in: [data-structures/queue/deque.ts:154](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L154)
 
 Set the auto-compaction ratio.
 
@@ -240,7 +197,7 @@ Ratio in [0,1]. 0 disables auto-compact.
 get bucketCount(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:220](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L220)
+Defined in: [data-structures/queue/deque.ts:220](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L220)
 
 Get the number of buckets allocated.
 
@@ -264,7 +221,7 @@ Bucket count.
 get bucketFirst(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:172](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L172)
+Defined in: [data-structures/queue/deque.ts:172](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L172)
 
 Get the index of the first bucket in use.
 
@@ -288,7 +245,7 @@ Zero-based bucket index.
 get bucketLast(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:196](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L196)
+Defined in: [data-structures/queue/deque.ts:196](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L196)
 
 Get the index of the last bucket in use.
 
@@ -312,7 +269,7 @@ Zero-based bucket index.
 get buckets(): E[][];
 ```
 
-Defined in: [data-structures/queue/deque.ts:232](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L232)
+Defined in: [data-structures/queue/deque.ts:232](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L232)
 
 Get the internal buckets array.
 
@@ -336,7 +293,7 @@ Array of buckets storing values.
 get bucketSize(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L132)
+Defined in: [data-structures/queue/deque.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L132)
 
 Get the current bucket size.
 
@@ -360,7 +317,7 @@ Bucket capacity per bucket.
 get first(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/deque.ts:292](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L292)
+Defined in: [data-structures/queue/deque.ts:295](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L295)
 
 Get the first element without removing it.
 
@@ -403,7 +360,7 @@ First element or undefined.
 get firstInBucket(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:184](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L184)
+Defined in: [data-structures/queue/deque.ts:184](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L184)
 
 Get the index inside the first bucket.
 
@@ -427,7 +384,7 @@ Zero-based index within the first bucket.
 get last(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/deque.ts:332](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L332)
+Defined in: [data-structures/queue/deque.ts:338](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L338)
 
 Get the last element without removing it.
 
@@ -461,7 +418,7 @@ Last element or undefined.
 get lastInBucket(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:208](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L208)
+Defined in: [data-structures/queue/deque.ts:208](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L208)
 
 Get the index inside the last bucket.
 
@@ -485,7 +442,7 @@ Zero-based index within the last bucket.
 get length(): number;
 ```
 
-Defined in: [data-structures/queue/deque.ts:244](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L244)
+Defined in: [data-structures/queue/deque.ts:244](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L244)
 
 Get the number of elements in the deque.
 
@@ -513,7 +470,7 @@ Current length.
 get maxLen(): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L100)
+Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L100)
 
 Upper bound for length (if positive), or `-1` when unbounded.
 
@@ -541,7 +498,7 @@ Maximum allowed length.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -561,265 +518,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_autoCompact()
-
-```ts
-protected _autoCompact(): void;
-```
-
-Defined in: [data-structures/queue/deque.ts:1101](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1101)
-
-(Protected) Trigger auto-compaction if space utilization drops below threshold.
-Only checks every `_bucketSize` operations to minimize hot-path overhead.
-Uses element-based ratio: `elements / (bucketCount * bucketSize)`.
-
-#### Returns
-
-`void`
-
-***
-
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/queue/deque.ts:1440](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1440)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`LinearBaseOptions`\<`E`, `R`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`this`
-
-An empty like-kind deque instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Overrides
-
-[`LinearBase`](LinearBase.md).[`_createInstance`](LinearBase.md#createinstance)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<T, RR>(elements?, options?): any;
-```
-
-Defined in: [data-structures/queue/deque.ts:1458](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1458)
-
-(Protected) Create a like-kind deque seeded by elements.
-
-#### Type Parameters
-
-##### T
-
-`T` = `E`
-
-##### RR
-
-`RR` = `R`
-
-#### Parameters
-
-##### elements?
-
-`IterableWithSizeOrLength`\<`T`\> \| `IterableWithSizeOrLength`\<`RR`\>
-
-Iterable used to seed the new deque.
-
-##### options?
-
-`DequeOptions`\<`T`, `RR`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`any`
-
-A like-kind Deque instance.
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_getBucketAndPosition()
-
-```ts
-protected _getBucketAndPosition(pos): object;
-```
-
-Defined in: [data-structures/queue/deque.ts:1414](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1414)
-
-(Protected) Translate a logical position to bucket/offset.
-
-#### Parameters
-
-##### pos
-
-`number`
-
-Zero-based position.
-
-#### Returns
-
-`object`
-
-An object containing bucketIndex and indexInBucket.
-
-##### bucketIndex
-
-```ts
-bucketIndex: number;
-```
-
-##### indexInBucket
-
-```ts
-indexInBucket: number;
-```
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/queue/deque.ts:1371](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1371)
-
-(Protected) Iterate elements from front to back.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of elements.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearBase`](LinearBase.md).[`_getIterator`](LinearBase.md#getiterator)
-
-***
-
-### \_getReverseIterator()
-
-```ts
-protected _getReverseIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/queue/deque.ts:1475](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1475)
-
-(Protected) Iterate elements from back to front.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of elements.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearBase`](LinearBase.md).[`_getReverseIterator`](LinearBase.md#getreverseiterator)
-
-***
-
-### \_reallocate()
-
-```ts
-protected _reallocate(needBucketNum?): void;
-```
-
-Defined in: [data-structures/queue/deque.ts:1385](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1385)
-
-(Protected) Reallocate buckets to make room near the ends.
-
-#### Parameters
-
-##### needBucketNum?
-
-`number`
-
-How many extra buckets to add; defaults to half of current.
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_setBucketSize()
-
-```ts
-protected _setBucketSize(size): void;
-```
-
-Defined in: [data-structures/queue/deque.ts:1351](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1351)
-
-(Protected) Set the internal bucket size.
-
-#### Parameters
-
-##### size
-
-`number`
-
-Bucket capacity to assign.
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -856,7 +561,7 @@ addAt(
    num?): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:777](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L777)
+Defined in: [data-structures/queue/deque.ts:804](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L804)
 
 Insert repeated copies of an element at a position.
 
@@ -902,7 +607,7 @@ Time O(N), Space O(1)
 at(pos): E | undefined;
 ```
 
-Defined in: [data-structures/queue/deque.ts:747](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L747)
+Defined in: [data-structures/queue/deque.ts:774](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L774)
 
 Get the element at a given position.
 
@@ -946,7 +651,7 @@ console.log(dq.at(2)); // 'c'
 clear(): void;
 ```
 
-Defined in: [data-structures/queue/deque.ts:707](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L707)
+Defined in: [data-structures/queue/deque.ts:731](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L731)
 
 Remove all elements and reset structure.
 
@@ -982,7 +687,7 @@ console.log(dq.length); // 0
 clone(): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1215](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1215)
+Defined in: [data-structures/queue/deque.ts:1254](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1254)
 
 Deep clone this deque, preserving options.
 
@@ -1020,7 +725,7 @@ console.log(copy.length); // 2
 compact(): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1152](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1152)
+Defined in: [data-structures/queue/deque.ts:1188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1188)
 
 Compact the deque by removing unused buckets.
 
@@ -1054,7 +759,7 @@ console.log(dq.length); // 3
 concat(...items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:165](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L165)
+Defined in: [data-structures/base/linear-base.ts:165](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L165)
 
 Concatenate elements and/or containers.
 
@@ -1088,7 +793,7 @@ Time O(sum(length)), Space O(sum(length))
 cut(pos, isCutSelf?): Deque<E>;
 ```
 
-Defined in: [data-structures/queue/deque.ts:805](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L805)
+Defined in: [data-structures/queue/deque.ts:832](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L832)
 
 Cut the deque to keep items up to index; optionally mutate in-place.
 
@@ -1124,7 +829,7 @@ Time O(N), Space O(1)
 cutRest(pos, isCutSelf?): Deque<E>;
 ```
 
-Defined in: [data-structures/queue/deque.ts:872](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L872)
+Defined in: [data-structures/queue/deque.ts:899](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L899)
 
 Cut the deque to keep items from index onward; optionally mutate in-place.
 
@@ -1160,7 +865,7 @@ Time O(N), Space O(1)
 delete(element): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:960](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L960)
+Defined in: [data-structures/queue/deque.ts:990](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L990)
 
 Delete the first occurrence of a value.
 
@@ -1204,7 +909,7 @@ console.log(dq.length); // 2
 deleteAt(pos): E | undefined;
 ```
 
-Defined in: [data-structures/queue/deque.ts:901](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L901)
+Defined in: [data-structures/queue/deque.ts:928](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L928)
 
 Delete the element at a given position.
 
@@ -1238,7 +943,7 @@ Time O(N), Space O(1)
 deleteWhere(predicate): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:984](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L984)
+Defined in: [data-structures/queue/deque.ts:1014](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1014)
 
 Delete the first element matching a predicate.
 
@@ -1268,7 +973,7 @@ Time O(N), Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -1318,7 +1023,7 @@ fill(
    end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L292)
+Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L292)
 
 Fill a range with a value.
 
@@ -1364,7 +1069,7 @@ Time O(n), Space O(1)
 filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1258](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1258)
+Defined in: [data-structures/queue/deque.ts:1300](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1300)
 
 Filter elements into a new deque of the same class.
 
@@ -1416,7 +1121,7 @@ console.log(result.length); // 2
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1469,7 +1174,7 @@ console.log(dq.find(x => x > 2)); // 3
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1518,7 +1223,7 @@ console.log(dq.find(x => x > 2)); // 3
 findIndex(predicate, thisArg?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L151)
+Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L151)
 
 Find the first index matching a predicate.
 
@@ -1558,7 +1263,7 @@ Time O(n), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -1607,7 +1312,7 @@ console.log(items); // [1, 2, 3]
 has(element): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L188)
+Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L188)
 
 Checks whether a strictly-equal element exists in the structure.
 
@@ -1641,7 +1346,7 @@ Time O(n) in the worst case. Space O(1).
 indexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:111](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L111)
+Defined in: [data-structures/base/linear-base.ts:111](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L111)
 
 First index of a value from the left.
 
@@ -1688,7 +1393,7 @@ console.log(dq.indexOf('y')); // 1
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:670](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L670)
+Defined in: [data-structures/queue/deque.ts:691](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L691)
 
 Check whether the deque is empty.
 
@@ -1723,7 +1428,7 @@ console.log(dq.isEmpty()); // true
 join(separator?): string;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L228)
+Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L228)
 
 Join all elements into a string.
 
@@ -1757,7 +1462,7 @@ Time O(n), Space O(n)
 lastIndexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:131](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L131)
+Defined in: [data-structures/base/linear-base.ts:131](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L131)
 
 Last index of a value from the right.
 
@@ -1800,7 +1505,7 @@ map<EM, RM>(
 thisArg?): Deque<EM, RM>;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1325](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1325)
+Defined in: [data-structures/queue/deque.ts:1370](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1370)
 
 Map elements into a new deque (possibly different element type).
 
@@ -1866,7 +1571,7 @@ console.log(result.toArray()); // [10, 20, 30]
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1277](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1277)
+Defined in: [data-structures/queue/deque.ts:1319](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1319)
 
 Map elements into a new deque of the same element type.
 
@@ -1906,7 +1611,7 @@ Time O(N), Space O(N)
 pop(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/deque.ts:462](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L462)
+Defined in: [data-structures/queue/deque.ts:474](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L474)
 
 Remove and return the last element.
 
@@ -1938,7 +1643,7 @@ console.log(dq.length); // 2
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1970,7 +1675,7 @@ const dq = new Deque<number>([1, 2, 3]);
 push(element): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:408](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L408)
+Defined in: [data-structures/queue/deque.ts:417](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L417)
 
 Append one element at the back.
 
@@ -2027,7 +1732,7 @@ console.log(last); // 6
 pushMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/queue/deque.ts:607](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L607)
+Defined in: [data-structures/queue/deque.ts:625](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L625)
 
 Append a sequence of elements.
 
@@ -2093,7 +1798,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -2122,7 +1827,7 @@ console.log(dq.reduce((acc, x) => acc + x, 0)); // 6
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -2155,7 +1860,7 @@ console.log(dq.reduce((acc, x) => acc + x, 0)); // 6
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -2196,7 +1901,7 @@ console.log(dq.reduce((acc, x) => acc + x, 0)); // 6
 reduceRight<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:256](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L256)
+Defined in: [data-structures/base/linear-base.ts:256](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L256)
 
 Right-to-left reduction over elements.
 
@@ -2242,7 +1947,7 @@ Time O(n), Space O(1)
 reverse(): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1055](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1055)
+Defined in: [data-structures/queue/deque.ts:1088](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1088)
 
 Reverse the deque by reversing buckets and pointers.
 
@@ -2291,7 +1996,7 @@ console.log(backward); // ['D', 'C', 'B', 'A']
 setAt(pos, element): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:761](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L761)
+Defined in: [data-structures/queue/deque.ts:788](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L788)
 
 Replace the element at a given position.
 
@@ -2331,7 +2036,7 @@ Time O(1), Space O(1)
 setEquality(equals): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1002](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1002)
+Defined in: [data-structures/queue/deque.ts:1032](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1032)
 
 Set the equality comparator used by delete operations.
 
@@ -2361,7 +2066,7 @@ Time O(1), Space O(1)
 shift(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/deque.ts:516](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L516)
+Defined in: [data-structures/queue/deque.ts:531](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L531)
 
 Remove and return the first element.
 
@@ -2393,7 +2098,7 @@ console.log(dq.length); // 2
 slice(start?, end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:273](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L273)
+Defined in: [data-structures/base/linear-base.ts:273](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L273)
 
 Create a shallow copy of a subrange.
 
@@ -2433,7 +2138,7 @@ Time O(n), Space O(n)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -2480,7 +2185,7 @@ console.log(dq.some(x => x > 3)); // true
 sort(compareFn?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L185)
+Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L185)
 
 In-place stable order via array sort semantics.
 
@@ -2525,7 +2230,7 @@ splice(
    items?): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:837](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L837)
+Defined in: [data-structures/queue/deque.ts:864](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L864)
 
 Remove and/or insert elements at a position (array-like behavior).
 
@@ -2571,7 +2276,7 @@ Time O(N + M), Space O(M)
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -2604,7 +2309,7 @@ console.log(dq.toArray()); // [1, 2, 3]
 toReversedArray(): E[];
 ```
 
-Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L237)
+Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L237)
 
 Snapshot elements into a reversed array.
 
@@ -2630,7 +2335,7 @@ Time O(n), Space O(n)
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -2657,7 +2362,7 @@ Time O(n), Space O(n).
 unique(): this;
 ```
 
-Defined in: [data-structures/queue/deque.ts:1073](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L1073)
+Defined in: [data-structures/queue/deque.ts:1106](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L1106)
 
 Deduplicate consecutive equal elements in-place.
 
@@ -2679,7 +2384,7 @@ Time O(N), Space O(1)
 unshift(element): boolean;
 ```
 
-Defined in: [data-structures/queue/deque.ts:581](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L581)
+Defined in: [data-structures/queue/deque.ts:599](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L599)
 
 Prepend one element at the front.
 
@@ -2729,7 +2434,7 @@ console.log(deque.length); // 3
 unshiftMany(elements?): boolean[];
 ```
 
-Defined in: [data-structures/queue/deque.ts:626](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L626)
+Defined in: [data-structures/queue/deque.ts:644](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L644)
 
 Prepend a sequence of elements.
 
@@ -2759,7 +2464,7 @@ Time O(N), Space O(1)
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 
@@ -2795,7 +2500,7 @@ static fromArray<E, R>(
    options?): any;
 ```
 
-Defined in: [data-structures/queue/deque.ts:348](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/deque.ts#L348)
+Defined in: [data-structures/queue/deque.ts:354](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/deque.ts#L354)
 
 Create a Deque from an array of elements.
 

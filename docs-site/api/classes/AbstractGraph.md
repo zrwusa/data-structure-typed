@@ -6,7 +6,7 @@
 
 # Abstract Class: AbstractGraph\<V, E, VO, EO\>
 
-Defined in: [data-structures/graph/abstract-graph.ts:53](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L53)
+Defined in: [data-structures/graph/abstract-graph.ts:53](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L53)
 
 Abstract graph over vertices and edges.
 
@@ -67,7 +67,7 @@ Concrete edge subclass (extends AbstractEdge&lt;E&gt;).
 new AbstractGraph<V, E, VO, EO>(options?): AbstractGraph<V, E, VO, EO>;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:67](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L67)
+Defined in: [data-structures/graph/abstract-graph.ts:67](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L67)
 
 Construct a graph with runtime defaults.
 
@@ -95,25 +95,6 @@ IterableEntryBase<VertexKey, V | undefined>.constructor
 
 ## Accessors
 
-### \_edgeConnector
-
-#### Get Signature
-
-```ts
-get protected _edgeConnector(): string;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:1087](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1087)
-
-The edge connector string used in visual output.
-Override in subclasses (e.g., '--' for undirected, '->' for directed).
-
-##### Returns
-
-`string`
-
-***
-
 ### size
 
 #### Get Signature
@@ -122,7 +103,7 @@ Override in subclasses (e.g., '--' for undirected, '->' for directed).
 get size(): number;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:89](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L89)
+Defined in: [data-structures/graph/abstract-graph.ts:89](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L89)
 
 Total number of entries.
 
@@ -142,247 +123,13 @@ Entry count.
 
 ## Methods
 
-### \_addEdge()
-
-```ts
-abstract protected _addEdge(edge): boolean;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:1046](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1046)
-
-Internal hook to attach an edge into adjacency structures.
-
-#### Parameters
-
-##### edge
-
-`EO`
-
-Edge instance.
-
-#### Returns
-
-`boolean`
-
-`true` if inserted; otherwise `false`.
-
-#### Remarks
-
-Time O(1) avg, Space O(1)
-
-***
-
-### \_addVertex()
-
-```ts
-protected _addVertex(newVertex): boolean;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:1054](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1054)
-
-Insert a pre-built vertex into the graph.
-
-#### Parameters
-
-##### newVertex
-
-`VO`
-
-Concrete vertex instance.
-
-#### Returns
-
-`boolean`
-
-`true` if inserted; `false` if key already exists.
-
-#### Remarks
-
-Time O(1) avg, Space O(1)
-
-***
-
-### \_createInstance()
-
-```ts
-protected _createInstance(_options?): this;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:987](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L987)
-
-Create an empty graph instance of the same concrete species.
-
-#### Parameters
-
-##### \_options?
-
-`Partial`\<`Record`\<`string`, `unknown`\>\>
-
-Snapshot options from `_snapshotOptions()`.
-
-#### Returns
-
-`this`
-
-A new empty graph instance of `this` type.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike(iter?, options?): this;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:1009](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1009)
-
-Create a same-species graph populated with entries; preserves edges among kept vertices.
-
-#### Parameters
-
-##### iter?
-
-`Iterable`\<\[`VertexKey`, `V` \| `undefined`\], `any`, `any`\>
-
-Optional entries to seed the new graph.
-
-##### options?
-
-`Partial`\<`Record`\<`string`, `unknown`\>\>
-
-Snapshot options.
-
-#### Returns
-
-`this`
-
-A new graph of `this` type.
-
-#### Remarks
-
-Time O(V + E), Space O(V + E)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<[VertexKey, V | undefined]>;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:958](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L958)
-
-Internal iterator over `[key, value]` entries in insertion order.
-
-#### Returns
-
-`IterableIterator`\<\[`VertexKey`, `V` \| `undefined`\]\>
-
-Iterator of `[VertexKey, V | undefined]`.
-
-#### Remarks
-
-Time O(V), Space O(1)
-
-#### Overrides
-
-[`IterableEntryBase`](IterableEntryBase.md).[`_getIterator`](IterableEntryBase.md#getiterator)
-
-***
-
-### \_getVertex()
-
-```ts
-protected _getVertex(vertexOrKey): VO | undefined;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:1068](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1068)
-
-Resolve a vertex key or instance to the concrete vertex instance.
-
-#### Parameters
-
-##### vertexOrKey
-
-`VertexKey` \| `VO`
-
-Vertex key or existing vertex.
-
-#### Returns
-
-`VO` \| `undefined`
-
-Vertex instance or `undefined`.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_getVertexKey()
-
-```ts
-protected _getVertexKey(vertexOrKey): VertexKey;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:1079](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1079)
-
-Resolve a vertex key from a key or vertex instance.
-
-#### Parameters
-
-##### vertexOrKey
-
-`VertexKey` \| `VO`
-
-Vertex key or existing vertex.
-
-#### Returns
-
-`VertexKey`
-
-The vertex key.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_snapshotOptions()
-
-```ts
-protected _snapshotOptions(): Record<string, unknown>;
-```
-
-Defined in: [data-structures/graph/abstract-graph.ts:973](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L973)
-
-Capture configuration needed to reproduce the current graph.
-
-#### Returns
-
-`Record`\<`string`, `unknown`\>
-
-Options bag (opaque to callers).
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<[VertexKey, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L22)
+Defined in: [data-structures/base/iterable-entry-base.ts:22](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L22)
 
 Default iterator yielding `[key, value]` entries.
 
@@ -438,7 +185,7 @@ Time O(1) avg, Space O(1)
 addEdge(edge): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:254](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L254)
+Defined in: [data-structures/graph/abstract-graph.ts:254](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L254)
 
 ##### Parameters
 
@@ -460,7 +207,7 @@ addEdge(
    value?): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:256](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L256)
+Defined in: [data-structures/graph/abstract-graph.ts:256](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L256)
 
 ##### Parameters
 
@@ -508,7 +255,7 @@ Time O(1) avg, Space O(1)
 addVertex(vertex): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:189](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L189)
+Defined in: [data-structures/graph/abstract-graph.ts:189](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L189)
 
 ##### Parameters
 
@@ -532,7 +279,7 @@ IGraph.addVertex
 addVertex(key, value?): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:191](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L191)
+Defined in: [data-structures/graph/abstract-graph.ts:191](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L191)
 
 ##### Parameters
 
@@ -566,7 +313,7 @@ bellmanFord(
    genPath?): object;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:705](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L705)
+Defined in: [data-structures/graph/abstract-graph.ts:705](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L705)
 
 Bellman-Ford single-source shortest paths with option to scan negative cycles.
 
@@ -650,7 +397,7 @@ Time O(V * E), Space O(V + E)
 abstract clear(): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:218](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L218)
+Defined in: [data-structures/base/iterable-entry-base.ts:218](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L218)
 
 Remove all entries.
 
@@ -680,7 +427,7 @@ IGraph.clear
 clone(): this;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:947](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L947)
+Defined in: [data-structures/graph/abstract-graph.ts:947](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L947)
 
 Create a deep clone of the graph with the same species.
 
@@ -716,7 +463,7 @@ abstract createEdge(
    value?): EO;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:111](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L111)
+Defined in: [data-structures/graph/abstract-graph.ts:111](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L111)
 
 Create a new edge instance (implementation specific).
 
@@ -770,7 +517,7 @@ IGraph.createEdge
 abstract createVertex(key, value?): VO;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L100)
+Defined in: [data-structures/graph/abstract-graph.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L100)
 
 Create a new vertex instance (implementation specific).
 
@@ -812,7 +559,7 @@ IGraph.createVertex
 abstract degreeOf(vertexOrKey): number;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:136](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L136)
+Defined in: [data-structures/graph/abstract-graph.ts:136](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L136)
 
 Degree of a vertex in this graph model.
 
@@ -848,7 +595,7 @@ IGraph.degreeOf
 abstract deleteEdge(edge): EO | undefined;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:119](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L119)
+Defined in: [data-structures/graph/abstract-graph.ts:119](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L119)
 
 Delete an edge by instance.
 
@@ -884,7 +631,7 @@ IGraph.deleteEdge
 abstract deleteVertex(vertexOrKey): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:226](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L226)
+Defined in: [data-structures/graph/abstract-graph.ts:226](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L226)
 
 Delete a vertex and its incident edges.
 
@@ -924,7 +671,7 @@ dijkstraWithoutHeap(
 genPaths?): DijkstraResult<VO>;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:484](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L484)
+Defined in: [data-structures/graph/abstract-graph.ts:484](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L484)
 
 Dijkstra without heap (array-based selection).
 
@@ -972,7 +719,7 @@ Time O(V^2 + E), Space O(V + E)
 abstract edgeSet(): EO[];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L143)
+Defined in: [data-structures/graph/abstract-graph.ts:143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L143)
 
 All edges in the graph (unique, order not guaranteed).
 
@@ -1000,7 +747,7 @@ IGraph.edgeSet
 abstract edgesOf(vertexOrKey): EO[];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L151)
+Defined in: [data-structures/graph/abstract-graph.ts:151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L151)
 
 Incident edges of a vertex.
 
@@ -1036,7 +783,7 @@ IGraph.edgesOf
 entries(): IterableIterator<[VertexKey, V | undefined]>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L31)
+Defined in: [data-structures/base/iterable-entry-base.ts:31](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L31)
 
 Iterate over `[key, value]` pairs (may yield `undefined` values).
 
@@ -1062,7 +809,7 @@ Time O(n), Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L66)
+Defined in: [data-structures/base/iterable-entry-base.ts:66](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L66)
 
 Test whether all entries satisfy the predicate.
 
@@ -1102,7 +849,7 @@ Time O(n), Space O(1)
 filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:897](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L897)
+Defined in: [data-structures/graph/abstract-graph.ts:897](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L897)
 
 Induced-subgraph filter: keep vertices where `predicate(key, value)` is true,
 and only keep edges whose endpoints both survive.
@@ -1149,7 +896,7 @@ IGraph.filter
 filterEntries(predicate, thisArg?): [VertexKey, V | undefined][];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:913](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L913)
+Defined in: [data-structures/graph/abstract-graph.ts:913](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L913)
 
 Preserve the old behavior: return filtered entries as an array.
 
@@ -1179,7 +926,7 @@ Time O(V), Space O(V)
 find(callbackfn, thisArg?): [VertexKey, V | undefined] | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L114)
+Defined in: [data-structures/base/iterable-entry-base.ts:114](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L114)
 
 Find the first entry that matches a predicate.
 
@@ -1219,7 +966,7 @@ Time O(n), Space O(1)
 floydWarshall(): object;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:798](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L798)
+Defined in: [data-structures/graph/abstract-graph.ts:798](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L798)
 
 Floyd–Warshall all-pairs shortest paths.
 
@@ -1253,7 +1000,7 @@ Time O(V^3), Space O(V^2)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L99)
+Defined in: [data-structures/base/iterable-entry-base.ts:99](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L99)
 
 Visit each entry, left-to-right.
 
@@ -1291,7 +1038,7 @@ Time O(n), Space O(1)
 get(key): V | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:156](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L156)
+Defined in: [data-structures/base/iterable-entry-base.ts:156](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L156)
 
 Get the value under a key.
 
@@ -1328,7 +1075,7 @@ getAllPathsBetween(
    limit?): VO[][];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:309](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L309)
+Defined in: [data-structures/graph/abstract-graph.ts:309](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L309)
 
 Enumerate simple paths up to a limit.
 
@@ -1370,7 +1117,7 @@ Time O(paths) worst-case exponential, Space O(V + paths)
 getCycles(isInclude2Cycle?): VertexKey[][];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:838](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L838)
+Defined in: [data-structures/graph/abstract-graph.ts:838](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L838)
 
 Enumerate simple cycles (may be expensive).
 
@@ -1400,7 +1147,7 @@ Time exponential in worst-case, Space O(V + E)
 abstract getEdge(srcOrKey, destOrKey): EO | undefined;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:128](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L128)
+Defined in: [data-structures/graph/abstract-graph.ts:128](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L128)
 
 Get an edge between two vertices if present.
 
@@ -1442,7 +1189,7 @@ IGraph.getEdge
 abstract getEndsOfEdge(edge): [VO, VO] | undefined;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:167](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L167)
+Defined in: [data-structures/graph/abstract-graph.ts:167](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L167)
 
 Resolve endpoints of an edge to vertex instances.
 
@@ -1481,7 +1228,7 @@ getMinCostBetween(
    isWeight?): number | undefined;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:362](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L362)
+Defined in: [data-structures/graph/abstract-graph.ts:362](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L362)
 
 Minimum hops/weight between two vertices.
 
@@ -1527,7 +1274,7 @@ getMinPathBetween(
    isDFS?): VO[] | undefined;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:415](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L415)
+Defined in: [data-structures/graph/abstract-graph.ts:415](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L415)
 
 Minimum path (as vertex sequence) between two vertices.
 
@@ -1575,7 +1322,7 @@ Time O((V + E) log V) weighted / O(V + E) unweighted, Space O(V + E)
 abstract getNeighbors(vertexOrKey): VO[];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:159](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L159)
+Defined in: [data-structures/graph/abstract-graph.ts:159](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L159)
 
 One-step neighbors of a vertex.
 
@@ -1611,7 +1358,7 @@ IGraph.getNeighbors
 getPathSumWeight(path): number;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:346](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L346)
+Defined in: [data-structures/graph/abstract-graph.ts:346](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L346)
 
 Sum the weights along a vertex path.
 
@@ -1641,7 +1388,7 @@ Time O(L), Space O(1) where L is path length
 getVertex(vertexKey): VO | undefined;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:175](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L175)
+Defined in: [data-structures/graph/abstract-graph.ts:175](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L175)
 
 Get vertex instance by key.
 
@@ -1677,7 +1424,7 @@ IGraph.getVertex
 has(key): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:129](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L129)
+Defined in: [data-structures/base/iterable-entry-base.ts:129](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L129)
 
 Whether the given key exists.
 
@@ -1711,7 +1458,7 @@ Time O(n) generic, Space O(1)
 hasEdge(v1, v2): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:249](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L249)
+Defined in: [data-structures/graph/abstract-graph.ts:249](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L249)
 
 Whether an edge exists between two vertices.
 
@@ -1747,7 +1494,7 @@ Time O(1) avg, Space O(1)
 hasValue(value): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L143)
+Defined in: [data-structures/base/iterable-entry-base.ts:143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L143)
 
 Whether there exists an entry with the given value.
 
@@ -1781,7 +1528,7 @@ Time O(n), Space O(1)
 hasVertex(vertexOrKey): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L185)
+Defined in: [data-structures/graph/abstract-graph.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L185)
 
 Whether a vertex exists.
 
@@ -1817,7 +1564,7 @@ IGraph.hasVertex
 abstract isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:212](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L212)
+Defined in: [data-structures/base/iterable-entry-base.ts:212](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L212)
 
 Whether there are no entries.
 
@@ -1849,7 +1596,7 @@ IGraph.isEmpty
 isVertexKey(potentialKey): potentialKey is VertexKey;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:215](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L215)
+Defined in: [data-structures/graph/abstract-graph.ts:215](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L215)
 
 Type guard: check if a value is a valid vertex key.
 
@@ -1879,7 +1626,7 @@ Time O(1), Space O(1)
 keys(): IterableIterator<VertexKey>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L42)
+Defined in: [data-structures/base/iterable-entry-base.ts:42](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L42)
 
 Iterate over keys only.
 
@@ -1905,7 +1652,7 @@ Time O(n), Space O(1)
 map<T>(callback, thisArg?): T[];
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:928](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L928)
+Defined in: [data-structures/graph/abstract-graph.ts:928](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L928)
 
 Map entries using an implementation-specific strategy.
 
@@ -1945,7 +1692,7 @@ Time O(n), Space O(n)
 print(options?): void;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:1183](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1183)
+Defined in: [data-structures/graph/abstract-graph.ts:1183](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L1183)
 
 Print the graph to console.
 
@@ -1975,7 +1722,7 @@ Display settings passed to `toVisual`.
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L171)
+Defined in: [data-structures/base/iterable-entry-base.ts:171](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L171)
 
 Reduce entries into a single accumulator.
 
@@ -2021,7 +1768,7 @@ Time O(n), Space O(1)
 removeManyVertices(vertexMap): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:234](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L234)
+Defined in: [data-structures/graph/abstract-graph.ts:234](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L234)
 
 Delete multiple vertices.
 
@@ -2054,7 +1801,7 @@ setEdgeWeight(
    weight): boolean;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:291](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L291)
+Defined in: [data-structures/graph/abstract-graph.ts:291](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L291)
 
 Set the weight of an existing edge.
 
@@ -2096,7 +1843,7 @@ Time O(1) avg, Space O(1)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L83)
+Defined in: [data-structures/base/iterable-entry-base.ts:83](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L83)
 
 Test whether any entry satisfies the predicate.
 
@@ -2136,7 +1883,7 @@ Time O(n), Space O(1)
 toArray(): [VertexKey, V | undefined][];
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L186)
+Defined in: [data-structures/base/iterable-entry-base.ts:186](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L186)
 
 Converts data structure to `[key, value]` pairs.
 
@@ -2162,7 +1909,7 @@ Time O(n), Space O(n)
 toDot(options?): string;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:1143](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1143)
+Defined in: [data-structures/graph/abstract-graph.ts:1143](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L1143)
 
 Generate DOT language representation for Graphviz.
 
@@ -2198,7 +1945,7 @@ DOT format string.
 toVisual(options?): string;
 ```
 
-Defined in: [data-structures/graph/abstract-graph.ts:1108](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/graph/abstract-graph.ts#L1108)
+Defined in: [data-structures/graph/abstract-graph.ts:1108](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/graph/abstract-graph.ts#L1108)
 
 Generate a text-based visual representation of the graph.
 
@@ -2242,7 +1989,7 @@ The visual string.
 values(): IterableIterator<V | undefined>;
 ```
 
-Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-entry-base.ts#L53)
+Defined in: [data-structures/base/iterable-entry-base.ts:53](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-entry-base.ts#L53)
 
 Iterate over values only.
 

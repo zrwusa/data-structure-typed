@@ -6,7 +6,7 @@
 
 # Class: Queue\<E, R\>
 
-Defined in: [data-structures/queue/queue.ts:91](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L91)
+Defined in: [data-structures/queue/queue.ts:91](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L91)
 
 Array-backed queue with amortized O(1) enqueue/dequeue via an offset pointer and optional auto-compaction.
 
@@ -115,7 +115,7 @@ Time O(1), Space O(1)
 new Queue<E, R>(elements?, options?): Queue<E, R>;
 ```
 
-Defined in: [data-structures/queue/queue.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L100)
+Defined in: [data-structures/queue/queue.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L100)
 
 Create a Queue and optionally bulk-insert elements.
 
@@ -147,36 +147,6 @@ Time O(N), Space O(N)
 
 [`LinearBase`](LinearBase.md).[`constructor`](LinearBase.md#constructor)
 
-## Properties
-
-### \_toElementFn?
-
-```ts
-protected optional _toElementFn?: (rawElement) => E;
-```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`LinearBase`](LinearBase.md).[`_toElementFn`](LinearBase.md#toelementfn)
-
 ## Accessors
 
 ### autoCompactRatio
@@ -187,7 +157,7 @@ Time O(1), Space O(1).
 get autoCompactRatio(): number;
 ```
 
-Defined in: [data-structures/queue/queue.ts:141](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L141)
+Defined in: [data-structures/queue/queue.ts:141](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L141)
 
 Get the compaction threshold (offset/size).
 
@@ -207,7 +177,7 @@ Auto-compaction ratio in (0,1].
 set autoCompactRatio(value): void;
 ```
 
-Defined in: [data-structures/queue/queue.ts:152](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L152)
+Defined in: [data-structures/queue/queue.ts:152](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L152)
 
 Set the compaction threshold.
 
@@ -239,7 +209,7 @@ void
 get elements(): E[];
 ```
 
-Defined in: [data-structures/queue/queue.ts:117](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L117)
+Defined in: [data-structures/queue/queue.ts:117](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L117)
 
 Get the underlying array buffer.
 
@@ -263,7 +233,7 @@ Backing array of elements.
 get first(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/queue.ts:232](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L232)
+Defined in: [data-structures/queue/queue.ts:238](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L238)
 
 Get the first element (front) without removing it.
 
@@ -297,7 +267,7 @@ Front element or undefined.
 get last(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/queue.ts:242](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L242)
+Defined in: [data-structures/queue/queue.ts:248](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L248)
 
 Get the last element (back) without removing it.
 
@@ -321,7 +291,7 @@ Back element or undefined.
 get length(): number;
 ```
 
-Defined in: [data-structures/queue/queue.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L193)
+Defined in: [data-structures/queue/queue.ts:196](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L196)
 
 Get the number of elements currently in the queue.
 
@@ -361,7 +331,7 @@ Current length.
 get maxLen(): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L100)
+Defined in: [data-structures/base/linear-base.ts:100](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L100)
 
 Upper bound for length (if positive), or `-1` when unbounded.
 
@@ -389,7 +359,7 @@ Maximum allowed length.
 get offset(): number;
 ```
 
-Defined in: [data-structures/queue/queue.ts:129](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L129)
+Defined in: [data-structures/queue/queue.ts:129](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L129)
 
 Get the current start offset into the array.
 
@@ -413,7 +383,7 @@ Zero-based offset.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -433,175 +403,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/queue/queue.ts:871](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L871)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`LinearBaseOptions`\<`E`, `R`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`this`
-
-An empty like-kind queue instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Overrides
-
-[`LinearBase`](LinearBase.md).[`_createInstance`](LinearBase.md#createinstance)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<EM, RM>(elements?, options?): Queue<EM, RM>;
-```
-
-Defined in: [data-structures/queue/queue.ts:886](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L886)
-
-(Protected) Create a like-kind queue and seed it from an iterable.
-
-#### Type Parameters
-
-##### EM
-
-`EM` = `E`
-
-##### RM
-
-`RM` = `R`
-
-#### Parameters
-
-##### elements?
-
-`Iterable`\<`EM`, `any`, `any`\> \| `Iterable`\<`RM`, `any`, `any`\>
-
-Iterable used to seed the new queue.
-
-##### options?
-
-`QueueOptions`\<`EM`, `RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`Queue`\<`EM`, `RM`\>
-
-A like-kind Queue instance.
-
-#### Remarks
-
-Time O(N), Space O(N)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/queue/queue.ts:847](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L847)
-
-(Protected) Iterate elements from front to back.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of E.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearBase`](LinearBase.md).[`_getIterator`](LinearBase.md#getiterator)
-
-***
-
-### \_getReverseIterator()
-
-```ts
-protected _getReverseIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/queue/queue.ts:857](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L857)
-
-(Protected) Iterate elements from back to front.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-Iterator of E.
-
-#### Remarks
-
-Time O(N), Space O(1)
-
-#### Overrides
-
-[`LinearBase`](LinearBase.md).[`_getReverseIterator`](LinearBase.md#getreverseiterator)
-
-***
-
-### \_setAutoCompactRatio()
-
-```ts
-protected _setAutoCompactRatio(value): void;
-```
-
-Defined in: [data-structures/queue/queue.ts:837](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L837)
-
-(Protected) Set the internal auto-compaction ratio.
-
-#### Parameters
-
-##### value
-
-`number`
-
-New ratio to assign.
-
-#### Returns
-
-`void`
-
-void
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -635,7 +443,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 addAt(index, newElement): boolean;
 ```
 
-Defined in: [data-structures/queue/queue.ts:528](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L528)
+Defined in: [data-structures/queue/queue.ts:549](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L549)
 
 Insert a new element at a given index.
 
@@ -675,7 +483,7 @@ Time O(N), Space O(1)
 at(index): E | undefined;
 ```
 
-Defined in: [data-structures/queue/queue.ts:501](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L501)
+Defined in: [data-structures/queue/queue.ts:522](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L522)
 
 Get the element at a given logical index.
 
@@ -719,7 +527,7 @@ console.log(q.at(2)); // 'c'
 clear(): void;
 ```
 
-Defined in: [data-structures/queue/queue.ts:593](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L593)
+Defined in: [data-structures/queue/queue.ts:617](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L617)
 
 Remove all elements and reset offset.
 
@@ -755,7 +563,7 @@ console.log(q.length); // 0
 clone(): this;
 ```
 
-Defined in: [data-structures/queue/queue.ts:698](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L698)
+Defined in: [data-structures/queue/queue.ts:728](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L728)
 
 Deep clone this queue and its parameters.
 
@@ -793,7 +601,7 @@ console.log(copy.length); // 2
 compact(): boolean;
 ```
 
-Defined in: [data-structures/queue/queue.ts:632](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L632)
+Defined in: [data-structures/queue/queue.ts:659](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L659)
 
 Compact storage by discarding consumed head elements.
 
@@ -827,7 +635,7 @@ console.log(q.length); // 3
 concat(...items): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:165](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L165)
+Defined in: [data-structures/base/linear-base.ts:165](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L165)
 
 Concatenate elements and/or containers.
 
@@ -861,7 +669,7 @@ Time O(sum(length)), Space O(sum(length))
 delete(element): boolean;
 ```
 
-Defined in: [data-structures/queue/queue.ts:458](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L458)
+Defined in: [data-structures/queue/queue.ts:476](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L476)
 
 Delete the first occurrence of a specific element.
 
@@ -905,7 +713,7 @@ console.log(q.length); // 3
 deleteAt(index): E | undefined;
 ```
 
-Defined in: [data-structures/queue/queue.ts:513](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L513)
+Defined in: [data-structures/queue/queue.ts:534](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L534)
 
 Delete the element at a given index.
 
@@ -939,7 +747,7 @@ Time O(N), Space O(1)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -989,7 +797,7 @@ fill(
    end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L292)
+Defined in: [data-structures/base/linear-base.ts:292](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L292)
 
 Fill a range with a value.
 
@@ -1035,7 +843,7 @@ Time O(n), Space O(1)
 filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/queue/queue.ts:740](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L740)
+Defined in: [data-structures/queue/queue.ts:773](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L773)
 
 Filter elements into a new queue of the same class.
 
@@ -1087,7 +895,7 @@ console.log(evens.length); // 2
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1140,7 +948,7 @@ console.log(q.find(x => x > 2)); // 3
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -1189,7 +997,7 @@ console.log(q.find(x => x > 2)); // 3
 findIndex(predicate, thisArg?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L151)
+Defined in: [data-structures/base/linear-base.ts:151](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L151)
 
 Find the first index matching a predicate.
 
@@ -1229,7 +1037,7 @@ Time O(n), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -1278,7 +1086,7 @@ console.log(items); // ['a', 'b', 'c']
 has(element): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L188)
+Defined in: [data-structures/base/iterable-element-base.ts:188](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L188)
 
 Checks whether a strictly-equal element exists in the structure.
 
@@ -1312,7 +1120,7 @@ Time O(n) in the worst case. Space O(1).
 indexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:111](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L111)
+Defined in: [data-structures/base/linear-base.ts:111](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L111)
 
 First index of a value from the left.
 
@@ -1360,7 +1168,7 @@ console.log(q.indexOf('z')); // -1
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/queue/queue.ts:306](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L306)
+Defined in: [data-structures/queue/queue.ts:315](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L315)
 
 Check whether the queue is empty.
 
@@ -1409,7 +1217,7 @@ console.log(queue.length); // 0
 join(separator?): string;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L228)
+Defined in: [data-structures/base/linear-base.ts:228](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L228)
 
 Join all elements into a string.
 
@@ -1443,7 +1251,7 @@ Time O(n), Space O(n)
 lastIndexOf(searchElement, fromIndex?): number;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:131](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L131)
+Defined in: [data-structures/base/linear-base.ts:131](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L131)
 
 Last index of a value from the right.
 
@@ -1486,7 +1294,7 @@ map<EM, RM>(
 thisArg?): Queue<EM, RM>;
 ```
 
-Defined in: [data-structures/queue/queue.ts:788](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L788)
+Defined in: [data-structures/queue/queue.ts:824](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L824)
 
 Map each element to a new element in a possibly different-typed queue.
 
@@ -1552,7 +1360,7 @@ console.log(doubled.toArray()); // [2, 4, 6]
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/queue/queue.ts:811](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L811)
+Defined in: [data-structures/queue/queue.ts:847](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L847)
 
 Map each element to a new value of the same type.
 
@@ -1592,7 +1400,7 @@ Time O(N), Space O(N)
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1624,7 +1432,7 @@ const q = new Queue<number>([1, 2, 3]);
 push(element): boolean;
 ```
 
-Defined in: [data-structures/queue/queue.ts:351](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L351)
+Defined in: [data-structures/queue/queue.ts:363](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L363)
 
 Enqueue one element at the back.
 
@@ -1673,7 +1481,7 @@ console.log(queue.length); // 5
 pushMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/queue/queue.ts:364](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L364)
+Defined in: [data-structures/queue/queue.ts:376](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L376)
 
 Enqueue many elements from an iterable.
 
@@ -1739,7 +1547,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -1769,7 +1577,7 @@ console.log(sum); // 10
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -1803,7 +1611,7 @@ console.log(sum); // 10
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -1845,7 +1653,7 @@ console.log(sum); // 10
 reduceRight<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:256](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L256)
+Defined in: [data-structures/base/linear-base.ts:256](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L256)
 
 Right-to-left reduction over elements.
 
@@ -1891,7 +1699,7 @@ Time O(n), Space O(1)
 reverse(): this;
 ```
 
-Defined in: [data-structures/queue/queue.ts:554](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L554)
+Defined in: [data-structures/queue/queue.ts:575](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L575)
 
 Reverse the queue in-place by compacting then reversing.
 
@@ -1917,7 +1725,7 @@ Time O(N), Space O(N)
 setAt(index, newElement): boolean;
 ```
 
-Defined in: [data-structures/queue/queue.ts:542](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L542)
+Defined in: [data-structures/queue/queue.ts:563](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L563)
 
 Replace the element at a given index.
 
@@ -1957,7 +1765,7 @@ Time O(1), Space O(1)
 shift(): E | undefined;
 ```
 
-Defined in: [data-structures/queue/queue.ts:417](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L417)
+Defined in: [data-structures/queue/queue.ts:432](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L432)
 
 Dequeue one element from the front (amortized via offset).
 
@@ -1998,7 +1806,7 @@ console.log(queue.length); // 3
 slice(start?, end?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:273](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L273)
+Defined in: [data-structures/base/linear-base.ts:273](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L273)
 
 Create a shallow copy of a subrange.
 
@@ -2038,7 +1846,7 @@ Time O(n), Space O(n)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -2085,7 +1893,7 @@ console.log(q.some(x => x % 2 === 0)); // true
 sort(compareFn?): this;
 ```
 
-Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L185)
+Defined in: [data-structures/base/linear-base.ts:185](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L185)
 
 In-place stable order via array sort semantics.
 
@@ -2122,7 +1930,7 @@ splice(
    items?): this;
 ```
 
-Defined in: [data-structures/queue/queue.ts:647](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L647)
+Defined in: [data-structures/queue/queue.ts:674](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L674)
 
 Remove and/or insert elements at a position (array-like).
 
@@ -2168,7 +1976,7 @@ Time O(N + M), Space O(M)
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -2201,7 +2009,7 @@ console.log(q.toArray()); // [3, 1, 2]
 toReversedArray(): E[];
 ```
 
-Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/linear-base.ts#L237)
+Defined in: [data-structures/base/linear-base.ts:237](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/linear-base.ts#L237)
 
 Snapshot elements into a reversed array.
 
@@ -2227,7 +2035,7 @@ Time O(n), Space O(n)
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -2254,7 +2062,7 @@ Time O(n), Space O(n).
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 
@@ -2287,7 +2095,7 @@ console.log([...q.values()]); // [1, 2, 3]
 static fromArray<E>(elements): Queue<E>;
 ```
 
-Defined in: [data-structures/queue/queue.ts:254](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/queue/queue.ts#L254)
+Defined in: [data-structures/queue/queue.ts:260](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/queue/queue.ts#L260)
 
 Create a queue from an array of elements.
 

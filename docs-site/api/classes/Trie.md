@@ -6,7 +6,7 @@
 
 # Class: Trie\<R\>
 
-Defined in: [data-structures/trie/trie.ts:216](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L216)
+Defined in: [data-structures/trie/trie.ts:216](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L216)
 
 Prefix tree (Trie) for fast prefix queries and word storage.
 
@@ -156,7 +156,7 @@ Time O(1), Space O(1)
 new Trie<R>(words?, options?): Trie<R>;
 ```
 
-Defined in: [data-structures/trie/trie.ts:225](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L225)
+Defined in: [data-structures/trie/trie.ts:225](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L225)
 
 Create a Trie and optionally bulk-insert words.
 
@@ -186,63 +186,11 @@ Time O(totalChars), Space O(totalChars)
 
 #### Overrides
 
-[`IterableElementBase`](IterableElementBase.md).[`constructor`](IterableElementBase.md#constructor)
-
-## Properties
-
-### \_toElementFn?
-
 ```ts
-protected optional _toElementFn?: (rawElement) => string;
+IterableElementBase<string, R>.constructor
 ```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`string`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`IterableElementBase`](IterableElementBase.md).[`_toElementFn`](IterableElementBase.md#toelementfn)
 
 ## Accessors
-
-### \_total
-
-#### Get Signature
-
-```ts
-get protected _total(): number;
-```
-
-Defined in: [data-structures/trie/trie.ts:278](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L278)
-
-(Protected) Get total count for base class iteration.
-
-##### Remarks
-
-Time O(1), Space O(1)
-
-##### Returns
-
-`number`
-
-Total number of elements.
-
-***
 
 ### caseSensitive
 
@@ -252,7 +200,7 @@ Total number of elements.
 get caseSensitive(): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:256](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L256)
+Defined in: [data-structures/trie/trie.ts:256](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L256)
 
 Get whether comparisons are case-sensitive.
 
@@ -276,7 +224,7 @@ True if case-sensitive.
 get root(): TrieNode;
 ```
 
-Defined in: [data-structures/trie/trie.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L268)
+Defined in: [data-structures/trie/trie.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L268)
 
 Get the root node.
 
@@ -300,7 +248,7 @@ Root TrieNode.
 get size(): number;
 ```
 
-Defined in: [data-structures/trie/trie.ts:244](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L244)
+Defined in: [data-structures/trie/trie.ts:244](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L244)
 
 Get the number of stored words.
 
@@ -324,7 +272,7 @@ Word count.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -344,177 +292,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_caseProcess()
-
-```ts
-protected _caseProcess(str): string;
-```
-
-Defined in: [data-structures/trie/trie.ts:1080](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L1080)
-
-(Protected) Normalize a string according to case sensitivity.
-
-#### Parameters
-
-##### str
-
-`string`
-
-Input string to normalize.
-
-#### Returns
-
-`string`
-
-Normalized string based on caseSensitive.
-
-#### Remarks
-
-Time O(L), Space O(L)
-
-***
-
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/trie/trie.ts:1013](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L1013)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`TrieOptions`\<`R`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`this`
-
-An empty like-kind trie instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<RM>(elements?, options?): Trie<RM>;
-```
-
-Defined in: [data-structures/trie/trie.ts:1034](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L1034)
-
-(Protected) Create a like-kind trie and seed it from an iterable.
-
-#### Type Parameters
-
-##### RM
-
-`RM`
-
-#### Parameters
-
-##### elements?
-
-`Iterable`\<`string`, `any`, `any`\> \| `Iterable`\<`RM`, `any`, `any`\>
-
-Iterable used to seed the new trie.
-
-##### options?
-
-`TrieOptions`\<`RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`Trie`\<`RM`\>
-
-A like-kind Trie instance.
-
-#### Remarks
-
-Time O(ΣL), Space O(ΣL)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<string>;
-```
-
-Defined in: [data-structures/trie/trie.ts:1060](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L1060)
-
-(Protected) Iterate all words in lexicographic order of edges.
-
-#### Returns
-
-`IterableIterator`\<`string`\>
-
-Iterator of words.
-
-#### Remarks
-
-Time O(ΣL), Space O(H)
-
-#### Overrides
-
-[`IterableElementBase`](IterableElementBase.md).[`_getIterator`](IterableElementBase.md#getiterator)
-
-***
-
-### \_spawnLike()
-
-```ts
-protected _spawnLike<RM>(options?): Trie<RM>;
-```
-
-Defined in: [data-structures/trie/trie.ts:1050](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L1050)
-
-(Protected) Spawn an empty like-kind trie instance.
-
-#### Type Parameters
-
-##### RM
-
-`RM`
-
-#### Parameters
-
-##### options?
-
-`TrieOptions`\<`RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-`Trie`\<`RM`\>
-
-An empty like-kind Trie instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<string>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -548,7 +332,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 add(word): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:328](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L328)
+Defined in: [data-structures/trie/trie.ts:331](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L331)
 
 Insert one word into the trie.
 
@@ -598,7 +382,7 @@ console.log(trie.size); // 4
 addMany(words): boolean[];
 ```
 
-Defined in: [data-structures/trie/trie.ts:383](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L383)
+Defined in: [data-structures/trie/trie.ts:389](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L389)
 
 Insert many words from an iterable.
 
@@ -640,7 +424,7 @@ console.log(trie.size); // 3
 clear(): void;
 ```
 
-Defined in: [data-structures/trie/trie.ts:513](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L513)
+Defined in: [data-structures/trie/trie.ts:528](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L528)
 
 Remove all words and reset to a fresh root.
 
@@ -676,7 +460,7 @@ console.log(trie.isEmpty()); // true
 clone(): this;
 ```
 
-Defined in: [data-structures/trie/trie.ts:875](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L875)
+Defined in: [data-structures/trie/trie.ts:905](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L905)
 
 Deep clone this trie by iterating and inserting all words.
 
@@ -713,7 +497,7 @@ console.log(trie.has('hello')); // true
 delete(word): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:566](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L566)
+Defined in: [data-structures/trie/trie.ts:584](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L584)
 
 Delete one word if present.
 
@@ -765,7 +549,7 @@ console.log(allWords.length); // 5
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -812,7 +596,7 @@ console.log(trie.every(w => w.startsWith('abc'))); // true
 filter(predicate, thisArg?): this;
 ```
 
-Defined in: [data-structures/trie/trie.ts:915](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L915)
+Defined in: [data-structures/trie/trie.ts:948](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L948)
 
 Filter words into a new trie of the same class.
 
@@ -864,7 +648,7 @@ console.log(result.size); // 3
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -917,7 +701,7 @@ console.log(trie.find(w => w.startsWith('ban'))); // 'banana'
 find(predicate, thisArg?): string | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -966,7 +750,7 @@ console.log(trie.find(w => w.startsWith('ban'))); // 'banana'
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -1015,7 +799,7 @@ console.log(words.sort()); // ['a', 'b', 'c']
 getHeight(): number;
 ```
 
-Defined in: [data-structures/trie/trie.ts:608](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L608)
+Defined in: [data-structures/trie/trie.ts:626](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L626)
 
 Compute the height (max depth) of the trie.
 
@@ -1037,7 +821,7 @@ Time O(N), Space O(H)
 getLongestCommonPrefix(): string;
 ```
 
-Defined in: [data-structures/trie/trie.ts:751](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L751)
+Defined in: [data-structures/trie/trie.ts:775](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L775)
 
 Return the longest common prefix among all words.
 
@@ -1072,7 +856,7 @@ getWords(
    isAllWhenEmptyPrefix?): string[];
 ```
 
-Defined in: [data-structures/trie/trie.ts:807](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L807)
+Defined in: [data-structures/trie/trie.ts:834](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L834)
 
 Collect words under a prefix up to a maximum count.
 
@@ -1125,7 +909,7 @@ const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
 has(word): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:433](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L433)
+Defined in: [data-structures/trie/trie.ts:442](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L442)
 
 Check whether a word exists.
 
@@ -1171,7 +955,7 @@ console.log(dict.has('ap')); // false
 hasCommonPrefix(input): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:702](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L702)
+Defined in: [data-structures/trie/trie.ts:723](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L723)
 
 Check whether the trie’s longest common prefix equals input.
 
@@ -1201,7 +985,7 @@ Time O(min(H,L)), Space O(1)
 hasPrefix(input): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:684](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L684)
+Defined in: [data-structures/trie/trie.ts:705](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L705)
 
 Check whether any word starts with input.
 
@@ -1243,7 +1027,7 @@ console.log(trie.hasPrefix('xyz')); // false
 hasPurePrefix(input): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:635](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L635)
+Defined in: [data-structures/trie/trie.ts:653](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L653)
 
 Check whether input is a proper prefix of at least one word.
 
@@ -1273,7 +1057,7 @@ Time O(L), Space O(1)
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/trie/trie.ts:477](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L477)
+Defined in: [data-structures/trie/trie.ts:489](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L489)
 
 Check whether the trie is empty.
 
@@ -1315,7 +1099,7 @@ map<RM>(
 thisArg?): Trie<RM>;
 ```
 
-Defined in: [data-structures/trie/trie.ts:956](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L956)
+Defined in: [data-structures/trie/trie.ts:992](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L992)
 
 Transform words
 
@@ -1366,7 +1150,7 @@ map<EM, RM>(
 thisArg?): IterableElementBase<EM, RM>;
 ```
 
-Defined in: [data-structures/trie/trie.ts:969](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L969)
+Defined in: [data-structures/trie/trie.ts:1005](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L1005)
 
 Map words into a new trie (possibly different record type).
 
@@ -1432,7 +1216,7 @@ IterableElementBase.map
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/trie/trie.ts:996](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/trie/trie.ts#L996)
+Defined in: [data-structures/trie/trie.ts:1032](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/trie/trie.ts#L1032)
 
 Map words into a new trie of the same element type.
 
@@ -1472,7 +1256,7 @@ Time O(ΣL), Space O(ΣL)
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1530,7 +1314,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): string;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -1560,7 +1344,7 @@ console.log(totalChars); // 10
 reduce(callbackfn, initialValue): string;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -1594,7 +1378,7 @@ console.log(totalChars); // 10
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -1636,7 +1420,7 @@ console.log(totalChars); // 10
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -1683,7 +1467,7 @@ console.log(trie.some(w => w.length === 3)); // true
 toArray(): string[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -1716,7 +1500,7 @@ console.log(trie.toArray().sort()); // ['a', 'b', 'c']
 toVisual(): string[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -1743,7 +1527,7 @@ Time O(n), Space O(n).
 values(): IterableIterator<string>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 

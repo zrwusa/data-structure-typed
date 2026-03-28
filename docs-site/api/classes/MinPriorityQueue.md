@@ -6,7 +6,7 @@
 
 # Class: MinPriorityQueue\<E, R\>
 
-Defined in: [data-structures/priority-queue/min-priority-queue.ts:79](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/priority-queue/min-priority-queue.ts#L79)
+Defined in: [data-structures/priority-queue/min-priority-queue.ts:79](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/priority-queue/min-priority-queue.ts#L79)
 
 Min-oriented priority queue (min-heap) built on [PriorityQueue](PriorityQueue.md).
 The queue removes the smallest element first under the provided comparator.
@@ -107,7 +107,7 @@ Extra record/metadata associated with each element.
 new MinPriorityQueue<E, R>(elements?, options?): MinPriorityQueue<E, R>;
 ```
 
-Defined in: [data-structures/priority-queue/min-priority-queue.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/priority-queue/min-priority-queue.ts#L86)
+Defined in: [data-structures/priority-queue/min-priority-queue.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/priority-queue/min-priority-queue.ts#L86)
 
 Creates a min-priority queue.
 
@@ -139,36 +139,6 @@ Complexity — Time: O(n log n) when inserting n elements incrementally; Space: 
 PriorityQueue<E, R>.constructor
 ```
 
-## Properties
-
-### \_toElementFn?
-
-```ts
-protected optional _toElementFn?: (rawElement) => E;
-```
-
-Defined in: [data-structures/base/iterable-element-base.ts:38](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L38)
-
-The converter used to transform a raw element (`R`) into a public element (`E`).
-
-#### Parameters
-
-##### rawElement
-
-`R`
-
-#### Returns
-
-`E`
-
-#### Remarks
-
-Time O(1), Space O(1).
-
-#### Inherited from
-
-[`PriorityQueue`](PriorityQueue.md).[`_toElementFn`](PriorityQueue.md#toelementfn)
-
 ## Accessors
 
 ### comparator
@@ -179,7 +149,7 @@ Time O(1), Space O(1).
 get comparator(): Comparator<E>;
 ```
 
-Defined in: [data-structures/heap/heap.ts:1030](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L1030)
+Defined in: [data-structures/heap/heap.ts:1072](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L1072)
 
 Get the comparator used to order elements.
 
@@ -207,7 +177,7 @@ Comparator function.
 get elements(): E[];
 ```
 
-Defined in: [data-structures/heap/heap.ts:180](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L180)
+Defined in: [data-structures/heap/heap.ts:180](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L180)
 
 Get the backing array of the heap.
 
@@ -235,7 +205,7 @@ Internal elements array.
 get leaf(): E | undefined;
 ```
 
-Defined in: [data-structures/heap/heap.ts:233](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L233)
+Defined in: [data-structures/heap/heap.ts:236](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L236)
 
 Get the last leaf element.
 
@@ -263,7 +233,7 @@ Last element or undefined.
 get size(): number;
 ```
 
-Defined in: [data-structures/heap/heap.ts:223](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L223)
+Defined in: [data-structures/heap/heap.ts:226](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L226)
 
 Get the number of elements.
 
@@ -293,7 +263,7 @@ Heap size.
 get toElementFn(): ((rawElement) => E) | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L47)
+Defined in: [data-structures/base/iterable-element-base.ts:47](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L47)
 
 Exposes the current `toElementFn`, if configured.
 
@@ -313,167 +283,13 @@ The converter function or `undefined` when not set.
 
 ## Methods
 
-### \_createInstance()
-
-```ts
-protected _createInstance(options?): this;
-```
-
-Defined in: [data-structures/heap/heap.ts:1076](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L1076)
-
-(Protected) Create an empty instance of the same concrete class.
-
-#### Parameters
-
-##### options?
-
-`HeapOptions`\<`E`, `R`\>
-
-Options to override comparator or toElementFn.
-
-#### Returns
-
-`this`
-
-A like-kind empty heap instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Inherited from
-
-[`PriorityQueue`](PriorityQueue.md).[`_createInstance`](PriorityQueue.md#createinstance)
-
-***
-
-### \_createLike()
-
-```ts
-protected _createLike<EM, RM>(elements?, options?): Heap<EM, RM>;
-```
-
-Defined in: [data-structures/heap/heap.ts:1094](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L1094)
-
-(Protected) Create a like-kind instance seeded by elements.
-
-#### Type Parameters
-
-##### EM
-
-`EM`
-
-##### RM
-
-`RM`
-
-#### Parameters
-
-##### elements?
-
-`Iterable`\<`EM`, `any`, `any`\> \| `Iterable`\<`RM`, `any`, `any`\>
-
-Iterable of elements or raw values to seed.
-
-##### options?
-
-`HeapOptions`\<`EM`, `RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-[`Heap`](Heap.md)\<`EM`, `RM`\>
-
-A like-kind heap instance.
-
-#### Remarks
-
-Time O(N log N), Space O(N)
-
-#### Inherited from
-
-[`PriorityQueue`](PriorityQueue.md).[`_createLike`](PriorityQueue.md#createlike)
-
-***
-
-### \_getIterator()
-
-```ts
-protected _getIterator(): IterableIterator<E>;
-```
-
-Defined in: [data-structures/heap/heap.ts:1034](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L1034)
-
-Internal iterator factory used by the default iterator.
-
-#### Returns
-
-`IterableIterator`\<`E`\>
-
-An iterator over elements.
-
-#### Remarks
-
-Implementations should yield in O(1) per element with O(1) extra space when possible.
-
-#### Inherited from
-
-[`PriorityQueue`](PriorityQueue.md).[`_getIterator`](PriorityQueue.md#getiterator)
-
-***
-
-### \_spawnLike()
-
-```ts
-protected _spawnLike<EM, RM>(options?): Heap<EM, RM>;
-```
-
-Defined in: [data-structures/heap/heap.ts:1114](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L1114)
-
-(Protected) Spawn an empty like-kind heap instance.
-
-#### Type Parameters
-
-##### EM
-
-`EM`
-
-##### RM
-
-`RM`
-
-#### Parameters
-
-##### options?
-
-`HeapOptions`\<`EM`, `RM`\>
-
-Options forwarded to the constructor.
-
-#### Returns
-
-[`Heap`](Heap.md)\<`EM`, `RM`\>
-
-An empty like-kind heap instance.
-
-#### Remarks
-
-Time O(1), Space O(1)
-
-#### Inherited from
-
-[`PriorityQueue`](PriorityQueue.md).[`_spawnLike`](PriorityQueue.md#spawnlike)
-
-***
-
 ### \[iterator\]()
 
 ```ts
 iterator: IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L60)
+Defined in: [data-structures/base/iterable-element-base.ts:60](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L60)
 
 Returns an iterator over the structure's elements.
 
@@ -507,7 +323,7 @@ Producing the iterator is O(1); consuming the entire iterator is Time O(n) with 
 add(element): boolean;
 ```
 
-Defined in: [data-structures/heap/heap.ts:316](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L316)
+Defined in: [data-structures/heap/heap.ts:322](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L322)
 
 Insert an element.
 
@@ -543,7 +359,7 @@ Time O(1) amortized, Space O(1)
 addMany(elements): boolean[];
 ```
 
-Defined in: [data-structures/heap/heap.ts:355](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L355)
+Defined in: [data-structures/heap/heap.ts:364](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L364)
 
 Insert many elements from an iterable.
 
@@ -579,7 +395,7 @@ Time O(N log N), Space O(1)
 clear(): void;
 ```
 
-Defined in: [data-structures/heap/heap.ts:599](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L599)
+Defined in: [data-structures/heap/heap.ts:620](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L620)
 
 Remove all elements.
 
@@ -607,7 +423,7 @@ Time O(1), Space O(1)
 clone(): this;
 ```
 
-Defined in: [data-structures/heap/heap.ts:888](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L888)
+Defined in: [data-structures/heap/heap.ts:924](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L924)
 
 Deep clone this heap.
 
@@ -635,7 +451,7 @@ Time O(N), Space O(N)
 delete(element): boolean;
 ```
 
-Defined in: [data-structures/heap/heap.ts:680](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L680)
+Defined in: [data-structures/heap/heap.ts:707](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L707)
 
 Delete one occurrence of an element.
 
@@ -671,7 +487,7 @@ Time O(N), Space O(1)
 deleteBy(predicate): boolean;
 ```
 
-Defined in: [data-structures/heap/heap.ts:708](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L708)
+Defined in: [data-structures/heap/heap.ts:735](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L735)
 
 Delete the first element that matches a predicate.
 
@@ -705,7 +521,7 @@ Time O(N), Space O(1)
 dfs(order?): E[];
 ```
 
-Defined in: [data-structures/heap/heap.ts:768](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L768)
+Defined in: [data-structures/heap/heap.ts:798](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L798)
 
 Traverse the binary heap as a complete binary tree and collect elements.
 
@@ -741,7 +557,7 @@ Time O(N), Space O(H)
 every(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L86)
+Defined in: [data-structures/base/iterable-element-base.ts:86](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L86)
 
 Tests whether all elements satisfy the predicate.
 
@@ -781,7 +597,7 @@ Time O(n) in the worst case; may exit early when the first failure is found. Spa
 filter(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/heap/heap.ts:929](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L929)
+Defined in: [data-structures/heap/heap.ts:968](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L968)
 
 Filter elements into a new heap of the same class.
 
@@ -825,7 +641,7 @@ Time O(N log N), Space O(N)
 find<S>(predicate, thisArg?): S | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L162)
+Defined in: [data-structures/base/iterable-element-base.ts:162](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L162)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -871,7 +687,7 @@ Time O(n) in the worst case; may exit early on the first match. Space O(1).
 find(predicate, thisArg?): E | undefined;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L163)
+Defined in: [data-structures/base/iterable-element-base.ts:163](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L163)
 
 Finds the first element that satisfies the predicate and returns it.
 
@@ -913,7 +729,7 @@ Time O(n) in the worst case; may exit early on the first match. Space O(1).
 fix(): boolean[];
 ```
 
-Defined in: [data-structures/heap/heap.ts:799](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L799)
+Defined in: [data-structures/heap/heap.ts:829](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L829)
 
 Restore heap order bottom-up (heapify in-place).
 
@@ -939,7 +755,7 @@ Time O(N), Space O(1)
 forEach(callbackfn, thisArg?): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L132)
+Defined in: [data-structures/base/iterable-element-base.ts:132](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L132)
 
 Invokes a callback for each element in iteration order.
 
@@ -979,7 +795,7 @@ Time O(n), Space O(1).
 has(element): boolean;
 ```
 
-Defined in: [data-structures/heap/heap.ts:642](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L642)
+Defined in: [data-structures/heap/heap.ts:666](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L666)
 
 Check if an equal element exists in the heap.
 
@@ -1015,7 +831,7 @@ Time O(N), Space O(1)
 isEmpty(): boolean;
 ```
 
-Defined in: [data-structures/heap/heap.ts:562](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L562)
+Defined in: [data-structures/heap/heap.ts:580](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L580)
 
 Check whether the heap is empty.
 
@@ -1046,7 +862,7 @@ map<EM, RM>(
 thisArg?): Heap<EM, RM>;
 ```
 
-Defined in: [data-structures/heap/heap.ts:979](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L979)
+Defined in: [data-structures/heap/heap.ts:1021](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L1021)
 
 Map elements into a new heap of possibly different element type.
 
@@ -1104,7 +920,7 @@ Time O(N log N), Space O(N)
 mapSame(callback, thisArg?): this;
 ```
 
-Defined in: [data-structures/heap/heap.ts:1003](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L1003)
+Defined in: [data-structures/heap/heap.ts:1045](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L1045)
 
 Map elements into a new heap of the same element type.
 
@@ -1144,7 +960,7 @@ Time O(N log N), Space O(N)
 peek(): E | undefined;
 ```
 
-Defined in: [data-structures/heap/heap.ts:524](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L524)
+Defined in: [data-structures/heap/heap.ts:539](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L539)
 
 Get the current top element without removing it.
 
@@ -1172,7 +988,7 @@ Time O(1), Space O(1)
 poll(): E | undefined;
 ```
 
-Defined in: [data-structures/heap/heap.ts:424](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L424)
+Defined in: [data-structures/heap/heap.ts:436](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L436)
 
 Remove and return the top element.
 
@@ -1200,7 +1016,7 @@ Time O(log N), Space O(1)
 print(): void;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L268)
+Defined in: [data-structures/base/iterable-element-base.ts:268](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L268)
 
 Prints `toVisual()` to the console. Intended for quick debugging.
 
@@ -1258,7 +1074,7 @@ Time O(n), Space O(1). Throws if called on an empty structure without `initialVa
 reduce(callbackfn): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L193)
+Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L193)
 
 ##### Parameters
 
@@ -1280,7 +1096,7 @@ Defined in: [data-structures/base/iterable-element-base.ts:193](https://github.c
 reduce(callbackfn, initialValue): E;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L194)
+Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L194)
 
 ##### Parameters
 
@@ -1306,7 +1122,7 @@ Defined in: [data-structures/base/iterable-element-base.ts:194](https://github.c
 reduce<U>(callbackfn, initialValue): U;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L195)
+Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L195)
 
 ##### Type Parameters
 
@@ -1340,7 +1156,7 @@ Defined in: [data-structures/base/iterable-element-base.ts:195](https://github.c
 refill(elements): boolean[];
 ```
 
-Defined in: [data-structures/heap/heap.ts:610](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L610)
+Defined in: [data-structures/heap/heap.ts:631](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L631)
 
 Replace the backing array and rebuild the heap.
 
@@ -1374,7 +1190,7 @@ Time O(N), Space O(N)
 setEquality(equals): this;
 ```
 
-Defined in: [data-structures/heap/heap.ts:736](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L736)
+Defined in: [data-structures/heap/heap.ts:763](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L763)
 
 Set the equality comparator used by has/delete operations.
 
@@ -1408,7 +1224,7 @@ Time O(1), Space O(1)
 some(predicate, thisArg?): boolean;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L109)
+Defined in: [data-structures/base/iterable-element-base.ts:109](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L109)
 
 Tests whether at least one element satisfies the predicate.
 
@@ -1448,7 +1264,7 @@ Time O(n) in the worst case; may exit early on first success. Space O(1).
 sort(): E[];
 ```
 
-Defined in: [data-structures/heap/heap.ts:842](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L842)
+Defined in: [data-structures/heap/heap.ts:875](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L875)
 
 Return all elements in ascending order by repeatedly polling.
 
@@ -1476,7 +1292,7 @@ Time O(N log N), Space O(N)
 toArray(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L245)
+Defined in: [data-structures/base/iterable-element-base.ts:245](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L245)
 
 Materializes the elements into a new array.
 
@@ -1502,7 +1318,7 @@ Time O(n), Space O(n).
 toVisual(): E[];
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L257)
+Defined in: [data-structures/base/iterable-element-base.ts:257](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L257)
 
 Returns a representation of the structure suitable for quick visualization.
 Defaults to an array of elements; subclasses may override to provide richer visuals.
@@ -1529,7 +1345,7 @@ Time O(n), Space O(n).
 values(): IterableIterator<E>;
 ```
 
-Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/base/iterable-element-base.ts#L71)
+Defined in: [data-structures/base/iterable-element-base.ts:71](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/base/iterable-element-base.ts#L71)
 
 Returns an iterator over the values (alias of the default iterator).
 
@@ -1558,7 +1374,7 @@ static from<T, R, S>(
    options?): S;
 ```
 
-Defined in: [data-structures/heap/heap.ts:248](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L248)
+Defined in: [data-structures/heap/heap.ts:251](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L251)
 
 Create a heap of the same class from an iterable.
 
@@ -1616,7 +1432,7 @@ Time O(N), Space O(N)
 static heapify<EE, RR>(elements, options): Heap<EE, RR>;
 ```
 
-Defined in: [data-structures/heap/heap.ts:266](https://github.com/zrwusa/data-structure-typed/blob/a9d6c9abc866183924585a6b636a09d910191f5d/src/data-structures/heap/heap.ts#L266)
+Defined in: [data-structures/heap/heap.ts:269](https://github.com/zrwusa/data-structure-typed/blob/ef6a7c995acacb09ef50137f5f48eccd3b55ca87/src/data-structures/heap/heap.ts#L269)
 
 Build a Heap from an iterable in linear time given a comparator.
 

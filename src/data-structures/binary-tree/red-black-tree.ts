@@ -427,6 +427,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove all entries
  *  const rbt = new RedBlackTree<number>([1, 2, 3]);
@@ -913,6 +925,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
@@ -991,6 +1015,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1253,6 +1289,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Rebalance tree
  *  const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
@@ -1276,6 +1321,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     /**
    * Transform to new tree
   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
