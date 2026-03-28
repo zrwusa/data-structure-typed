@@ -33,3 +33,8 @@ build/
 
 # Marketing materials (internal)
 docs/marketing/
+
+# VitePress
+docs-site/.vitepress/dist
+docs-site/.vitepress/cache
+.vitepress/cache
