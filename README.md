@@ -45,12 +45,35 @@ yarn add data-structure-typed
 pnpm add data-structure-typed
 ```
 
+### Subpath Imports (Tree-Shaking Friendly)
+
+Import only what you need — bundlers automatically tree-shake unused code:
+
+```typescript
+// Full bundle — everything available
+import { RedBlackTree, Deque, HashMap } from 'data-structure-typed';
+
+// Subpath — smaller bundle, only loads the category you need
+import { RedBlackTree, TreeMap, AVLTree } from 'data-structure-typed/binary-tree';
+import { Deque, Queue } from 'data-structure-typed/queue';
+import { HashMap } from 'data-structure-typed/hash';
+import { Heap, MinHeap } from 'data-structure-typed/heap';
+import { Trie } from 'data-structure-typed/trie';
+import { Stack } from 'data-structure-typed/stack';
+import { DoublyLinkedList } from 'data-structure-typed/linked-list';
+import { DirectedGraph } from 'data-structure-typed/graph';
+import { Matrix } from 'data-structure-typed/matrix';
+import { MinPriorityQueue } from 'data-structure-typed/priority-queue';
+```
+
+> **Note:** With `"sideEffects": false` and modern bundlers (Vite, Webpack 5, Rollup), even the full import `from 'data-structure-typed'` will tree-shake unused structures. Subpath imports give you explicit control and faster IDE autocomplete.
+
 ### Individual Packages
 
-Use only what you need:
+Standalone packages are also available:
 
 ```bash
-npm i heap-typed deque-typed red-black-tree-typed
+npm i avl-tree-typed bst-typed heap-typed
 ```
 
 ---
