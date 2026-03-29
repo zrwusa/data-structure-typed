@@ -149,8 +149,8 @@ rbTree.print()
 
 // Order-Statistic mode — O(log n) rank queries
 const ost = new RedBlackTree<number, string>([[1, 'A'], [2, 'B'], [3, 'C']], { enableOrderStatistic: true });
-ost.select(0);         // 1 (smallest key)
-ost.rank(2);           // 1 (one element before key 2)
+ost.getByRank(0);         // 1 (smallest key)
+ost.getRank(2);           // 1 (one element before key 2)
 ost.rangeByRank(0, 1); // [1, 2] (first two elements)
 ```
 

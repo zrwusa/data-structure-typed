@@ -36,7 +36,7 @@ enableOrderStatistic?: boolean; // default: false
 
 When `false` (default):
 - `_count` is NOT maintained (no overhead)
-- `select()`, `rank()`, `rangeByRank()` throw `Error('Order statistic is not enabled')`
+- `getByRank()`, `getRank()`, `rangeByRank()` throw `Error('Order statistic is not enabled')`
 
 When `true`:
 - `_count` is maintained on every insert, delete, and rotation
@@ -47,7 +47,7 @@ When `true`:
 The option propagates through the inheritance chain:
 ```ts
 const map = new TreeMap<string, number>([], { enableOrderStatistic: true });
-map.select(0); // ✅ works
+map.getByRank(0); // ✅ works
 ```
 
 ## API Design
@@ -93,29 +93,29 @@ const tree = new RedBlackTree<number>(
   { enableOrderStatistic: true }
 );
 
-tree.select(0);  // 20 (smallest)
-tree.select(3);  // 50 (median)
-tree.select(6);  // 80 (largest)
-tree.select(7);  // undefined (out of bounds)
-tree.select(-1); // undefined
+tree.getByRank(0);  // 20 (smallest)
+tree.getByRank(3);  // 50 (median)
+tree.getByRank(6);  // 80 (largest)
+tree.getByRank(7);  // undefined (out of bounds)
+tree.getByRank(-1); // undefined
 
 // With callback — get node
-tree.select(3, node => node);  // BSTNode { key: 50 }
+tree.getByRank(3, node => node);  // BSTNode { key: 50 }
 
 // With callback — get entry
-tree.select(3, node => [node.key, node.value]);  // [50, undefined]
+tree.getByRank(3, node => [node.key, node.value]);  // [50, undefined]
 
 // TreeMap
 const map = new TreeMap<string, number>(
   [['alice', 95], ['bob', 87], ['charlie', 92]],
   { enableOrderStatistic: true }
 );
-map.select(0);  // 'alice' (keys sorted alphabetically)
-map.select(2);  // 'charlie'
+map.getByRank(0);  // 'alice' (keys sorted alphabetically)
+map.getByRank(2);  // 'charlie'
 
 // TreeSet
 const set = new TreeSet<number>([10, 20, 30], { enableOrderStatistic: true });
-set.select(1);  // 20
+set.getByRank(1);  // 20
 ```
 
 ### rank(key) — Get the rank of a key
@@ -172,23 +172,23 @@ const tree = new RedBlackTree<number>(
   { enableOrderStatistic: true }
 );
 
-tree.rank(10);  // 0 (smallest, 0 elements less than it)
-tree.rank(30);  // 2 (20 and 10 are less)
-tree.rank(50);  // 4
-tree.rank(25);  // 2 (would be inserted at position 2)
-tree.rank(5);   // 0 (would be inserted at position 0)
-tree.rank(100); // 5 (would be inserted at end)
+tree.getRank(10);  // 0 (smallest, 0 elements less than it)
+tree.getRank(30);  // 2 (20 and 10 are less)
+tree.getRank(50);  // 4
+tree.getRank(25);  // 2 (would be inserted at position 2)
+tree.getRank(5);   // 0 (would be inserted at position 0)
+tree.getRank(100); // 5 (would be inserted at end)
 
 // Inverse relationship
-tree.select(tree.rank(30)); // 30
-tree.rank(tree.select(2)!); // 2
+tree.getByRank(tree.getRank(30)); // 30
+tree.getRank(tree.getByRank(2)!); // 2
 
 // TreeMap
 const map = new TreeMap<string, number>(
   [['alice', 95], ['bob', 87], ['charlie', 92]],
   { enableOrderStatistic: true }
 );
-map.rank('bob'); // 1
+map.getRank('bob'); // 1
 ```
 
 ### rangeByRank(start, end) — Get elements by rank range
@@ -312,8 +312,8 @@ rangeByRank(start: number, end: number): (K | undefined)[] {
 ```
 
 Each call site provides a sensible fallback value after `raise()`:
-- `select` → `undefined`
-- `rank` → `-1`
+- `getByRank` → `undefined`
+- `getRank` → `-1`
 - `rangeByRank` → `[]`
 
 In `throw` mode (default), the fallback is never reached. In other modes, the function degrades gracefully.
@@ -324,12 +324,12 @@ New code uses `raise()`. Existing `throw` statements are gradually migrated — 
 
 ## IterationType Support
 
-Both `select` and `rank` walk a single root-to-leaf path, similar to `ceiling`/`floor`.
+Both `getByRank` and `getRank` walk a single root-to-leaf path, similar to `ceiling`/`floor`.
 
 - **ITERATIVE** (default): while loop, O(1) space
 - **RECURSIVE**: function calls, O(log n) stack space
 
-`rangeByRank` uses `select` + in-order traversal, both support IterationType.
+`rangeByRank` uses `getByRank` + in-order traversal, both support IterationType.
 
 ## Edge Cases
 
@@ -374,7 +374,7 @@ In TreeMultiMap, a single node can represent multiple entries.
    - With callback
 
 4. **Inverse relationship**
-   - `select(rank(key)) === key` for all keys
+   - `getByRank(getRank(key)) === key` for all keys
    - `rank(select(k)) === k` for all valid k
 
 5. **Count maintenance**
@@ -390,14 +390,14 @@ In TreeMultiMap, a single node can represent multiple entries.
    - TreeMultiSet: duplicate handling
 
 7. **enableOrderStatistic: false**
-   - select/rank/rangeByRank all throw
+   - getByRank/getRank/rangeByRank all throw
    - No count maintenance overhead (count stays 1)
 
 8. **IterationType**
    - All methods produce same results with RECURSIVE and ITERATIVE
 
 9. **Stress test**
-   - Insert 10K random elements, verify select/rank consistency
+   - Insert 10K random elements, verify getByRank/getRank consistency
    - Random insert/delete sequence, verify count integrity after each operation
 
 ## Implementation Order
@@ -408,8 +408,8 @@ In TreeMultiMap, a single node can represent multiple entries.
 4. Wire count updates into BST insert/delete
 5. Wire count updates into AVL rotations
 6. Wire count updates into RBT rotations + fixup
-7. Implement `select`
-8. Implement `rank`
+7. Implement `getByRank`
+8. Implement `getRank`
 9. Implement `rangeByRank`
 10. Verify all tests pass
 11. Run performance benchmark (before/after with enableOrderStatistic: false)

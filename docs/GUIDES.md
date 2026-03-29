@@ -225,7 +225,7 @@ interface Player {
 }
 
 class Leaderboard {
-  // enableOrderStatistic gives O(log n) select/rank/rangeByRank
+  // enableOrderStatistic gives O(log n) getByRank/getRank/rangeByRank
   private scores = new RedBlackTree<number, Player>(
     [],
     { comparator: (a, b) => b - a, enableOrderStatistic: true }
@@ -250,19 +250,19 @@ class Leaderboard {
   // O(log n) — direct rank lookup
   getRank(playerId: string): number {
     if (!this.players.has(playerId)) return -1;
-    return this.scores.rank(this.players.get(playerId)!) + 1; // 1-based
+    return this.scores.getRank(this.players.get(playerId)!) + 1; // 1-based
   }
 
   // O(log n) — get k-th player by rank
   getPlayerAt(rank: number): Player | undefined {
-    const key = this.scores.select(rank - 1); // 0-indexed internally
+    const key = this.scores.getByRank(rank - 1); // 0-indexed internally
     return key !== undefined ? this.scores.get(key) : undefined;
   }
 
   // O(log n + k) — players around a given player
   getAroundMe(playerId: string, range: number): Player[] {
     if (!this.players.has(playerId)) return [];
-    const myRank = this.scores.rank(this.players.get(playerId)!);
+    const myRank = this.scores.getRank(this.players.get(playerId)!);
     const start = Math.max(0, myRank - range);
     const end = Math.min(this.scores.size - 1, myRank + range);
     return this.scores.rangeByRank(start, end)

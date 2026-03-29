@@ -4454,14 +4454,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     * @example
  * // Order-statistic on BST
  *  const tree = new TreeMultiMap<number>([30, 10, 50, 20, 40], { enableOrderStatistic: true });
- *       console.log(tree.select(0)); // 10;
- *       console.log(tree.select(4)); // 50;
- *       console.log(tree.rank(30)); // 2;
+ *       console.log(tree.getByRank(0)); // 10;
+ *       console.log(tree.getByRank(4)); // 50;
+ *       console.log(tree.getRank(30)); // 2;
    */
   // ─── Order-Statistic Methods ───────────────────────────
 
-  select(k: number): [K, V[]] | undefined {
-    const key = this.#core.select(k);
+  getByRank(k: number): [K, V[]] | undefined {
+    const key = this.#core.getByRank(k);
     if (key === undefined) return undefined;
     return [key, this.#core.get(key) ?? []];
   }
@@ -4474,13 +4474,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
  *         [10, 20, 30, 40, 50],
  *         { enableOrderStatistic: true }
  *       );
- *       console.log(tree.rank(10)); // 0;  // smallest → rank 0
- *       console.log(tree.rank(30)); // 2;  // 2 elements before 30 in tree order
- *       console.log(tree.rank(50)); // 4;  // largest → rank 4
- *       console.log(tree.rank(25)); // 2;
+ *       console.log(tree.getRank(10)); // 0;  // smallest → rank 0
+ *       console.log(tree.getRank(30)); // 2;  // 2 elements before 30 in tree order
+ *       console.log(tree.getRank(50)); // 4;  // largest → rank 4
+ *       console.log(tree.getRank(25)); // 2;
    */
-  rank(key: K): number {
-    return this.#core.rank(key);
+  getRank(key: K): number {
+    return this.#core.getRank(key);
   }
 
     /**

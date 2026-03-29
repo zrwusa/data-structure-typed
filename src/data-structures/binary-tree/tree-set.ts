@@ -4120,12 +4120,12 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     * @example
  * // Find k-th element in a TreeSet
  *  const set = new TreeSet<number>([30, 10, 50, 20, 40], { enableOrderStatistic: true });
- *       console.log(set.select(0)); // 10;
- *       console.log(set.select(2)); // 30;
- *       console.log(set.rank(30)); // 2;
+ *       console.log(set.getByRank(0)); // 10;
+ *       console.log(set.getByRank(2)); // 30;
+ *       console.log(set.getRank(30)); // 2;
    */
-  select(k: number): K | undefined {
-    return this.#core.select(k);
+  getByRank(k: number): K | undefined {
+    return this.#core.getByRank(k);
   }
 
   /**
@@ -4137,13 +4137,13 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *         [10, 20, 30, 40, 50],
  *         { enableOrderStatistic: true }
  *       );
- *       console.log(tree.rank(10)); // 0;  // smallest → rank 0
- *       console.log(tree.rank(30)); // 2;  // 2 elements before 30 in tree order
- *       console.log(tree.rank(50)); // 4;  // largest → rank 4
- *       console.log(tree.rank(25)); // 2;
+ *       console.log(tree.getRank(10)); // 0;  // smallest → rank 0
+ *       console.log(tree.getRank(30)); // 2;  // 2 elements before 30 in tree order
+ *       console.log(tree.getRank(50)); // 4;  // largest → rank 4
+ *       console.log(tree.getRank(25)); // 2;
    */
-  rank(key: K): number {
-    return this.#core.rank(key);
+  getRank(key: K): number {
+    return this.#core.getRank(key);
   }
 
   /**

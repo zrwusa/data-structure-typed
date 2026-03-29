@@ -46,8 +46,8 @@ describe('Centralized Error Handling (raise)', () => {
   describe('feature errors throw with clear message', () => {
     it('order-statistic: disabled throws with enableOrderStatistic hint', () => {
       const tree = new RedBlackTree<number>([1, 2, 3]);
-      expect(() => tree.select(0)).toThrow(/enableOrderStatistic/);
-      expect(() => tree.rank(1)).toThrow(/enableOrderStatistic/);
+      expect(() => tree.getByRank(0)).toThrow(/enableOrderStatistic/);
+      expect(() => tree.getRank(1)).toThrow(/enableOrderStatistic/);
       expect(() => tree.rangeByRank(0, 2)).toThrow(/enableOrderStatistic/);
     });
   });

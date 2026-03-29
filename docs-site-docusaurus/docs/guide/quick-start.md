@@ -47,18 +47,18 @@ const tree = new RedBlackTree<number, string>([
 ], { comparator: (a, b) => b - a, enableOrderStatistic: true });
 
 // select(k) — find k-th element (0-indexed)
-console.log(tree.select(0));  // 100 (1st in tree order)
-console.log(tree.select(2));  // 92  (3rd in tree order)
+console.log(tree.getByRank(0));  // 100 (1st in tree order)
+console.log(tree.getByRank(2));  // 92  (3rd in tree order)
 
 // rank(key) — how many elements before this key?
-console.log(tree.rank(92));   // 2 (2 elements before 92 in tree order)
+console.log(tree.getRank(92));   // 2 (2 elements before 92 in tree order)
 
 // rangeByRank(start, end) — pagination
 console.log(tree.rangeByRank(0, 2)); // [100, 95, 92] — top 3
 
-// Inverse property: select(rank(key)) === key
-const k = tree.rank(85);
-console.log(tree.select(k));  // 85
+// Inverse property: getByRank(getRank(key)) === key
+const k = tree.getRank(85);
+console.log(tree.getByRank(k));  // 85
 ```
 
 ## Task Queue (Scheduling)

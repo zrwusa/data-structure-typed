@@ -342,12 +342,12 @@ scores.sort((a, b) => a - b);
 const median = scores[Math.floor(scores.length / 2)]; // re-sort on every update
 ```
 
-✅ Order-statistic tree: O(log n) select/rank with live updates:
+✅ Order-statistic tree: O(log n) getByRank/getRank with live updates:
 
 ```javascript
 const tree = new RedBlackTree(scores, { enableOrderStatistic: true });
-const median = tree.select(Math.floor(tree.size / 2)); // O(log n)
-const rank = tree.rank(92); // "how many scores below 92?" — O(log n)
+const median = tree.getByRank(Math.floor(tree.size / 2)); // O(log n)
+const rank = tree.getRank(92); // "how many scores below 92?" — O(log n)
 const top3 = tree.rangeByRank(tree.size - 3, tree.size - 1); // O(log n + 3)
 ```
 

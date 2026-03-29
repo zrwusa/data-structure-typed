@@ -4426,12 +4426,12 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
  *         [['alice', 95], ['bob', 87], ['charlie', 92]],
  *         { enableOrderStatistic: true }
  *       );
- *       console.log(map.select(0)); // 'alice';
- *       console.log(map.select(1)); // 'bob';
- *       console.log(map.select(2)); // 'charlie';
+ *       console.log(map.getByRank(0)); // 'alice';
+ *       console.log(map.getByRank(1)); // 'bob';
+ *       console.log(map.getByRank(2)); // 'charlie';
    */
-  select(k: number): [K, V | undefined] | undefined {
-    const key = this.#core.select(k);
+  getByRank(k: number): [K, V | undefined] | undefined {
+    const key = this.#core.getByRank(k);
     if (key === undefined) return undefined;
     return [key, this.#core.get(key)];
   }
@@ -4445,13 +4445,13 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
  *         [10, 20, 30, 40, 50],
  *         { enableOrderStatistic: true }
  *       );
- *       console.log(tree.rank(10)); // 0;  // smallest → rank 0
- *       console.log(tree.rank(30)); // 2;  // 2 elements before 30 in tree order
- *       console.log(tree.rank(50)); // 4;  // largest → rank 4
- *       console.log(tree.rank(25)); // 2;
+ *       console.log(tree.getRank(10)); // 0;  // smallest → rank 0
+ *       console.log(tree.getRank(30)); // 2;  // 2 elements before 30 in tree order
+ *       console.log(tree.getRank(50)); // 4;  // largest → rank 4
+ *       console.log(tree.getRank(25)); // 2;
    */
-  rank(key: K): number {
-    return this.#core.rank(key);
+  getRank(key: K): number {
+    return this.#core.getRank(key);
   }
 
   /**
