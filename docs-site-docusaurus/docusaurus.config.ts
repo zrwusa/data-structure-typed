@@ -53,7 +53,7 @@ const config: Config = {
         '@context': 'https://schema.org',
         '@type': 'SoftwareSourceCode',
         name: 'data-structure-typed',
-        description: 'A comprehensive TypeScript and JavaScript data structures library featuring production-ready implementations, zero dependencies, and an intuitive Array-like API.',
+        description: 'Production-ready TypeScript data structures library — Heap, Priority Queue, TreeMap, TreeSet, Red-Black Tree, Trie, Graph, Deque, SkipList. Zero dependencies, type-safe, with getRank/getByRank/rangeByRank support.',
         url: 'https://data-structure-typed-docs.vercel.app',
         codeRepository: 'https://github.com/zrwusa/data-structure-typed',
         programmingLanguage: ['TypeScript', 'JavaScript'],

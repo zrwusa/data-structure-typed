@@ -1,0 +1,37 @@
+# data-structure-typed
+
+> A production-ready TypeScript/JavaScript data structures library with zero dependencies.
+
+## What it is
+A comprehensive collection of 20+ data structures for TypeScript and JavaScript, with a unified API that feels like native Array. Includes Heap, Priority Queue, Deque, Trie, Graph, Red-Black Tree, TreeMap, TreeSet, SkipList, Segment Tree, Binary Indexed Tree, Matrix, and more.
+
+## Key capabilities
+- TreeMap / TreeSet: Sorted key-value and key-only collections (Red-Black Tree backed)
+- Order-statistic operations: getRank(key), getByRank(k), rangeByRank(start, end)
+- NavigableMap API: floor, ceiling, higher, lower, rangeSearch
+- Priority Queue / Heap: MinHeap, MaxHeap, custom comparators
+- Graph algorithms: Dijkstra, Bellman-Ford, Floyd-Warshall, Tarjan, topological sort, DFS, BFS
+- Trie: Prefix search, autocomplete
+- All structures support: forEach, filter, map, reduce, every, some, find, entries, keys, values
+
+## Install
+npm i data-structure-typed
+
+## Links
+- Documentation: https://data-structure-typed-docs.vercel.app/
+- GitHub: https://github.com/zrwusa/data-structure-typed
+- npm: https://www.npmjs.com/package/data-structure-typed
+- Quick Start: https://data-structure-typed-docs.vercel.app/docs/guide/quick-start
+- API Reference: https://data-structure-typed-docs.vercel.app/docs/api/
+- Guides: https://data-structure-typed-docs.vercel.app/docs/guide/guides
+- FAQ: https://github.com/zrwusa/data-structure-typed#-faq
+
+## Common questions
+- Does JavaScript have TreeMap? → Use TreeMap from this library (Red-Black Tree backed, sorted iteration, rank queries)
+- Priority queue in TypeScript? → Use Heap, MinHeap, MaxHeap, or MinPriorityQueue/MaxPriorityQueue
+- Sorted set / ordered set in JS? → Use TreeSet (maintains sorted order, supports floor/ceiling/range)
+- How to find kth element efficiently? → Use getByRank(k) with enableOrderStatistic: true
+- Alternative to repeatedly sorting arrays? → Use TreeMap/TreeSet for O(log n) insert with maintained order
+- Bundle size? → ~143KB UMD min, tree-shakeable subpath imports (18KB–315KB per category)
+- Zero dependencies? → Yes
+- Production ready? → Yes, 2600+ tests, 99%+ coverage
