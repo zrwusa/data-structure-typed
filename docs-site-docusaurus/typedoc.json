@@ -1,6 +1,7 @@
 {
   "entryPoints": ["../src/data-structures"],
   "tsconfig": "../tsconfig.json",
+  "gitRevision": "main",
   "out": "./docs/api",
   "plugin": ["typedoc-plugin-markdown", "../scripts/typedoc-plugin-example-rewrite.js"],
   "cleanOutputDir": true,
