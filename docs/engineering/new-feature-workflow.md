@@ -101,12 +101,30 @@ If feature applies to wrapper classes (TreeMap, TreeSet, TreeMultiMap, TreeMulti
 - [ ] **docs/GUIDES.md** — sync with Docusaurus version (these are source-of-truth copies)
 - [ ] **Update existing examples** that the new feature improves (e.g. manual top-k → rangeByRank)
 
-## Phase 10: Final Verification
+## Phase 10: Playground & Integration Docs Sync
+
+If the new feature adds user-facing API (new methods, new options, new patterns):
+
+- [ ] **Update StackBlitz playgrounds** (`dst-playgrounds` repo)
+  - NestJS app: `apps/nestjs/` — add endpoints that demonstrate the feature
+  - Update `app.service.ts` HTML docs page with new endpoint cards
+  - Run locally to verify all endpoints work
+  - Push to `dst-playgrounds` repo (StackBlitz auto-syncs from GitHub)
+- [ ] **Update docs/INTEGRATIONS.md** — sync NestJS/React/Express examples with new API
+- [ ] **Update docs-site-docusaurus/docs/guide/integrations.md** — keep in sync with `docs/INTEGRATIONS.md`
+- [ ] **Update docs/GUIDES.md** — replace manual patterns with new API where applicable
+- [ ] **Update docs-site-docusaurus/docs/guide/guides.md** — keep in sync with `docs/GUIDES.md`
+- [ ] **Update README.md FAQ** — add FAQ entry if the feature answers a common question
+- [ ] **Update docs-site-docusaurus/docs/guide/faq.md** — keep in sync
+- [ ] **Publish docs** — `npm run publish:docs` after all changes
+
+## Phase 11: Final Verification
 
 - [ ] **`npx tsc --noEmit`** — 0 errors (source + tests)
 - [ ] **`npm test`** — all pass, no regressions
 - [ ] **`npm run gen:examples`** — injection count correct
 - [ ] **Review `git diff --stat`** — no unintended changes
+- [ ] **Verify StackBlitz links work** — click all 4 playground links in README
 - [ ] **Wait for Pablo's approval** before commit/push
 
 ---
@@ -160,8 +178,18 @@ Tests:
 Docs:
   README.md
   docs/GUIDES.md
+  docs/INTEGRATIONS.md
+  docs/FAQ.md
   docs-site-docusaurus/docs/guide/quick-start.md
   docs-site-docusaurus/docs/guide/concepts.md
   docs-site-docusaurus/docs/guide/overview.md
   docs-site-docusaurus/docs/guide/guides.md
+  docs-site-docusaurus/docs/guide/integrations.md
+  docs-site-docusaurus/docs/guide/faq.md
+
+Playgrounds (dst-playgrounds repo):
+  apps/nestjs/src/product/services/product-price-index.service.ts
+  apps/nestjs/src/product/controllers/product.controller.ts
+  apps/nestjs/src/product/product.service.ts
+  apps/nestjs/src/app.service.ts (HTML docs page)
 ```
