@@ -1217,7 +1217,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): K | undefined | ReturnType<C> | undefined {
     if (!this._enableOrderStatistic) {
       raise(Error, ERR.orderStatisticNotEnabled('select'));
-      return undefined;
     }
     if (k < 0 || k >= this._size) return undefined;
 
@@ -1290,7 +1289,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): number {
     if (!this._enableOrderStatistic) {
       raise(Error, ERR.orderStatisticNotEnabled('rank'));
-      return -1;
     }
     if (!this._root || this._size === 0) return -1;
 
@@ -1357,7 +1355,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): (K | undefined)[] | ReturnType<C>[] {
     if (!this._enableOrderStatistic) {
       raise(Error, ERR.orderStatisticNotEnabled('rangeByRank'));
-      return [];
     }
     if (this._size === 0) return [];
 

@@ -65,7 +65,6 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
         // Validate entries like native Map: each item must be a 2-tuple-like value.
         if (!Array.isArray(item) || item.length < 2) {
           raise(TypeError, ERR.invalidEntry('TreeMap'));
-          continue;
         }
         k = item[0] as K;
         v = item[1] as V | undefined;
@@ -108,7 +107,6 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
       }
 
       raise(TypeError, ERR.comparatorRequired('TreeMap'));
-      return 0;
     };
   }
 

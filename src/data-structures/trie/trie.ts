@@ -1111,7 +1111,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
       const v = thisArg === undefined ? callback(x, i++, this) : callback.call(thisArg, x, i++, this);
       if (typeof v !== 'string') {
         raise(TypeError, ERR.callbackReturnType('string', typeof v, 'Trie.map'));
-        continue;
       }
       newTrie.add(v);
     }

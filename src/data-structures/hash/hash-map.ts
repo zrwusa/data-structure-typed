@@ -953,7 +953,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       return rawElement;
     }
     raise(TypeError, ERR.invalidArgument('If elements do not adhere to [key, value], provide options.toEntryFn to transform raw records.', 'HashMap'));
-    return rawElement as unknown as [K, V];
   };
 
   get toEntryFn() {

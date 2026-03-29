@@ -276,7 +276,6 @@ export abstract class AbstractGraph<
         return this._addEdge(newEdge);
       } else {
         raise(TypeError, ERR.invalidArgument('dest must be a Vertex or vertex key when srcOrEdge is an Edge.', 'Graph'));
-        return false;
       }
     }
   }

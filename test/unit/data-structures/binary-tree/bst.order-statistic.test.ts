@@ -5,11 +5,8 @@ import {
   TreeMap,
   TreeMultiMap,
   TreeMultiSet,
-  TreeSet,
-  setErrorHandling,
-  getErrorHandling
+  TreeSet
 } from '../../../../src';
-import type { ErrorHandlingMode } from '../../../../src';
 
 describe('Order Statistic Tree', () => {
   // ─── select ───────────────────────────────────────────
@@ -427,56 +424,7 @@ describe('Order Statistic Tree', () => {
     });
   });
 
-  // ─── Error handling modes ─────────────────────────────
 
-  describe('error handling modes', () => {
-    let originalMode: ErrorHandlingMode;
-
-    beforeEach(() => {
-      originalMode = getErrorHandling();
-    });
-
-    afterEach(() => {
-      setErrorHandling(originalMode);
-    });
-
-    it('warn mode: select returns undefined instead of throwing', () => {
-      setErrorHandling('warn');
-      const tree = new RedBlackTree<number>([10, 20, 30]);
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-      expect(tree.select(0)).toBeUndefined();
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('enableOrderStatistic')
-      );
-      consoleSpy.mockRestore();
-    });
-
-    it('warn mode: rank returns -1 instead of throwing', () => {
-      setErrorHandling('warn');
-      const tree = new RedBlackTree<number>([10, 20, 30]);
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-      expect(tree.rank(10)).toBe(-1);
-      expect(consoleSpy).toHaveBeenCalled();
-      consoleSpy.mockRestore();
-    });
-
-    it('warn mode: rangeByRank returns [] instead of throwing', () => {
-      setErrorHandling('warn');
-      const tree = new RedBlackTree<number>([10, 20, 30]);
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-      expect(tree.rangeByRank(0, 2)).toEqual([]);
-      expect(consoleSpy).toHaveBeenCalled();
-      consoleSpy.mockRestore();
-    });
-
-    it('silent mode: no output, graceful fallback', () => {
-      setErrorHandling('silent');
-      const tree = new RedBlackTree<number>([10, 20, 30]);
-      expect(tree.select(0)).toBeUndefined();
-      expect(tree.rank(10)).toBe(-1);
-      expect(tree.rangeByRank(0, 2)).toEqual([]);
-    });
-  });
 
   // ─── Stress test ──────────────────────────────────────
 

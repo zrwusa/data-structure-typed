@@ -283,25 +283,12 @@ Called after every structural change (rotation, insert fixup, delete fixup).
 
 ## Error Handling
 
-Uses the library's centralized error handling system (`raise` from `src/common/error.ts`).
-
-### Global error handling modes
-
-```ts
-import { setErrorHandling } from 'data-structure-typed';
-
-setErrorHandling('throw'); // default — fail-fast
-setErrorHandling('warn');  // console.warn and continue
-setErrorHandling('error'); // console.error and continue
-setErrorHandling('silent');// suppress all
-```
-
-### Usage in order-statistic methods
+Uses the library's centralized `raise()` from `src/common/error.ts`. All errors always throw (data structure errors are never recoverable — silent failures cause data corruption).
 
 ```ts
 select(k: number): K | undefined {
   if (!this._enableOrderStatistic) {
-    raise(Error, ERR.orderStatisticNotEnabled('select'));
+    raise(Error, ERR.orderStatisticNotEnabled('select')); // always throws
     return undefined; // reached in warn/error/silent modes
   }
   // ...

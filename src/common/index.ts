@@ -1,5 +1,4 @@
-export { ERR, raise, setErrorHandling, getErrorHandling } from './error';
-export type { ErrorHandlingMode } from './error';
+export { ERR, raise } from './error';
 
 export enum DFSOperation {
   VISIT = 0,

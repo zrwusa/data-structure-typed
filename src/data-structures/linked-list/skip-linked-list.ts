@@ -102,7 +102,6 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
         return a < b ? -1 : a > b ? 1 : 0;
       }
       raise(TypeError, ERR.comparatorRequired('SkipList'));
-      return 0;
     };
   }
 

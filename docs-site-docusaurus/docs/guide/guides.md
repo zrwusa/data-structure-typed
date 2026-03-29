@@ -588,23 +588,6 @@ const result = tree
   .reduce((sum, v) => sum + (v ?? 0), 0);
 ```
 
-### 5. Configure Error Handling
-
-```typescript
-import { setErrorHandling, getErrorHandling } from 'data-structure-typed';
-
-// Default: throws errors
-setErrorHandling('throw');
-
-// In production: log instead of crash
-setErrorHandling('warn');   // console.warn
-setErrorHandling('error');  // console.error
-setErrorHandling('silent'); // suppress entirely
-
-// Check current mode
-console.log(getErrorHandling()); // 'silent'
-```
-
 ---
 
 **Need more?** Check [INTEGRATIONS.md](/guide/integrations.md) for framework examples.

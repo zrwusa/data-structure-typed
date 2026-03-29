@@ -92,7 +92,6 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
       }
 
       raise(TypeError, ERR.comparatorRequired('TreeSet'));
-      return 0;
     };
   }
 
