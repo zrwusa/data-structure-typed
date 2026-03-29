@@ -4471,8 +4471,11 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
  *       // Page 3
  *       console.log(tree.rangeByRank(2 * pageSize, 3 * pageSize - 1)); // [70, 80, 90];
    */
-  rangeByRank(start: number, end: number): (K | undefined)[] {
-    return this.#core.rangeByRank(start, end);
+  rangeByRank(start: number, end: number): Array<[K, V | undefined]> {
+    const keys = this.#core.rangeByRank(start, end);
+    return keys
+      .filter((k): k is K => k !== undefined)
+      .map(k => [k, this.#core.get(k)] as [K, V | undefined]);
   }
 
   /**

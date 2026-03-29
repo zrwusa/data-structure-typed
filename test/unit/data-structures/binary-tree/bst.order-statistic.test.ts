@@ -330,6 +330,15 @@ describe('Order Statistic Tree', () => {
       expect(map.rank('aaa')).toBe(0);  // before alice
       expect(map.rank('bbb')).toBe(1);  // between alice and bob
     });
+
+    it('rangeByRank should return entries [key, value]', () => {
+      const map = new TreeMap<string, number>(
+        [['alice', 95], ['bob', 87], ['charlie', 92]],
+        { enableOrderStatistic: true }
+      );
+      const result = map.rangeByRank(0, 1);
+      expect(result).toEqual([['alice', 95], ['bob', 87]]);
+    });
   });
 
   describe('TreeSet', () => {

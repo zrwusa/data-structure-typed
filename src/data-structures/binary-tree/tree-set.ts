@@ -4165,8 +4165,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *       // Page 3
  *       console.log(tree.rangeByRank(2 * pageSize, 3 * pageSize - 1)); // [70, 80, 90];
    */
-  rangeByRank(start: number, end: number): (K | undefined)[] {
-    return this.#core.rangeByRank(start, end);
+  rangeByRank(start: number, end: number): K[] {
+    return this.#core.rangeByRank(start, end).filter((k): k is K => k !== undefined);
   }
 
   /**
