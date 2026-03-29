@@ -216,7 +216,7 @@ const value = tree.get(1);  // Type: string | undefined
 
 ### ✨ Zero Friction
 
-Works everywhere. Spread it `[...]`, loop it `for..of`, convert it instantly.
+Works everywhere. Spread it `[...]`, loop it `for..of`, convert it instantly. Pass raw data with `toEntryFn`/`toElementFn` — no pre-processing needed.
 
 ```javascript
 // All data structures work with iterator protocol
@@ -225,6 +225,9 @@ const sorted = [...tree];              // Spread operator
 for (const item of tree) {
 }           // for...of loop
 const set = new Set(tree);             // Set constructor
+
+// Pass raw data directly
+const map = new TreeMap(users, { toEntryFn: u => [u.id, u.name] });
 ```
 
 ### 🔄 Raw Data Mapping
