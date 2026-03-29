@@ -259,16 +259,16 @@ const stats = {
 
 ---
 
-## 🔄 Raw Data Mapping — No Pre-Processing Needed
+## 🔄 Working with Raw Data
 
-Every data structure accepts raw data and a mapping function, so you never need to `.map()` your data before constructing a structure.
+Got raw objects? Every data structure lets you pass them directly. Pick the pattern that fits what you want to store.
 
-### Key-Value Structures: `toEntryFn`
+### Pattern 1: `toElementFn` — Extract a field
 
-TreeMap, HashMap, and SkipList accept `toEntryFn` to transform raw records into `[key, value]` entries:
+Store only the extracted value. The original object is not kept.
 
 ```typescript
-import { TreeMap } from 'data-structure-typed';
+import { TreeSet, MinHeap } from 'data-structure-typed';
 
 const users = [
   { id: 3, name: 'Charlie' },
@@ -276,50 +276,66 @@ const users = [
   { id: 2, name: 'Bob' }
 ];
 
-// Raw data in, sorted map out — no intermediate array
-const map = new TreeMap<number, string, { id: number; name: string }>(
+const ids = new TreeSet<number, typeof users[0]>(
   users,
-  { toEntryFn: u => [u.id, u.name] }
+  { toElementFn: u => u.id }
 );
+// [1, 2, 3] — numbers only
 
-for (const [id, name] of map) {
-  console.log(id, name); // 1 Alice, 2 Bob, 3 Charlie
-}
-```
-
-### Single-Value Structures: `toElementFn`
-
-TreeSet, Heap, Queue, Deque, Stack, LinkedList, and Trie accept `toElementFn`:
-
-```typescript
-import { TreeSet, MinHeap } from 'data-structure-typed';
-
-const products = [
-  { sku: 'A100', price: 29.99 },
-  { sku: 'B200', price: 9.99 },
-  { sku: 'C300', price: 49.99 }
-];
-
-// TreeSet: extract price as the sorted key
-const prices = new TreeSet<number, typeof products[0]>(
-  products,
-  { toElementFn: p => p.price }
-);
-// [9.99, 29.99, 49.99]
-
-// Heap: extract price for priority ordering
-const cheapest = new MinHeap<number, typeof products[0]>(
-  products,
+const cheapest = new MinHeap<number, { price: number }>(
+  [{ price: 29.99 }, { price: 9.99 }, { price: 49.99 }],
   { toElementFn: p => p.price }
 );
 cheapest.peek(); // 9.99
 ```
 
-### Why This Matters
+**Supported by:** TreeSet, TreeMultiSet, Heap, Queue, Deque, Stack, LinkedList, Trie
 
-- **One less `.map()` call** — no intermediate array allocation
-- **Type-safe** — the third generic parameter `R` types your raw data
-- **Universal** — works across all data structures in the library
+### Pattern 2: `comparator` — Store full objects, sort by a field
+
+The original objects are stored as-is. The comparator tells the structure how to order them.
+
+```typescript
+import { TreeSet } from 'data-structure-typed';
+
+const fullSet = new TreeSet<typeof users[0]>(
+  users,
+  { comparator: (a, b) => a.id - b.id }
+);
+// [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }, { id: 3, name: 'Charlie' }]
+
+// Full objects preserved — access any field
+for (const user of fullSet) {
+  console.log(user.name);
+}
+```
+
+**Supported by:** All sorted structures (BST, AVL, RedBlackTree, TreeMap, TreeSet, Heap, PriorityQueue, SkipList)
+
+### Pattern 3: `toEntryFn` — Split into key-value
+
+Extract a key for sorting/lookup, store anything as the value.
+
+```typescript
+import { TreeMap } from 'data-structure-typed';
+
+const map = new TreeMap<number, typeof users[0]>(
+  users,
+  { toEntryFn: u => [u.id, u] }
+);
+map.get(1); // { id: 1, name: 'Alice' }
+map.floor(2.5); // [2, { id: 2, name: 'Bob' }]
+```
+
+**Supported by:** TreeMap, TreeMultiMap, HashMap, SkipList, BST, AVL, RedBlackTree
+
+### Which pattern should I use?
+
+| I want to... | Use |
+|---|---|
+| Store only IDs/scores/prices | `toElementFn` |
+| Store full objects, sorted by a field | `comparator` |
+| Look up full objects by a key | `toEntryFn` |
 
 ---
 keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]

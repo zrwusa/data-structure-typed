@@ -230,38 +230,40 @@ const set = new Set(tree);             // Set constructor
 const map = new TreeMap(users, { toEntryFn: u => [u.id, u.name] });
 ```
 
-### 🔄 Raw Data Mapping
+### 🔄 Working with Raw Data
 
-Pass raw data directly — no need to pre-process with `.map()`. All data structures support this via `toEntryFn` (for key-value structures) or `toElementFn` (for single-value structures).
+Got raw objects? Three ways to use them — pick based on what you want to store:
 
 ```typescript
-// TreeMap: raw objects → [key, value] entries
 const users = [
   { id: 3, name: 'Charlie' },
   { id: 1, name: 'Alice' },
   { id: 2, name: 'Bob' }
 ];
 
-const map = new TreeMap<number, string, { id: number; name: string }>(
-  users,
-  { toEntryFn: u => [u.id, u.name] }
-);
-// Sorted by id: [[1, 'Alice'], [2, 'Bob'], [3, 'Charlie']]
-
-// TreeSet: raw objects → keys
-const set = new TreeSet<number, { id: number; name: string }>(
+// 1. Extract a field — store only that field
+const ids = new TreeSet<number, { id: number; name: string }>(
   users,
   { toElementFn: u => u.id }
 );
-// Sorted: [1, 2, 3]
+// [1, 2, 3] — numbers only, original objects not kept
 
-// Works with Heap, Queue, Deque, Stack, LinkedList, Trie, HashMap, SkipList...
-const heap = new MinHeap<number, { score: number }>(
-  [{ score: 85 }, { score: 92 }, { score: 78 }],
-  { toElementFn: item => item.score }
+// 2. Store full objects — sort by a field
+const fullSet = new TreeSet<typeof users[0]>(
+  users,
+  { comparator: (a, b) => a.id - b.id }
 );
-heap.peek(); // 78
+// [{ id: 1, name: 'Alice' }, { id: 2, ... }, { id: 3, ... }]
+
+// 3. Split into key-value — field as key, anything as value
+const map = new TreeMap<number, typeof users[0]>(
+  users,
+  { toEntryFn: u => [u.id, u] }
+);
+// map.get(1) → { id: 1, name: 'Alice' }
 ```
+
+Works across all data structures — `toElementFn` for single-value types (Heap, Queue, Stack, LinkedList, Trie), `toEntryFn` for key-value types (TreeMap, HashMap, SkipList), and `comparator` for any sorted structure.
 
 ---
 
@@ -739,11 +741,12 @@ Yes. 2600+ tests, 99%+ code coverage, zero dependencies, and used in production.
 
 ### Can I pass raw data without converting it first?
 
-Yes. All data structures support raw data mapping via constructor options:
-- **Key-value structures** (TreeMap, HashMap, SkipList): use `toEntryFn: rawItem => [key, value]`
-- **Single-value structures** (TreeSet, Heap, Queue, Deque, Stack, LinkedList, Trie): use `toElementFn: rawItem => element`
+Yes. Three patterns:
+- **`toElementFn`** — extract a field, store only that (TreeSet, Heap, Queue, Stack, LinkedList, Trie)
+- **`comparator`** — store full objects, sort by a field (all sorted structures)
+- **`toEntryFn`** — split into key-value pairs (TreeMap, HashMap, SkipList)
 
-This saves you from calling `.map()` on your data before constructing the structure.
+See the [Raw Data section](#-working-with-raw-data) for examples.
 
 ### What is the bundle size?
 

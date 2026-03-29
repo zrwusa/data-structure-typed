@@ -150,43 +150,42 @@ UMD bundle: ~143KB minified. `sideEffects: false` enables full tree-shaking with
 
 ## Can I pass raw data without converting it first?
 
-Yes. All data structures support raw data mapping via constructor options — no need to `.map()` your data first.
-
-**Key-value structures** (TreeMap, HashMap, SkipList) use `toEntryFn`:
+Yes. Three patterns depending on what you want to store:
 
 ```typescript
-import { TreeMap } from 'data-structure-typed';
-
 const users = [
   { id: 3, name: 'Charlie' },
   { id: 1, name: 'Alice' },
   { id: 2, name: 'Bob' }
 ];
 
-const map = new TreeMap<number, string, { id: number; name: string }>(
-  users,
-  { toEntryFn: u => [u.id, u.name] }
-);
-// Sorted by id: [[1, 'Alice'], [2, 'Bob'], [3, 'Charlie']]
-```
-
-**Single-value structures** (TreeSet, Heap, Queue, Deque, Stack, LinkedList, Trie) use `toElementFn`:
-
-```typescript
-import { TreeSet, MinHeap } from 'data-structure-typed';
-
-const set = new TreeSet<number, { id: number; name: string }>(
+// 1. Extract a field — only that field is stored
+const ids = new TreeSet<number, typeof users[0]>(
   users,
   { toElementFn: u => u.id }
 );
-// Sorted: [1, 2, 3]
+// [1, 2, 3]
 
-const heap = new MinHeap<number, { score: number }>(
-  [{ score: 85 }, { score: 92 }, { score: 78 }],
-  { toElementFn: item => item.score }
+// 2. Store full objects — sort by a field (raw data preserved!)
+const fullSet = new TreeSet<typeof users[0]>(
+  users,
+  { comparator: (a, b) => a.id - b.id }
 );
-heap.peek(); // 78
+// [{ id: 1, name: 'Alice' }, { id: 2, ... }, { id: 3, ... }]
+
+// 3. Split into key-value — key for lookup, full object as value
+const map = new TreeMap<number, typeof users[0]>(
+  users,
+  { toEntryFn: u => [u.id, u] }
+);
+// map.get(1) → { id: 1, name: 'Alice' }
 ```
+
+| I want to... | Use |
+|---|---|
+| Store only IDs/scores/prices | `toElementFn` |
+| Store full objects, sorted by a field | `comparator` |
+| Look up full objects by a key | `toEntryFn` |
 
 ## How do I build a leaderboard with this library?
 
