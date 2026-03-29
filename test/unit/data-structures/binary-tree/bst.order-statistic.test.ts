@@ -371,7 +371,7 @@ describe('Order Statistic Tree', () => {
 
     it('rangeByRank should return entries [key, values[]]', () => {
       const tree = new TreeMultiMap<number, string>();
-      tree.setMany([[10, 'a'], [10, 'b'], [20, 'c'], [30, 'd']]);
+      tree.setMany([[10, ['a']], [10, ['b']], [20, ['c']], [30, ['d']]]);
       // enableOrderStatistic not set — need to create with option
       const tree2 = new TreeMultiMap<number, string>(
         [[10, 'a'], [20, 'b'], [30, 'c']],

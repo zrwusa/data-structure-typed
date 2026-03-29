@@ -29,7 +29,7 @@ describe('Centralized Error Handling (raise)', () => {
 
     it('Heap.map: missing comparator throws TypeError', () => {
       const heap = new Heap<number>([1, 2, 3]);
-      expect(() => heap.map((v) => ({ val: v }))).toThrow(/[Cc]omparator/);
+      expect(() => heap.map((v: number) => ({ val: v }), { comparator: undefined as any })).toThrow(/[Cc]omparator/);
     });
 
     it('BinaryIndexedTree: negative size throws RangeError', () => {
