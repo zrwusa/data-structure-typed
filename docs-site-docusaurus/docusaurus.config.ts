@@ -150,6 +150,7 @@ const config: Config = {
       searchParameters: {
         hitsPerPage: 30,
         distinct: false,
+        optionalFilters: ['hierarchy.lvl0:API<score=3>'],
       },
       maxResultsPerGroup: 20,
     },
