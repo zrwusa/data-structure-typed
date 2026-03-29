@@ -57,7 +57,11 @@ Based on the Order-Statistic Tree implementation (2026-03-29).
 If feature applies to wrapper classes (TreeMap, TreeSet, TreeMultiMap, TreeMultiSet):
 
 - [ ] **Pass option through constructor** to `#core` (e.g. `enableOrderStatistic`)
-- [ ] **Add proxy methods** that delegate to `this.#core.<method>()`
+- [ ] **Check return type alignment** — compare with `floor`/`ceiling`/`higher`/`lower`/`rangeSearch` in the same class:
+  - TreeMap: single-element queries → `[K, V | undefined] | undefined`, collection queries → `Array<[K, V | undefined]>`
+  - TreeMultiMap: single → `[K, V[]] | undefined`, collection → `Array<[K, V[]]>`
+  - TreeSet/TreeMultiSet: single → `K | undefined`, collection → `K[]`
+- [ ] **Don't blindly forward `#core` return** — wrap keys into entries where needed (e.g. `[key, this.#core.get(key)]`)
 - [ ] **Add JSDoc** to proxy methods (can be shorter, reference core docs)
 
 ## Phase 6: Compile & Test
@@ -111,6 +115,9 @@ If feature applies to wrapper classes (TreeMap, TreeSet, TreeMultiMap, TreeMulti
 
 | Gotcha | Solution |
 |--------|----------|
+| **Return type not aligned with existing API** | Check `floor`/`ceiling`/`higher`/`lower`/`rangeSearch` signatures for the same class. BST returns `K`, TreeMap returns `[K, V]`, TreeMultiMap returns `[K, V[]]`, TreeSet returns `K`. New query methods must match. |
+| **Wrapper proxy just forwards core return** | Wrong — wrappers have their own semantics. TreeMap wraps keys into entries, TreeMultiMap wraps into `[K, V[]]`. Don't blindly `return this.#core.method()`. |
+| **BST callback overload forgotten** | BST-layer methods support `(key)` and `(key, callback, iterationType)` overloads. Wrapper classes only expose the simple signature — callback is a core-level concern. |
 | RBT NIL nodes crash comparator | Use `this.isRealNode()` in all loops |
 | `instanceof BSTNode` misses subclass nodes | Use `this.isNode()` |
 | Wrapper classes don't inherit BST methods | Add proxy methods manually |
