@@ -4430,8 +4430,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
  *       console.log(map.select(1)); // 'bob';
  *       console.log(map.select(2)); // 'charlie';
    */
-  select(k: number): K | undefined {
-    return this.#core.select(k);
+  select(k: number): [K, V | undefined] | undefined {
+    const key = this.#core.select(k);
+    if (key === undefined) return undefined;
+    return [key, this.#core.get(key)];
   }
 
   /**

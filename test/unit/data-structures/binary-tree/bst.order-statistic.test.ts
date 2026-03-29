@@ -314,9 +314,10 @@ describe('Order Statistic Tree', () => {
         [['alice', 95], ['bob', 87], ['charlie', 92]],
         { enableOrderStatistic: true }
       );
-      expect(map.select(0)).toBe('alice');
-      expect(map.select(1)).toBe('bob');
-      expect(map.select(2)).toBe('charlie');
+      expect(map.select(0)).toEqual(['alice', 95]);
+      expect(map.select(1)).toEqual(['bob', 87]);
+      expect(map.select(2)).toEqual(['charlie', 92]);
+      expect(map.select(3)).toBeUndefined();
     });
 
     it('should support rank', () => {
@@ -357,15 +358,33 @@ describe('Order Statistic Tree', () => {
 
   describe('TreeMultiMap', () => {
     it('should support select/rank with duplicates', () => {
-      const tree = new TreeMultiMap<number>(
-        [10, 20, 20, 30, 30, 30],
+      const tree = new TreeMultiMap<number, string>(
+        [[10, 'a'], [20, 'b'], [20, 'c'], [30, 'd']],
         { enableOrderStatistic: true }
       );
-      // Each key exists once in BST, duplicates tracked per-node
-      expect(tree.select(0)).toBe(10);
-      expect(tree.select(1)).toBe(20);
-      expect(tree.select(2)).toBe(30);
+      // select returns [key, values[]]
+      const first = tree.select(0);
+      expect(first).toBeDefined();
+      expect(first![0]).toBe(10);
+      expect(Array.isArray(first![1])).toBe(true);
+      expect(tree.select(1)![0]).toBe(20);
+      expect(tree.select(2)![0]).toBe(30);
       expect(tree.rank(20)).toBe(1);
+    });
+
+    it('rangeByRank should return entries [key, values[]]', () => {
+      const tree = new TreeMultiMap<number, string>();
+      tree.setMany([[10, 'a'], [10, 'b'], [20, 'c'], [30, 'd']]);
+      // enableOrderStatistic not set — need to create with option
+      const tree2 = new TreeMultiMap<number, string>(
+        [[10, 'a'], [20, 'b'], [30, 'c']],
+        { enableOrderStatistic: true }
+      );
+      const result = tree2.rangeByRank(0, 1);
+      expect(result.length).toBe(2);
+      expect(result[0][0]).toBe(10);
+      expect(result[1][0]).toBe(20);
+      expect(Array.isArray(result[0][1])).toBe(true);
     });
   });
 
@@ -374,6 +393,12 @@ describe('Order Statistic Tree', () => {
       const set = new TreeMultiSet<number>([10, 20, 30], { enableOrderStatistic: true });
       expect(set.select(0)).toBe(10);
       expect(set.rank(20)).toBe(1);
+    });
+
+    it('rangeByRank should return keys K[]', () => {
+      const set = new TreeMultiSet<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
+      const result = set.rangeByRank(1, 3);
+      expect(result).toEqual([20, 30, 40]);
     });
   });
 

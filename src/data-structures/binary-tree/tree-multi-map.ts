@@ -4460,8 +4460,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    */
   // ─── Order-Statistic Methods ───────────────────────────
 
-  select(k: number): K | undefined {
-    return this.#core.select(k);
+  select(k: number): [K, V[]] | undefined {
+    const key = this.#core.select(k);
+    if (key === undefined) return undefined;
+    return [key, this.#core.get(key) ?? []];
   }
 
     /**
