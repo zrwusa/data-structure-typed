@@ -83,10 +83,10 @@ npm i avl-tree-typed bst-typed heap-typed
 
 Try it instantly:
 
-- [Node.js TypeScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nodejs-ts?file=src%2Findex.ts)
-- [Node.js JavaScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nodejs-js?file=src%2Findex.js)
-- [React TypeScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/reactjs?file=src%2FApp.tsx)
-- [NestJS](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nestjs?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts)
+- [Node.js TypeScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nodejs-ts?file=src%2Findex.ts&title=data-structure-typed%20%E2%80%94%20Node.js%20TypeScript)
+- [Node.js JavaScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nodejs-js?file=src%2Findex.js&title=data-structure-typed%20%E2%80%94%20Node.js%20JavaScript)
+- [React TypeScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/reactjs?file=src%2FApp.tsx&title=data-structure-typed%20%E2%80%94%20React%20Playground)
+- [NestJS](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nestjs?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts&title=data-structure-typed%20%E2%80%94%20NestJS%20Product%20API)
 
 ---
 
