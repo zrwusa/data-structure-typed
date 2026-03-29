@@ -1,6 +1,8 @@
 ---
 sidebar_label: "ARCHITECTURE"
 description: "Internal architecture: inheritance hierarchy, iterator protocol, memory layout, and algorithmic guarantees."
+title: "Architecture — Inheritance, Iterators, Memory Layout"
+keywords: [data structure library architecture, typescript inheritance, iterator protocol, memory layout, algorithmic guarantees]
 ---
 
 # ARCHITECTURE

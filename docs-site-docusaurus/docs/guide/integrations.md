@@ -1,6 +1,8 @@
 ---
 sidebar_label: "INTEGRATIONS"
 description: "Integrate data-structure-typed with React, Express, NestJS, and other frameworks. Production-ready patterns."
+title: "Framework Integrations — React, Express, NestJS"
+keywords: [data-structure-typed react, typescript data structures express, nestjs data structures, production patterns]
 ---
 
 # INTEGRATIONS

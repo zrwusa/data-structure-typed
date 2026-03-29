@@ -1,6 +1,8 @@
 ---
 sidebar_label: "GUIDES"
 description: "Real-world examples: leaderboards with RedBlackTree, task scheduling with PriorityQueue, autocomplete with Trie, and more."
+title: "Guides — Leaderboards, Scheduling, Autocomplete"
+keywords: [typescript leaderboard, task scheduler priority queue, autocomplete trie, rank query, range query, real world examples]
 ---
 
 # GUIDES

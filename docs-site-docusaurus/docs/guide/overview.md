@@ -1,6 +1,8 @@
 ---
 sidebar_label: "OVERVIEW"
 description: "Complete overview of all 20+ data structures: trees, heaps, graphs, queues, linked lists, hash maps, and more."
+title: "Data Structures Overview — Trees, Heaps, Graphs, Queues"
+keywords: [typescript data structures overview, red black tree, heap, priority queue, trie, graph, deque, treemap, treeset]
 ---
 
 # OVERVIEW

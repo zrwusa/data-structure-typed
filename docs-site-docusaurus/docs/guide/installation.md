@@ -1,5 +1,7 @@
 ---
 description: "Install data-structure-typed via npm, yarn, or pnpm. Supports tree-shaking with subpath imports for minimal bundle size."
+title: "Installation — npm, yarn, pnpm"
+keywords: [data-structure-typed install, npm data structures, typescript library install, tree shaking, subpath imports]
 ---
 
 # Installation

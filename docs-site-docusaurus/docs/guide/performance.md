@@ -1,6 +1,8 @@
 ---
 sidebar_label: "PERFORMANCE"
 description: "Benchmarks comparing data-structure-typed vs native Arrays, Maps, and C++ implementations. Includes methodology."
+title: "Performance Benchmarks"
+keywords: [typescript data structures performance, red black tree benchmark, heap benchmark, priority queue performance, javascript vs cpp]
 ---
 
 # PERFORMANCE

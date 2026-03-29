@@ -1,7 +1,9 @@
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 sidebar_label: "CONCEPTS"
 description: "Core concepts behind data-structure-typed: uniform API, iterators, generics, comparators, and the 5 design traits."
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 # CONCEPTS
 
@@ -10,6 +12,7 @@ This guide explains the foundational concepts behind data structures through pla
 **👈 [Back to README](/.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Guides](/guide/guides.md)**
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Table of Contents
 
@@ -22,6 +25,7 @@ This guide explains the foundational concepts behind data structures through pla
 7. [Decision Guide](#-decision-guide-choose-the-right-data-structure)
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## The Big Three Concepts
 
@@ -78,6 +82,7 @@ A complete binary tree where parent always has priority over children.
 **Perfect for**: Priority queues, heap sort
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🌍 Plain Language Explanations
 
@@ -103,6 +108,7 @@ For those who love understanding concepts through metaphors:
 | **Matrix**             | A 2D grid of numbers supporting standard linear algebra operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 2D grid transformations, linear algebra                                        |
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Iterator Protocol Design
 
@@ -164,6 +170,7 @@ for (const item of heap) console.log(item);
 ```
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🔗 Seamless Interoperability: Iterator Protocol Everywhere
 
@@ -179,6 +186,7 @@ Instead of forcing conversions between data structures, we made every structure 
 This is **zero friction** because you use the same mental model.
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🎁 All Array Methods Work Everywhere
 
@@ -250,6 +258,7 @@ const stats = {
 | forEach     | ✅           | ✅    | ✅     | ✅     | ✅          |
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Why Not Just Use Native JavaScript?
 
@@ -370,6 +379,7 @@ const matches = trie.getWords('appl');
 ```
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🎯 Decision Guide: Choose the Right Data Structure
 
@@ -413,6 +423,7 @@ Need a sorted key-value map?
 ```
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Next Steps
 
@@ -429,6 +440,7 @@ Need a sorted key-value map?
 → [See architecture details](/guide/architecture.md)
 
 ---
+keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 **Related:**
 
