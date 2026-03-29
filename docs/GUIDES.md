@@ -217,7 +217,7 @@ cache.set('d', 'value4');    // Evicts 'b' (least recent)
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
-// TODO
+
 interface Player {
   id: string;
   name: string;
@@ -225,76 +225,58 @@ interface Player {
 }
 
 class Leaderboard {
+  // enableOrderStatistic gives O(log n) select/rank/rangeByRank
   private scores = new RedBlackTree<number, Player>(
-    (a, b) => b - a  // Descending order
+    [],
+    { comparator: (a, b) => b - a, enableOrderStatistic: true }
   );
   private players = new Map<string, number>(); // playerId → currentScore
 
   updateScore(player: Player): void {
-    // Remove old score if exists
     if (this.players.has(player.id)) {
-      const oldScore = this.players.get(player.id)!;
-      this.scores.delete(oldScore);
+      this.scores.delete(this.players.get(player.id)!);
     }
-
-    // Add new score
     this.scores.set(player.score, player);
     this.players.set(player.id, player.score);
   }
 
-  // O(k log n) — walk from highest score, no array copy
+  // O(k) — select by rank, no array copy
   getTopN(n: number): Player[] {
-    const result: Player[] = [];
-    let key = this.scores.getLeftMost(); // highest in desc tree
-    while (key !== undefined && result.length < n) {
-      const player = this.scores.get(key);
-      if (player) result.push(player);
-      key = this.scores.higher(key);     // next in tree order
-    }
-    return result;
+    return this.scores.rangeByRank(0, n - 1)
+      .map(key => key !== undefined ? this.scores.get(key) : undefined)
+      .filter((p): p is Player => p !== undefined);
   }
 
-  // O(log n + k) — count entries above the target score
+  // O(log n) — direct rank lookup
   getRank(playerId: string): number {
     if (!this.players.has(playerId)) return -1;
-    const score = this.players.get(playerId)!;
-    let rank = 1;
-    let key = this.scores.getLeftMost();
-    while (key !== undefined && key > score) {
-      rank++;
-      key = this.scores.higher(key);
-    }
-    return rank;
+    return this.scores.rank(this.players.get(playerId)!) + 1; // 1-based
   }
 
-  // O(log n + k) — navigate to target player, then walk ±range
+  // O(log n) — get k-th player by rank
+  getPlayerAt(rank: number): Player | undefined {
+    const key = this.scores.select(rank - 1); // 0-indexed internally
+    return key !== undefined ? this.scores.get(key) : undefined;
+  }
+
+  // O(log n + k) — players around a given player
   getAroundMe(playerId: string, range: number): Player[] {
     if (!this.players.has(playerId)) return [];
-    const myScore = this.players.get(playerId)!;
-    const result: Player[] = [];
+    const myRank = this.scores.rank(this.players.get(playerId)!);
+    const start = Math.max(0, myRank - range);
+    const end = Math.min(this.scores.size - 1, myRank + range);
+    return this.scores.rangeByRank(start, end)
+      .map(key => key !== undefined ? this.scores.get(key) : undefined)
+      .filter((p): p is Player => p !== undefined);
+  }
 
-    // Collect `range` players above me
-    const above: Player[] = [];
-    let key = this.scores.lower(myScore);
-    for (let i = 0; i < range && key !== undefined; i++) {
-      const p = this.scores.get(key);
-      if (p) above.unshift(p);
-      key = this.scores.lower(key);
-    }
-
-    // Me + `range` players below me
-    result.push(...above);
-    const me = this.scores.get(myScore);
-    if (me) result.push(me);
-
-    key = this.scores.higher(myScore);
-    for (let i = 0; i < range && key !== undefined; i++) {
-      const p = this.scores.get(key);
-      if (p) result.push(p);
-      key = this.scores.higher(key);
-    }
-
-    return result;
+  // Pagination: show page N of the leaderboard
+  getPage(page: number, pageSize: number): Player[] {
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize - 1;
+    return this.scores.rangeByRank(start, end)
+      .map(key => key !== undefined ? this.scores.get(key) : undefined)
+      .filter((p): p is Player => p !== undefined);
   }
 }
 
@@ -304,9 +286,11 @@ lb.updateScore({ id: '1', name: 'Alice', score: 1000 });
 lb.updateScore({ id: '2', name: 'Bob', score: 900 });
 lb.updateScore({ id: '3', name: 'Charlie', score: 950 });
 
-console.log(lb.getTopN(2));        // Top 2 players
-console.log(lb.getRank('2'));      // Bob's rank
-console.log(lb.getAroundMe('2', 1)); // Players around Bob
+console.log(lb.getTopN(2));          // Alice, Charlie
+console.log(lb.getRank('2'));        // 3 (Bob is 3rd)
+console.log(lb.getPlayerAt(1));      // Alice (1st place)
+console.log(lb.getAroundMe('3', 1)); // [Alice, Charlie, Bob]
+console.log(lb.getPage(1, 2));       // [Alice, Charlie] (page 1, 2 per page)
 ```
 
 ### Example 3: Message Queue with Priorities

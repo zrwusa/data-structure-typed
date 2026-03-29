@@ -332,7 +332,26 @@ const tree = new RedBlackTree(prices);
 const inRange = tree.rangeSearch([30, 70]);
 ```
 
-### Case 5: Prefix Matching is Tedious
+### Case 5: Finding the K-th Element Requires Sorting
+
+❌ Array: sort + index is O(n log n):
+
+```javascript
+const scores = [85, 92, 78, 95, 88, 100, 73];
+scores.sort((a, b) => a - b);
+const median = scores[Math.floor(scores.length / 2)]; // re-sort on every update
+```
+
+✅ Order-statistic tree: O(log n) select/rank with live updates:
+
+```javascript
+const tree = new RedBlackTree(scores, { enableOrderStatistic: true });
+const median = tree.select(Math.floor(tree.size / 2)); // O(log n)
+const rank = tree.rank(92); // "how many scores below 92?" — O(log n)
+const top3 = tree.rangeByRank(tree.size - 3, tree.size - 1); // O(log n + 3)
+```
+
+### Case 6: Prefix Matching is Tedious
 
 ❌ Array.filter is O(n*m):
 

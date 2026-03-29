@@ -262,29 +262,43 @@ const leaderboard = new RedBlackTree<number, string>([
   [92, 'Charlie']
 ], { comparator: (a, b) => b - a });
 
-// Top-2 via lazy iterator — O(2 log n), no full traversal
+// Top-2 via lazy iterator — O(k log n), no array copy
 const iter = leaderboard.entries();
-for (let i = 0; i < 2; i++) {
-  const { value: [score, player] } = iter.next();
-  console.log(`${score}: ${player}`);
-}
-// Output: 100: Alice → 92: Charlie
+const { value: [topScore, topPlayer] } = iter.next();
+console.log(`${topScore}: ${topPlayer}`); // 100: Alice
 
 // Update score — O(log n)
 leaderboard.delete(85);
 leaderboard.set(95, 'Bob');
 
-// Top-k — O(k log n), no array copy needed
-const top3: [number, string][] = [];
-let score = leaderboard.getLeftMost();        // highest score
-while (score !== undefined && top3.length < 3) {
-  top3.push([score, leaderboard.get(score)!]);
-  score = leaderboard.higher(score);          // next in tree order
-}
-
 // Range query — players scoring 90~100, O(log n + k)
 const scores90to100 = leaderboard.rangeSearch([90, 100]);
 // [100, 95, 92] — automatically respects tree order
+
+// For O(log n) top-k, rank, and pagination → see Order-Statistic Tree below
+```
+
+### Order-Statistic Tree (Rank Queries)
+
+```typescript
+import { RedBlackTree } from 'data-structure-typed';
+
+const tree = new RedBlackTree<number, string>([
+  [100, 'Alice'], [85, 'Bob'], [92, 'Charlie'],
+  [78, 'Diana'], [95, 'Eve']
+], { comparator: (a, b) => b - a, enableOrderStatistic: true });
+
+// select(k) — find k-th element, O(log n)
+tree.select(0);              // 100 (1st place)
+tree.select(2);              // 92  (3rd place)
+
+// rank(key) — count elements before key, O(log n)
+tree.rank(92);               // 2 (2 scores above 92)
+
+// rangeByRank — pagination, O(log n + k)
+tree.rangeByRank(0, 2);      // [100, 95, 92] — top 3
+
+// Also works with TreeMap, TreeSet, TreeMultiMap, TreeMultiSet
 ```
 
 ### Task Queue (Scheduling)

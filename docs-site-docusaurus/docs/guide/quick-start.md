@@ -32,6 +32,35 @@ leaderboard.set(95, 'Bob');
 const scores90to100 = leaderboard.rangeSearch([90, 100]);
 ```
 
+## Order-Statistic Tree (Rank Queries)
+
+```typescript
+import { RedBlackTree } from 'data-structure-typed';
+
+// Enable order-statistic for O(log n) rank operations
+const tree = new RedBlackTree<number, string>([
+  [100, 'Alice'],
+  [85, 'Bob'],
+  [92, 'Charlie'],
+  [78, 'Diana'],
+  [95, 'Eve']
+], { comparator: (a, b) => b - a, enableOrderStatistic: true });
+
+// select(k) — find k-th element (0-indexed)
+console.log(tree.select(0));  // 100 (1st place)
+console.log(tree.select(2));  // 92  (3rd place)
+
+// rank(key) — how many elements before this key?
+console.log(tree.rank(92));   // 2 (2 scores above 92)
+
+// rangeByRank(start, end) — pagination
+console.log(tree.rangeByRank(0, 2)); // [100, 95, 92] — top 3
+
+// Inverse property: select(rank(key)) === key
+const k = tree.rank(85);
+console.log(tree.select(k));  // 85
+```
+
 ## Task Queue (Scheduling)
 
 ```typescript

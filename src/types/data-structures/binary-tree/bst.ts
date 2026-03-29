@@ -5,6 +5,7 @@ type BSTBaseOptions<K, V, R> = Omit<BinaryTreeOptions<K, V, R>, 'isDuplicate'>;
 
 export type BSTOptions<K, V, R> = BSTBaseOptions<K, V, R> & {
   comparator?: Comparator<K>;
+  enableOrderStatistic?: boolean;
 }
 
 export type BSTNOptKey<K> = K | undefined;

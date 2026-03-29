@@ -1,4 +1,54 @@
 /**
+ * Error handling mode for the library.
+ * - 'throw': Throw errors (default, fail-fast)
+ * - 'warn': console.warn and continue
+ * - 'error': console.error and continue
+ * - 'silent': Suppress all errors
+ */
+export type ErrorHandlingMode = 'throw' | 'warn' | 'error' | 'silent';
+
+let _errorHandlingMode: ErrorHandlingMode = 'throw';
+
+/**
+ * Set the global error handling mode.
+ * @param mode - The error handling mode to use.
+ */
+export function setErrorHandling(mode: ErrorHandlingMode): void {
+  _errorHandlingMode = mode;
+}
+
+/**
+ * Get the current error handling mode.
+ */
+export function getErrorHandling(): ErrorHandlingMode {
+  return _errorHandlingMode;
+}
+
+/**
+ * Raise an error through the configured error handling mode.
+ * In 'throw' mode, throws the error. In other modes, logs and continues.
+ * @param ErrorClass - The error constructor (Error, TypeError, RangeError, etc.)
+ * @param message - The error message.
+ */
+export function raise(
+  ErrorClass: new (msg: string) => Error,
+  message: string
+): void {
+  switch (_errorHandlingMode) {
+    case 'throw':
+      throw new ErrorClass(message);
+    case 'warn':
+      console.warn(`[data-structure-typed] ${message}`);
+      break;
+    case 'error':
+      console.error(`[data-structure-typed] ${message}`);
+      break;
+    case 'silent':
+      break;
+  }
+}
+
+/**
  * Centralized error message templates.
  * Keep using native Error/TypeError/RangeError — this only standardizes messages.
  */
@@ -56,5 +106,9 @@ export const ERR = {
     'Matrix: Must be rectangular for transposition.',
 
   matrixRowMismatch: (expected: number, got: number) =>
-    `Matrix: Expected row length ${expected}, but got ${got}.`
+    `Matrix: Expected row length ${expected}, but got ${got}.`,
+
+  // Order statistic
+  orderStatisticNotEnabled: (method: string, ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}${method}() requires enableOrderStatistic: true.`
 } as const;

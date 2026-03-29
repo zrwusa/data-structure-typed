@@ -12,6 +12,11 @@ export interface TreeSetOptions<K, R = K> {
   isMapMode?: boolean;
 
   /**
+   * Enable order-statistic operations (select, rank, rangeByRank).
+   */
+  enableOrderStatistic?: boolean;
+
+  /**
    * Transform raw elements into keys.
    * When provided, the constructor accepts `Iterable<R>` instead of `Iterable<K>`.
    */

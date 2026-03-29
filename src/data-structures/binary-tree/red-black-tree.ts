@@ -467,6 +467,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
     * @example
  * // Remove all entries
  *  const rbt = new RedBlackTree<number>([1, 2, 3]);
@@ -562,6 +566,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     node.left = NIL;
     node.right = NIL;
     node.color = 'RED';
+    this._updateCountAlongPath(node);
     this._insertFixup(node);
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
@@ -692,6 +697,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     newNode.right = NIL;
     newNode.color = 'RED';
 
+    this._updateCountAlongPath(newNode);
     this._insertFixup(newNode);
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
     else return undefined;
@@ -865,6 +871,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - updates via a single-pass search (no double walk)
    *
    * @remarks Time O(log n) average, Space O(1)
+   
+   
+   
+   
    
    
    
@@ -1201,6 +1211,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
     * @example
  * // Remove and rebalance
  *  const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
@@ -1268,6 +1282,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     }
     if (this._isMapMode) this._store.delete(nodeToDelete.key);
     this._size--;
+
+    // Update order-statistic counts from replacement up to root
+    this._updateCountAlongPath(replacementNode?.parent as RedBlackTreeNode<K, V> | undefined ?? replacementNode);
 
     // Update min/max caches.
     if (this._size <= 0) {
@@ -1403,6 +1420,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
     * @example
  * // Rebalance tree
  *  const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
@@ -1426,6 +1446,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     /**
    * Transform to new tree
   
+   
+   
+   
+   
    
    
    
@@ -1670,6 +1694,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     node.right = NIL;
     node.color = 'RED';
 
+    // Update counts along insertion path before fixup
+    this._updateCountAlongPath(node);
+
     this._insertFixup(node);
     return 'CREATED';
   }
@@ -1873,6 +1900,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     y.left = x;
     x.parent = y;
+
+    // Update counts: x first (now child), then y (now parent)
+    this._updateCount(x);
+    this._updateCount(y);
   }
 
   /**
@@ -1905,5 +1936,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     x.right = y;
     y.parent = x;
+
+    // Update counts: y first (now child), then x (now parent)
+    this._updateCount(y);
+    this._updateCount(x);
   }
 }

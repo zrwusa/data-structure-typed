@@ -12,6 +12,12 @@ export interface TreeMapOptions<K, V, R = [K, V]> {
   isMapMode?: boolean;
 
   /**
+   * Enable order-statistic operations (select, rank, rangeByRank).
+   * When true, subtree counts are maintained on every node.
+   */
+  enableOrderStatistic?: boolean;
+
+  /**
    * Transform raw elements into `[key, value]` entries.
    * When provided, the constructor accepts `Iterable<R>` instead of `Iterable<[K, V]>`.
    */

@@ -196,6 +196,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Get number of elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -229,6 +230,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the stack is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+   
    
    
    
@@ -313,6 +315,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // View the top element without removing it
  *  const stack = new Stack<string>(['a', 'b', 'c']);
@@ -329,6 +332,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
+   
    
    
    
@@ -388,6 +392,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+   
    
    
    
@@ -498,6 +503,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Remove element
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -576,6 +582,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Remove all elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -591,6 +598,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this stack.
    * @remarks Time O(N), Space O(N)
    * @returns A new stack with the same content.
+   
    
    
    
@@ -676,6 +684,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Filter elements
  *  const stack = new Stack<number>([1, 2, 3, 4, 5]);
@@ -720,6 +729,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options for the output stack (e.g., toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Stack with mapped elements.
+   
    
    
    
