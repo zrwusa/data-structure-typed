@@ -83,10 +83,10 @@ npm i avl-tree-typed bst-typed heap-typed
 
 Try it instantly:
 
-- [Node.js TypeScript](https://stackblitz.com/edit/stackblitz-starters-e1vdy3zw?file=src%2Findex.ts)
-- [Node.js JavaScript](https://stackblitz.com/edit/stackblitz-starters-oczhrfzn?file=src%2Findex.js)
-- [React TypeScript](https://stackblitz.com/edit/vitejs-vite-7bva1zhd?file=src%2FApp.tsx)
-- [NestJS](https://stackblitz.com/edit/nestjs-typescript-starter-q9n7okgc?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts)
+- [Node.js TypeScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nodejs-ts?file=src%2Findex.ts)
+- [Node.js JavaScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nodejs-js?file=src%2Findex.js)
+- [React TypeScript](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/reactjs?file=src%2FApp.tsx)
+- [NestJS](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nestjs?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts)
 
 ---
 
