@@ -284,6 +284,8 @@ app.get('/api/data', (req, res) => {
 
 ### Use Case: Product Price Index Service
 
+> Full working demo: [StackBlitz NestJS Playground](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nestjs?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts&title=data-structure-typed%20%E2%80%94%20NestJS%20Product%20API)
+
 ```typescript
 import {
   BadRequestException,
@@ -302,7 +304,6 @@ export interface Product {
   lastUpdated?: Date;
 }
 
-/** KEY INSIGHT: Use compound keys to solve the problem of "multiple products at the same price" */
 interface CompositeKey {
   price: number;
   productId: string;
@@ -321,13 +322,8 @@ export type TierName = 'budget' | 'mid-range' | 'premium';
  * Point Lookup       | O(1)                  | O(1)      | O(1)
  * Insert/Update      | O(log n)              | O(n)      | O(log n)
  * Sort by Price      | O(n)                  | O(n log n)| O(n log n)
- * Multiple at Price  | ✓ Supported           | ✓         | Complex
- *
- * Advantages:
- * - O(1) idToKeyMap lookup + O(log n) tree operations
- * - Automatic ordering without post-sort
- * - Efficient range queries for pricing tiers
- * - Low memory footprint vs duplicate maps
+ * Pagination         | O(log n + k)          | O(n log n)| O(n log n)
+ * Rank/Percentile    | O(log n)              | O(n)      | O(n log n)
  */
 @Injectable()
 export class ProductPriceIndexService {
@@ -341,228 +337,130 @@ export class ProductPriceIndexService {
         if (priceCmp !== 0) return priceCmp;
         return a.productId.localeCompare(b.productId);
       },
+      enableOrderStatistic: true, // Enables getRank/getByRank/rangeByRank
     });
     this.idToKeyMap = new Map();
   }
 
-  /** Time Complexity: O(log n) */
+  /** O(log n) */
   addProduct(product: Product): Product {
     if (this.idToKeyMap.has(product.id))
       throw new BadRequestException(`Product ${product.id} already exists`);
 
     product.lastUpdated = new Date();
-
-    const key: CompositeKey = {
-      price: product.price,
-      productId: product.id,
-    };
-
-    this.priceIndex.add(key, product);
+    const key: CompositeKey = { price: product.price, productId: product.id };
+    this.priceIndex.set(key, product);
     this.idToKeyMap.set(product.id, key);
-
     return product;
   }
 
-  /** Time Complexity: O(log n) */
-  updateProduct(productId: string, updates: Partial<Product>): Product {
-    const oldKey = this.idToKeyMap.get(productId);
-    if (oldKey === undefined)
-      throw new NotFoundException(`Product ${productId} not found`);
-
-    const existing = this.priceIndex.get(oldKey);
-    if (!existing)
-      throw new NotFoundException(`Product ${productId} not found`);
-
-    const updated: Product = {
-      ...existing,
-      ...updates,
-      id: existing.id,
-      lastUpdated: new Date(),
-    };
-
-    const newPrice = updates.price ?? existing.price;
-
-    this.priceIndex.delete(oldKey);
-    const currentKey: CompositeKey = {
-      price: newPrice,
-      productId,
-    };
-    this.priceIndex.set(currentKey, updated);
-    this.idToKeyMap.set(productId, currentKey);
-
-    return updated;
-  }
-
-  /** Time Complexity: O(1) */
+  /** O(1) — HashMap lookup */
   getProductById(productId: string): Product {
     const key = this.idToKeyMap.get(productId);
-
     if (key === undefined)
       throw new NotFoundException(`Product ${productId} not found`);
-
     return this.priceIndex.get(key)!;
   }
 
-  /** Time Complexity: O(log n + k) */
+  /** O(log n + k) — directly returns values, no secondary lookup */
   getProductsByPriceRange(minPrice: number, maxPrice: number): Product[] {
     const range = new Range(
       { price: minPrice, productId: '' },
       { price: maxPrice, productId: '\uffff' },
-      true, // includeLow
-      true, // includeHigh
+      true,
+      true,
     );
-
-    const keys = this.priceIndex.rangeSearch(range, (n) => n.key);
-    return keys.map((key) => this.priceIndex.get(key)!);
+    return this.priceIndex.rangeSearch(range, (n) => n.value!);
   }
 
-  /** Time Complexity: O(log n) */
+  /** O(log n) — NavigableMap floor() */
   getHighestPricedProductWithinBudget(maxBudget: number): Product | null {
-    const key: CompositeKey = {
-      price: maxBudget,
-      productId: '\uffff',
-    };
+    const key: CompositeKey = { price: maxBudget, productId: '\uffff' };
     const floorKey = this.priceIndex.floor(key);
     return floorKey ? this.priceIndex.get(floorKey)! : null;
   }
 
-  /** Time O(log n) */
-  getCheapestProductAbovePrice(minPrice: number): Product | null {
-    const key: CompositeKey = {
-      price: minPrice,
-      productId: '\uffff',
-    };
-    const higherKey = this.priceIndex.higher(key);
-    return higherKey ? this.priceIndex.get(higherKey)! : null;
+  /** O(n) — iterator protocol, one-liner */
+  getAllProductsSortedByPrice(): Product[] {
+    return [...this.priceIndex.values()];
   }
 
-  /** Time Complexity: O(log n + k) */
-  getProductsByTier(tierName: TierName): Product[] {
-    const tiers = {
-      budget: [0, 50],
-      'mid-range': [50, 200],
-      premium: [200, Infinity],
-    };
+  /**
+   * O(n) for totalValue, O(log n) for min/max
+   * min/max use getLeftMost/getRightMost instead of full traversal
+   */
+  getStatistics() {
+    if (this.idToKeyMap.size === 0)
+      return { totalProducts: 0, priceRange: { min: 0, max: 0 }, averagePrice: 0, totalValue: 0 };
 
-    const [min, max] = tiers[tierName];
-    return this.getProductsByPriceRange(min, max);
-  }
+    const minKey = this.priceIndex.getLeftMost();
+    const maxKey = this.priceIndex.getRightMost();
 
-  /** Time Complexity: O(log n + k + m) */
-  getProductsByPriceAndCategory(
-    minPrice: number,
-    maxPrice: number,
-    category: string,
-  ): Product[] {
-    const priceRangeProducts = this.getProductsByPriceRange(minPrice, maxPrice);
-    return priceRangeProducts.filter(
-      (p) => p.category.toLowerCase() === category.toLowerCase(),
-    );
-  }
-
-  /** Time Complexity: O((log n + k) * log n) */
-  applyDiscountToRange(
-    minPrice: number,
-    maxPrice: number,
-    discountPercent: number,
-  ): Product[] {
-    const products = this.getProductsByPriceRange(minPrice, maxPrice);
-    const updated: Product[] = [];
-
-    for (const product of products) {
-      const newPrice = product.price * (1 - discountPercent / 100);
-      const updatedProduct = this.updateProduct(product.id, {
-        price: newPrice,
-      });
-      updated.push(updatedProduct);
-    }
-
-    return updated;
-  }
-
-  /** Time Complexity: O(log n) */
-  deleteProduct(productId: string): void {
-    const key = this.idToKeyMap.get(productId);
-
-    if (key === undefined)
-      throw new NotFoundException(`Product ${productId} not found`);
-
-    this.priceIndex.delete(key);
-    this.idToKeyMap.delete(productId);
-  }
-
-  /** Time Complexity: O(n) */
-  getStatistics(): {
-    totalProducts: number;
-    priceRange: { min: number; max: number };
-    averagePrice: number;
-    totalValue: number;
-  } {
-    if (this.idToKeyMap.size === 0) {
-      return {
-        totalProducts: 0,
-        priceRange: { min: 0, max: 0 },
-        averagePrice: 0,
-        totalValue: 0,
-      };
-    }
-
-    let minPrice = Infinity;
-    let maxPrice = -Infinity;
     let totalValue = 0;
     let totalProducts = 0;
-
-    let entry = this.priceIndex.getLeftMost((node) => node);
-
-    while (entry) {
-      const product = this.priceIndex.get(entry.key);
-      if (product) {
-        minPrice = Math.min(minPrice, product.price);
-        maxPrice = Math.max(maxPrice, product.price);
-        totalValue += product.price * product.quantity;
-        totalProducts += product.quantity;
-      }
-
-      entry = this.priceIndex.higher(entry.key, (node) => node);
+    for (const [, product] of this.priceIndex) {
+      totalValue += product.price * product.quantity;
+      totalProducts += product.quantity;
     }
 
     return {
-      totalProducts: totalProducts,
-      priceRange: { min: minPrice, max: maxPrice },
+      totalProducts,
+      priceRange: { min: minKey?.price ?? 0, max: maxKey?.price ?? 0 },
       averagePrice: totalValue / totalProducts,
       totalValue,
     };
   }
 
-  /** Time Complexity: O(n) */
-  getAllProductsSortedByPrice(): Product[] {
-    const products: Product[] = [];
-    let curNode = this.priceIndex.getLeftMost((node) => node);
+  // ── Order-Statistic API (rank-based queries) ──────────────────────
 
-    while (curNode) {
-      if (curNode.key) products.push(this.priceIndex.get(curNode.key)!);
-      curNode = this.priceIndex.higher(curNode.key, (node) => node);
-    }
-
-    return products;
+  /** O(log n + pageSize) — rank-based pagination */
+  getProductsByPage(page: number, pageSize: number): Product[] {
+    const start = page * pageSize;
+    const end = Math.min(start + pageSize - 1, this.priceIndex.size - 1);
+    if (start >= this.priceIndex.size) return [];
+    const keys = this.priceIndex.rangeByRank(start, end);
+    return keys.map((key) => this.priceIndex.get(key)!);
   }
 
-  /** O(1) */
-  getProductCount(): number {
-    return this.idToKeyMap.size;
+  /** O(log n) — what % of products are cheaper */
+  getPricePercentile(productId: string): number {
+    const key = this.idToKeyMap.get(productId);
+    if (!key) throw new NotFoundException(`Product ${productId} not found`);
+    return (this.priceIndex.getRank(key) / this.priceIndex.size) * 100;
   }
 
-  /** O(1) */
-  hasProduct(productId: string): boolean {
-    return this.idToKeyMap.has(productId);
+  /** O(log n) — median product */
+  getMedianProduct(): Product | null {
+    if (this.priceIndex.size === 0) return null;
+    const key = this.priceIndex.getByRank(Math.floor((this.priceIndex.size - 1) / 2));
+    return key ? this.priceIndex.get(key)! : null;
   }
 
-  /** O(n) */
-  getAllProductIds(): string[] {
-    return [...this.idToKeyMap.keys()];
+  /** O(log n + k) — top N cheapest */
+  getTopNCheapest(n: number): Product[] {
+    const end = Math.min(n - 1, this.priceIndex.size - 1);
+    if (end < 0) return [];
+    return this.priceIndex.rangeByRank(0, end).map((key) => this.priceIndex.get(key)!);
+  }
+
+  /** O(log n + k) — top N most expensive */
+  getTopNExpensive(n: number): Product[] {
+    const size = this.priceIndex.size;
+    if (size === 0) return [];
+    const start = Math.max(size - n, 0);
+    return this.priceIndex.rangeByRank(start, size - 1)
+      .map((key) => this.priceIndex.get(key)!)
+      .reverse();
+  }
+
+  /** O(log n) — dynamic tier by percentile, no hardcoded price ranges */
+  getTierByPercentile(productId: string): TierName {
+    const pct = this.getPricePercentile(productId);
+    if (pct < 33) return 'budget';
+    if (pct < 66) return 'mid-range';
+    return 'premium';
   }
 }
-
 ```
 
 ### Use Case: Task Queue Controller
