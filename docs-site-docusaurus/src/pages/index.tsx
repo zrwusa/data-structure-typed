@@ -43,6 +43,10 @@ const features = [
     description: 'Pure TypeScript. No runtime dependencies. Tree-shakeable with subpath exports — bundle only what you use.',
   },
   {
+    title: '🔄 Raw Data In, Structure Out',
+    description: 'Pass raw objects directly with toEntryFn, toElementFn, or comparator. No .map() pre-processing needed — unique to this library in JS/TS.',
+  },
+  {
     title: '✅ Battle-Tested',
     description: '2600+ tests, 99%+ coverage. CLRS-correct Red-Black Tree, ACL-style Segment Tree. Production-ready.',
   },

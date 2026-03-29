@@ -276,6 +276,7 @@ Works across all data structures — `toElementFn` for single-value types (Heap,
 - Priority queues with fast position-based access
 - Time-series data with range queries
 - Red-Black Tree / Heap performance without learning new APIs
+- **Pass raw objects directly** — no `.map()` pre-processing needed (unique to this library in JS/TS)
 
 ✅ **When your current code has:**
 
@@ -284,6 +285,7 @@ Works across all data structures — `toElementFn` for single-value types (Heap,
 - `Array.shift()` on large lists (queues)
 - Custom sorting logic you repeat across files
 - Map that needs to be ordered
+- `.map()` calls just to reshape data before putting it in a collection
 
 ---
 
