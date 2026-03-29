@@ -270,13 +270,18 @@ Store only the extracted value. The original object is not kept.
 ```typescript
 import { TreeSet, MinHeap } from 'data-structure-typed';
 
-const users = [
+interface User {
+  id: number;
+  name: string;
+}
+
+const users: User[] = [
   { id: 3, name: 'Charlie' },
   { id: 1, name: 'Alice' },
   { id: 2, name: 'Bob' }
 ];
 
-const ids = new TreeSet<number, typeof users[0]>(
+const ids = new TreeSet<number, User>(
   users,
   { toElementFn: u => u.id }
 );
@@ -298,7 +303,7 @@ The original objects are stored as-is. The comparator tells the structure how to
 ```typescript
 import { TreeSet } from 'data-structure-typed';
 
-const fullSet = new TreeSet<typeof users[0]>(
+const fullSet = new TreeSet<User>(
   users,
   { comparator: (a, b) => a.id - b.id }
 );
@@ -319,7 +324,7 @@ Extract a key for sorting/lookup, store anything as the value.
 ```typescript
 import { TreeMap } from 'data-structure-typed';
 
-const map = new TreeMap<number, typeof users[0]>(
+const map = new TreeMap<number, User, User>(
   users,
   { toEntryFn: u => [u.id, u] }
 );

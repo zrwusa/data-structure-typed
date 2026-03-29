@@ -235,28 +235,33 @@ const map = new TreeMap(users, { toEntryFn: u => [u.id, u.name] });
 Got raw objects? Three ways to use them — pick based on what you want to store:
 
 ```typescript
-const users = [
+interface User {
+  id: number;
+  name: string;
+}
+
+const users: User[] = [
   { id: 3, name: 'Charlie' },
   { id: 1, name: 'Alice' },
   { id: 2, name: 'Bob' }
 ];
 
 // 1. Extract a field — store only that field
-const ids = new TreeSet<number, { id: number; name: string }>(
+const ids = new TreeSet<number, User>(
   users,
   { toElementFn: u => u.id }
 );
 // [1, 2, 3] — numbers only, original objects not kept
 
 // 2. Store full objects — sort by a field
-const fullSet = new TreeSet<typeof users[0]>(
+const fullSet = new TreeSet<User>(
   users,
   { comparator: (a, b) => a.id - b.id }
 );
 // [{ id: 1, name: 'Alice' }, { id: 2, ... }, { id: 3, ... }]
 
 // 3. Split into key-value — field as key, anything as value
-const map = new TreeMap<number, typeof users[0]>(
+const map = new TreeMap<number, User, User>(
   users,
   { toEntryFn: u => [u.id, u] }
 );
