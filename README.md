@@ -227,6 +227,39 @@ for (const item of tree) {
 const set = new Set(tree);             // Set constructor
 ```
 
+### 🔄 Raw Data Mapping
+
+Pass raw data directly — no need to pre-process with `.map()`. All data structures support this via `toEntryFn` (for key-value structures) or `toElementFn` (for single-value structures).
+
+```typescript
+// TreeMap: raw objects → [key, value] entries
+const users = [
+  { id: 3, name: 'Charlie' },
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' }
+];
+
+const map = new TreeMap<number, string, { id: number; name: string }>(
+  users,
+  { toEntryFn: u => [u.id, u.name] }
+);
+// Sorted by id: [[1, 'Alice'], [2, 'Bob'], [3, 'Charlie']]
+
+// TreeSet: raw objects → keys
+const set = new TreeSet<number, { id: number; name: string }>(
+  users,
+  { toElementFn: u => u.id }
+);
+// Sorted: [1, 2, 3]
+
+// Works with Heap, Queue, Deque, Stack, LinkedList, Trie, HashMap, SkipList...
+const heap = new MinHeap<number, { score: number }>(
+  [{ score: 85 }, { score: 92 }, { score: 78 }],
+  { toElementFn: item => item.score }
+);
+heap.peek(); // 78
+```
+
 ---
 
 ## 💡 When Should I Consider This Library?
@@ -700,6 +733,14 @@ Yes. 2600+ tests, 99%+ code coverage, zero dependencies, and used in production.
 ### How does this compare to js-sdsl or other libraries?
 
 `data-structure-typed` offers more data structures (20+), a unified Array-like API across all structures, tree-shakeable subpath exports, and active maintenance. See [PERFORMANCE.md](./docs/PERFORMANCE.md) for benchmark comparisons.
+
+### Can I pass raw data without converting it first?
+
+Yes. All data structures support raw data mapping via constructor options:
+- **Key-value structures** (TreeMap, HashMap, SkipList): use `toEntryFn: rawItem => [key, value]`
+- **Single-value structures** (TreeSet, Heap, Queue, Deque, Stack, LinkedList, Trie): use `toElementFn: rawItem => element`
+
+This saves you from calling `.map()` on your data before constructing the structure.
 
 ### What is the bundle size?
 

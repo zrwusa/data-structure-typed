@@ -258,6 +258,70 @@ const stats = {
 | forEach     | ✅           | ✅    | ✅     | ✅     | ✅          |
 
 ---
+
+## 🔄 Raw Data Mapping — No Pre-Processing Needed
+
+Every data structure accepts raw data and a mapping function, so you never need to `.map()` your data before constructing a structure.
+
+### Key-Value Structures: `toEntryFn`
+
+TreeMap, HashMap, and SkipList accept `toEntryFn` to transform raw records into `[key, value]` entries:
+
+```typescript
+import { TreeMap } from 'data-structure-typed';
+
+const users = [
+  { id: 3, name: 'Charlie' },
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' }
+];
+
+// Raw data in, sorted map out — no intermediate array
+const map = new TreeMap<number, string, { id: number; name: string }>(
+  users,
+  { toEntryFn: u => [u.id, u.name] }
+);
+
+for (const [id, name] of map) {
+  console.log(id, name); // 1 Alice, 2 Bob, 3 Charlie
+}
+```
+
+### Single-Value Structures: `toElementFn`
+
+TreeSet, Heap, Queue, Deque, Stack, LinkedList, and Trie accept `toElementFn`:
+
+```typescript
+import { TreeSet, MinHeap } from 'data-structure-typed';
+
+const products = [
+  { sku: 'A100', price: 29.99 },
+  { sku: 'B200', price: 9.99 },
+  { sku: 'C300', price: 49.99 }
+];
+
+// TreeSet: extract price as the sorted key
+const prices = new TreeSet<number, typeof products[0]>(
+  products,
+  { toElementFn: p => p.price }
+);
+// [9.99, 29.99, 49.99]
+
+// Heap: extract price for priority ordering
+const cheapest = new MinHeap<number, typeof products[0]>(
+  products,
+  { toElementFn: p => p.price }
+);
+cheapest.peek(); // 9.99
+```
+
+### Why This Matters
+
+- **One less `.map()` call** — no intermediate array allocation
+- **Type-safe** — the third generic parameter `R` types your raw data
+- **Universal** — works across all data structures in the library
+
+---
 keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Why Not Just Use Native JavaScript?

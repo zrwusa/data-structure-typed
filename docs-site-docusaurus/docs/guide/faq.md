@@ -148,6 +148,46 @@ Yes.
 
 UMD bundle: ~143KB minified. `sideEffects: false` enables full tree-shaking with modern bundlers.
 
+## Can I pass raw data without converting it first?
+
+Yes. All data structures support raw data mapping via constructor options — no need to `.map()` your data first.
+
+**Key-value structures** (TreeMap, HashMap, SkipList) use `toEntryFn`:
+
+```typescript
+import { TreeMap } from 'data-structure-typed';
+
+const users = [
+  { id: 3, name: 'Charlie' },
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' }
+];
+
+const map = new TreeMap<number, string, { id: number; name: string }>(
+  users,
+  { toEntryFn: u => [u.id, u.name] }
+);
+// Sorted by id: [[1, 'Alice'], [2, 'Bob'], [3, 'Charlie']]
+```
+
+**Single-value structures** (TreeSet, Heap, Queue, Deque, Stack, LinkedList, Trie) use `toElementFn`:
+
+```typescript
+import { TreeSet, MinHeap } from 'data-structure-typed';
+
+const set = new TreeSet<number, { id: number; name: string }>(
+  users,
+  { toElementFn: u => u.id }
+);
+// Sorted: [1, 2, 3]
+
+const heap = new MinHeap<number, { score: number }>(
+  [{ score: 85 }, { score: 92 }, { score: 78 }],
+  { toElementFn: item => item.score }
+);
+heap.peek(); // 78
+```
+
 ## How do I build a leaderboard with this library?
 
 ```typescript
