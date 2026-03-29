@@ -8,7 +8,7 @@
 
 import type { DijkstraResult, EntryCallback, GraphOptions, VertexKey } from '../../types';
 import { uuidV4 } from '../../utils';
-import { ERR } from '../../common';
+import { ERR, raise } from '../../common';
 import { IterableEntryBase } from '../base';
 import { IGraph } from '../../interfaces';
 import { Heap } from '../heap';
@@ -275,7 +275,8 @@ export abstract class AbstractGraph<
         const newEdge = this.createEdge(srcOrEdge, dest, weight, value);
         return this._addEdge(newEdge);
       } else {
-        throw new TypeError(ERR.invalidArgument('dest must be a Vertex or vertex key when srcOrEdge is an Edge.', 'Graph'));
+        raise(TypeError, ERR.invalidArgument('dest must be a Vertex or vertex key when srcOrEdge is an Edge.', 'Graph'));
+        return false;
       }
     }
   }

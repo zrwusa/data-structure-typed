@@ -28,7 +28,7 @@ import { IBinaryTree } from '../../interfaces';
 import { isComparable, makeTrampoline, makeTrampolineThunk } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
-import { DFSOperation, ERR, Range } from '../../common';
+import { DFSOperation, ERR, raise, Range } from '../../common';
 
 /**
  * @template K - The type of the key.
@@ -216,7 +216,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *       node?: BinaryTreeNode<string> | null,
  *       conditions?: { [key: string]: boolean }
  *     ): string {
- *       if (!node) throw new Error('Invalid node');
+ *       if (!node) raise(Error, 'Invalid node');
  *
  *       // If it's a leaf node, return the decision result
  *       if (!node.left && !node.right) return node.key;
@@ -261,7 +261,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *         case '/':
  *           return rightValue !== 0 ? leftValue / rightValue : 0; // Handle division by zero
  *         default:
- *           throw new Error(`Unsupported operator: ${node.key}`);
+ *           raise(Error, `Unsupported operator: ${node.key}`);
  *       }
  *     }
  *
@@ -293,7 +293,7 @@ export class BinaryTree<K = any, V = any, R = any>
       if (isMapMode !== undefined) this._isMapMode = isMapMode;
       if (isDuplicate !== undefined) this._isDuplicate = isDuplicate;
       if (typeof toEntryFn === 'function') this._toEntryFn = toEntryFn;
-      else if (toEntryFn) throw new TypeError(ERR.notAFunction('toEntryFn', 'BinaryTree'));
+      else if (toEntryFn) raise(TypeError, ERR.notAFunction('toEntryFn', 'BinaryTree'));
     }
 
     if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);

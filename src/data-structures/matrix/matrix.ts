@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type { MatrixOptions } from '../../types';
-import { ERR } from '../../common';
+import { ERR, raise } from '../../common';
 
 /**
  *
@@ -384,7 +384,7 @@ export class Matrix {
    */
   add(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
-      throw new Error(ERR.matrixDimensionMismatch('addition'));
+      raise(Error, ERR.matrixDimensionMismatch('addition'));
     }
 
     const resultData: number[][] = [];
@@ -458,7 +458,7 @@ export class Matrix {
    */
   subtract(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
-      throw new Error(ERR.matrixDimensionMismatch('subtraction'));
+      raise(Error, ERR.matrixDimensionMismatch('subtraction'));
     }
 
     const resultData: number[][] = [];
@@ -547,7 +547,7 @@ export class Matrix {
    */
   multiply(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {
-      throw new Error(ERR.matrixDimensionMismatch('multiplication (A.cols must equal B.rows)'));
+      raise(Error, ERR.matrixDimensionMismatch('multiplication (A.cols must equal B.rows)'));
     }
 
     const resultData: number[][] = [];
@@ -639,7 +639,7 @@ export class Matrix {
    */
   transpose(): Matrix {
     if (this.data.some(row => row.length !== this.cols)) {
-      throw new Error(ERR.matrixNotRectangular());
+      raise(Error, ERR.matrixNotRectangular());
     }
 
     const resultData: number[][] = [];
@@ -714,7 +714,7 @@ export class Matrix {
   inverse(): Matrix | undefined {
     // Check if the matrix is square
     if (this.rows !== this.cols) {
-      throw new Error(ERR.matrixNotSquare());
+      raise(Error, ERR.matrixNotSquare());
     }
 
     // Create an augmented matrix [this | I]
@@ -744,7 +744,7 @@ export class Matrix {
 
       if (pivotRow === this.rows) {
         // Matrix is singular, and its inverse does not exist
-        throw new Error(ERR.matrixSingular());
+        raise(Error, ERR.matrixSingular());
       }
 
       // Swap rows to make the pivot the current row
@@ -755,7 +755,7 @@ export class Matrix {
 
       if (pivotElement === 0) {
         // Handle division by zero
-        throw new Error(ERR.matrixSingular());
+        raise(Error, ERR.matrixSingular());
       }
 
       augmentedMatrix._scaleRow(i, 1 / pivotElement);
@@ -834,7 +834,7 @@ export class Matrix {
    */
   dot(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {
-      throw new Error(ERR.matrixDimensionMismatch('dot product (A.cols must equal B.rows)'));
+      raise(Error, ERR.matrixDimensionMismatch('dot product (A.cols must equal B.rows)'));
     }
 
     const resultData: number[][] = [];

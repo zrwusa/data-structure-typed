@@ -2639,15 +2639,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (a instanceof Date && b instanceof Date) {
         const ta = a.getTime();
         const tb = b.getTime();
-        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('BST'));
+        if (Number.isNaN(ta) || Number.isNaN(tb)) raise(TypeError, ERR.invalidDate('BST'));
         return ta > tb ? 1 : ta < tb ? -1 : 0;
       }
 
       // If keys are objects and no comparator is provided, throw an error
       if (typeof a === 'object' || typeof b === 'object') {
-        throw new TypeError(
-          ERR.comparatorRequired('BST')
-        );
+        raise(TypeError, ERR.comparatorRequired('BST'));
       }
 
       // Default: keys are equal (fallback case)

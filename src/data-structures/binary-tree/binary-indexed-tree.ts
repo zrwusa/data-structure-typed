@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { ERR } from '../../common';
+import { ERR, raise } from '../../common';
 
 /**
  * Binary Indexed Tree (Fenwick Tree).
@@ -44,7 +44,7 @@ export class BinaryIndexedTree implements Iterable<number> {
       }
     } else {
       if (!Number.isInteger(sizeOrElements) || sizeOrElements < 0) {
-        throw new RangeError(ERR.invalidArgument('size must be a non-negative integer', 'BinaryIndexedTree'));
+        raise(RangeError, ERR.invalidArgument('size must be a non-negative integer', 'BinaryIndexedTree'));
       }
       this._size = sizeOrElements;
       this._tree = new Array(this._size + 1).fill(0);
@@ -707,10 +707,10 @@ export class BinaryIndexedTree implements Iterable<number> {
 
   protected _checkIndex(index: number): void {
     if (!Number.isInteger(index)) {
-      throw new TypeError(ERR.invalidIndex('BinaryIndexedTree'));
+      raise(TypeError, ERR.invalidIndex('BinaryIndexedTree'));
     }
     if (index < 0 || index >= this._size) {
-      throw new RangeError(ERR.indexOutOfRange(index, 0, this._size - 1, 'BinaryIndexedTree'));
+      raise(RangeError, ERR.indexOutOfRange(index, 0, this._size - 1, 'BinaryIndexedTree'));
     }
   }
 

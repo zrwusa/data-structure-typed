@@ -1,4 +1,5 @@
 import type { ElementCallback, IterableElementBaseOptions, ReduceElementCallback } from '../../types';
+import { raise } from '../../common';
 
 /**
  * Base class that makes a data structure iterable and provides common
@@ -25,7 +26,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
     if (options) {
       const { toElementFn } = options;
       if (typeof toElementFn === 'function') this._toElementFn = toElementFn;
-      else if (toElementFn) throw new TypeError('toElementFn must be a function type');
+      else if (toElementFn) raise(TypeError, 'toElementFn must be a function type');
     }
   }
 
@@ -224,7 +225,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
       acc = initialValue as U;
     } else {
       const first = iter.next();
-      if (first.done) throw new TypeError('Reduce of empty structure with no initial value');
+      if (first.done) raise(TypeError, 'Reduce of empty structure with no initial value');
       acc = first.value as unknown as U;
       index = 1;
     }

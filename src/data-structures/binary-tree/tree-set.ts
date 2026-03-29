@@ -9,7 +9,7 @@
 
 import type { Comparator } from '../../types';
 import type { TreeSetElementCallback, TreeSetOptions, TreeSetRangeOptions, TreeSetReduceCallback } from '../../types';
-import { ERR } from '../../common';
+import { ERR, raise } from '../../common';
 import { RedBlackTree } from './red-black-tree';
 
 /**
@@ -73,7 +73,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
       // numbers
       if (typeof a === 'number' && typeof b === 'number') {
         /* istanbul ignore next -- _validateKey prevents NaN from entering the tree */
-        if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError(ERR.invalidNaN('TreeSet'));
+        if (Number.isNaN(a) || Number.isNaN(b)) raise(TypeError, ERR.invalidNaN('TreeSet'));
         const aa = Object.is(a, -0) ? 0 : a;
         const bb = Object.is(b, -0) ? 0 : b;
         return aa > bb ? 1 : aa < bb ? -1 : 0;
@@ -87,11 +87,12 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
         const ta = a.getTime();
         const tb = b.getTime();
         /* istanbul ignore next -- _validateKey prevents invalid Date from entering the tree */
-        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('TreeSet'));
+        if (Number.isNaN(ta) || Number.isNaN(tb)) raise(TypeError, ERR.invalidDate('TreeSet'));
         return ta > tb ? 1 : ta < tb ? -1 : 0;
       }
 
-      throw new TypeError(ERR.comparatorRequired('TreeSet'));
+      raise(TypeError, ERR.comparatorRequired('TreeSet'));
+      return 0;
     };
   }
 
@@ -274,19 +275,19 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     if (!this.#isDefaultComparator) return;
 
     if (typeof key === 'number') {
-      if (Number.isNaN(key)) throw new TypeError(ERR.invalidNaN('TreeSet'));
+      if (Number.isNaN(key)) raise(TypeError, ERR.invalidNaN('TreeSet'));
       return;
     }
 
     if (typeof key === 'string') return;
 
     if (key instanceof Date) {
-      if (Number.isNaN(key.getTime())) throw new TypeError(ERR.invalidDate('TreeSet'));
+      if (Number.isNaN(key.getTime())) raise(TypeError, ERR.invalidDate('TreeSet'));
       return;
     }
 
     // Other key types should have provided a comparator, so reaching here means misuse.
-    throw new TypeError(ERR.comparatorRequired('TreeSet'));
+    raise(TypeError, ERR.comparatorRequired('TreeSet'));
   }
 
   /**

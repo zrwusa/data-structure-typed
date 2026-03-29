@@ -7,7 +7,7 @@
  */
 
 import type { Comparator, EntryCallback } from '../../types';
-import { ERR } from '../../common';
+import { ERR, raise } from '../../common';
 import { IterableEntryBase } from '../base';
 
 export class SkipListNode<K, V> {
@@ -72,7 +72,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
         [k, v] = toEntryFn(item as R);
       } else {
         if (!Array.isArray(item) || item.length < 2) {
-          throw new TypeError(ERR.invalidEntry('SkipList'));
+          raise(TypeError, ERR.invalidEntry('SkipList'));
         }
         [k, v] = item as [K, V];
       }
@@ -86,7 +86,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   static createDefaultComparator<K>(): Comparator<K> {
     return (a: K, b: K): number => {
       if (typeof a === 'number' && typeof b === 'number') {
-        if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError(ERR.invalidNaN('SkipList'));
+        if (Number.isNaN(a) || Number.isNaN(b)) raise(TypeError, ERR.invalidNaN('SkipList'));
         return a - b;
       }
       if (typeof a === 'string' && typeof b === 'string') {
@@ -95,13 +95,14 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
       if (a instanceof Date && b instanceof Date) {
         const ta = a.getTime(),
           tb = b.getTime();
-        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('SkipList'));
+        if (Number.isNaN(ta) || Number.isNaN(tb)) raise(TypeError, ERR.invalidDate('SkipList'));
         return ta - tb;
       }
       if (typeof a === 'bigint' && typeof b === 'bigint') {
         return a < b ? -1 : a > b ? 1 : 0;
       }
-      throw new TypeError(ERR.comparatorRequired('SkipList'));
+      raise(TypeError, ERR.comparatorRequired('SkipList'));
+      return 0;
     };
   }
 
