@@ -1,4 +1,13 @@
 ---
+sidebar_label: "FAQ"
+sidebar_position: 7
+description: "Frequently asked questions about data-structure-typed."
+title: "FAQ — Frequently Asked Questions"
+keywords: ["data-structure-typed faq", "typescript data structures questions"]
+---
+# FAQ
+
+---
 title: FAQ — Frequently Asked Questions
 sidebar_label: "FAQ"description: Common questions about data-structure-typed — TreeMap in JavaScript, priority queues, rank queries, bundle size, and more.
 keywords: [typescript data structures, treemap javascript, priority queue typescript, sorted set javascript, rank query, faq]

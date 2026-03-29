@@ -1,10 +1,9 @@
 ---
 sidebar_label: "GUIDES"
-description: "Real-world examples: leaderboards with RedBlackTree, task scheduling with PriorityQueue, autocomplete with Trie, and more."
-title: "Guides — Leaderboards, Scheduling, Autocomplete"
-keywords: [typescript leaderboard, task scheduler priority queue, autocomplete trie, rank query, range query, real world examples]
+description: "Real-world examples and production patterns for data-structure-typed."
+title: "Guides — Real-World Examples & Production Patterns"
+keywords: ["data-structure-typed examples", "typescript data structures patterns", "production code examples"]
 ---
-
 # GUIDES
 
 Production-ready code examples for common use cases. Learn by doing.
@@ -172,7 +171,7 @@ Notes:
 import { DoublyLinkedList } from 'data-structure-typed';
 
 class LRUCache<K, V> {
-  private cache = new Map<K, { value: V; node: any }>();
+  private cache = new Map<K, { value: V; node: DoublyLinkedList<K> }>();
   private order = new DoublyLinkedList<K>();
   private readonly capacity: number;
 
@@ -220,7 +219,7 @@ console.log(cache.get('a')); // 'value1', 'a' is now most recent
 cache.set('d', 'value4');    // Evicts 'b' (least recent)
 ```
 
-### Example 2: Real-Time Leaderboard (Order-Statistic Tree)
+### Example 2: Real-Time Leaderboard
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
@@ -260,7 +259,7 @@ class Leaderboard {
     return this.scores.getRank(this.players.get(playerId)!) + 1; // 1-based
   }
 
-  // O(log n + k) — get k-th player by rank
+  // O(log n) — get k-th player by rank
   getPlayerAt(rank: number): Player | undefined {
     const key = this.scores.getByRank(rank - 1); // 0-indexed internally
     return key !== undefined ? this.scores.get(key) : undefined;

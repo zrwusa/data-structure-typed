@@ -154,6 +154,7 @@
     "format:test": "prettier --write 'test/**/*.{js,ts}'",
     "inspect": "npm run build && npm run check && npm run lint",
     "ci": "env && git fetch --tags && npm run update:subs && npm run inspect && npm run test:coverage && npm run changelog",
+    "docs:sync": "node scripts/sync-docs-to-site.mjs",
     "docs:api": "npm run gen:examples && npm run build:typedoc-plugin && cd docs-site-docusaurus && npx typedoc --options typedoc.json && node sort-protected.mjs",
     "docs:dev": "cd docs-site-docusaurus && npm run start",
     "docs:build": "cd docs-site-docusaurus && rm -rf docs/api && npx typedoc --options typedoc.json && node sort-protected.mjs && npm run build",
