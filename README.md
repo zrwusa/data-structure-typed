@@ -2,9 +2,9 @@
 
 English | [简体中文](./README_CN.md)
 
-A comprehensive TypeScript data structures library with production-ready implementations.
+A production-ready TypeScript data structures library featuring **Heap, Priority Queue, Deque, Trie, Graph, Red-Black Tree, TreeMap, TreeSet, SkipList, Segment Tree**, and more — with an API that feels as intuitive as JavaScript's native `Array`. Zero dependencies. Type-safe. Supports rank queries (`getRank`), positional access (`getByRank`), and range queries (`rangeByRank`).
 
-**We TypeScript/JavaScript devs want something like C++'s `STL`, Java's `java.util` Collections, or Python's `collections` — but with an API that feels as intuitive and ergonomic as JavaScript's native `Array`.** If that's what you're looking for, you're in the right place. This is a zero-dependency library, and you can also install individual data structure packages separately if you prefer a more modular setup.
+> **Looking for a TreeMap or TreeSet in JavaScript?** Need a priority queue, an ordered set, or efficient rank/range queries? Tired of repeatedly sorting arrays after every insert? This library provides all of that with a unified, Array-like API.
 
 ![npm](https://img.shields.io/npm/dm/data-structure-typed)
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
@@ -14,7 +14,7 @@ A comprehensive TypeScript data structures library with production-ready impleme
 ![NPM](https://img.shields.io/npm/l/data-structure-typed)
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
 
-**📦 [Installation](#-installation) • 🎮 [Playground](#-playground) • ⚡ [Quick Start](#-quick-start-30-seconds) • 📖 [Docs](#-documentation) • 📋 [API](https://data-structure-typed-docs.vercel.app/) • 💡 [Examples](./docs/GUIDES.md)**
+**📦 [Installation](#-installation) • 🎮 [Playground](#-playground) • ⚡ [Quick Start](#-quick-start-30-seconds) • 📖 [Docs](#-documentation) • 📋 [API](https://data-structure-typed-docs.vercel.app/) • 💡 [Examples](./docs/GUIDES.md) • ❓ [FAQ](#-faq)**
 
 ---
 
@@ -28,6 +28,7 @@ A comprehensive TypeScript data structures library with production-ready impleme
 6. [Key Features](#-key-features)
 7. [Data Structures](#-data-structures-available)
 8. [Documentation](#-documentation)
+9. [FAQ](#-faq)
 
 ---
 
@@ -660,3 +661,46 @@ docs/
 ---
 
 **Ready to supercharge your TypeScript data structures? [Get started now →](#-quick-start-30-seconds)**
+
+---
+
+## ❓ FAQ
+
+### Does JavaScript have a TreeMap or TreeSet?
+
+Not natively. JavaScript's `Map` and `Set` are hash-based (unordered). This library provides `TreeMap` and `TreeSet` backed by Red-Black Trees — offering sorted iteration, `floor`/`ceiling`/`higher`/`lower` lookups, and `getRank`/`getByRank`/`rangeByRank` queries.
+
+### When should I use a Heap instead of sorting an array?
+
+When you need to repeatedly access the smallest or largest element. Sorting an array is O(n log n) every time; a Heap gives you O(log n) insert and O(1) access to the top element. Use `Heap`, `MinHeap`, or `MaxHeap` for priority queues, top-k problems, and scheduling.
+
+### Does this library support rank and range queries?
+
+Yes. Enable with `{ enableOrderStatistic: true }` on any tree-based structure (RedBlackTree, TreeMap, TreeSet, etc.):
+- `getRank(key)` — how many elements precede this key in tree order
+- `getByRank(k)` — get the element at position k
+- `rangeByRank(start, end)` — get all elements between two positions
+
+### Is it faster than native arrays for ordered operations?
+
+For ordered insert + lookup: yes. Array insert into sorted position is O(n) (shift elements). Red-Black Tree insert is O(log n). For 10,000+ elements, the difference is significant. See [PERFORMANCE.md](./docs/PERFORMANCE.md) for benchmarks.
+
+### Can I use this in React / Node.js / browser?
+
+Yes. The library ships ESM, CJS, and UMD builds. It works in Node.js, browsers, React, Vue, Angular, Next.js, and any JavaScript runtime. Zero dependencies means no compatibility concerns.
+
+### What data structures are included?
+
+Heap, MinHeap, MaxHeap, Priority Queue, Deque, Queue, Stack, Linked List (Singly / Doubly), Red-Black Tree, AVL Tree, BST, TreeMap, TreeSet, TreeMultiMap, TreeMultiSet, SkipList, Trie, HashMap, Graph (Directed / Undirected), Segment Tree, Binary Indexed Tree (Fenwick Tree), Matrix. See [full list](#-data-structures-available).
+
+### Is this library production-ready?
+
+Yes. 2600+ tests, 99%+ code coverage, zero dependencies, and used in production. Every release passes typecheck, lint, and full test suite.
+
+### How does this compare to js-sdsl or other libraries?
+
+`data-structure-typed` offers more data structures (20+), a unified Array-like API across all structures, tree-shakeable subpath exports, and active maintenance. See [PERFORMANCE.md](./docs/PERFORMANCE.md) for benchmark comparisons.
+
+### What is the bundle size?
+
+UMD bundle: ~143KB minified. With subpath imports (e.g., `data-structure-typed/heap`), you only load what you use — as small as 18KB for Stack, 30KB for Heap. `sideEffects: false` enables full tree-shaking.
