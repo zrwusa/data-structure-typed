@@ -4415,7 +4415,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   // ─── Order-Statistic Methods ───────────────────────────
 
   /**
-   * Finds the k-th smallest key (0-indexed).
+   * Returns the entry at the k-th position in tree order (0-indexed).
    * @remarks Time O(log n). Requires `enableOrderStatistic: true`.
    
    
@@ -4437,7 +4437,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   }
 
   /**
-   * Returns the 0-based rank of a key (number of elements strictly less than it).
+   * Returns the 0-based rank of a key (number of elements that precede it in tree order).
    * @remarks Time O(log n). Requires `enableOrderStatistic: true`.
     * @example
  * // Get the rank of a key in sorted order
@@ -4446,7 +4446,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
  *         { enableOrderStatistic: true }
  *       );
  *       console.log(tree.rank(10)); // 0;  // smallest → rank 0
- *       console.log(tree.rank(30)); // 2;  // 2 elements less than 30
+ *       console.log(tree.rank(30)); // 2;  // 2 elements before 30 in tree order
  *       console.log(tree.rank(50)); // 4;  // largest → rank 4
  *       console.log(tree.rank(25)); // 2;
    */

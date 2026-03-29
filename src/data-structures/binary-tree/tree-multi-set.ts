@@ -3279,7 +3279,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
  *         { enableOrderStatistic: true }
  *       );
  *       console.log(tree.rank(10)); // 0;  // smallest → rank 0
- *       console.log(tree.rank(30)); // 2;  // 2 elements less than 30
+ *       console.log(tree.rank(30)); // 2;  // 2 elements before 30 in tree order
  *       console.log(tree.rank(50)); // 4;  // largest → rank 4
  *       console.log(tree.rank(25)); // 2;
    */

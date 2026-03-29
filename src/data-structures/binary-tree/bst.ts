@@ -1181,11 +1181,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   // ─── Order-Statistic Methods ───────────────────────────
 
   /**
-   * Finds the k-th smallest element (0-indexed).
+   * Returns the element at the k-th position in tree order (0-indexed).
    * @remarks Time O(log n), Space O(1) iterative / O(log n) recursive. Requires `enableOrderStatistic: true`.
+   * Tree order is defined by the comparator — ascending by default, but respects custom comparators (e.g. descending).
    *
-   * @param k - The 0-based rank (0 = smallest).
-   * @returns The key of the k-th smallest element, or `undefined` if out of bounds.
+   * @param k - The 0-based position in tree order (0 = first element).
+   * @returns The key at position k, or `undefined` if out of bounds.
     * @example
  * // Order-statistic on BST
  *  const tree = new BST<number>([30, 10, 50, 20, 40], { enableOrderStatistic: true });
@@ -1196,10 +1197,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   select(k: number): K | undefined;
 
   /**
-   * Finds the k-th smallest element and applies a callback.
+   * Returns the element at the k-th position in tree order and applies a callback.
    * @remarks Time O(log n), Space O(1) iterative / O(log n) recursive. Requires `enableOrderStatistic: true`.
    *
-   * @param k - The 0-based rank (0 = smallest).
+   * @param k - The 0-based position in tree order (0 = first element).
    * @param callback - Callback to apply to the found node.
    * @param iterationType - Iteration strategy ('ITERATIVE' or 'RECURSIVE').
    * @returns The callback result, or `undefined` if out of bounds.
@@ -1241,9 +1242,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * Returns the 0-based rank of a key (number of elements strictly less than it).
+   * Returns the 0-based rank of a key (number of elements that precede it in tree order).
    * @remarks Time O(log n), Space O(1) iterative / O(log n) recursive. Requires `enableOrderStatistic: true`.
-   * When the key is not found, returns the insertion position (number of elements that would precede it).
+   * Tree order is defined by the comparator. When the key is not found, returns the insertion position.
    *
    * @param keyNodeEntryOrPredicate - The key, node, entry `[K, V]`, or predicate to find.
    * @returns The rank (0-indexed), or -1 if the tree is empty or input is invalid.
@@ -1259,7 +1260,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): number;
 
   /**
-   * Returns the 0-based rank with explicit iteration type.
+   * Returns the 0-based rank (number of preceding elements in tree order) with explicit iteration type.
    * @remarks Time O(log n), Space O(1) iterative / O(log n) recursive. Requires `enableOrderStatistic: true`.
    *
    * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate to find.
@@ -1321,17 +1322,17 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * Returns elements by rank range (0-indexed, inclusive on both ends).
+   * Returns elements by position range in tree order (0-indexed, inclusive on both ends).
    * @remarks Time O(log n + k), Space O(k), where k = end - start + 1. Requires `enableOrderStatistic: true`.
    *
-   * @param start - Start rank (inclusive, 0-indexed). Clamped to 0 if negative.
-   * @param end - End rank (inclusive, 0-indexed). Clamped to size-1 if too large.
-   * @returns Array of keys in the specified rank range, in sorted order.
+   * @param start - Start position (inclusive, 0-indexed). Clamped to 0 if negative.
+   * @param end - End position (inclusive, 0-indexed). Clamped to size-1 if too large.
+   * @returns Array of keys in tree order within the specified range.
    */
   rangeByRank(start: number, end: number): (K | undefined)[];
 
   /**
-   * Returns elements by rank range with callback and optional iteration type.
+   * Returns elements by position range in tree order with callback and optional iteration type.
    * @remarks Time O(log n + k), Space O(k), where k = end - start + 1. Requires `enableOrderStatistic: true`.
    *
    * @param start - Start rank (inclusive, 0-indexed).
@@ -3160,7 +3161,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * (Protected) Finds the k-th node iteratively.
+   * (Protected) Finds the node at position k in tree order (iterative).
    * @remarks Time O(log n), Space O(1)
    */
   protected _selectIterative(node: OptNode<BSTNode<K, V>>, k: number): BSTNode<K, V> | undefined {
@@ -3181,7 +3182,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * (Protected) Finds the k-th node recursively.
+   * (Protected) Finds the node at position k in tree order (recursive).
    * @remarks Time O(log n), Space O(log n) call stack
    */
   protected _selectRecursive(node: OptNode<BSTNode<K, V>>, k: number): BSTNode<K, V> | undefined {

@@ -12,7 +12,7 @@ describe('Order Statistic Tree', () => {
   // ─── select ───────────────────────────────────────────
 
   describe('select', () => {
-    it('@example [RedBlackTree.select] Find k-th smallest element in a sorted tree', () => {
+    it('@example [RedBlackTree.select] Select element by position in tree order', () => {
       const tree = new RedBlackTree<number>(
         [50, 30, 70, 20, 40, 60, 80],
         { enableOrderStatistic: true }
@@ -79,7 +79,7 @@ describe('Order Statistic Tree', () => {
   // ─── rank ─────────────────────────────────────────────
 
   describe('rank', () => {
-    it('@example [RedBlackTree.rank] Get the rank of a key in sorted order', () => {
+    it('@example [RedBlackTree.rank] Get the rank of a key in tree order', () => {
       const tree = new RedBlackTree<number>(
         [10, 20, 30, 40, 50],
         { enableOrderStatistic: true }
@@ -125,7 +125,7 @@ describe('Order Statistic Tree', () => {
   // ─── rangeByRank ──────────────────────────────────────
 
   describe('rangeByRank', () => {
-    it('@example [RedBlackTree.rangeByRank] Get elements by rank range', () => {
+    it('@example [RedBlackTree.rangeByRank] Get elements by position range in tree order', () => {
       const tree = new RedBlackTree<number>(
         [10, 20, 30, 40, 50, 60, 70],
         { enableOrderStatistic: true }
@@ -166,7 +166,7 @@ describe('Order Statistic Tree', () => {
       expect(entries).toEqual([[10, 'a'], [20, 'b']]);
     });
 
-    it('@example [RedBlackTree.rangeByRank] Pagination with rangeByRank', () => {
+    it('@example [RedBlackTree.rangeByRank] Pagination by position in tree order', () => {
       const tree = new RedBlackTree<number>(
         [10, 20, 30, 40, 50, 60, 70, 80, 90],
         { enableOrderStatistic: true }
@@ -194,7 +194,7 @@ describe('Order Statistic Tree', () => {
   // ─── Inverse relationship ─────────────────────────────
 
   describe('inverse relationship', () => {
-    it('@example [RedBlackTree.select] Inverse: select(rank(key)) === key', () => {
+    it('@example [RedBlackTree.select] Inverse property: select(rank(key)) === key', () => {
       const keys = [15, 25, 35, 45, 55, 65, 75];
       const tree = new RedBlackTree<number>(keys, { enableOrderStatistic: true });
       for (const key of keys) {
@@ -274,7 +274,7 @@ describe('Order Statistic Tree', () => {
   // ─── All subclasses ───────────────────────────────────
 
   describe('BST', () => {
-    it('@example [BST.select] Order-statistic on BST', () => {
+    it('@example [BST.select] Select by position in BST', () => {
       const tree = new BST<number>([30, 10, 50, 20, 40], { enableOrderStatistic: true });
       expect(tree.select(0)).toBe(10);
       expect(tree.select(4)).toBe(50);
@@ -283,7 +283,7 @@ describe('Order Statistic Tree', () => {
   });
 
   describe('AVLTree', () => {
-    it('@example [AVLTree.select] Order-statistic survives AVL rotations', () => {
+    it('@example [AVLTree.select] Select by position survives AVL rotations', () => {
       const tree = new AVLTree<number>([], { enableOrderStatistic: true });
       // Insert in order to trigger rotations
       for (let i = 1; i <= 10; i++) {
@@ -306,7 +306,7 @@ describe('Order Statistic Tree', () => {
   });
 
   describe('TreeMap', () => {
-    it('@example [TreeMap.select] Find k-th entry in a TreeMap', () => {
+    it('@example [TreeMap.select] Select entry by position in TreeMap', () => {
       const map = new TreeMap<string, number>(
         [['alice', 95], ['bob', 87], ['charlie', 92]],
         { enableOrderStatistic: true }
@@ -340,7 +340,7 @@ describe('Order Statistic Tree', () => {
   });
 
   describe('TreeSet', () => {
-    it('@example [TreeSet.select] Find k-th element in a TreeSet', () => {
+    it('@example [TreeSet.select] Select element by position in TreeSet', () => {
       const set = new TreeSet<number>([30, 10, 50, 20, 40], { enableOrderStatistic: true });
       expect(set.select(0)).toBe(10);
       expect(set.select(2)).toBe(30);

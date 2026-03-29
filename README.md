@@ -289,11 +289,11 @@ const tree = new RedBlackTree<number, string>([
 ], { comparator: (a, b) => b - a, enableOrderStatistic: true });
 
 // select(k) — find k-th element, O(log n)
-tree.select(0);              // 100 (1st place)
-tree.select(2);              // 92  (3rd place)
+tree.select(0);              // 100 (1st in tree order)
+tree.select(2);              // 92  (3rd in tree order)
 
-// rank(key) — count elements before key, O(log n)
-tree.rank(92);               // 2 (2 scores above 92)
+// rank(key) — count elements preceding key in tree order, O(log n)
+tree.rank(92);               // 2 (2 elements before 92 in tree order)
 
 // rangeByRank — pagination, O(log n + k)
 tree.rangeByRank(0, 2);      // [100, 95, 92] — top 3
