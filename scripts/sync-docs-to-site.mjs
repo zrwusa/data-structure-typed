@@ -82,7 +82,7 @@ const FILES = [
 
 // Link rewrites: relative docs/ paths → site guide/ paths
 const LINK_REWRITES = [
-  [/\(\.\.\/README\.md\)/g, '(/.md)'],
+  [/\(\.\.\/README\.md\)/g, '(/docs/guide/quick-start)'],
   [/\(\.\/GUIDES\.md\)/g, '(/guide/guides.md)'],
   [/\(\.\/INTEGRATIONS\.md\)/g, '(/guide/integrations.md)'],
   [/\(\.\/PERFORMANCE\.md\)/g, '(/guide/performance.md)'],

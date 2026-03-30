@@ -8,7 +8,7 @@ keywords: ["data structures architecture", "red black tree implementation", "v8 
 
 Understand why this library is designed the way it is, and how it works internally.
 
-**[Back to README](/.md) • [See Performance](/guide/performance.md) • [Real Examples](/guide/guides.md)**
+**[Back to README](/docs/guide/quick-start) • [See Performance](/guide/performance.md) • [Real Examples](/guide/guides.md)**
 
 ---
 

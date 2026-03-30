@@ -8,7 +8,7 @@ keywords: ["typescript data structures overview", "red black tree", "heap", "pri
 
 A quick-reference guide to all structures, common operations, and usage patterns. For complete API details with method signatures and examples, see the **[Full API Docs](https://data-structure-typed-docs.vercel.app/)**.
 
-**[Back to README](/.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Examples](/guide/guides.md) • [Performance](/guide/performance.md)**
+**[Back to README](/docs/guide/quick-start) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Examples](/guide/guides.md) • [Performance](/guide/performance.md)**
 
 ---
 

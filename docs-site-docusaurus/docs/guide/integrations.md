@@ -8,7 +8,7 @@ keywords: ["data-structure-typed react", "typescript data structures express", "
 
 How to use data-structure-typed with React, Express, Nest.js, and other frameworks.
 
-**[Back to README](/.md) • [Code Examples](/guide/guides.md) • [Performance](/guide/performance.md)**
+**[Back to README](/docs/guide/quick-start) • [Code Examples](/guide/guides.md) • [Performance](/guide/performance.md)**
 
 ---
 

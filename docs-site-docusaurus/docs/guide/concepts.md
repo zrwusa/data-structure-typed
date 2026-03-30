@@ -8,7 +8,7 @@ keywords: ["data structures concepts", "binary search tree", "balanced tree", "h
 
 This guide explains the foundational concepts behind data structures through plain language and practical understanding.
 
-**👈 [Back to README](/.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Guides](/guide/guides.md)**
+**👈 [Back to README](/docs/guide/quick-start) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Guides](/guide/guides.md)**
 
 ---
 

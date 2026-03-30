@@ -8,7 +8,7 @@ keywords: ["data-structure-typed examples", "typescript data structures patterns
 
 Production-ready code examples for common use cases. Learn by doing.
 
-**[Back to README](/.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [See INTEGRATIONS](/guide/integrations.md)**
+**[Back to README](/docs/guide/quick-start) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [See INTEGRATIONS](/guide/integrations.md)**
 
 ---
 
