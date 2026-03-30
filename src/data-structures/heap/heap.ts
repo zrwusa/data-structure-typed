@@ -12,7 +12,7 @@ import { ERR, raise } from '../../common';
 
 /**
  * Binary heap with pluggable comparator; supports fast insertion and removal of the top element.
- * @remarks Time O(1), Space O(1)
+ * @remarks Typical operations: O(log N) insert/remove, O(1) peek. Space O(N).
  * @template E
  * @template R
  * 1. Complete Binary Tree: Heaps are typically complete binary trees, meaning every level is fully filled except possibly for the last level, which has nodes as far left as possible.

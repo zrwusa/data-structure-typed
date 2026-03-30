@@ -57,7 +57,7 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
  * @remarks Time O(1), Space O(1)
  * @template E
  * @template R
- * 1. Node Structure: Each node contains three parts: a data field, a pointer (or reference) to the previous node, and a pointer to the next node. This structure allows traversal of the linked list in both directions.
+ * 1. Node Structure: Each node contains two parts: a data field and a pointer (or reference) to the next node. This structure allows forward-only traversal of the linked list.
  * 2. Bidirectional Traversal: Unlike doubly linked lists, singly linked lists can be easily traversed forwards but not backwards.
  * 3. No Centralized Index: Unlike arrays, elements in a linked list are not stored contiguously, so there is no centralized index. Accessing elements in a linked list typically requires traversing from the head or tail node.
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.

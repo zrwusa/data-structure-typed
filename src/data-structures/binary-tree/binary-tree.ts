@@ -562,7 +562,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Adds a new node to the tree.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation adds the node at the first available position in a level-order (BFS) traversal. This is NOT a Binary Search Tree insertion. Time O(N), where N is the number of nodes. It must traverse level-by-level to find an empty slot. Space O(N) in the worst case for the BFS queue (e.g., a full last level).
+   * @remarks Time O(N) — level-order traversal to find an empty slot. Space O(N) for the BFS queue. BST/Red-Black Tree/AVL Tree subclasses override to O(log N).
    *
    * @param keyNodeOrEntry - The key, node, or entry to add.
    * @returns True if the addition was successful, false otherwise.
@@ -613,7 +613,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Adds or updates a new node to the tree.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation sets the node at the first available position in a level-order (BFS) traversal. This is NOT a Binary Search Tree insertion. Time O(N), where N is the number of nodes. It must traverse level-by-level to find an empty slot. Space O(N) in the worst case for the BFS queue (e.g., a full last level).
+   * @remarks Time O(N) — level-order traversal to find an empty slot. Space O(N) for the BFS queue. BST/Red-Black Tree/AVL Tree subclasses override to O(log N).
    *
    * @param keyNodeOrEntry - The key, node, or entry to set or update.
    * @param [value] - The value, if providing just a key.
@@ -922,7 +922,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Deletes a node from the tree.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation finds the node, and if it has two children, swaps it with the rightmost node of its left subtree (in-order predecessor) before deleting. Time O(N) in the worst case. O(N) to find the node (`getNode`) and O(H) (which is O(N) worst-case) to find the rightmost node. Space O(1) (if `getNode` is iterative, which it is).
+   * @remarks Time O(N) — O(N) to find the node + O(H) for predecessor swap. Space O(1). BST/Red-Black Tree/AVL Tree subclasses override to O(log N).
    *
    * @param keyNodeEntryRawOrPredicate - The node to delete.
    * @returns An array containing deletion results (for compatibility with self-balancing trees).
@@ -1093,7 +1093,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Searches the tree for nodes matching a predicate.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). Performs a full DFS (pre-order) scan of the tree. Time O(N), as it may visit every node. Space O(H) for the call stack (recursive) or explicit stack (iterative), where H is the tree height (O(N) worst-case).
+   * @remarks Time O(N) — full DFS scan; may visit every node. Space O(H) for call/explicit stack (O(N) worst-case). BST subclasses with key search override to O(log N).
    *
    * @template C - The type of the callback function.
    * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
@@ -1232,7 +1232,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Gets the first node matching a predicate.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). Time O(N) in the worst case (via `search`). Space O(H) or O(N) (via `search`).
+   * @remarks Time O(N) via `search`. Space O(H) or O(N). BST/Red-Black Tree/AVL Tree subclasses override to O(log N) for key lookups.
    *
    * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
    * @param [startNode=this._root] - The node to start the search from.
@@ -1299,7 +1299,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Gets the value associated with a key.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). Time O(1) if in Map mode. O(N) if not in Map mode (uses `getNode`). Space O(1) if in Map mode. O(H) or O(N) otherwise.
+   * @remarks Time O(1) in Map mode, O(N) otherwise (via `getNode`). Space O(1) in Map mode, O(H) or O(N) otherwise. BST subclasses override non-Map-mode to O(log N).
    *
    * @param keyNodeEntryOrPredicate - The key, node, or entry to get the value for.
    * @param [startNode=this._root] - The node to start searching from (if not in Map mode).
@@ -1361,7 +1361,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Checks if a node matching the predicate exists in the tree.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). Time O(N) in the worst case (via `search`). Space O(H) or O(N) (via `search`).
+   * @remarks Time O(N) via `search`. Space O(H) or O(N). BST/Red-Black Tree/AVL Tree subclasses override to O(log N) for key lookups.
    *
    * @param [keyNodeEntryOrPredicate] - The key, node, entry, or predicate to check for.
    * @param [startNode] - The node to start the search from.

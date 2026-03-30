@@ -330,7 +330,7 @@ structure.isEmpty();           // Check empty
 #### Trees
 
 ```typescript
-tree.height;                   // Tree height
+tree.height;                   // Tree height (getter)
 tree.isAVLBalanced();         // Balance check
 tree.getNode(key);            // Get node object
 tree.getHeight(key);          // Node height

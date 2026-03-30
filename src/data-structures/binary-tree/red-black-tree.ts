@@ -332,14 +332,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   /**
-   * Remove all nodes and clear the key→value store (if in map mode).
+   * Remove all nodes, clear the key→value store (if in map mode) and internal caches.
    * @remarks Time O(n), Space O(1)
-   * @returns void
-   */
-
-  /**
-   * Remove all nodes and clear internal caches.
-   * @remarks Time O(n) average, Space O(1)
    
    
    
