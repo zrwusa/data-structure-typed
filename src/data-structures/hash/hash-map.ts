@@ -1198,9 +1198,10 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * Delete the entry at a given index.
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
-   * @returns The removed entry [key, value], or undefined if the index is out of range.
+   * @returns The removed entry [key, value].
+   * @throws {RangeError} If index is out of bounds.
    */
-  deleteAt(index: number): [K, V | undefined] | undefined {
+  deleteAt(index: number): [K, V | undefined] {
     rangeCheck(index, 0, this._size - 1);
     let node = this.head;
     while (index--) node = node.next;
