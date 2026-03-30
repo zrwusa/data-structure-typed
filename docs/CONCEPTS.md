@@ -345,6 +345,49 @@ const matches = trie.getWords('appl');
 // O(5 + 4) = 9 operations ✅
 ```
 
+### Case 6: Finding the K-th Element or Rank
+
+❌ Array requires sorting O(n log n):
+
+```javascript
+const scores = [85, 92, 78, 95, 88, 73, 99];
+scores.sort((a, b) => b - a);
+const thirdPlace = scores[2];  // Must re-sort after every insert
+```
+
+✅ Order-Statistic Tree gives O(log n) rank queries:
+
+```javascript
+const tree = new RedBlackTree(scores.map(s => [s, null]), {
+  comparator: (a, b) => b - a,
+  enableOrderStatistic: true
+});
+tree.getByRank(2);     // 3rd place — O(log n)
+tree.getRank(92);      // How many scores are higher? — O(log n)
+tree.rangeByRank(0, 2); // Top 3 scores — O(log n + k)
+// Insert new score — O(log n), no re-sorting needed
+tree.set(91, null);
+```
+
+### Case 7: Pass Raw Objects Without Pre-Processing
+
+❌ Array.map just to reshape data:
+
+```javascript
+const users = [{ id: 3, name: 'Charlie' }, { id: 1, name: 'Alice' }];
+const entries = users.map(u => [u.id, u]);  // Extra step
+const map = new Map(entries);
+```
+
+✅ Pass raw objects directly with `toEntryFn`:
+
+```javascript
+const map = new TreeMap(users, {
+  toEntryFn: u => [u.id, u]
+});
+// No .map() needed — sorted by id automatically
+```
+
 ---
 
 ## 🎯 Decision Guide: Choose the Right Data Structure
@@ -379,6 +422,12 @@ Need range queries on an indexed sequence?
   ↓
   Yes → SegmentTree (O(log n) query + update, supports sum/min/max/gcd/custom)
     Only need prefix sums? → BinaryIndexedTree (simpler, less memory)
+  No  → Continue
+
+Need k-th element or rank queries?
+  ↓
+  Yes → RedBlackTree / TreeMap / TreeSet with { enableOrderStatistic: true }
+    getByRank(k), getRank(key), rangeByRank(start, end) — all O(log n)
   No  → Continue
 
 Need a sorted key-value map?

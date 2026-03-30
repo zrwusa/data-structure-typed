@@ -141,7 +141,7 @@ If you insert keys in sorted or nearly-sorted order (timestamps, auto-increment 
 import { RedBlackTree } from 'data-structure-typed';
 import type { RedBlackTreeNode } from 'data-structure-typed';
 
-const tree = new RedBlackTree<number, number>([], { isMapMode: true });
+const tree = new RedBlackTree<number, number>();
 
 let hint: RedBlackTreeNode<number, number> | undefined;
 for (let i = 0; i < 1_000_000; i++) {

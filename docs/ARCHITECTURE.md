@@ -590,6 +590,74 @@ const objectTree = new RedBlackTree<CustomObject>([], {
 
 ---
 
+## Order-Statistic Tree Architecture
+
+### How `enableOrderStatistic` Works
+
+When enabled, every node maintains a `_count` field — the number of nodes in its subtree (including itself).
+
+```
+        8 (count=5)
+       / \
+      3   10 (count=1)
+    (count=3)
+     / \
+    1   6 (count=1)
+  (count=1)
+```
+
+### Count Maintenance
+
+Counts are updated in every mutation path:
+
+- **Insert** (`set`/`add`): `_updateCountAlongPath` increments counts from new node to root
+- **Delete**: `_updateCountAlongPath` decrements counts from deleted position to root
+- **Rotations** (AVL: `_balanceLL/LR/RR/RL`, RBT: `_leftRotate/_rightRotate`): `_updateCount` recalculates after structural changes
+- **Balanced rebuild** (`setMany`, `perfectlyBalance`): counts rebuilt during tree construction
+
+### Rank Operations
+
+All O(log n) by walking down the tree using counts:
+
+- **`getByRank(k)`**: Start at root. If left subtree count > k, go left. If equal, return current. Otherwise subtract and go right.
+- **`getRank(key)`**: Walk to key, accumulating left subtree counts. Returns count of elements preceding key in tree order.
+- **`rangeByRank(start, end)`**: Combine `getByRank` to find boundaries, then in-order collect.
+
+### Opt-in Design
+
+Order-statistic is **opt-in** (`enableOrderStatistic: true`) because:
+- Extra count maintenance on every mutation adds O(log n) overhead
+- Most users don't need rank queries
+- `_snapshotOptions` preserves the flag through `clone()` and `map()`
+
+---
+
+## Error Handling: `raise()`
+
+### Unified Error Strategy
+
+All error throwing goes through `raise(ErrorType, message)` in `src/common/error.ts`:
+
+```typescript
+raise(TypeError, ERR.comparatorRequired('TreeMap'));
+raise(RangeError, ERR.indexOutOfBounds(index, length));
+```
+
+### Why `raise()` Instead of Direct `throw`
+
+1. **Single chokepoint** — all errors flow through one function for consistent behavior
+2. **Error message templates** — `ERR` object provides standardized, reusable messages
+3. **Future extensibility** — can add logging, telemetry, or error transformation without touching call sites
+
+### Error Categories
+
+| Error Type | When | Example |
+|------------|------|---------|
+| `TypeError` | Invalid input type | NaN key, missing comparator, non-function callback |
+| `RangeError` | Out of bounds | Index beyond array length, invalid rank |
+
+---
+
 ## Summary: Design Checklist
 
 - ✅ Unified API across all structures
@@ -599,7 +667,8 @@ const objectTree = new RedBlackTree<CustomObject>([], {
 - ✅ V8 JIT-friendly code
 - ✅ Memory-efficient algorithms
 - ✅ Full TypeScript support
-- ✅ Production-ready error handling
+- ✅ Order-statistic tree with opt-in `enableOrderStatistic`
+- ✅ Unified error handling via `raise()` + `ERR` templates
 
 ---
 

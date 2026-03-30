@@ -161,6 +161,97 @@ avl.print()
 //      4      9 
 ```
 
+#### TreeMap (Ordered Map)
+
+```typescript
+import { TreeMap } from 'data-structure-typed';
+
+const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+tm.set(4, 'd');                    // Set key-value - O(log n)
+tm.get(2);                         // 'b' - O(log n)
+tm.has(3);                         // true
+tm.delete(1);                      // Remove - O(log n)
+
+// Navigation — Java NavigableMap-style
+tm.first();                        // [2, 'b'] — smallest entry
+tm.last();                         // [4, 'd'] — largest entry
+tm.ceiling(3);                     // [3, 'c'] — smallest >= 3
+tm.floor(2);                       // [2, 'b'] — largest <= 2
+tm.higher(2);                      // [3, 'c'] — strictly > 2
+tm.lower(3);                       // [2, 'b'] — strictly < 3
+
+// Iteration (sorted order)
+console.log([...tm.keys()]);       // [2, 3, 4]
+console.log([...tm.values()]);     // ['b', 'c', 'd']
+
+// Bulk operations
+tm.setMany([[5, 'e'], [6, 'f']]);  // Set multiple at once
+
+// Functional
+const filtered = tm.filter((v, k) => k > 2);
+const mapped = tm.map((v, k) => [k * 10, v!.toUpperCase()] as [number, string]);
+```
+
+#### TreeSet (Ordered Set)
+
+```typescript
+import { TreeSet } from 'data-structure-typed';
+
+const ts = new TreeSet<number>([5, 3, 8, 1]);
+ts.add(4);                         // Add - O(log n)
+ts.has(3);                         // true
+ts.delete(5);                      // Remove - O(log n)
+
+// Navigation
+ts.first();                        // 1
+ts.last();                         // 8
+ts.ceiling(4);                     // 4 — smallest >= 4
+ts.floor(6);                       // 4 — largest <= 6
+ts.higher(3);                      // 4 — strictly > 3
+ts.lower(4);                       // 3 — strictly < 4
+
+// Iteration (sorted order)
+console.log([...ts.keys()]);       // [1, 3, 4, 8]
+
+// Bulk operations
+ts.addMany([10, 20, 30]);          // Add multiple at once
+```
+
+#### Order-Statistic Tree (Rank Queries)
+
+Enable `enableOrderStatistic: true` on any tree-based structure to get O(log n) rank operations:
+
+```typescript
+import { RedBlackTree, TreeMap, TreeSet } from 'data-structure-typed';
+
+// Works with RedBlackTree, TreeMap, TreeSet, TreeMultiMap, TreeMultiSet
+const tree = new RedBlackTree<number, string>(
+  [[100, 'Alice'], [85, 'Bob'], [92, 'Charlie'], [78, 'Diana']],
+  { comparator: (a, b) => b - a, enableOrderStatistic: true }
+);
+
+// getByRank(k) — element at position k in tree order, O(log n)
+tree.getByRank(0);                 // 100 (1st in tree order)
+tree.getByRank(2);                 // 92  (3rd in tree order)
+
+// getRank(key) — count of elements before key in tree order, O(log n)
+tree.getRank(92);                  // 2
+
+// rangeByRank(start, end) — elements between positions, O(log n + k)
+tree.rangeByRank(0, 2);           // [100, 92, 85] — positions 0..2
+
+// Also works with wrapper classes
+const tm = new TreeMap<number, string>([], { enableOrderStatistic: true });
+tm.set(10, 'a'); tm.set(20, 'b'); tm.set(30, 'c');
+tm.getByRank(1);                   // [20, 'b']
+tm.getRank(20);                    // 1
+
+const ts = new TreeSet<number>([], { enableOrderStatistic: true });
+ts.addMany([10, 20, 30]);
+ts.getByRank(0);                   // 10
+ts.getRank(30);                    // 2
+```
+
 ### Heap & Priority Queue
 
 #### Heap
@@ -293,6 +384,12 @@ graph.deleteVertex('A');      // Remove vertex
 // All structures support:
 structure.clear();             // Remove all elements
 structure.delete(key);         // Remove specific
+
+// Conditional delete (BST-family and Deque)
+tree.deleteWhere(node => node.key < 10);           // Delete all matching
+tree.deleteWhere(node => node.key < 10, true);     // Delete first match only
+tree.deleteWhere(new Range(5, 15));                 // Delete by range
+deque.deleteWhere((val, idx) => val > 100);        // Deque predicate delete
 ```
 
 ---
@@ -323,6 +420,27 @@ structure.every((v, k) => v > 0);
 // Properties
 structure.size;                // Element count
 structure.isEmpty();           // Check empty
+```
+
+### Raw Data Mapping
+
+Pass raw objects directly — no `.map()` pre-processing needed:
+
+```typescript
+// toElementFn — extract a field, store only that (Heap, Queue, Stack, LinkedList, Trie)
+const heap = new MinHeap<number, User>(users, {
+  toElementFn: u => u.age
+});
+
+// toEntryFn — split into key-value pairs (TreeMap, HashMap, SkipList)
+const map = new TreeMap<number, User, User>(users, {
+  toEntryFn: u => [u.id, u]
+});
+
+// comparator — store full objects, sort by a field (all sorted structures)
+const set = new TreeSet<User>(users, {
+  comparator: (a, b) => a.id - b.id
+});
 ```
 
 ### Structure-Specific Methods
