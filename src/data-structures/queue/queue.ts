@@ -262,6 +262,15 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
+   * Peek at the front element without removing it (alias for `first`).
+   * @remarks Time O(1), Space O(1)
+   * @returns Front element or undefined.
+   */
+  peek(): E | undefined {
+    return this.first;
+  }
+
+  /**
    * Get the last element (back) without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Back element or undefined.

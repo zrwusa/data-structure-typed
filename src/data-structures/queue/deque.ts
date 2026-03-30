@@ -303,6 +303,15 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *     console.log(deque.length); // 5;
    */
 
+  /**
+   * Peek at the front element without removing it (alias for `first`).
+   * @remarks Time O(1), Space O(1)
+   * @returns Front element or undefined.
+   */
+  peek(): E | undefined {
+    return this.first;
+  }
+
   get first(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketFirst][this._firstInBucket];

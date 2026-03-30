@@ -477,7 +477,19 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
  *     console.log(topTask?.name); // 'Alert';
    */
 
+  /**
+   * @deprecated Use `pop` instead. Will be removed in a future major version.
+   */
   poll(): E | undefined {
+    return this.pop();
+  }
+
+  /**
+   * Remove and return the top element (min or max depending on comparator).
+   * @remarks Time O(log N) amortized, Space O(1)
+   * @returns The removed top element, or undefined if empty.
+   */
+  pop(): E | undefined {
     if (this.elements.length === 0) return;
     const value = this.elements[0];
     const last = this.elements.pop()!;
@@ -803,7 +815,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     }
     if (index < 0) return false;
     if (index === 0) {
-      this.poll();
+      this.pop();
     } else if (index === this.elements.length - 1) {
       this.elements.pop();
     } else {
@@ -837,7 +849,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     }
     if (idx < 0) return false;
     if (idx === 0) {
-      this.poll();
+      this.pop();
     } else if (idx === this.elements.length - 1) {
       this.elements.pop();
     } else {
