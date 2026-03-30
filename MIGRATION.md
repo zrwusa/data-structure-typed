@@ -1,6 +1,6 @@
 # Migration Guide
 
-## Upgrading to v2.5.2
+## Upgrading to v2.5.3
 
 ### Breaking Changes
 
