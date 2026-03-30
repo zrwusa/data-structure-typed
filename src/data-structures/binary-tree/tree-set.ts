@@ -277,6 +277,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Check empty
  *  console.log(new TreeSet().isEmpty()); // true;
@@ -483,6 +488,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Unique tags with sorted order
  *  const tags = new TreeSet<string>(['javascript', 'typescript', 'react', 'typescript', 'node']);
@@ -508,6 +518,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * @param keys - Iterable of keys to add.
    * @returns Array of booleans indicating whether each key was newly added.
   
+   
+   
+   
+   
    
    
    
@@ -721,6 +735,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Checking membership in a sorted collection
  *  const allowed = new TreeSet<string>(['admin', 'editor', 'viewer']);
@@ -737,6 +756,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Delete a key.
    * @returns `true` if the key existed; otherwise `false`.
    * @remarks Expected time O(log n)
+   
+   
+   
+   
+   
    
    
    
@@ -1127,6 +1151,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Remove all
  *  const ts = new TreeSet<number>([1, 2]);
@@ -1139,6 +1168,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Iterate over keys in ascending order.
+   
+   
+   
+   
+   
    
    
    
@@ -1498,6 +1532,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Get values (same as keys for Set)
  *  const ts = new TreeSet<number>([2, 1, 3]);
@@ -1511,6 +1550,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Iterate over `[value, value]` pairs (native Set convention).
    *
    * Note: TreeSet stores only keys internally; `[k, k]` is created on-the-fly during iteration.
+   
+   
+   
+   
+   
    
    
    
@@ -1874,6 +1918,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Execute for each
  *  const ts = new TreeSet<number>([3, 1, 2]);
@@ -1890,6 +1939,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * This mirrors `RedBlackTree.map`: mapping produces a new ordered container.
    * @remarks Time O(n log n) expected, Space O(n)
+   
+   
+   
+   
+   
    
    
    
@@ -2261,6 +2315,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Filter
  *  const ts = new TreeSet<number>([1, 2, 3, 4, 5]);
@@ -2455,6 +2514,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Aggregate
  *  const ts = new TreeSet<number>([1, 2, 3]);
@@ -2471,6 +2535,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Test whether all values satisfy a predicate.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
    
    
    
@@ -2832,6 +2901,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Test any
  *  const ts = new TreeSet<number>([1, 3, 5]);
@@ -2851,6 +2925,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Find the first value that satisfies a predicate.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
    
    
    
@@ -3215,6 +3294,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Convert to array
  *  const ts = new TreeSet<number>([3, 1, 2]);
@@ -3227,6 +3311,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Print a human-friendly representation.
    * @remarks Time O(n), Space O(n)
+   
+   
+   
+   
+   
    
    
    
@@ -3452,6 +3541,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
     * @example
  * // Student grade ranking with custom comparator
  *  interface Student {
@@ -3524,6 +3614,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
     * @example
  * // Get the maximum element
  *  const temps = new TreeSet<number>([18, 22, 15, 30, 25]);
@@ -3536,6 +3627,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Remove and return the smallest key.
+   
    
    
    
@@ -3629,6 +3721,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
     * @example
  * // Remove and return maximum
  *  const stack = new TreeSet<number>([10, 20, 30]);
@@ -3645,6 +3738,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is >= the given key.
+   
+   
+   
+   
    
    
    
@@ -3961,6 +4058,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Largest element ≤ target
  *  const breakpoints = new TreeSet<number>([320, 768, 1024, 1280, 1920]);
@@ -4123,6 +4224,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Smallest element strictly > target
  *  const levels = new TreeSet<number>([1, 5, 10, 25, 50, 100]);
@@ -4137,6 +4242,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key that is < the given key.
+   
+   
+   
+   
    
    
    
@@ -4446,6 +4555,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // IP address blocklist with range checking
  *  // Simplified: use numeric IP representation
@@ -4532,6 +4645,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Pagination by position in tree order
  *  const tree = new TreeSet<number>(
@@ -4555,6 +4670,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Creates a shallow clone of this set.
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
+   
+   
+   
    
    
    

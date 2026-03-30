@@ -223,6 +223,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -324,6 +325,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -351,6 +353,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(1)
    * @param elements - Iterable of elements or raw values.
    * @returns Array of per-element success flags.
+   
    
    
    
@@ -479,6 +482,31 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
 
   /**
    * @deprecated Use `pop` instead. Will be removed in a future major version.
+    * @example
+ * // Heap with custom comparator (MaxHeap behavior)
+ *  interface Task {
+ *       id: number;
+ *       priority: number;
+ *       name: string;
+ *     }
+ *
+ *     // Custom comparator for max heap behavior (higher priority first)
+ *     const tasks: Task[] = [
+ *       { id: 1, priority: 5, name: 'Email' },
+ *       { id: 2, priority: 3, name: 'Chat' },
+ *       { id: 3, priority: 8, name: 'Alert' }
+ *     ];
+ *
+ *     const maxHeap = new Heap(tasks, {
+ *       comparator: (a: Task, b: Task) => b.priority - a.priority
+ *     });
+ *
+ *     console.log(maxHeap.size); // 3;
+ *
+ *     // Peek returns highest priority task
+ *     const topTask = maxHeap.peek();
+ *     console.log(topTask?.priority); // 8;
+ *     console.log(topTask?.name); // 'Alert';
    */
   poll(): E | undefined {
     return this.pop();
@@ -504,6 +532,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
    
    
    
@@ -647,6 +676,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Check if heap is empty
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -663,6 +693,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
+   
    
    
    
@@ -746,6 +777,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Check element existence
  *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
@@ -763,6 +795,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to delete.
    * @returns True if an element was removed.
+   
    
    
    
@@ -906,6 +939,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Depth-first traversal
  *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
@@ -956,6 +990,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Return all elements in ascending order by repeatedly polling.
    * @remarks Time O(N log N), Space O(N)
    * @returns Sorted array of elements.
+   
    
    
    
@@ -1052,6 +1087,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
     * @example
  * // Create independent copy
  *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
@@ -1073,6 +1109,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param callback - Predicate (element, index, heap) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with the kept elements.
+   
    
    
    
@@ -1138,6 +1175,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
+   
    
    
    
