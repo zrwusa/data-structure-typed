@@ -50,7 +50,7 @@ A quick-reference guide to all structures, common operations, and usage patterns
 import { Stack } from 'data-structure-typed';
 
 const stack = new Stack<number>([1, 2]);
-stack.push(3);                // add to bottom
+stack.push(3);                // add to top
 const top = stack.pop();      // Remove from top - O(1)
 const peek = stack.peek();    // View top
 stack.print();                // [1, 2]
@@ -179,7 +179,9 @@ const peek = minHeap.peek();  // View minimum - O(1)
 ```typescript
 import { MaxPriorityQueue } from 'data-structure-typed';
 
-const pq = new MaxPriorityQueue<Task>();
+const pq = new MaxPriorityQueue<Task>([], {
+  comparator: (a, b) => b.priority - a.priority
+});
 pq.add({ id: 1, priority: 5 });  // Add - O(log n)
 const task = pq.poll();          // Remove highest - O(log n)
 const size = pq.size;            // Current size
@@ -261,7 +263,7 @@ heap.peek();               // Highest priority element
 heap.size;                 // Current size
 
 // Trie
-trie.getWords('hello');      // true
+trie.has('hello');            // true
 trie.hasPrefix('hel');    // true
 
 // Graph
@@ -339,10 +341,10 @@ tree.getRightMost();          // Rightmost node
 #### Deque
 
 ```typescript
-deque.peekFirst();            // View front
-deque.peekLast();             // View back
-deque.pollFirst();            // Remove front - O(1)
-deque.pollLast();             // Remove back - O(1)
+deque.first;                  // View front (getter)
+deque.last;                   // View back (getter)
+deque.shift();                // Remove front - O(1)
+deque.pop();                  // Remove back - O(1)
 ```
 
 #### Graph
@@ -458,7 +460,7 @@ const sorted = [...new RedBlackTree(data).keys()]; // Instant sort!
 
 ---
 
-## SkipList & SkipListSet
+## SkipList
 
 Probabilistic sorted containers. Interchangeable with `TreeMap`/`TreeSet`.
 

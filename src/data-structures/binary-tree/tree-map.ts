@@ -501,6 +501,25 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   }
 
   /**
+   * Set multiple key-value pairs at once.
+   * @remarks Expected time O(m log n), where m is the number of entries.
+   * @param entries - Iterable of `[key, value]` tuples.
+   * @returns Array of booleans indicating whether each entry was successfully set.
+   * @example
+   * const tm = new TreeMap<number, string>();
+   * tm.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+   * console.log(tm.size); // 3
+   */
+  setMany(entries: Iterable<[K, V | undefined]>): boolean[] {
+    const results: boolean[] = [];
+    for (const [key, value] of entries) {
+      this._validateKey(key);
+      results.push(this.#core.set(key, value as V));
+    }
+    return results;
+  }
+
+  /**
    * Get the value under a key.
    * @remarks Expected time O(log n)
    

@@ -678,4 +678,43 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
       expect(() => tm.print()).not.toThrow();
     });
   });
+
+  describe('setMany', () => {
+    it('should set multiple key-value pairs at once', () => {
+      const tm = new TreeMap<number, string>();
+      const results = tm.setMany([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]);
+      expect(results).toEqual([true, true, true]);
+      expect(tm.size).toBe(3);
+      expect(tm.get(1)).toBe('a');
+      expect(tm.get(2)).toBe('b');
+      expect(tm.get(3)).toBe('c');
+    });
+
+    it('should handle empty iterable', () => {
+      const tm = new TreeMap<number, string>();
+      const results = tm.setMany([]);
+      expect(results).toEqual([]);
+      expect(tm.size).toBe(0);
+    });
+
+    it('should update existing keys', () => {
+      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const results = tm.setMany([
+        [1, 'updated'],
+        [3, 'c']
+      ]);
+      expect(results).toEqual([true, true]);
+      expect(tm.size).toBe(3);
+      expect(tm.get(1)).toBe('updated');
+    });
+
+    it('should validate keys with default comparator', () => {
+      const tm = new TreeMap<number, string>();
+      expect(() => tm.setMany([[NaN, 'bad']])).toThrow();
+    });
+  });
 });

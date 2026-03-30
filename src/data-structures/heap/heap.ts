@@ -280,7 +280,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
 
   /**
    * Insert an element.
-   * @remarks Time O(1) amortized, Space O(1)
+   * @remarks Time O(log N) amortized, Space O(1)
    * @param element - Element to insert.
    * @returns True.
    

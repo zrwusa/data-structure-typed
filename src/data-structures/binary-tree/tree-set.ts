@@ -473,6 +473,25 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   }
 
   /**
+   * Add multiple keys at once.
+   * @remarks Expected time O(m log n), where m is the number of keys.
+   * @param keys - Iterable of keys to add.
+   * @returns Array of booleans indicating whether each key was newly added.
+   * @example
+   * const ts = new TreeSet<number>();
+   * ts.addMany([3, 1, 2]);
+   * console.log(ts.size); // 3
+   */
+  addMany(keys: Iterable<K>): boolean[] {
+    const results: boolean[] = [];
+    for (const key of keys) {
+      this._validateKey(key);
+      results.push(this.#core.set(key, undefined));
+    }
+    return results;
+  }
+
+  /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
    

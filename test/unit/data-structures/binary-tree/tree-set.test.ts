@@ -522,4 +522,34 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
       expect(() => ts.print()).not.toThrow();
     });
   });
+
+  describe('addMany', () => {
+    it('should add multiple keys at once', () => {
+      const ts = new TreeSet<number>();
+      const results = ts.addMany([3, 1, 2]);
+      expect(results).toEqual([true, true, true]);
+      expect(ts.size).toBe(3);
+      expect([...ts.keys()]).toEqual([1, 2, 3]);
+    });
+
+    it('should handle empty iterable', () => {
+      const ts = new TreeSet<number>();
+      const results = ts.addMany([]);
+      expect(results).toEqual([]);
+      expect(ts.size).toBe(0);
+    });
+
+    it('should handle duplicate keys', () => {
+      const ts = new TreeSet<number>([1, 2]);
+      const results = ts.addMany([2, 3]);
+      expect(results).toEqual([true, true]);
+      expect(ts.size).toBe(3);
+      expect([...ts.keys()]).toEqual([1, 2, 3]);
+    });
+
+    it('should validate keys with default comparator', () => {
+      const ts = new TreeSet<number>();
+      expect(() => ts.addMany([NaN])).toThrow();
+    });
+  });
 });
