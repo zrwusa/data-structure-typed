@@ -1,367 +1,507 @@
-# REFERENCE: 完整 API 参考
+# 概览:数据结构一览
 
-数据结构库中所有数据结构的完整 API 文档。
+[English](./OVERVIEW.md) | 简体中文
 
-**[返回 README](../README_CN.md) • [概念](./CONCEPTS_CN.md) • [指南](./GUIDES_CN.md)**
+所有数据结构、常用操作和使用模式的快速参考指南。完整的 API 详细信息(包括方法签名和示例)请查看 **[完整 API 文档](https://data-structure-typed-docs.vercel.app/)**。
 
----
-
-## 线性结构
-
-### Array
-
-基础顺序存储，具有 O(1) 访问和 O(n) 插入。
-
-```typescript
-// 创建
-const arr = new Array([1, 2, 3]);
-
-// 基本操作
-arr.push(4);           // 添加到末尾 - O(1)
-arr.pop();             // 移除末尾 - O(1)
-arr.shift();           // 移除开头 - O(n)
-arr.unshift(0);        // 添加到开头 - O(n)
-
-// 查询
-arr.at(0);             // 获取索引 - O(1)
-arr.indexOf(2);        // 查找值 - O(n)
-
-// 高阶函数
-arr.map(x => x * 2);
-arr.filter(x => x > 2);
-arr.reduce((a, b) => a + b, 0);
-```
-
-### LinkedList
-
-链式存储，O(n) 访问但 O(1) 插入（如果有节点引用）。
-
-```typescript
-// 创建
-const list = new SinglyLinkedList([1, 2, 3]);
-
-// 基本操作
-list.push(4);          // 添加到末尾 - O(1)
-list.pop();            // 移除末尾 - O(n)
-list.shift();          // 移除开头 - O(1)
-list.unshift(0);       // 添加到开头 - O(1)
-
-// 查询
-list.getFirst();       // 获取第一个 - O(1)
-list.getLast();        // 获取最后一个 - O(n)
-list.at(2);            // 获取索引 - O(n)
-
-// DoublyLinkedList 相同，但向后遍历
-const dlist = new DoublyLinkedList([1, 2, 3]);
-dlist.reverse();       // 反向 - O(1)
-```
-
-### Queue (FIFO)
-
-先进先出队列。
-
-```typescript
-// 创建
-const queue = new Queue([1, 2, 3]);
-
-// 基本操作
-queue.enqueue(4);      // 添加到后面 - O(1)
-queue.dequeue();       // 从前面移除 - O(1)
-queue.peek();          // 查看前面 - O(1)
-
-// 属性
-queue.size;            // 项数
-queue.isEmpty;         // 是否为空
-```
-
-### Stack (LIFO)
-
-后进先出栈。
-
-```typescript
-// 创建
-const stack = new Stack([1, 2, 3]);
-
-// 基本操作
-stack.push(4);         // 添加到顶部 - O(1)
-stack.pop();           // 移除顶部 - O(1)
-stack.peek();          // 查看顶部 - O(1)
-
-// 属性
-stack.size;            // 项数
-stack.isEmpty;         // 是否为空
-
-// 用例：撤销/重做
-const undoStack = new Stack<Action>();
-const redoStack = new Stack<Action>();
-```
-
-### Deque (双端队列)
-
-双端队列，两端都有 O(1) 操作。
-
-```typescript
-// 创建
-const deque = new Deque([1, 2, 3]);
-
-// 基本操作
-deque.push(4);         // 添加到后面 - O(1)
-deque.unshift(0);      // 添加到前面 - O(1)
-deque.pop();           // 移除末尾 - O(1)
-deque.shift();         // 移除开头 - O(1)
-
-// 查询
-deque.peekFirst();     // 查看前面 - O(1)
-deque.peekLast();      // 查看后面 - O(1)
-
-// 属性
-deque.size;
-deque.isEmpty;
-```
+**[返回 README](../README_CN.md) • [API 文档](https://data-structure-typed-docs.vercel.app/) • [实战示例](./GUIDES_CN.md) • [性能测试](./PERFORMANCE_CN.md)**
 
 ---
 
-## 树结构
+## 目录
 
-### Binary Search Tree (BST)
+1. [快速参考表](#快速参考表)
+2. [全部数据结构](#全部数据结构)
+3. [CRUD 操作](#crud-操作)
+4. [通用方法](#通用方法)
+5. [TypeScript 支持](#typescript-支持)
 
-基础二叉搜索树。
+---
+
+## 快速参考表
+
+| 数据结构    | 最佳使用场景             | 时间复杂度          | 空间  |
+|-------------------|---------------------------|--------------------------|--------|
+| **Array**         | 直接索引访问     | O(n) 插入/删除       | O(n)   |
+| **Linked List**   | 动态大小,快速插入 | O(n) 搜索, O(1) 插入 | O(n)   |
+| **Stack**         | 撤销/重做, DFS            | O(1) 全部                 | O(n)   |
+| **Queue**         | FIFO 处理           | O(1) 全部                 | O(n)   |
+| **Deque**         | 头尾操作      | O(1) 全部                 | O(n)   |
+| **Binary Tree**   | 层次化数据         | O(n) 平均                 | O(n)   |
+| **BST**           | 有序搜索             | O(log n) 平均             | O(n)   |
+| **RedBlackTree**  | 保证有序         | O(log n) 保证      | O(n)   |
+| **AVL Tree**      | 平衡有序           | O(log n) 保证      | O(n)   |
+| **Heap**          | 优先队列            | O(log n) 添加/删除      | O(n)   |
+| **PriorityQueue** | 任务调度           | O(log n) 添加/取出        | O(n)   |
+| **Trie**              | 前缀搜索                         | O(m+k) 搜索                | O(26n)     |
+| **Graph**             | 网络,路径                       | 不定                       | O(V+E)     |
+| **SkipList**          | 有序键值对(概率型)             | O(log n) 平均所有操作         | O(n log n) |
+| **SegmentTree**       | 区间查询(求和/最小/最大/自定义)    | O(log n) 查询/更新        | O(n)       |
+| **BinaryIndexedTree** | 前缀和,频次统计       | O(log n) 查询/更新        | O(n)       |
+| **Matrix**            | 二维网格运算                    | O(n²) 加法, O(n³) 乘法    | O(n²)      |
+
+---
+
+## 全部数据结构
+
+### 栈结构
+
+#### Stack
 
 ```typescript
-// 创建
-const bst = new BST<number>();
-const bst2 = new BST([5, 2, 8, 1, 3]);
+import { Stack } from 'data-structure-typed';
 
-// 基本操作
-bst.add(5);            // 添加 - O(log n) 平衡时
-bst.delete(5);         // 删除 - O(log n) 平衡时
-bst.has(5);            // 包含 - O(log n)
-
-// 查询
-bst.search(5);         // 搜索 - O(log n)
-bst.min();             // 最小值 - O(log n)
-bst.max();             // 最大值 - O(log n)
-
-// 遍历
-bst.inOrder();         // 有序遍历
-bst.preOrder();        // 前序遍历
-bst.postOrder();       // 后序遍历
+const stack = new Stack<number>([1, 2]);
+stack.push(3);                // add to top
+const top = stack.pop();      // Remove from top - O(1)
+const peek = stack.peek();    // View top
+stack.print();                // [1, 2]
 ```
 
-### Red-Black Tree
 
-自平衡树，保证 O(log n)。
+
+### 线性结构
+
+#### Queue
 
 ```typescript
-// 创建
-const rbTree = new RedBlackTree<number>();
-const rbTree2 = new RedBlackTree([5, 2, 8]);
+import { Queue } from 'data-structure-typed';
 
-// 键值对
-const kvTree = new RedBlackTree<number, string>();
-kvTree.set(1, 'Alice');
-kvTree.set(2, 'Bob');
+const queue = new Queue<number>([1, 2]);
+queue.push(3);                   // add to back
+const first = queue.shift();     // Remove from front - O(1)
+const length = queue.length;     // Current length
+queue.print();                   // [2, 3]
+```
 
-// 基本操作
-rbTree.set(5, value);     // 设置 - O(log n)
-rbTree.delete(5);          // 删除 - O(log n)
-rbTree.has(5);             // 检查 - O(log n)
-rbTree.get(5);             // 获取值 - O(log n)
+#### Deque
 
-// 范围查询
-rbTree.rangeSearch([2, 8]);  // 范围内的值
+```typescript
+import { Deque } from 'data-structure-typed';
 
+const deque = new Deque<number>([1, 2]);
+deque.push(3);               // Add to back
+deque.unshift(0);            // Add to front
+deque.pop();                 // Remove from back - O(1)
+deque.shift();               // Remove from front - O(1)
+deque.print();               // [1, 2]
+```
+
+#### Linked Lists
+
+```typescript
+import { SinglyLinkedList, DoublyLinkedList } from 'data-structure-typed';
+
+const singly = new SinglyLinkedList<number>([1, 2]);
+const doubly = new DoublyLinkedList<number>([1, 2]);
+
+singly.push(3);              // Add to end
+singly.addAt(1, 99);         // Insert at index - O(n)
+singly.deleteAt(2);          // Delete at index - O(n)
+singly.print();              // [1, 99, 3]
+
+doubly.push(3);              // Add to end
+doubly.addAt(1, 99);         // Insert at index - O(n)
+doubly.deleteAt(2);          // Delete at index - O(n)
+doubly.print();              // [1, 99, 3]
+```
+
+### 树结构
+
+#### Binary Search Tree (BST)
+
+```typescript
+import { BST } from 'data-structure-typed';
+
+const bst = new BST<number>([1, 3, 5, 8, 6, 2, 4, 7]);
+bst.add(9);                   // Add elements
+bst.has(5);                  // Check existence - O(log n) avg
+bst.delete(1);               // Remove - O(log n) avg
+bst.print();                 // Visual representation
+//      ___4___
+//     /       \
+//    2_       _6_
+//      \     /   \
+//       3    5    7_
+//                   \
+//                    8_
+//                      \
+//                      9
+```
+
+#### Red-Black Tree
+
+```typescript
+import { RedBlackTree } from 'data-structure-typed';
+
+const rbTree = new RedBlackTree<number, string>([[1, 'Alice'], [2, 'Bob'], [3, 'Chris']]);
+rbTree.set(4, 'Dan');               // Add key-value
+rbTree.get(1);                      // 'Alice'
+rbTree.delete(2);                   // Remove - O(log n) guaranteed
+console.log([...rbTree.values()]);  // ['Alice', 'Chris', 'Dan'] Automatically sorted
+rbTree.print()
+//   _3_
+//  /   \
+//  1    4
+
+```
+
+#### AVL Tree
+
+```typescript
+import {AVLTree} from 'data-structure-typed';
+
+const avl = new AVLTree<number>([5, 4, 3, 8, 1]);
+avl.add(9);
+avl.isAVLBalanced();         // Check balance
+avl.delete(3);               // Auto-rebalances
+avl.print()
+//    ___5_
+//   /     \
+//   1_     8_
+//     \      \
+//      4      9
+```
+
+#### TreeMap (有序映射)
+
+```typescript
+import { TreeMap } from 'data-structure-typed';
+
+const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+tm.set(4, 'd');                    // Set key-value - O(log n)
+tm.get(2);                         // 'b' - O(log n)
+tm.has(3);                         // true
+tm.delete(1);                      // Remove - O(log n)
+
+// 导航方法 — Java NavigableMap 风格
+tm.first();                        // [2, 'b'] — 最小条目
+tm.last();                         // [4, 'd'] — 最大条目
+tm.ceiling(3);                     // [3, 'c'] — 最小的 >= 3
+tm.floor(2);                       // [2, 'b'] — 最大的 <= 2
+tm.higher(2);                      // [3, 'c'] — 严格 > 2
+tm.lower(3);                       // [2, 'b'] — 严格 < 3
+
+// 迭代(有序)
+console.log([...tm.keys()]);       // [2, 3, 4]
+console.log([...tm.values()]);     // ['b', 'c', 'd']
+
+// 批量操作
+tm.setMany([[5, 'e'], [6, 'f']]);  // Set multiple at once
+
+// 函数式
+const filtered = tm.filter((v, k) => k > 2);
+const mapped = tm.map((v, k) => [k * 10, v!.toUpperCase()] as [number, string]);
+```
+
+#### TreeSet (有序集合)
+
+```typescript
+import { TreeSet } from 'data-structure-typed';
+
+const ts = new TreeSet<number>([5, 3, 8, 1]);
+ts.add(4);                         // Add - O(log n)
+ts.has(3);                         // true
+ts.delete(5);                      // Remove - O(log n)
+
+// 导航
+ts.first();                        // 1
+ts.last();                         // 8
+ts.ceiling(4);                     // 4 — 最小的 >= 4
+ts.floor(6);                       // 4 — 最大的 <= 6
+ts.higher(3);                      // 4 — 严格 > 3
+ts.lower(4);                       // 3 — 严格 < 4
+
+// 迭代(有序)
+console.log([...ts.keys()]);       // [1, 3, 4, 8]
+
+// 批量操作
+ts.addMany([10, 20, 30]);          // Add multiple at once
+```
+
+#### Order-Statistic Tree (排名查询)
+
+在任何基于树的结构上启用 `enableOrderStatistic: true` 以获得 O(log n) 的排名操作:
+
+```typescript
+import { RedBlackTree, TreeMap, TreeSet } from 'data-structure-typed';
+
+// 适用于 RedBlackTree, TreeMap, TreeSet, TreeMultiMap, TreeMultiSet
+const tree = new RedBlackTree<number, string>(
+  [[100, 'Alice'], [85, 'Bob'], [92, 'Charlie'], [78, 'Diana']],
+  { comparator: (a, b) => b - a, enableOrderStatistic: true }
+);
+
+// getByRank(k) — 树序中位置 k 的元素, O(log n)
+tree.getByRank(0);                 // 100 (树序中第 1 个)
+tree.getByRank(2);                 // 92  (树序中第 3 个)
+
+// getRank(key) — 树序中 key 之前元素的数量, O(log n)
+tree.getRank(92);                  // 2
+
+// rangeByRank(start, end) — 两个位置之间的元素, O(log n + k)
+tree.rangeByRank(0, 2);           // [100, 92, 85] — 位置 0..2
+
+// 包装类也同样适用
+const tm = new TreeMap<number, string>([], { enableOrderStatistic: true });
+tm.set(10, 'a'); tm.set(20, 'b'); tm.set(30, 'c');
+tm.getByRank(1);                   // [20, 'b']
+tm.getRank(20);                    // 1
+
+const ts = new TreeSet<number>([], { enableOrderStatistic: true });
+ts.addMany([10, 20, 30]);
+ts.getByRank(0);                   // 10
+ts.getRank(30);                    // 2
+```
+
+### Heap 与 Priority Queue
+
+#### Heap
+
+```typescript
+import { MinHeap, MaxHeap } from 'data-structure-typed';
+
+const minHeap = new MinHeap<number>([5, 3, 8]);
+minHeap.add(1);               // Add element - O(log n)
+const min = minHeap.poll();   // Get minimum - O(log n)
+const peek = minHeap.peek();  // View minimum - O(1)
+```
+
+#### Priority Queue
+
+```typescript
+import { MaxPriorityQueue } from 'data-structure-typed';
+
+const pq = new MaxPriorityQueue<Task>([], {
+  comparator: (a, b) => b.priority - a.priority
+});
+pq.add({ id: 1, priority: 5 });  // Add - O(log n)
+const task = pq.poll();          // Remove highest - O(log n)
+const size = pq.size;            // Current size
+```
+
+### 特殊结构
+
+#### Trie (前缀树)
+
+```typescript
+import { Trie } from 'data-structure-typed';
+
+const trie = new Trie(['apple', 'app', 'banana']);
+trie.add('apply');
+trie.getWords('app');        // ['apple', 'apply', 'app'] - O(m+k)
+trie.has('apple');           // true
+trie.hasPrefix('ap');        // true
+```
+
+#### Graph
+
+```typescript
+import { DirectedGraph, UndirectedGraph } from 'data-structure-typed';
+
+const graph = new DirectedGraph<string>();
+graph.addVertex('A');
+graph.addVertex('B');
+graph.addEdge('A', 'B', 1);  // Add edge with weight
+graph.hasEdge('A', 'B');     // true
+const {
+  distMap, distPaths, preMap, seen, paths, minDist, minPath
+} = graph.dijkstra('A', 'B', true, true)!;
+const order = graph.topologicalSort();
+console.log(distMap)
+console.log(distPaths)
+console.log(preMap)
+console.log(seen)
+console.log(paths)
+console.log(minDist)
+console.log(minPath)  // Shortest path
+console.log(order)    // DAG order
+```
+
+---
+
+## CRUD 操作
+
+### Create (添加)
+
+```typescript
+const tree = new RedBlackTree<number, string>();
+tree.set(1, 'Alice');
+tree.setMany([[2, 'Bob'], [3, 'Charlie']]);
+
+// Heap
+const heap = new MaxHeap<number>([10, 20]);
+heap.add(15);
+
+// Trie
+const trie = new Trie(['hello']);
+trie.add('world');
+
+// Graph
+const graph = new DirectedGraph<string>();
+graph.addVertex('A');
+graph.addEdge('A', 'B', 1);
+```
+
+### Read (查询)
+
+```typescript
+// Tree
+tree.get(1);               // 'Alice'
+tree.has(1);               // true
+tree.size;                 // Number of elements
+
+// Heap
+heap.peek();               // Highest priority element
+heap.size;                 // Current size
+
+// Trie
+trie.has('hello');            // true
+trie.hasPrefix('hel');    // true
+
+// Graph
+graph.hasVertex('A');      // true
+graph.hasEdge('A', 'B');   // true
+graph.getNeighbors('A');   // Connected vertices
+```
+
+### Update (修改)
+
+```typescript
+// Tree
+tree.set(1, 'Alice Updated'); // Update value
+tree.delete(1);               // Remove
+
+// Heap
+heap.pop();                    // Remove highest
+
+// Graph
+graph.deleteEdge('A', 'B');   // Remove edge
+graph.deleteVertex('A');      // Remove vertex
+```
+
+### Delete
+
+```typescript
+// 所有结构都支持:
+structure.clear();             // Remove all elements
+structure.delete(key);         // Remove specific
+
+// 条件删除 (BST 系列和 Deque)
+tree.deleteWhere(node => node.key < 10);           // Delete all matching
+tree.deleteWhere(node => node.key < 10, true);     // Delete first match only
+tree.deleteWhere(new Range(5, 15));                 // Delete by range
+deque.deleteWhere((val, idx) => val > 100);        // Deque predicate delete
+```
+
+---
+
+## 通用方法
+
+### 所有结构可用
+
+```typescript
 // 迭代
-rbTree.keys();             // 所有键
-rbTree.values();           // 所有值
-for (const [k, v] of rbTree) {
-  // 遍历所有项
+structure.forEach((value, key) => {
+});
+for (const item of structure) {
 }
+
+// 转换
+[...structure];                // Spread
+Array.from(structure);         // Array conversion
+
+// 数组方法
+structure.map((v, k) => v * 2);
+structure.filter((v, k) => v > 5);
+structure.reduce((acc, v) => acc + v, 0);
+structure.find((v, k) => v === 5);
+structure.some((v, k) => v > 10);
+structure.every((v, k) => v > 0);
+
+// 属性
+structure.size;                // Element count
+structure.isEmpty();           // Check empty
 ```
 
-### AVL Tree
+### 原始数据映射
 
-严格平衡的树。
-
-```typescript
-// 创建和使用类似 RedBlackTree
-const avlTree = new AVLTree<number>();
-
-avlTree.add(5);        // 添加 - O(log n)
-avlTree.delete(5);     // 删除 - O(log n)
-avlTree.search(5);     // 搜索 - O(log n)
-
-// 更严格的平衡 → 更好的搜索，更慢的修改
-```
-
-### Heap
-
-优先级队列的完全二叉树。
+直接传入原始对象 — 无需预先 `.map()` 处理:
 
 ```typescript
-// Max Heap
-const maxHeap = new MaxHeap([5, 2, 8, 1]);
-
-// 基本操作
-maxHeap.add(9);        // 添加 - O(log n)
-maxHeap.poll();        // 移除最大 - O(log n)
-maxHeap.peek();        // 查看最大 - O(1)
-
-// Min Heap
-const minHeap = new MinHeap([5, 2, 8, 1]);
-minHeap.poll();        // 移除最小
-
-// Priority Queue
-const pq = new PriorityQueue<Task>([], {
-  comparator: (a, b) => a.priority - b.priority
+// toElementFn — 提取字段,仅存储该字段 (Heap, Queue, Stack, LinkedList, Trie)
+const heap = new MinHeap<number, User>(users, {
+  toElementFn: u => u.age
 });
 
-pq.add(task);          // 添加 - O(log n)
-const highest = pq.poll(); // 获取最高优先级 - O(log n)
+// toEntryFn — 拆分为键值对 (TreeMap, HashMap, SkipList)
+const map = new TreeMap<number, User, User>(users, {
+  toEntryFn: u => [u.id, u]
+});
+
+// comparator — 存储完整对象,按字段排序 (所有有序结构)
+const set = new TreeSet<User>(users, {
+  comparator: (a, b) => a.id - b.id
+});
 ```
 
-### Trie
+### 结构特定方法
 
-前缀树，用于前缀搜索。
+#### Trees
 
 ```typescript
-// 创建
-const trie = new Trie();
-
-// 基本操作
-trie.insert('apple');  // 插入 - O(m)，m 是字符串长度
-trie.search('app');    // 精确搜索 - O(m)
-trie.startsWith('ap'); // 前缀搜索 - O(m)
-
-// 自动完成
-const suggestions = trie.getWordsWithPrefix('ap');
-// 返回：['apple', 'application', ...]
+tree.height;                   // Tree height (getter)
+tree.isAVLBalanced();         // Balance check
+tree.getNode(key);            // Get node object
+tree.getHeight(key);          // Node height
+tree.getLeftMost();           // Leftmost node
+tree.getRightMost();          // Rightmost node
 ```
 
----
-
-## 图结构
-
-### Graph
-
-顶点和边的网络。
+#### Deque
 
 ```typescript
-// 创建
-const graph = new Graph();
+deque.first;                  // View front (getter)
+deque.last;                   // View back (getter)
+deque.shift();                // Remove front - O(1)
+deque.pop();                  // Remove back - O(1)
+```
 
-// 顶点操作
-graph.addVertex('A');
-graph.removeVertex('A');
-graph.hasVertex('A');
+#### Graph
 
-// 边操作
-graph.addEdge('A', 'B', { weight: 5 });
-graph.removeEdge('A', 'B');
-graph.getEdge('A', 'B');
-
-// 查询
-graph.getVertices();   // 所有顶点
-graph.getEdges();      // 所有边
-graph.getNeighbors('A'); // A 的邻接点
-
-// 遍历
-graph.dfs('A');        // 深度优先搜索
-graph.bfs('A');        // 广度优先搜索
-
-// 路径
-graph.shortestPath('A', 'B'); // 最短路径
-graph.hasCycle();      // 检测循环
+```typescript
+graph.topologicalSort();      // DAG order
+graph.dijkstra(start, end);   // Shortest path
+graph.dfs(vertex);            // Depth-first traversal
+graph.bfs(vertex);            // Breadth-first traversal
 ```
 
 ---
 
-## 常见模式
+## TypeScript 支持
 
-### Iterator 模式
+### 完整泛型支持
 
 ```typescript
-const tree = new RedBlackTree([5, 2, 8]);
+// 自定义类型安全
+const tree = new RedBlackTree<number, User>();
+tree.set(1, { name: 'Alice', age: 30 });
 
-// 扩展运算符
-const arr = [...tree.keys()];
+const value = tree.get(1);  // Type: User | undefined
 
-// Set 构造器
-const set = new Set(tree.keys());
+// 自动推断
+const numbers = new Deque<number>([1, 2]);
+numbers.push(3);
 
-// for...of 循环
-for (const val of tree.values()) {
-  console.log(val);
-}
-
-// 解构
-const [first, ...rest] = tree.keys();
+// 自定义比较器
+const descending = new RedBlackTree<number, string>([], {
+    comparator: (a, b) => b - a  // Sort descending
+  });
 ```
 
-### 过滤模式
+### 类型安全示例
 
 ```typescript
-const tree = new RedBlackTree([
-  [1, { active: true }],
-  [2, { active: false }],
-  [3, { active: true }]
-]);
-
-// 过滤活跃项
-const active = tree
-  .filter((val) => val?.active ?? false)
-  .map((val, key) => [key, !val]);
-
-console.log(...active);
-```
-
-### 排序模式
-
-```typescript
-const data = [64, 34, 25, 12, 22, 11, 90];
-// 即时排序
-const sorted = [...new RedBlackTree(data).keys()];
-// [11, 12, 22, 25, 34, 64, 90]
-```
-
----
-
-## 类型定义
-
-### 泛型类型
-
-```typescript
-// 单个类型参数
-interface Container<T> {
-  add(item: T): void;
-  remove(item: T): void;
-  get(): T | null;
-}
-
-// 两个类型参数（键值）
-interface KeyValueStore<K, V> {
-  set(key: K, value: V): void;
-  get(key: K): V | null;
-  delete(key: K): void;
-}
-
-// 实现
-const stringSet = new RedBlackTree<string>();
-const userMap = new RedBlackTree<number, User>();
-```
-
-### 比较器类型
-
-```typescript
-type Comparator<T> = (a: T, b: T) => number;
-
-// 升序比较器
-const ascending: Comparator<number> = (a, b) => a - b;
-
-// 降序比较器
-const descending: Comparator<number> = (a, b) => b - a;
-
-// 对象比较器
 interface Task {
   id: string;
   priority: number;
@@ -375,17 +515,14 @@ const pq = new MaxPriorityQueue<Task>(
 );
 
 pq.add({
-  id: '1',
-  priority: 5,
-  action: async () => {
-    // 做某事
+  id: '1', priority: 5, action: async () => {
   }
 });
 
 // 类型检查捕获错误
 const task = pq.poll();
 if (task) {
-  // task 保证是 Task
+  // task 保证是 Task 类型
   await task.action;
 }
 ```
@@ -401,10 +538,218 @@ if (task) {
 | 插入    | O(n)  | O(1)       | O(log n) | O(log n) | O(log n) | O(m) |
 | 删除    | O(n)  | O(1)       | O(log n) | O(log n) | O(log n) | O(m) |
 
-*m = 字符串长度（对于 Trie）
+---
+
+## 常见模式
+
+### 迭代器模式
+
+```typescript
+const tree = new RedBlackTree([5, 2, 8]);
+
+// 到处都适用
+const arr = [...tree.keys()];           // Spread
+const set = new Set(tree.keys());       // Set constructor
+for (const val of tree.values()) {
+}      // for...of
+const [first, ...rest] = tree.keys();   // Destructuring
+```
+
+### 过滤模式
+
+```typescript
+const tree = new RedBlackTree([
+  [1, { active: true }],
+  [2, { active: false }],
+  [3, { active: true }]
+]);
+
+const inactive = tree
+  .filter((val) => val?.active ?? false)
+  .map((val, key) => [key, !val]);
+
+console.log(...inactive);
+```
+
+### 排序模式
+
+```typescript
+const data = [64, 34, 25, 12, 22, 11, 90];
+const sorted = [...new RedBlackTree(data).keys()]; // Instant sort!
+```
 
 ---
 
-**需要实现例子？** 查看 [GUIDES_CN.md](./GUIDES_CN.md) 了解代码示例。
+## SkipList
 
-**想了解性能？** 查看 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md) 了解基准测试。
+概率型有序容器。可与 `TreeMap`/`TreeSet` 互换使用。
+
+```typescript
+import { SkipList } from 'data-structure-typed';
+
+// 与 TreeMap API 相同 — 可直接替换
+const sl = new SkipList<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+sl.set(4, 'd');                    // upsert — returns this (chainable)
+sl.get(2);                         // 'b'
+sl.has(5);                         // false
+sl.delete(1);                      // true
+
+// 导航
+sl.first();                        // [2, 'b']
+sl.last();                         // [4, 'd']
+sl.ceiling(2);                     // [2, 'b'] — 最小的 >= 2
+sl.floor(3);                       // [3, 'c'] — 最大的 <= 3
+sl.higher(2);                      // [3, 'c'] — 严格 > 2
+sl.lower(3);                       // [2, 'b'] — 严格 < 3
+sl.rangeSearch([2, 4]);            // [[2,'b'],[3,'c'],[4,'d']]
+sl.pollFirst();                    // [2, 'b'] — remove+return first
+
+// 迭代(有序)
+for (const [k, v] of sl) console.log(k, v);
+[...sl.keys()];   // [3, 4]
+[...sl.values()]; // ['c', 'd']
+
+// 函数式
+sl.filter((v, k) => k > 2).toArray();   // [[3,'c'],[4,'d']]
+sl.map((v, k) => [k * 10, v]);          // new SkipList
+sl.reduce((acc, v) => acc + v!, '');    // 'cd'
+
+// 自定义比较器
+const reversed = new SkipList<number, string>([], {
+  comparator: (a, b) => b - a
+});
+
+// 通过 toEntryFn 从对象创建
+type User = { id: number; name: string };
+const users = new SkipList<number, User, User>(data, {
+  toEntryFn: u => [u.id, u]
+});
+```
+
+---
+
+## SegmentTree
+
+支持任意结合性合并操作的区间查询。
+
+```typescript
+import { SegmentTree } from 'data-structure-typed';
+
+// 便捷工厂方法(涵盖 90% 用例)
+const sumTree = SegmentTree.sum([1, 3, 5, 7, 9]);
+const minTree = SegmentTree.min([5, 2, 8, 1, 9]);
+const maxTree = SegmentTree.max([5, 2, 8, 1, 9]);
+
+// 区间查询 O(log n)
+sumTree.query(1, 3);   // 15 (3+5+7)
+minTree.query(0, 4);   // 1
+maxTree.query(0, 2);   // 8
+
+// 单点更新 O(log n)
+sumTree.update(2, 10); // replaces 5 with 10
+sumTree.query(1, 3);   // 20 (3+10+7)
+
+// 单元素访问 O(1)
+sumTree.get(2);        // 10
+
+// 自定义合并 (gcd, product, etc.)
+const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
+const gcdTree = new SegmentTree([12, 8, 6, 18], { merger: gcd, identity: 0 });
+gcdTree.query(0, 3);   // 2
+
+// 树上二分查找 (ACL 风格)
+// maxRight(l, pred): 找到最大的 r 使得 pred(query(l, r)) 为真
+sumTree.maxRight(0, s => s <= 10);  // rightmost index where prefix ≤ 10
+
+// 标准接口
+[...sumTree];          // leaf values as array
+sumTree.toArray();     // same
+sumTree.size;          // 5
+sumTree.clone();       // independent copy
+```
+
+---
+
+## BinaryIndexedTree (Fenwick Tree)
+
+O(log n) 的前缀和与单点更新。比 SegmentTree 更轻量;仅需求和时使用。
+
+```typescript
+import { BinaryIndexedTree } from 'data-structure-typed';
+
+// 从大小或数组构造
+const bit = new BinaryIndexedTree(6);
+const bit2 = new BinaryIndexedTree([1, 3, 5, 7, 9, 11]);
+
+// 单点更新: 添加增量
+bit2.update(2, 4);    // index 2 += 4 → value becomes 9
+
+// 单点设置: 绝对值
+bit2.set(0, 100);     // index 0 = 100
+
+// 单点查询
+bit2.get(2);          // 9
+
+// 前缀和 [0..i]
+bit2.query(3);        // sum of [0..3]
+
+// 区间和 [start..end]
+bit2.queryRange(1, 3); // sum of [1..3]
+
+// 二分查找 — 要求非负值
+bit2.lowerBound(10);  // smallest i where prefix sum [0..i] >= 10
+bit2.upperBound(10);  // smallest i where prefix sum [0..i] > 10
+
+// 标准接口
+[...bit2];            // point values as array
+bit2.toArray();       // same
+bit2.size;            // 6
+bit2.clone();
+bit2.clear();
+```
+
+---
+
+## Matrix
+
+二维网格运算。正确、精简 — 不与 NumPy 竞争。
+
+```typescript
+import { Matrix } from 'data-structure-typed';
+
+// 构造
+const m = new Matrix([[1, 2, 3], [4, 5, 6]]);
+Matrix.zeros(3, 4);       // 3×4 zero matrix
+Matrix.identity(3);       // 3×3 identity matrix
+Matrix.from([[1, 2], [3, 4]]); // from plain array
+
+// 元素访问
+m.get(0, 1);              // 2
+m.set(0, 1, 99);          // returns boolean
+m.size;                   // [2, 3]
+m.rows;                   // 2
+m.cols;                   // 3
+
+// 算术运算 (返回新 Matrix)
+a.add(b);
+a.subtract(b);
+a.multiply(b);            // matrix multiplication
+a.dot(b);                 // dot product
+a.transpose();            // supports rectangular matrices
+a.inverse();              // square matrices only
+
+// 标准接口
+[...m];                   // array of rows (copies)
+m.toArray();              // deep copy as number[][]
+m.flatten();              // [1,2,3,4,5,6] row-major
+m.forEach((v, r, c) => ...);
+m.map(v => v * 2);        // new Matrix
+m.clone();                // independent copy
+m.isEmpty();              // true if 0 rows or 0 cols
+```
+
+---
+
+**需要更多细节?** 查看 [GUIDES_CN.md](./GUIDES_CN.md) 获取实战示例。
+
+**好奇性能表现?** 参阅 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md) 查看基准测试。

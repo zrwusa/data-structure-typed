@@ -1,15 +1,17 @@
-# GUIDES: 实战例子与生产模式
+# GUIDES: 真实场景示例与生产模式
 
-生产就绪的代码示例，用于常见的使用场景。通过实践学习。
+生产级代码示例,涵盖常见使用场景。通过实践学习。
 
-**[返回 README](../README_CN.md) • [API 参考](./REFERENCE_CN.md) • [查看 INTEGRATIONS](./INTEGRATIONS_CN.md)**
+**[English](./GUIDES.md) | 简体中文**
+
+**[返回 README](../README_CN.md) • [API 文档](https://data-structure-typed-docs.vercel.app/) • [查看集成指南](./INTEGRATIONS_CN.md)**
 
 ---
 
 ## 目录
 
 1. [设计模式](#设计模式)
-2. [实战例子](#实战例子)
+2. [真实场景示例](#真实场景示例)
 3. [常见错误](#常见错误)
 4. [最佳实践](#最佳实践)
 
@@ -17,39 +19,39 @@
 
 ## 设计模式
 
-### 模式 1: Iterator 模式（零转换）
+### 模式 1: Iterator Pattern(零转换)
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
 
-// 问题：需要以多种方式处理排序数据
+// Problem: Need to work with sorted data in multiple ways
 const scores = [95, 23, 67, 89, 12, 45];
 
-// 解决方案：使用 iterator 协议
+// Solution: Use iterator protocol
 const tree = new RedBlackTree(scores);
 
-// 方法 1: 扩展运算符
+// Method 1: Spread operator
 const sorted = [...tree.keys()];
 console.log(sorted); // [12, 23, 45, 67, 89, 95]
 
-// 方法 2: for...of 循环
+// Method 2: for...of loop
 for (const [score] of tree) {
   console.log(score);
 }
 
-// 方法 3: 解构
+// Method 3: Destructuring
 const [min, ...rest] = tree.keys();
 
-// 方法 4: Set 构造器
+// Method 4: Set constructor
 const unique = new Set(tree.keys());
 
-// 方法 5: Array.from()
+// Method 5: Array.from()
 const array = Array.from(tree.keys());
 
-// 所有这些都自动工作 - 零转换！
+// All work automatically - zero conversions!
 ```
 
-### 模式 2: 方法链接（保持在结构上）
+### 模式 2: 方法链式调用(保持数据结构)
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
@@ -60,7 +62,7 @@ const tree = new RedBlackTree([
   [3, { name: 'Charlie', score: 87 }],
 ]);
 
-// 链接操作 - 结构在整个过程中被维护
+// Chain operations - structure maintained throughout
 const result = tree
   .filter((student, id) => (student?.score ?? 0) >= 50)
   .map((student, id) => ([id, {
@@ -85,7 +87,7 @@ import { RedBlackTree, Deque, MaxHeap } from 'data-structure-typed';
 
 const data = [64, 34, 25, 12, 22, 11, 90];
 
-// 在结构之间立即转换
+// Convert between structures instantly
 const tree = new RedBlackTree(data);
 const sorted = [...tree.keys()];     // [11, 12, 22, 25, 34, 64, 90]
 
@@ -93,12 +95,12 @@ const heap = new MaxHeap(sorted);
 const byPriority = [...heap];        // [90, 64, 34, ...]
 
 const deque = new Deque(byPriority);
-const processed = deque.shift();      // 移除第一个 - O(1)！
+const processed = deque.shift();      // Remove first - O(1)!
 
-// 没有中间转换，结构在可能时被保留
+// No intermediate conversions, structure preserved when possible
 ```
 
-### 模式 4: 带类型的条件逻辑
+### 模式 4: 类型条件逻辑
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
@@ -132,11 +134,34 @@ index.addProduct({id: '2', name: 'Mouse', price: 25});
 const affordable = index.getAffordable(100);
 ```
 
+### 模式 5: 使用 Hint 实现高吞吐量插入 (RedBlackTree)
+
+如果你按排序或近乎排序的顺序插入键(时间戳、自增 ID 等),
+`setWithHintNode()` 可以避免重复的从根到叶的全路径搜索。
+
+```typescript
+import { RedBlackTree } from 'data-structure-typed';
+import type { RedBlackTreeNode } from 'data-structure-typed';
+
+const tree = new RedBlackTree<number, number>();
+
+let hint: RedBlackTreeNode<number, number> | undefined;
+for (let i = 0; i < 1_000_000; i++) {
+  hint = tree.setWithHintNode(i, i, hint);
+}
+
+// tree.size === 1_000_000
+```
+
+注意事项:
+- 将**上次返回的节点**作为 hint 传入。
+- 如果 hint 对于当前键无效,实现会安全地回退到普通的 `set()`。
+
 ---
 
-## 实战例子
+## 真实场景示例
 
-### 例子 1: LRU 缓存
+### 示例 1: LRU Cache
 
 ```typescript
 import { DoublyLinkedList } from 'data-structure-typed';
@@ -155,7 +180,7 @@ class LRUCache<K, V> {
 
     const {value, node} = this.cache.get(key)!;
 
-    // 移到末尾（最近使用）
+    // Move to end (most recently used)
     this.order.delete(node);
     const newNode = this.order.push(key);
     this.cache.set(key, {value, node: newNode});
@@ -165,13 +190,13 @@ class LRUCache<K, V> {
 
   set(key: K, value: V): void {
     if (this.cache.has(key)) {
-      this.get(key); // 标记为最近使用
+      this.get(key); // Mark as recently used
       this.cache.set(key, {value, node: this.cache.get(key)!.node});
       return;
     }
 
     if (this.cache.size >= this.capacity) {
-      // 移除最少最近使用的
+      // Evict least recently used
       const lru = this.order.shift();
       if (lru) this.cache.delete(lru);
     }
@@ -181,16 +206,16 @@ class LRUCache<K, V> {
   }
 }
 
-// 使用
+// Usage
 const cache = new LRUCache<string, string>(3);
 cache.set('a', 'value1');
 cache.set('b', 'value2');
 cache.set('c', 'value3');
-console.log(cache.get('a')); // 'value1', 'a' 现在最近
-cache.set('d', 'value4');    // 移除 'b'（最少最近）
+console.log(cache.get('a')); // 'value1', 'a' is now most recent
+cache.set('d', 'value4');    // Evicts 'b' (least recent)
 ```
 
-### 例子 2: 实时排行榜
+### 示例 2: 实时排行榜
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
@@ -202,64 +227,75 @@ interface Player {
 }
 
 class Leaderboard {
+  // enableOrderStatistic gives O(log n) getByRank/getRank/rangeByRank
   private scores = new RedBlackTree<number, Player>(
-    (a, b) => b - a  // 降序
+    [],
+    { comparator: (a, b) => b - a, enableOrderStatistic: true }
   );
-  private players = new Map<string, number>(); // playerId → 当前分数
+  private players = new Map<string, number>(); // playerId → currentScore
 
   updateScore(player: Player): void {
-    // 如果存在，删除旧分数
     if (this.players.has(player.id)) {
-      const oldScore = this.players.get(player.id)!;
-      this.scores.delete(oldScore);
+      this.scores.delete(this.players.get(player.id)!);
     }
-
-    // 添加新分数
     this.scores.set(player.score, player);
     this.players.set(player.id, player.score);
   }
 
+  // O(k) — select by rank, no array copy
   getTopN(n: number): Player[] {
-    return [...this.scores.values()].slice(0, n);
+    return this.scores.rangeByRank(0, n - 1)
+      .map(key => key !== undefined ? this.scores.get(key) : undefined)
+      .filter((p): p is Player => p !== undefined);
   }
 
+  // O(log n) — direct rank lookup
   getRank(playerId: string): number {
     if (!this.players.has(playerId)) return -1;
-
-    const score = this.players.get(playerId)!;
-    let rank = 1;
-
-    for (const [s] of this.scores) {
-      if (s > score) rank++;
-      else break;
-    }
-
-    return rank;
+    return this.scores.getRank(this.players.get(playerId)!) + 1; // 1-based
   }
 
+  // O(log n) — get k-th player by rank
+  getPlayerAt(rank: number): Player | undefined {
+    const key = this.scores.getByRank(rank - 1); // 0-indexed internally
+    return key !== undefined ? this.scores.get(key) : undefined;
+  }
+
+  // O(log n + k) — players around a given player
   getAroundMe(playerId: string, range: number): Player[] {
-    const myRank = this.getRank(playerId);
-    if (myRank === -1) return [];
+    if (!this.players.has(playerId)) return [];
+    const myRank = this.scores.getRank(this.players.get(playerId)!);
+    const start = Math.max(0, myRank - range);
+    const end = Math.min(this.scores.size - 1, myRank + range);
+    return this.scores.rangeByRank(start, end)
+      .map(key => key !== undefined ? this.scores.get(key) : undefined)
+      .filter((p): p is Player => p !== undefined);
+  }
 
-    const start = Math.max(1, myRank - range);
-    const end = Math.min(this.scores.size, myRank + range);
-
-    return [...this.scores.values()].slice(start - 1, end);
+  // Pagination: show page N of the leaderboard
+  getPage(page: number, pageSize: number): Player[] {
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize - 1;
+    return this.scores.rangeByRank(start, end)
+      .map(key => key !== undefined ? this.scores.get(key) : undefined)
+      .filter((p): p is Player => p !== undefined);
   }
 }
 
-// 使用
+// Usage
 const lb = new Leaderboard();
 lb.updateScore({ id: '1', name: 'Alice', score: 1000 });
 lb.updateScore({ id: '2', name: 'Bob', score: 900 });
 lb.updateScore({ id: '3', name: 'Charlie', score: 950 });
 
-console.log(lb.getTopN(2));        // 前 2 名玩家
-console.log(lb.getRank('2'));      // Bob 的排名
-console.log(lb.getAroundMe('2', 1)); // Bob 周围的玩家
+console.log(lb.getTopN(2));          // Alice, Charlie
+console.log(lb.getRank('2'));        // 3 (Bob is 3rd)
+console.log(lb.getPlayerAt(1));      // Alice (1st place)
+console.log(lb.getAroundMe('3', 1)); // [Alice, Charlie, Bob]
+console.log(lb.getPage(1, 2));       // [Alice, Charlie] (page 1, 2 per page)
 ```
 
-### 例子 3: 带优先级的消息队列
+### 示例 3: 优先级消息队列
 
 ```typescript
 import { Deque, MaxPriorityQueue } from 'data-structure-typed';
@@ -272,9 +308,9 @@ interface Message {
 }
 
 class PriorityMessageQueue {
-  private urgent = new Deque<Message>();  // 优先级 >= 8
-  private normal = new Deque<Message>();  // 优先级 4-7
-  private low = new Deque<Message>();     // 优先级 < 4
+  private urgent = new Deque<Message>();  // Priority >= 8
+  private normal = new Deque<Message>();  // Priority 4-7
+  private low = new Deque<Message>();     // Priority < 4
 
   enqueue(message: Message): void {
     if (message.priority >= 8) {
@@ -287,7 +323,7 @@ class PriorityMessageQueue {
   }
 
   dequeue(): Message | null {
-    // 先提供紧急，然后正常，然后低优先级
+    // Serve urgent first, then normal, then low
     return (
       this.urgent.shift() ||
       this.normal.shift() ||
@@ -300,111 +336,257 @@ class PriorityMessageQueue {
     return this.urgent.length + this.normal.length + this.low.length;
   }
 }
+
+// Usage
+const queue = new PriorityMessageQueue();
+queue.enqueue({ id: '1', content: 'Normal task', priority: 5, timestamp: Date.now() });
+queue.enqueue({ id: '2', content: 'Urgent task', priority: 9, timestamp: Date.now() });
+queue.enqueue({ id: '3', content: 'Low task', priority: 1, timestamp: Date.now() });
+
+while (queue.length() > 0) {
+  const msg = queue.dequeue();
+  console.log(msg?.id); // 2, 1, 3 (urgent first)
+}
+```
+
+### 示例 4: 任务调度器
+
+```typescript
+interface Task {
+  id: string;
+  action: () => Promise<void>;
+  priority: number;
+  scheduledTime: number;
+}
+
+class TaskScheduler {
+  private queue = new MaxPriorityQueue<Task>([], {
+    comparator: (a, b) => a.priority - b.priority
+  });
+  private running = false;
+
+  scheduleTask(task: Task): void {
+    this.queue.add(task);
+    if (!this.running) void this.start();
+  }
+
+  private async start(): Promise<void> {
+    this.running = true;
+
+    while (!this.queue.isEmpty()) {
+      const task = this.queue.poll();
+      if (!task) break;
+
+      try {
+        console.log(`Executing task ${task.id}`);
+        await task.action();
+      } catch (error) {
+        console.error(`Task ${task.id} failed:`, error);
+      }
+    }
+
+    this.running = false;
+  }
+}
+
+// Usage
+const scheduler = new TaskScheduler();
+scheduler.scheduleTask({
+  id: '1',
+  action: async () => console.log('High priority'),
+  priority: 10,
+  scheduledTime: Date.now()
+});
+scheduler.scheduleTask({
+  id: '2',
+  action: async () => console.log('Low priority'),
+  priority: 1,
+  scheduledTime: Date.now()
+});
+```
+
+### 示例 5: 自动补全搜索索引
+
+```typescript
+import {Trie} from 'data-structure-typed';
+
+class SearchIndex {
+  private trie = new Trie();
+  private documents = new Map<string, string[]>();
+
+  indexDocument(docId: string, content: string): void {
+    const words = content.toLowerCase().split(/\s+/);
+
+    for (const word of words) {
+      // Insert word into trie
+      if (!this.trie.has(word)) {
+        this.trie.add(word);
+      }
+
+      // Track which documents contain this word
+      if (!this.documents.has(word)) {
+        this.documents.set(word, []);
+      }
+      this.documents.get(word)!.push(docId);
+    }
+  }
+
+  autocomplete(prefix: string): string[] {
+    const words = this.trie.getWords(prefix);
+    return words.filter((_word, index) => index < 10); // Top 10
+  }
+
+  search(query: string): string[] {
+    const word = query.toLowerCase();
+    return this.documents.get(word) || [];
+  }
+}
+
+// Usage
+const index = new SearchIndex();
+index.indexDocument('doc1', 'apple application');
+index.indexDocument('doc2', 'app store');
+
+console.log(index.autocomplete('app'));  // ['apple', 'application', 'app']
+console.log(index.search('apple'));      // ['doc1']
 ```
 
 ---
 
 ## 常见错误
 
-### ❌ 错误 1: 混合使用树和数组方法
+### 错误 1: 忘记转换回数组
 
 ```typescript
-// 不好：混合转换
+// ❌ 错误
 const tree = new RedBlackTree([5, 2, 8]);
-const arr = tree.toArray();
-arr.sort();  // 失去树的优势！
+const doubled = tree.map((_v, k) => [k * 2, undefined]);   // Still a tree!
+JSON.stringify(doubled);                                   // Error or wrong output
 ```
 
 ```typescript
-// 好：保持在树上
+// ✅ 正确
 const tree = new RedBlackTree([5, 2, 8]);
-const sorted = [...tree];  // 自动排序
+const doubled = tree.map((_v, k) => [k * 2, undefined]);
+JSON.stringify([...doubled.keys()]); // [4, 10, 16]
 ```
 
-### ❌ 错误 2: 忘记比较器
+### 错误 2: 迭代时修改结构
 
 ```typescript
-// 不好：默认升序
-const tree = new RedBlackTree([5, 2, 8]);
-[...tree];  // [2, 5, 8] 升序
-
-// 好：明确指定
-const descTree = new RedBlackTree([5, 2, 8], {
-  comparator: (a, b) => b - a  // 现在是降序
-});
-[...descTree];  // [8, 5, 2]
-```
-
-### ❌ 错误 3: 修改迭代中的结构
-
-```typescript
-// 不好：在迭代中修改
-const tree = new RedBlackTree([1, 2, 3]);
-for (const item of tree) {
-  if (item === 2) tree.delete(item);  // 危险！
+// ❌ 错误
+const tree = new RedBlackTree([1, 2, 3, 4, 5, 6]);
+for (const [key, _value] of tree) {
+  if (key % 2 === 0) tree.delete(key);  // Avoid this!
 }
+```
 
-// 好：收集然后修改
-const tree = new RedBlackTree([1, 2, 3]);
-const toRemove = [...tree].filter(x => x === 2);
-toRemove.forEach(x => tree.delete(x));
+```typescript
+// ✅ 正确
+const tree = new RedBlackTree([1, 2, 3, 4, 5, 6]);
+const toDelete = [];
+for (const [key, _value] of tree) {
+  if (key % 2 === 0) toDelete.push(key);
+}
+toDelete.forEach(v => tree.delete(v));
+```
+
+```typescript
+// ✅ 完美
+const tree = new RedBlackTree([1, 2, 3, 4, 5, 6]);
+tree.deleteWhere((node) => node.key % 2 === 0);
+```
+
+### 错误 3: 错误的数据结构选择
+
+```typescript
+// ❌ 错误 - using Array for sorted data with updates
+const scores = [];
+function addScore(score) {
+  scores.push(score);
+  scores.sort((a, b) => b - a);  // O(n log n) every time!
+}
+```
+
+```typescript
+// ✅ 正确 - using RedBlackTree
+const scores = new RedBlackTree();
+function addScore(score) {
+  scores.set(score, true);  // O(log n), auto-sorted
+}
 ```
 
 ---
 
 ## 最佳实践
 
-### ✅ 实践 1: 使用类型提示
+### 1. 提前选择数据结构
 
 ```typescript
-// 好：显式类型
-interface Task {
-  id: string;
-  priority: number;
-  done: boolean;
+// ❌ 不好: Convert later
+function processScores(scores: number[]) {
+  const sorted = [...scores].sort((a, b) => b - a);
+  return new RedBlackTree(sorted).filter(x => x > 50);  // Redundant
 }
-
-const tasks = new MaxPriorityQueue<Task>([], {
-  comparator: (a, b) => b.priority - a.priority
-});
-
-const nextTask: Task | null = tasks.poll();  // 类型安全
 ```
 
-### ✅ 实践 2: 首选链接而不是多次转换
+```typescript
+// ✅ 好: Decide upfront
+function processScores(scores: number[]) {
+  const tree = new RedBlackTree(scores);  // Already sorted
+  return tree.filter(x => x > 50).map((_v,k) => [k * 1.1, undefined]);
+}
+```
+
+### 2. 尽可能批量操作
 
 ```typescript
-// 不好：多次转换
-const result1 = tree.toArray().filter(x => x > 5);
-const result2 = result1.map(x => x * 2);
-const final = result2.reduce((a, b) => a + b, 0);
+// ❌ 不好: Individual inserts
+const tree = new RedBlackTree();
+for (const item of largeDataset) {
+  tree.set(item.id, item);  // Rebalances each time
+}
+```
 
-// 好：链接
-const final = tree
-  .filter(x => x > 5)
+```typescript
+// ✅ 好: Bulk insert
+const tree = new RedBlackTree(largeDataset);
+```
+
+### 3. 使用类型安全
+
+```typescript
+// ❌ 不好: No type checking
+const tree = new RedBlackTree();
+tree.set(1, { id: 1, name: 'Alice' });
+```
+
+```typescript
+// ✅ 好: Full type inference
+const tree = new RedBlackTree<number, User>();
+tree.set(1, { id: 1, name: 'Alice' });
+```
+
+### 4. 尽可能使用链式调用
+
+```typescript
+// ❌ 不好: Convert unnecessarily
+const result = [...tree]
+  .filter(x => x > 10)
   .map(x => x * 2)
-  .reduce((a, b) => a + b, 0);
+  .reduce((sum, x) => sum + x, 0);
 ```
 
-### ✅ 实践 3: 了解你的时间复杂度
-
 ```typescript
-// O(log n) 插入和查询
-const tree = new RedBlackTree([1, 2, 3]);
-tree.set(4, 'value');    // 快速！
-
-// O(1) 队列操作
-const queue = new Deque();
-queue.push(item);        // 快速！
-queue.shift();           // 快速！
-
-// O(1) 堆顶访问
-const heap = new MaxHeap([1, 2, 3]);
-const max = heap.peek(); // 快速！
+// ✅ 好: Stay on structure
+const result = tree
+  .filter(v => v > 10)
+  .map(v => [(v ?? 0) * 2, undefined])
+  .reduce((sum, v) => sum + (v ?? 0), 0);
 ```
 
 ---
 
-**需要集成帮助？** 查看 [INTEGRATIONS_CN.md](./INTEGRATIONS_CN.md) 了解 React、Express 和 Nest.js。
+**需要更多内容?** 查看 [INTEGRATIONS_CN.md](./INTEGRATIONS_CN.md) 了解框架集成示例。
 
-**想了解性能？** 查看 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md) 了解基准测试。
+**性能相关问题?** 参阅 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md)。

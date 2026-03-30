@@ -1,8 +1,10 @@
-# INTEGRATIONS_FULL: 框架集成指南完整版
+# INTEGRATIONS: 框架集成指南
 
-如何在 React、Express、Nest.js 和其他框架中使用 data-structure-typed。
+如何在 React、Express、Nest.js 等框架中使用 data-structure-typed。
 
-**[返回 README](../README_CN.md) • [代码示例](./GUIDES_CN.md) • [性能](./PERFORMANCE_CN.md)**
+**[返回 README](../README_CN.md) • [代码示例](./GUIDES_CN.md) • [性能测试](./PERFORMANCE_CN.md)**
+
+**[English](./INTEGRATIONS.md) | 简体中文**
 
 ---
 
@@ -12,23 +14,468 @@
 2. [Express 集成](#express-集成)
 3. [Nest.js 集成](#nestjs-集成)
 4. [TypeScript 配置](#typescript-配置)
-5. [导入模式](#导入模式)
-6. [常见集成模式](#常见集成模式)
+
+---
+
+## React 集成
+
+### 使用场景:有序状态管理
+
+```tsx
+import { useCallback, useMemo, useState } from 'react';
+import { RedBlackTree } from 'data-structure-typed';
+
+interface TodoItem {
+  id: number;
+  text: string;
+  completed: boolean;
+  priority: number;
+}
+
+/**
+ * ╔═════════════════════════════════════════════════════════════════════════╗
+ * ║ PERFORMANCE COMPARISON TABLE                                            ║
+ * ╠═════════════════╦═══════════════════╦═════════════════╦═════════════════╣
+ * ║ Operation       ║ RedBlackTree      ║ Array           ║ Speedup         ║
+ * ╠═════════════════╬═══════════════════╬═════════════════╬═════════════════╣
+ * ║ Add todo        ║ O(log n)          ║ O(n log n)      ║ Often much faster* ║
+ * ║ Delete todo     ║ O(log n)          ║ O(n)            ║ Often faster*      ║
+ * ║ Keep sorted     ║ Automatic ✓       ║ Manual sort ✗   ║ Less code          ║
+ * ║ Rebalancing     ║ Self-balancing ✓  ║ N/A             ║ N/A                ║
+ * ╠═════════════════╩═══════════════════╩═════════════════╩══════════════════╣
+ * ║ *See PERFORMANCE.md for measured benchmarks and how results scale.       ║
+ * ╚═════════════════════════════════════════════════════════════════════════╝
+ */
+export default function TodoApp() {
+  const [text, setText] = useState('');
+  const [priority, setPriority] = useState(5);
+
+  const [todos, setTodos] = useState(() =>
+    new RedBlackTree<TodoItem>([], {
+      // Comparator ensures todos are ALWAYS sorted by priority (descending)
+      // RedBlackTree maintains this order automatically on every insertion
+      // With Array, you'd need to manually sort() after each add → expensive!
+      comparator: (a, b) => b.priority - a.priority
+    }));
+
+  const addTodo = useCallback(() => {
+    if (!text.trim()) return;
+
+    setTodos((prev) => {
+      const next = prev.clone();
+
+      // This insertion maintains sorted order automatically
+      // The Red-Black Tree algorithm handles all the balancing
+      next.add({
+        id: Date.now(),
+        text: text.trim(),
+        completed: false,
+        priority: Math.max(1, Math.min(10, priority)),
+      });
+      return next;
+    });
+
+  }, [text, priority]);
+
+  /**
+   * Delete a todo efficiently
+   *
+   * Performance Analysis:
+   * ──────────────────
+   * ✅ RedBlackTree.delete(): O(log n)
+   *    - For 1000 items: ~10 tree operations
+   *    - No need to shift array elements
+   *    - Red-Black Tree rebalances automatically
+   *
+   * ❌ Array Alternative:
+   *    - Array.findIndex(): O(n) to find the item
+   *    - Array.splice(): O(n) to remove and shift all elements
+   *    - For 1000 items: ~500 operations per delete
+   *    - Note: Actual wall-clock impact depends on your workload (rendering, GC, object shapes, etc.).
+   */
+  const deleteTodo = useCallback((todo: TodoItem) => {
+    setTodos((prev) => {
+      const next = prev.clone();
+      next.delete(todo); // ← O(log n) deletion
+      return next;
+    });
+  }, []);
+
+  const todoList = useMemo(() => [...todos.keys()], [todos]);
+
+  return (
+    <div className="todo-app">
+      <h2>Priority Todos (Auto-Sorted)</h2>
+      <div className="input-section">
+        <input
+          type="text"
+          placeholder="Todo text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <input
+          type="number"
+          min="1"
+          max="10"
+          placeholder="Priority (1-10)"
+          value={priority}
+          onChange={(e) =>
+            setPriority(Math.max(1, Math.min(10, Number(e.target.value))))
+          }
+        />
+        <button onClick={addTodo} disabled={!text.trim()}>
+          Add Todo
+        </button>
+      </div>
+      <ul className="todo-list">
+        {todoList.map((todo) => (
+          <li key={todo.id} className={todo.completed ? 'completed' : ''}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => {
+                setTodos((prev) => {
+                  const next = prev.clone();
+
+                  // Delete the old todo object
+                  next.delete(todo);
+                  next.add({ ...todo, completed: !todo.completed });
+                  return next;
+                });
+              }}
+            />
+            <span>{todo.text}</span>
+            <span className="priority">P{todo.priority}</span>
+            <button onClick={() => deleteTodo(todo)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+---
+
+## Express 集成
+
+### 使用场景:LRU 缓存中间件
+
+```javascript
+const  {DoublyLinkedList} = require('data-structure-typed');
+
+class LRUCache {
+  constructor(capacity = 100) {
+    this.cache = new Map();
+    this.order = new DoublyLinkedList();
+    this.capacity = capacity;
+  }
+  get(key) {
+    if (!this.cache.has(key))
+      return null;
+    const { value, node } = this.cache.get(key);
+    // Move to end (most recently used)
+    this.order.delete(node);
+    const newNode = this.order.push(key);
+    this.cache.set(key, { value, node: newNode });
+    return value;
+  }
+  set(key, value) {
+    if (this.cache.has(key)) {
+      this.get(key); // Mark as recently used
+      this.cache.get(key).value = value;
+      return;
+    }
+    if (this.cache.size >= this.capacity) {
+      const lru = this.order.shift();
+      this.cache.delete(lru);
+    }
+    const node = this.order.push(key);
+    this.cache.set(key, { value, node });
+  }
+}
+
+module.exports = LRUCache;
+```
+
+```javascript
+// Usage in Express
+const app = express();
+const responseCache = new LRUCache(50);
+app.use((req, res, next) => {
+  const cachedResponse = responseCache.get(req.url);
+  if (cachedResponse) {
+    return res.status(cachedResponse.status).json(cachedResponse.data);
+  }
+  // Wrap original send to cache response
+  const originalSend = res.send;
+  res.send = function (data) {
+    responseCache.set(req.url, { status: res.statusCode, data });
+    return originalSend.call(this, data);
+  };
+  next();
+});
+app.get('/api/data', (req, res) => {
+  res.json({ message: 'Cached response' });
+});
+app.listen(3000);
+```
+
+### 使用场景:使用 Deque 实现速率限制
+
+```typescript
+import { Deque } from 'data-structure-typed';
+
+class RateLimiter {
+  private requests = new Map<string, Deque<number>>();
+  private limit: number;
+  private windowMs: number;
+
+  constructor(limit: number = 100, windowMs: number = 60000) {
+    this.limit = limit;
+    this.windowMs = windowMs;
+  }
+
+  isAllowed(clientId: string): boolean {
+    const now = Date.now();
+
+    if (!this.requests.has(clientId)) {
+      this.requests.set(clientId, new Deque());
+    }
+
+    const deque = this.requests.get(clientId)!;
+
+    // Remove old requests outside window
+    while (!deque.isEmpty && deque.peekFirst()! < now - this.windowMs) {
+      deque.shift();
+    }
+
+    // Check limit
+    if (deque.size >= this.limit) {
+      return false;
+    }
+
+    // Add new request
+    deque.push(now);
+    return true;
+  }
+}
+
+// Usage in Express
+const app = express();
+const limiter = new RateLimiter(10, 60000); // 10 requests per minute
+
+app.use((req: Request, res: Response, next: Function) => {
+  const clientId = req.ip;
+
+  if (!limiter.isAllowed(clientId)) {
+    return res.status(429).json({ error: 'Too many requests' });
+  }
+
+  next();
+});
+
+app.get('/api/data', (req, res) => {
+  res.json({ data: 'Your data here' });
+});
+```
 
 ---
 
 ## Nest.js 集成
 
-### 使用场景：优先级任务队列
+### 使用场景:产品价格索引服务
+
+> 完整可运行的演示: [StackBlitz NestJS Playground](https://stackblitz.com/github/zrwusa/dst-playgrounds/tree/main/apps/nestjs?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts&title=data-structure-typed%20%E2%80%94%20NestJS%20Product%20API)
 
 ```typescript
-import { Module, Controller, Post, Get, Body } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+
+import { Range, RedBlackTree } from 'data-structure-typed';
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  category: string;
+  lastUpdated?: Date;
+}
+
+interface CompositeKey {
+  price: number;
+  productId: string;
+}
+
+export type TierName = 'budget' | 'mid-range' | 'premium';
+
+/**
+ * Product Price Index Service using Red-Black Tree with Composite Keys
+ *
+ * ⭐ Performance vs Alternatives:
+ *
+ * Operation          | RBTree(this approach) | Array     | HashMap + Sort
+ * -------------------|-----------------------|-----------|---------------
+ * Range Query        | O(log n + k)          | O(n)      | O(k log k)
+ * Point Lookup       | O(1)                  | O(1)      | O(1)
+ * Insert/Update      | O(log n)              | O(n)      | O(log n)
+ * Sort by Price      | O(n)                  | O(n log n)| O(n log n)
+ * Pagination         | O(log n + k)          | O(n log n)| O(n log n)
+ * Rank/Percentile    | O(log n)              | O(n)      | O(n log n)
+ */
+@Injectable()
+export class ProductPriceIndexService {
+  private priceIndex: RedBlackTree<CompositeKey, Product>;
+  private idToKeyMap: Map<string, CompositeKey>;
+
+  constructor() {
+    this.priceIndex = new RedBlackTree([], {
+      comparator: (a: CompositeKey, b: CompositeKey) => {
+        const priceCmp = a.price - b.price;
+        if (priceCmp !== 0) return priceCmp;
+        return a.productId.localeCompare(b.productId);
+      },
+      enableOrderStatistic: true, // Enables getRank/getByRank/rangeByRank
+    });
+    this.idToKeyMap = new Map();
+  }
+
+  /** O(log n) */
+  addProduct(product: Product): Product {
+    if (this.idToKeyMap.has(product.id))
+      throw new BadRequestException(`Product ${product.id} already exists`);
+
+    product.lastUpdated = new Date();
+    const key: CompositeKey = { price: product.price, productId: product.id };
+    this.priceIndex.set(key, product);
+    this.idToKeyMap.set(product.id, key);
+    return product;
+  }
+
+  /** O(1) — HashMap lookup */
+  getProductById(productId: string): Product {
+    const key = this.idToKeyMap.get(productId);
+    if (key === undefined)
+      throw new NotFoundException(`Product ${productId} not found`);
+    return this.priceIndex.get(key)!;
+  }
+
+  /** O(log n + k) — directly returns values, no secondary lookup */
+  getProductsByPriceRange(minPrice: number, maxPrice: number): Product[] {
+    const range = new Range(
+      { price: minPrice, productId: '' },
+      { price: maxPrice, productId: '\uffff' },
+      true,
+      true,
+    );
+    return this.priceIndex.rangeSearch(range, (n) => n.value!);
+  }
+
+  /** O(log n) — NavigableMap floor() */
+  getHighestPricedProductWithinBudget(maxBudget: number): Product | null {
+    const key: CompositeKey = { price: maxBudget, productId: '\uffff' };
+    const floorKey = this.priceIndex.floor(key);
+    return floorKey ? this.priceIndex.get(floorKey)! : null;
+  }
+
+  /** O(n) — iterator protocol, one-liner */
+  getAllProductsSortedByPrice(): Product[] {
+    return [...this.priceIndex.values()];
+  }
+
+  /**
+   * O(n) for totalValue, O(log n) for min/max
+   * min/max use getLeftMost/getRightMost instead of full traversal
+   */
+  getStatistics() {
+    if (this.idToKeyMap.size === 0)
+      return { totalProducts: 0, priceRange: { min: 0, max: 0 }, averagePrice: 0, totalValue: 0 };
+
+    const minKey = this.priceIndex.getLeftMost();
+    const maxKey = this.priceIndex.getRightMost();
+
+    let totalValue = 0;
+    let totalProducts = 0;
+    for (const [, product] of this.priceIndex) {
+      totalValue += product.price * product.quantity;
+      totalProducts += product.quantity;
+    }
+
+    return {
+      totalProducts,
+      priceRange: { min: minKey?.price ?? 0, max: maxKey?.price ?? 0 },
+      averagePrice: totalValue / totalProducts,
+      totalValue,
+    };
+  }
+
+  // ── Order-Statistic API (rank-based queries) ──────────────────────
+
+  /** O(log n + pageSize) — rank-based pagination */
+  getProductsByPage(page: number, pageSize: number): Product[] {
+    const start = page * pageSize;
+    const end = Math.min(start + pageSize - 1, this.priceIndex.size - 1);
+    if (start >= this.priceIndex.size) return [];
+    const keys = this.priceIndex.rangeByRank(start, end);
+    return keys.map((key) => this.priceIndex.get(key)!);
+  }
+
+  /** O(log n) — what % of products are cheaper */
+  getPricePercentile(productId: string): number {
+    const key = this.idToKeyMap.get(productId);
+    if (!key) throw new NotFoundException(`Product ${productId} not found`);
+    return (this.priceIndex.getRank(key) / this.priceIndex.size) * 100;
+  }
+
+  /** O(log n) — median product */
+  getMedianProduct(): Product | null {
+    if (this.priceIndex.size === 0) return null;
+    const key = this.priceIndex.getByRank(Math.floor((this.priceIndex.size - 1) / 2));
+    return key ? this.priceIndex.get(key)! : null;
+  }
+
+  /** O(log n + k) — top N cheapest */
+  getTopNCheapest(n: number): Product[] {
+    const end = Math.min(n - 1, this.priceIndex.size - 1);
+    if (end < 0) return [];
+    return this.priceIndex.rangeByRank(0, end).map((key) => this.priceIndex.get(key)!);
+  }
+
+  /** O(log n + k) — top N most expensive */
+  getTopNExpensive(n: number): Product[] {
+    const size = this.priceIndex.size;
+    if (size === 0) return [];
+    const start = Math.max(size - n, 0);
+    return this.priceIndex.rangeByRank(start, size - 1)
+      .map((key) => this.priceIndex.get(key)!)
+      .reverse();
+  }
+
+  /** O(log n) — dynamic tier by percentile, no hardcoded price ranges */
+  getTierByPercentile(productId: string): TierName {
+    const pct = this.getPricePercentile(productId);
+    if (pct < 33) return 'budget';
+    if (pct < 66) return 'mid-range';
+    return 'premium';
+  }
+}
+```
+
+### 使用场景:任务队列控制器
+
+```typescript
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { MaxPriorityQueue } from 'data-structure-typed';
 
-interface QueuedTask {
+export interface QueuedTask {
   id: string;
+  action: string;
   priority: number;
-  action: () => Promise<void>;
+  createdAt: Date;
 }
 
 @Controller('tasks')
@@ -60,18 +507,13 @@ export class TaskController {
     return { size: this.taskQueue.size };
   }
 }
-
-@Module({
-  controllers: [TaskController],
-})
-export class TaskModule {}
 ```
 
 ---
 
 ## TypeScript 配置
 
-### 针对 data-structure-typed 的 tsconfig.json
+### 适用于 data-structure-typed 的 tsconfig.json
 
 ```json
 {
@@ -91,7 +533,7 @@ export class TaskModule {}
 }
 ```
 
-### Package.json 设置
+### Package.json 配置
 
 ```json
 {
@@ -109,38 +551,38 @@ export class TaskModule {}
 
 ## 导入模式
 
-### 所有结构
+### 所有数据结构
 
 ```typescript
 import {
-  // 树结构
+  // Trees
   BST,
   AVLTree,
   RedBlackTree,
   BSTNode,
   TreeMultiMap,
-  
-  // 线性结构
+
+  // Linear
   Stack,
   Queue,
   Deque,
   LinkedList,
   SinglyLinkedList,
   DoublyLinkedList,
-  
-  // 堆结构
+
+  // Heap
   Heap,
   MinHeap,
   MaxHeap,
   MinPriorityQueue,
   MaxPriorityQueue,
-  
-  // 特殊结构
+
+  // Special
   Trie,
   DirectedGraph,
   UndirectedGraph,
-  
-  // 工具
+
+  // Utilities
   SegmentTree,
   FenwickTree
 } from 'data-structure-typed';
@@ -155,10 +597,10 @@ import { RedBlackTree } from 'data-structure-typed';
 // CommonJS
 const { RedBlackTree } = require('data-structure-typed');
 
-// TypeScript 完整类型
+// TypeScript with full typing
 import { RedBlackTree } from 'data-structure-typed/dist/esm/red-black-tree';
 
-// CDN（浏览器）
+// CDN (for browsers)
 <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js"></script>
 <script>
   const tree = new DataStructureTyped.RedBlackTree();
@@ -169,7 +611,7 @@ import { RedBlackTree } from 'data-structure-typed/dist/esm/red-black-tree';
 
 ## 常见集成模式
 
-### 模式 1: 依赖注入（Nest.js）
+### 模式 1: 依赖注入 (Nest.js)
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -181,7 +623,7 @@ import { ProductInventoryService } from './product-inventory.service';
 })
 export class ProductInventoryModule {}
 
-// 在其他服务中使用
+// Use in other services
 @Injectable()
 export class OutherService {
   constructor(private inventoryService: ProductInventoryService) {}
@@ -219,13 +661,13 @@ function useSortedList<T>(initialData: T[] = []) {
   return {add, remove, getAll};
 }
 
-// 使用
+// Usage
 function MyComponent() {
   const {add, remove, getAll} = useSortedList<string>([]);
 
   return (
     <div>
-      <button onClick={() => add(1, 'Item 1')}>添加项目</button>
+      <button onClick={() => add(1, 'Item 1')}>Add Item</button>
       <ul>
         {getAll().map((item, i) => (
           <li key={i} onClick={() => remove(i)}>{item}</li>
@@ -240,9 +682,9 @@ export default MyComponent;
 
 ---
 
-## 故障排除
+## 故障排查
 
-### 问题：导入错误
+### 问题:导入错误
 
 ```typescript
 // ❌ 错误
@@ -252,25 +694,25 @@ import RedBlackTree from 'data-structure-typed';
 import { RedBlackTree } from 'data-structure-typed';
 ```
 
-### 问题：找不到类型
+### 问题:类型未找到
 
 ```shell
-// 确保 TypeScript 配置正确
-// 并且你有最新的类型定义
+// Make sure TypeScript configuration is correct
+// and you have the latest type definitions
 npm update data-structure-typed
 ```
 
-### 问题：开发中性能低
+### 问题:开发环境性能问题
 
 ```shell
-# 开发模式因为热重载而较慢
-# 使用生产构建进行基准测试：
+// Development mode is slower due to hot reload
+// Use production build for benchmarking:
 npm run build
 NODE_ENV=production node your-app.js
 ```
 
 ---
 
-**需要更多例子？** 查看 [GUIDES_CN.md](./GUIDES_CN.md) 了解更多模式。
+**需要更多示例?** 查看 [GUIDES_CN.md](./GUIDES_CN.md) 了解更多模式。
 
-**性能问题？** 查看 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md)。
+**性能相关问题?** 参阅 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md)。
