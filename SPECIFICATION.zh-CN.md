@@ -101,21 +101,25 @@
 
 ```typescript
 // 添加操作
-structure.push(element: T): number          // 添加到末尾，返回长度
-structure.unshift(element: T): number       // 添加到开头，返回长度
+structure.push(element: T): boolean         // 添加到末尾
+structure.unshift(element: T): boolean      // 添加到开头
 
 // 删除操作
 structure.pop(): T | undefined              // 从末尾删除
 structure.shift(): T | undefined            // 从开头删除
+structure.delete(element: T): boolean       // 删除第一个匹配
+structure.deleteAt(index: number): T | undefined  // 按索引删除
+structure.deleteWhere(pred: Function): boolean     // 按条件删除第一个匹配
 
 // 查看操作（读取但不删除）
-structure.peek(): T | undefined             // 查看最后一个元素
-structure.peekFirst(): T | undefined        // 查看第一个元素（Deque）
-structure.peekLast(): T | undefined         // 查看最后一个元素（Deque）
+structure.peek(): T | undefined             // 查看队头元素（Queue/Deque/Stack）
+structure.first: T | undefined              // 查看第一个元素（getter）
+structure.last: T | undefined               // 查看最后一个元素（getter）
 
 // 大小和查询
-structure.size: number                      // 元素数量
-structure.isEmpty: boolean                  // 检查是否为空
+structure.size: number                      // 元素数量（Stack、Trie 等）
+structure.length: number                    // 元素数量（Queue、Deque、LinkedList）
+structure.isEmpty(): boolean                // 检查是否为空
 ```
 
 ### 树和映射 API
@@ -124,8 +128,8 @@ structure.isEmpty: boolean                  // 检查是否为空
 
 ```typescript
 // 添加/更新
-structure.set(key: K, value: V): this
-structure.setMany(entries: [K, V][]): this
+structure.set(key: K, value: V): this       // 返回 this 支持链式调用（Map/HashMap）
+structure.setMany(entries: [K, V][]): boolean[]
 
 // 查询
 structure.get(key: K): V | undefined
@@ -134,6 +138,7 @@ structure.size: number
 
 // 删除
 structure.delete(key: K): boolean
+structure.deleteWhere(pred: Function): boolean  // TreeMap/TreeSet/LinkedHashMap
 structure.clear(): void
 
 // 迭代
@@ -148,17 +153,18 @@ structure.entries(): IterableIterator<[K, V]>
 
 ```typescript
 // 添加/删除
-heap.push(element: T): number               // 添加元素
-heap.add(element: T): number                // push 的别名
-heap.pop(): T | undefined                  // 删除最高/最低优先级
-heap.poll(): T | undefined                 // pop 的别名
+heap.add(element: T): boolean               // 添加元素
+heap.pop(): T | undefined                   // 删除最高/最低优先级
+heap.poll(): T | undefined                  // 已废弃 — 请使用 pop()
+heap.delete(element: T): boolean            // 删除第一个匹配
+heap.deleteWhere(pred: Function): boolean   // 按条件删除第一个匹配
 
 // 查看
 heap.peek(): T | undefined                 // 查看最高/最低优先级但不删除
 
 // 查询
 heap.size: number
-heap.isEmpty: boolean
+heap.isEmpty(): boolean
 ```
 
 ### 数组方法（所有结构上可用）

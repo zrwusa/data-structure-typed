@@ -101,21 +101,25 @@
 
 ```typescript
 // Add operations
-structure.push(element: T): number          // Add to end, return length
-structure.unshift(element: T): number       // Add to start, return length
+structure.push(element: T): boolean         // Add to end
+structure.unshift(element: T): boolean      // Add to start
 
 // Remove operations
 structure.pop(): T | undefined              // Remove from end
 structure.shift(): T | undefined            // Remove from start
+structure.delete(element: T): boolean       // Remove first match
+structure.deleteAt(index: number): T | undefined  // Remove at index
+structure.deleteWhere(pred: Function): boolean     // Remove first match by predicate
 
 // Peek operations (read without removing)
-structure.peek(): T | undefined             // View last element
-structure.peekFirst(): T | undefined        // View first element (Deque)
-structure.peekLast(): T | undefined         // View last element (Deque)
+structure.peek(): T | undefined             // View front element (Queue/Deque/Stack)
+structure.first: T | undefined              // View first element (getter)
+structure.last: T | undefined               // View last element (getter)
 
 // Size and queries
-structure.size: number                      // Element count
-structure.isEmpty: boolean                  // Check if empty
+structure.size: number                      // Element count (Stack, Trie, etc.)
+structure.length: number                    // Element count (Queue, Deque, LinkedList)
+structure.isEmpty(): boolean                // Check if empty
 ```
 
 ### Tree & Map API
@@ -124,8 +128,8 @@ structure.isEmpty: boolean                  // Check if empty
 
 ```typescript
 // Add/update
-structure.set(key: K, value: V): this
-structure.setMany(entries: [K, V][]): this
+structure.set(key: K, value: V): this       // Returns this for chaining (Map/HashMap)
+structure.setMany(entries: [K, V][]): boolean[]
 
 // Query
 structure.get(key: K): V | undefined
@@ -134,6 +138,7 @@ structure.size: number
 
 // Remove
 structure.delete(key: K): boolean
+structure.deleteWhere(pred: Function): boolean  // TreeMap/TreeSet/LinkedHashMap
 structure.clear(): void
 
 // Iteration
@@ -148,17 +153,18 @@ structure.entries(): IterableIterator<[K, V]>
 
 ```typescript
 // Add/remove
-heap.push(element: T): number               // Add element
-heap.add(element: T): number                // Alias for push
-heap.pop(): T | undefined                  // Remove highest/lowest priority
-heap.poll(): T | undefined                 // Alias for pop
+heap.add(element: T): boolean               // Add element
+heap.pop(): T | undefined                   // Remove highest/lowest priority
+heap.poll(): T | undefined                  // Deprecated — use pop()
+heap.delete(element: T): boolean            // Remove first match
+heap.deleteWhere(pred: Function): boolean   // Remove first match by predicate
 
 // Peek
 heap.peek(): T | undefined                 // View highest/lowest without removing
 
 // Query
 heap.size: number
-heap.isEmpty: boolean
+heap.isEmpty(): boolean
 ```
 
 ### Array Methods (Available on All Structures)

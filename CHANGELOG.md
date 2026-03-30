@@ -10,6 +10,32 @@ All notable changes to this project will be documented in this file.
 
 ## [v2.5.2](https://github.com/zrwusa/data-structure-typed/compare/v2.5.1...main) (upcoming)
 
+### Breaking Changes
+
+- **HashMap/LinkedHashMap.set()** now returns `this` instead of `boolean` (aligns with JS Map spec)
+- **BinaryTree/BST/AVL/RBT.delete()** now returns `boolean` instead of `BinaryTreeDeleteResult[]`
+- **BST.deleteWhere()** now returns `boolean` instead of `BinaryTreeDeleteResult[]`
+- **Stack.deleteAt()** now returns `E | undefined` instead of `boolean` (consistent with other containers)
+- **LinkedHashMap.deleteAt()** now returns `[K, V] | undefined` instead of `boolean`
+- **FibonacciHeap.push()** now returns `boolean` instead of `this`
+- **Heap.refill()** removed (use `clear()` then `addMany()`)
+- **BinaryTree.refill()** removed (use `clear()` then `setMany()`)
+
+### New Features
+
+- **TreeMap.deleteWhere()** — delete entries matching a predicate
+- **TreeSet.deleteWhere()** — delete keys matching a predicate
+- **DoublyLinkedList.deleteWhere()** — delete first match by predicate
+- **Queue.deleteWhere()** — delete first match by predicate
+- **Heap.deleteWhere()** — unified naming (Heap.deleteBy() deprecated)
+- **Queue.peek()** / **Deque.peek()** — alias for `first` getter
+- **Heap.pop()** — primary method for removing top element (Heap.poll() deprecated)
+
+### Fixes
+
+- **HashMap.filter()** returns `this` instead of `any`
+- **DirectedGraph/UndirectedGraph.clear()** now explicitly typed as `void`
+
 ## [v2.5.1](https://github.com/zrwusa/data-structure-typed/compare/v2.5.0...v2.5.1) (28 March 2026)
 
 ## [v2.5.0](https://github.com/zrwusa/data-structure-typed/compare/v2.4.3...v2.5.0) (27 March 2026)

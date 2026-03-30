@@ -359,7 +359,7 @@ const taskQueue = new MaxPriorityQueue<{priority: number; task: string}>([], {
 taskQueue.add({ priority: 5, task: 'Email' });
 taskQueue.add({ priority: 9, task: 'Alert' });  // Instant priority handling
 
-const nextTask = taskQueue.poll();  // { priority: 9, task: 'Alert' }
+const nextTask = taskQueue.pop();  // { priority: 9, task: 'Alert' }
 ```
 
 ### Fast Queue (FIFO)

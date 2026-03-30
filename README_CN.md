@@ -227,7 +227,7 @@ const taskQueue = new MaxPriorityQueue<{priority: number; task: string}>([], {
 taskQueue.add({ priority: 5, task: 'Email' });
 taskQueue.add({ priority: 9, task: 'Alert' });  // 即时优先级处理
 
-const nextTask = taskQueue.poll();  // { priority: 9, task: 'Alert' }
+const nextTask = taskQueue.pop();  // { priority: 9, task: 'Alert' }
 ```
 
 ### 快速队列 (FIFO)
