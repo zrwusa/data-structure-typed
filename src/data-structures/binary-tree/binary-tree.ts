@@ -216,7 +216,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *       node?: BinaryTreeNode<string> | null,
  *       conditions?: { [key: string]: boolean }
  *     ): string {
- *       if (!node) raise(Error, 'Invalid node');
+ *       if (!node) throw new Error('Invalid node');
  *
  *       // If it's a leaf node, return the decision result
  *       if (!node.left && !node.right) return node.key;
@@ -261,7 +261,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *         case '/':
  *           return rightValue !== 0 ? leftValue / rightValue : 0; // Handle division by zero
  *         default:
- *           raise(Error, `Unsupported operator: ${node.key}`);
+ *           throw new Error(`Unsupported operator: ${node.key}`);
  *       }
  *     }
  *
@@ -596,6 +596,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Add a single node
  *  const tree = new BinaryTree<number>();
@@ -618,6 +621,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param keyNodeOrEntry - The key, node, or entry to set or update.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
+   
+   
    
    
    
@@ -772,6 +778,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Bulk add
  *  const tree = new BinaryTree<number>();
@@ -793,6 +802,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param keysNodesEntriesOrRaws - An iterable of items to set or update.
    * @param [values] - An optional parallel iterable of values.
    * @returns An array of booleans indicating the success of each individual `set` operation.
+   
+   
+   
    
    
    
@@ -892,6 +904,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Combine trees
  *  const t1 = new BinaryTree<number>([1, 2]);
@@ -904,20 +919,64 @@ export class BinaryTree<K = any, V = any, R = any>
   }
 
   /**
-   * Clears the tree and refills it with new items.
-   * @remarks Time O(N) (for `clear`) + O(N * M) (for `setMany`) = O(N * M). Space O(M) (from `setMany`).
+   * Deletes a node from the tree (internal, returns balancing metadata).
+   * @remarks Time O(N) — O(N) to find the node + O(H) for predecessor swap. Space O(1). BST/Red-Black Tree/AVL Tree subclasses override to O(log N).
+   * @internal Used by AVL/BST subclasses that need balancing metadata after deletion.
    *
-   * @param keysNodesEntriesOrRaws - An iterable of items to set.
-   * @param [values] - An optional parallel iterable of values.
+   * @param keyNodeEntryRawOrPredicate - The node to delete.
+   * @returns An array containing deletion results with balancing metadata.
    */
-  refill(
-    keysNodesEntriesOrRaws: Iterable<
-      K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
-    >,
-    values?: Iterable<V | undefined>
-  ): void {
-    this.clear();
-    this.setMany(keysNodesEntriesOrRaws, values);
+  protected _deleteInternal(
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
+  ): BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[] {
+    const deletedResult: BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[] = [];
+    if (!this._root) return deletedResult;
+
+    const curr = this.getNode(keyNodeEntryRawOrPredicate);
+    if (!curr) return deletedResult;
+
+    const parent: BinaryTreeNode<K, V> | undefined = curr?.parent;
+    let needBalanced: BinaryTreeNode<K, V> | undefined;
+    let orgCurrent: BinaryTreeNode<K, V> | undefined = curr;
+
+    if (!curr.left && !curr.right && !parent) {
+      this._setRoot(undefined);
+    } else if (curr.left) {
+      const leftSubTreeRightMost = this.getRightMost(node => node, curr.left);
+      if (leftSubTreeRightMost) {
+        const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
+        orgCurrent = this._swapProperties(curr, leftSubTreeRightMost);
+
+        if (this._isMapMode) {
+          this._store.set(curr.key, curr);
+          this._store.set(leftSubTreeRightMost.key, leftSubTreeRightMost);
+        }
+
+        if (parentOfLeftSubTreeMax) {
+          if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost)
+            parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+          else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
+          needBalanced = parentOfLeftSubTreeMax;
+        }
+      }
+    } else if (parent) {
+      const { familyPosition: fp } = curr;
+      if (fp === 'LEFT' || fp === 'ROOT_LEFT') {
+        parent.left = curr.right;
+      } else if (fp === 'RIGHT' || fp === 'ROOT_RIGHT') {
+        parent.right = curr.right;
+      }
+      needBalanced = parent;
+    } else {
+      this._setRoot(curr.right);
+      curr.right = undefined;
+    }
+
+    this._size = this._size - 1;
+
+    deletedResult.push({ deleted: orgCurrent, needBalanced });
+    if (this._isMapMode && orgCurrent) this._store.delete(orgCurrent.key);
+    return deletedResult;
   }
 
   /**
@@ -925,7 +984,10 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(N) — O(N) to find the node + O(H) for predecessor swap. Space O(1). BST/Red-Black Tree/AVL Tree subclasses override to O(log N).
    *
    * @param keyNodeEntryRawOrPredicate - The node to delete.
-   * @returns An array containing deletion results (for compatibility with self-balancing trees).
+   * @returns True if the node was found and deleted, false otherwise.
+   
+   
+   
    
    
    
@@ -970,71 +1032,16 @@ export class BinaryTree<K = any, V = any, R = any>
    */
   delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
-  ): BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[] {
-    const deletedResult: BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[] = [];
-    if (!this._root) return deletedResult;
-
-    const curr = this.getNode(keyNodeEntryRawOrPredicate);
-    if (!curr) return deletedResult;
-
-    const parent: BinaryTreeNode<K, V> | undefined = curr?.parent;
-    let needBalanced: BinaryTreeNode<K, V> | undefined;
-    let orgCurrent: BinaryTreeNode<K, V> | undefined = curr;
-
-    if (!curr.left && !curr.right && !parent) {
-      // Deleting the root with no children
-      this._setRoot(undefined);
-    } else if (curr.left) {
-      // Node has a left child (or two children)
-      // Find the rightmost node in the left subtree
-      const leftSubTreeRightMost = this.getRightMost(node => node, curr.left);
-      if (leftSubTreeRightMost) {
-        const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
-        // Swap properties
-        orgCurrent = this._swapProperties(curr, leftSubTreeRightMost);
-
-        // Map mode store tracks key -> node reference; after swapping keys we must re-index both nodes.
-        if (this._isMapMode) {
-          this._store.set(curr.key, curr);
-          this._store.set(leftSubTreeRightMost.key, leftSubTreeRightMost);
-        }
-
-        // `orgCurrent` is now the node to be physically deleted (which was the rightmost)
-        if (parentOfLeftSubTreeMax) {
-          // Unlink the rightmost node
-          if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost)
-            parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
-          else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
-          needBalanced = parentOfLeftSubTreeMax;
-        }
-      }
-    } else if (parent) {
-      // Node has no left child, but has a parent
-      // Promote the right child (which could be null)
-      const { familyPosition: fp } = curr;
-      if (fp === 'LEFT' || fp === 'ROOT_LEFT') {
-        parent.left = curr.right;
-      } else if (fp === 'RIGHT' || fp === 'ROOT_RIGHT') {
-        parent.right = curr.right;
-      }
-      needBalanced = parent;
-    } else {
-      // Deleting the root, which has no left child
-      // Promote the right child as the new root
-      this._setRoot(curr.right);
-      curr.right = undefined;
-    }
-
-    this._size = this._size - 1;
-
-    deletedResult.push({ deleted: orgCurrent, needBalanced });
-    if (this._isMapMode && orgCurrent) this._store.delete(orgCurrent.key);
-    return deletedResult;
+  ): boolean {
+    return this._deleteInternal(keyNodeEntryRawOrPredicate).length > 0;
   }
 
     /**
    * Search by predicate
   
+   
+   
+   
    
    
    
@@ -1196,6 +1203,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Get nodes by condition
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1238,6 +1248,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The first matching node, or undefined if not found.
+   
+   
+   
    
    
    
@@ -1340,6 +1353,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Retrieve value by key
  *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
@@ -1367,6 +1383,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode] - The node to start the search from.
    * @param [iterationType] - The traversal method.
    * @returns True if a matching node exists, false otherwise.
+   
+   
+   
    
    
    
@@ -1500,6 +1519,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Remove all nodes
  *  const tree = new BinaryTree<number>([1, 2, 3]);
@@ -1516,6 +1538,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(1), Space O(1)
    *
    * @returns True if the tree has no nodes, false otherwise.
+   
+   
+   
    
    
    
@@ -1577,6 +1602,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start checking from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns True if it's a valid BST, false otherwise.
+   
+   
+   
    
    
    
@@ -1701,6 +1729,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Get depth of a node
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1731,6 +1762,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start measuring from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The height ( -1 for an empty tree, 0 for a single-node tree).
+   
+   
+   
    
    
    
@@ -2072,6 +2106,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Depth-first search traversal
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -2126,6 +2163,9 @@ export class BinaryTree<K = any, V = any, R = any>
     /**
    * BinaryTree level-order traversal
   
+   
+   
+   
    
    
    
@@ -2307,6 +2347,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Get leaf nodes
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -2376,6 +2419,9 @@ export class BinaryTree<K = any, V = any, R = any>
     /**
    * Level-order grouping
   
+   
+   
+   
    
    
    
@@ -2494,6 +2540,9 @@ export class BinaryTree<K = any, V = any, R = any>
     /**
    * Morris traversal (O(1) space)
   
+   
+   
+   
    
    
    
@@ -2687,6 +2736,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Deep copy
  *  const tree = new BinaryTree<number>([1, 2, 3]);
@@ -2707,6 +2759,9 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param predicate - A function to test each [key, value] pair.
    * @param [thisArg] - `this` context for the predicate.
    * @returns A new, filtered tree.
+   
+   
+   
    
    
    
@@ -2797,6 +2852,9 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
+   
+   
     * @example
  * // Transform to new tree
  *  const tree = new BinaryTree<number, number>([[1, 10], [2, 20]]);
@@ -2854,6 +2912,9 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param [options] - Options to control the output.
    * @param [startNode=this._root] - The node to start printing from.
+   
+   
+   
    
    
    

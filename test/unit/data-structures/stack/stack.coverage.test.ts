@@ -33,15 +33,15 @@ describe('Stack coverage', () => {
     expect(s.delete(999)).toBe(false);
 
     // bounds
-    expect(s.deleteAt(-1)).toBe(false);
-    expect(s.deleteAt(999)).toBe(false);
+    expect(s.deleteAt(-1)).toBeUndefined();
+    expect(s.deleteAt(999)).toBeUndefined();
 
     // delete first matching occurrence (bottom-up)
     expect(s.delete(2)).toBe(true);
     expect([...s]).toEqual([1, 3, 2]);
 
-    // deleteAt valid
-    expect(s.deleteAt(1)).toBe(true);
+    // deleteAt valid - returns the removed element
+    expect(s.deleteAt(1)).toBe(3);
     expect([...s]).toEqual([1, 2]);
   });
 

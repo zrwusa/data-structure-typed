@@ -42,56 +42,56 @@ describe('AVL Tree Test', () => {
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
 
-    expect(avlTree.delete(avlTree.getNode(11))[0].deleted?.key).toBe(11);
+    expect(avlTree.delete(avlTree.getNode(11))).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(node15 && avlTree.getHeight(node15)).toBe(1);
 
-    expect(avlTree.delete(1)[0].deleted?.key).toBe(1);
+    expect(avlTree.delete(1)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(4);
 
-    expect(avlTree.delete(4)[0].deleted?.key).toBe(4);
+    expect(avlTree.delete(4)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(4);
 
-    expect(avlTree.delete(10)[0].deleted?.key).toBe(10);
+    expect(avlTree.delete(10)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(15)[0].deleted?.key).toBe(15);
+    expect(avlTree.delete(15)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
 
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(5)[0].deleted?.key).toBe(5);
+    expect(avlTree.delete(5)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(13)[0].deleted?.key).toBe(13);
+    expect(avlTree.delete(13)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(3)[0].deleted?.key).toBe(3);
+    expect(avlTree.delete(3)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(8)[0].deleted?.key).toBe(8);
+    expect(avlTree.delete(8)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(6)[0].deleted?.key).toBe(6);
-    expect(avlTree.delete(6).length).toBe(0);
+    expect(avlTree.delete(6)).toBe(true);
+    expect(avlTree.delete(6)).toBe(false);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(2);
 
-    expect(avlTree.delete(7)[0].deleted?.key).toBe(7);
+    expect(avlTree.delete(7)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(2);
 
-    expect(avlTree.delete(9)[0].deleted?.key).toBe(9);
+    expect(avlTree.delete(9)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(2);
-    expect(avlTree.delete(14)[0].deleted?.key).toBe(14);
+    expect(avlTree.delete(14)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(1);
 
@@ -170,56 +170,56 @@ describe('AVL Tree Test recursively', () => {
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
 
-    expect(avlTree.delete(11)[0].deleted?.key).toBe(11);
+    expect(avlTree.delete(11)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(node15 && avlTree.getHeight(node15)).toBe(1);
 
-    expect(avlTree.delete(1)[0].deleted?.key).toBe(1);
+    expect(avlTree.delete(1)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(4);
 
-    expect(avlTree.delete(4)[0].deleted?.key).toBe(4);
+    expect(avlTree.delete(4)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(4);
 
-    expect(avlTree.delete(10)[0].deleted?.key).toBe(10);
+    expect(avlTree.delete(10)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(15)[0].deleted?.key).toBe(15);
+    expect(avlTree.delete(15)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
 
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(5)[0].deleted?.key).toBe(5);
+    expect(avlTree.delete(5)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(13)[0].deleted?.key).toBe(13);
+    expect(avlTree.delete(13)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(3)[0].deleted?.key).toBe(3);
+    expect(avlTree.delete(3)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(8)[0].deleted?.key).toBe(8);
+    expect(avlTree.delete(8)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(3);
 
-    expect(avlTree.delete(6)[0].deleted?.key).toBe(6);
-    expect(avlTree.delete(6).length).toBe(0);
+    expect(avlTree.delete(6)).toBe(true);
+    expect(avlTree.delete(6)).toBe(false);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(2);
 
-    expect(avlTree.delete(7)[0].deleted?.key).toBe(7);
+    expect(avlTree.delete(7)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(2);
 
-    expect(avlTree.delete(9)[0].deleted?.key).toBe(9);
+    expect(avlTree.delete(9)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(2);
-    expect(avlTree.delete(14)[0].deleted?.key).toBe(14);
+    expect(avlTree.delete(14)).toBe(true);
     expect(avlTree.isAVLBalanced()).toBe(true);
     expect(avlTree.getHeight()).toBe(1);
 

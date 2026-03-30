@@ -78,7 +78,7 @@ describe('BST delete coverage', () => {
 
       // delete evens (should remove 2,4,6)
       const res = bst.deleteWhere(node => node.key % 2 === 0);
-      expect(res.length).toBe(3);
+      expect(res).toBe(true);
       expect(bst.has(2)).toBe(false);
       expect(bst.has(4)).toBe(false);
       expect(bst.has(6)).toBe(false);
@@ -95,7 +95,7 @@ describe('BST delete coverage', () => {
       const before = bst.size;
 
       const res = bst.deleteWhere(r, true);
-      expect(res.length).toBe(1);
+      expect(res).toBe(true);
       expect(bst.size).toBe(before - 1);
     });
 

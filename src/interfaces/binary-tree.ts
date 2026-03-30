@@ -1,6 +1,5 @@
 import { BinaryTreeNode } from '../data-structures';
 import type {
-  BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BTNRep,
   DFSOrderPattern,
@@ -51,7 +50,7 @@ export interface IBinaryTree<K = any, V = any, R = any> {
   // Accept BTNRep, predicate, or raw R for deletion
   delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
-  ): BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[];
+  ): boolean;
 
   clear(): void;
 
@@ -242,11 +241,4 @@ export interface IBinaryTree<K = any, V = any, R = any> {
 
   // ---- bulk / interop ----
   merge(anotherTree: IBinaryTree<K, V, R>): void;
-
-  refill(
-    keysNodesEntriesOrRaws: Iterable<
-      K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
-    >,
-    values?: Iterable<V | undefined>
-  ): void;
 }

@@ -70,7 +70,7 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.getHeight()).toBe(2);
     expect(bst.has(9)).toBe(true);
     expect(bst.has(7)).toBe(true);
-    expect(bst.delete(7)[0].deleted?.key).toBe(7);
+    expect(bst.delete(7)).toBe(true);
     expect(bst.has(7)).toBe(false);
     expect(bst.size).toBe(4);
     expect(bst.root?.key).toBe(6);
@@ -115,7 +115,7 @@ describe('Overall BinaryTree Test', () => {
     expect(avl.getHeight()).toBe(3);
     expect(avl.has(9)).toBe(true);
     expect(avl.has(7)).toBe(true);
-    expect(avl.delete(7)[0].deleted?.key).toBe(7);
+    expect(avl.delete(7)).toBe(true);
     expect(avl.has(7)).toBe(false);
     expect(avl.size).toBe(7);
     expect(avl.root?.key).toBe(3);
@@ -191,7 +191,7 @@ describe('Overall BinaryTree Test', () => {
     expect(rbTree.getHeight()).toBe(3);
     expect(rbTree.has(9)).toBe(true);
     expect(rbTree.has(7)).toBe(true);
-    expect(rbTree.delete(7)?.[0]?.deleted?.key).toBe(7);
+    expect(rbTree.delete(7)).toBe(true);
     expect(rbTree.has(7)).toBe(false);
     expect(rbTree.size).toBe(7);
     expect(rbTree.root?.key).toBe(3);

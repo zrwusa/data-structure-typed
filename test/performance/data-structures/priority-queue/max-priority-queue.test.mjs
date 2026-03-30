@@ -27,8 +27,7 @@ suite.add(`${TEN_THOUSAND.toLocaleString()} refill & poll`, function() {
       )
   );
 
-  const maxPQ = new MaxPriorityQueue();
-  maxPQ.refill(nodes);
+  const maxPQ = new MaxPriorityQueue(nodes);
 
   while (maxPQ.size > 0) {
     maxPQ.poll();

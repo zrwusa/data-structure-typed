@@ -128,8 +128,7 @@ describe('MinPriorityQueue Operation Test', () => {
   });
 
   it('should MinPriorityQueue filter, map work well', function () {
-    const minPQ2 = new MinPriorityQueue<number>([]);
-    minPQ2.refill([2, 5, 8, 1, 6, 7, 4]);
+    const minPQ2 = new MinPriorityQueue<number>([2, 5, 8, 1, 6, 7, 4]);
 
     const cloned = minPQ2.clone();
     const filtered = cloned.filter(item => item % 2 === 1);

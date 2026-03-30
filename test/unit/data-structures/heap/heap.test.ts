@@ -385,10 +385,10 @@ describe('FibonacciHeap', () => {
   describe('FibonacciHeap Merge', () => {
     it('should merge two Fibonacci heaps correctly', () => {
       const heap1 = new FibonacciHeap<number>();
-      heap1.push(5).push(10);
+      heap1.push(5); heap1.push(10);
 
       const heap2 = new FibonacciHeap<number>();
-      heap2.push(3).push(7);
+      heap2.push(3); heap2.push(7);
 
       heap1.merge(heap2);
 

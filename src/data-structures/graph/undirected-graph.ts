@@ -258,6 +258,9 @@ export class UndirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Get edge between vertices
  *  const g = new UndirectedGraph();
@@ -349,6 +352,9 @@ export class UndirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // UndirectedGraph deleteEdge and vertex operations
  *  const graph = new UndirectedGraph<string>();
@@ -403,6 +409,9 @@ export class UndirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns `true` if removed; otherwise `false`.
    * @remarks Time O(deg), Space O(1)
+   
+   
+   
    
    
    
@@ -545,6 +554,9 @@ export class UndirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Get all edges
  *  const g = new UndirectedGraph();
@@ -566,6 +578,9 @@ export class UndirectedGraph<
     /**
    * UndirectedGraph connectivity and neighbors
   
+   
+   
+   
    
    
    
@@ -679,7 +694,7 @@ export class UndirectedGraph<
    * Remove all vertices and edges.
    * @remarks Time O(V + E), Space O(1)
    */
-  clear() {
+  clear(): void {
     this._vertexMap = new Map<VertexKey, VO>();
     this._edgeMap = new Map<VO, EO[]>();
   }
@@ -697,6 +712,9 @@ export class UndirectedGraph<
    * Tarjan-based bridge and articulation point detection.
    * @returns `{ dfnMap, lowMap, bridges, cutVertices }`.
    * @remarks Time O(V + E), Space O(V + E)
+   
+   
+   
    
    
    
@@ -902,6 +920,9 @@ export class UndirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Detect cycle
  *  const g = new UndirectedGraph();
@@ -973,6 +994,9 @@ export class UndirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Find bridge edges
  *  const g = new UndirectedGraph();
@@ -992,6 +1016,9 @@ export class UndirectedGraph<
    * Get articulation points discovered by `tarjan()`.
    * @returns Array of cut vertices.
    * @remarks Time O(C), Space O(1)
+   
+   
+   
    
    
    

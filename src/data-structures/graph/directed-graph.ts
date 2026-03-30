@@ -249,6 +249,9 @@ export class DirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Get edge between vertices
  *  const g = new DirectedGraph();
@@ -309,6 +312,9 @@ export class DirectedGraph<
    * @param destVertexKey - Optional destination vertex/key when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+   
+   
+   
    
    
    
@@ -434,6 +440,9 @@ export class DirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Remove a vertex
  *  const g = new DirectedGraph();
@@ -524,6 +533,9 @@ export class DirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Get incoming edges
  *  const g = new DirectedGraph();
@@ -547,6 +559,9 @@ export class DirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns Array of outgoing edges.
    * @remarks Time O(deg_out), Space O(deg_out)
+   
+   
+   
    
    
    
@@ -706,6 +721,9 @@ export class DirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // DirectedGraph topologicalSort for task scheduling
  *  const graph = new DirectedGraph<string>();
@@ -800,6 +818,9 @@ export class DirectedGraph<
    
    
    
+   
+   
+   
     * @example
  * // Get all edges
  *  const g = new DirectedGraph();
@@ -819,6 +840,9 @@ export class DirectedGraph<
     /**
    * Get outgoing neighbors
   
+   
+   
+   
    
    
    
@@ -909,7 +933,7 @@ export class DirectedGraph<
    * Remove all vertices and edges.
    * @remarks Time O(V + E), Space O(1)
    */
-  clear() {
+  clear(): void {
     this._vertexMap = new Map<VertexKey, VO>();
     this._inEdgeMap = new Map<VO, EO[]>();
     this._outEdgeMap = new Map<VO, EO[]>();
@@ -928,6 +952,9 @@ export class DirectedGraph<
    * Tarjan's algorithm for strongly connected components.
    * @returns `{ dfnMap, lowMap, SCCs }`.
    * @remarks Time O(V + E), Space O(V + E)
+   
+   
+   
    
    
    
@@ -1047,6 +1074,9 @@ export class DirectedGraph<
    * Strongly connected components computed by `tarjan()`.
    * @returns Map from SCC id to vertices.
    * @remarks Time O(#SCC + V), Space O(V)
+   
+   
+   
    
    
    

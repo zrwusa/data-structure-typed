@@ -705,7 +705,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     rbTree.set(5, 5); // Red leaf
     rbTree.set(20, 20);
 
-    expect(rbTree.delete(5)).toHaveLength(1); // Delete red leaf
+    expect(rbTree.delete(5)).toBe(true); // Delete red leaf
     expect(rbTree.root?.left).toBe(rbTree.NIL); // Left child should be NIL
   });
 
@@ -715,7 +715,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     rbTree.set(20, 20);
     rbTree.set(1, 1); // Black leaf node
 
-    expect(rbTree.delete(1)).toHaveLength(1); // Delete black leaf
+    expect(rbTree.delete(1)).toBe(true); // Delete black leaf
     expect(rbTree.root?.left?.left).toBe(rbTree.NIL);
   });
 
@@ -725,7 +725,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     rbTree.set(20, 20); // Red sibling
     rbTree.set(25, 25); // Force the sibling to be red
 
-    expect(rbTree.delete(5)).toHaveLength(1); // Delete black node
+    expect(rbTree.delete(5)).toBe(true); // Delete black node
     expect(rbTree.root?.right?.color).toBe('BLACK'); // Ensure sibling color is black after fixup
   });
 
@@ -734,7 +734,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     rbTree.set(5, 5); // Black node
     rbTree.set(20, 20); // Black sibling
 
-    expect(rbTree.delete(5)).toHaveLength(1); // Delete black node
+    expect(rbTree.delete(5)).toBe(true); // Delete black node
     expect(rbTree.root?.left).toBe(rbTree.NIL);
   });
 
@@ -743,7 +743,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     rbTree.set(5, 5);
     rbTree.set(20, 20);
 
-    expect(rbTree.delete(10)).toHaveLength(1); // Delete root node
+    expect(rbTree.delete(10)).toBe(true); // Delete root node
     expect(rbTree.root?.key).toBe(20); // New root should be 20
   });
 
@@ -756,7 +756,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     rbTree.set(16, 16);
 
     // Delete a node that will cause rotations and color changes
-    expect(rbTree.delete(5)).toHaveLength(1);
+    expect(rbTree.delete(5)).toBe(true);
 
     // Verify the tree is correctly balanced after fixup
     expect(rbTree.root?.color).toBe('BLACK');

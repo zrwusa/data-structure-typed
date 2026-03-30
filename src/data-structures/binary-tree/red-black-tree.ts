@@ -7,7 +7,7 @@
  */
 
 import type {
-  BinaryTreeDeleteResult, BTNRep,
+  BTNRep,
   CRUD,
   EntryCallback,
   FamilyPosition, NodePredicate,
@@ -334,6 +334,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Remove all nodes, clear the key→value store (if in map mode) and internal caches.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -997,6 +1009,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
@@ -1209,6 +1233,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove and rebalance
  *  const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
@@ -1218,16 +1254,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    */
   override delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>
-  ): BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] {
-    if (keyNodeEntryRawOrPredicate === null) return [];
+  ): boolean {
+    if (keyNodeEntryRawOrPredicate === null) return false;
 
-    const results: BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] = [];
     let nodeToDelete: OptNode<RedBlackTreeNode<K, V>>;
     if (this._isPredicate(keyNodeEntryRawOrPredicate)) nodeToDelete = this.getNode(keyNodeEntryRawOrPredicate);
     else nodeToDelete = this.isRealNode(keyNodeEntryRawOrPredicate) ? keyNodeEntryRawOrPredicate : this.getNode(keyNodeEntryRawOrPredicate);
 
     if (!nodeToDelete) {
-      return results;
+      return false;
     }
 
     // Track min/max cache updates before structural modifications.
@@ -1300,9 +1335,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       this._deleteFixup(replacementNode);
     }
 
-    results.push({ deleted: nodeToDelete, needBalanced: undefined });
-
-    return results;
+    return true;
   }
 
   /**
@@ -1320,6 +1353,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
    * sorted bulk insert, which naturally produces a balanced RBT.
    * @remarks Time O(N), Space O(N)
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -1440,6 +1482,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     /**
    * Transform to new tree
   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    

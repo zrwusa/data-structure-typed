@@ -9,7 +9,6 @@
 import { BST } from './bst';
 import type {
   AVLTreeOptions,
-  BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
   EntryCallback,
@@ -492,6 +491,18 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Set a key-value pair
  *  const avl = new AVLTree<number, string>();
@@ -621,6 +632,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Remove nodes and verify structure
  *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
@@ -630,15 +650,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    */
   override delete(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
-  ): BinaryTreeDeleteResult<AVLTreeNode<K, V>>[] {
-    const deletedResults = super.delete(keyNodeOrEntry);
+  ): boolean {
+    const deletedResults = this._deleteInternal(keyNodeOrEntry);
     // After deletion, balance the path from the parent of the *physically deleted* node.
     for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
-        this._balancePath(needBalanced);
+        this._balancePath(needBalanced as AVLTreeNode<K, V>);
       }
     }
-    return deletedResults;
+    return deletedResults.length > 0;
   }
 
   /**
@@ -648,6 +668,12 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
+   
+   
+   
+   
+   
+   
    
    
    
@@ -757,6 +783,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    

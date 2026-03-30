@@ -204,6 +204,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
     * @example
  * // Check if empty
  *  const map = new HashMap();
@@ -217,6 +220,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Remove all entries and reset counters.
    * @remarks Time O(N), Space O(1)
    * @returns void
+   
+   
+   
    
    
    
@@ -347,6 +353,12 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // basic HashMap creation and set operation
  *  // Create a simple HashMap with key-value pairs
@@ -366,7 +378,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
  *     // Verify entries
  *     console.log([...map.entries()]); // length: 4;
    */
-  set(key: K, value: V): boolean {
+  set(key: K, value: V): this {
     if (this._isObjKey(key)) {
       if (!this.objMap.has(key)) this._size++;
       this.objMap.set(key, value);
@@ -375,7 +387,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
       if (this.store[strKey] === undefined) this._size++;
       this._store[strKey] = { key, value };
     }
-    return true;
+    return this;
   }
 
   /**
@@ -383,6 +395,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(N), Space O(N)
    * @param entryOrRawElements - Iterable of entries or raw elements to insert.
    * @returns Array of per-entry results.
+   
+   
+   
    
    
    
@@ -428,7 +443,11 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
       let key: K | undefined, value: V | undefined;
       if (this.isEntry(rawEle)) [key, value] = rawEle;
       else if (this._toEntryFn) [key, value] = this._toEntryFn(rawEle);
-      if (key !== undefined && value !== undefined) results.push(this.set(key, value));
+      if (key !== undefined && value !== undefined) {
+        const sizeBefore = this._size;
+        this.set(key, value);
+        results.push(sizeBefore < this._size);
+      }
     }
     return results;
   }
@@ -438,6 +457,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
+   
+   
+   
    
    
    
@@ -541,6 +563,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
     * @example
  * // Check key existence
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -559,6 +584,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
+   
+   
+   
    
    
    
@@ -666,6 +694,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
     * @example
  * // Create independent copy
  *  const map = new HashMap<string, number>([['a', 1]]);
@@ -685,6 +716,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
+   
+   
+   
    
    
    
@@ -776,6 +810,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    
    
    
+   
+   
+   
     * @example
  * // HashMap iteration and filter operations
  *  const map = new HashMap<number, string>([
@@ -803,11 +840,11 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
  *     console.log(values); // contains 7;
    */
 
-  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): any {
+  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): this {
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;
     for (const [key, value] of this) if (predicate.call(thisArg, value, key, index++, this)) out.set(key, value);
-    return out;
+    return out as this;
   }
 
   /**
@@ -1015,9 +1052,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * @remarks Time O(1), Space O(1)
    * @param key - Key.
    * @param [value] - Value.
-   * @returns True when the operation succeeds.
+   * @returns This map (for chaining).
    */
-  set(key: K, value?: V): boolean {
+  set(key: K, value?: V): this {
     let node: HashMapLinkedNode<K, V | undefined> | undefined;
     const isNewKey = !this.has(key);
 
@@ -1053,7 +1090,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       this._size++;
     }
 
-    return true;
+    return this;
   }
 
   setMany(entryOrRawElements: Iterable<R | [K, V]>): boolean[] {
@@ -1062,7 +1099,11 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       let key: K | undefined, value: V | undefined;
       if (this.isEntry(rawEle)) [key, value] = rawEle;
       else if (this._toEntryFn) [key, value] = this._toEntryFn(rawEle);
-      if (key !== undefined && value !== undefined) results.push(this.set(key, value));
+      if (key !== undefined && value !== undefined) {
+        const sizeBefore = this._size;
+        this.set(key, value);
+        results.push(sizeBefore < this._size);
+      }
     }
     return results;
   }
@@ -1146,13 +1187,15 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * Delete the entry at a given index.
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
-   * @returns True if removed.
+   * @returns The removed entry [key, value], or undefined if the index is out of range.
    */
-  deleteAt(index: number): boolean {
+  deleteAt(index: number): [K, V | undefined] | undefined {
     rangeCheck(index, 0, this._size - 1);
     let node = this.head;
     while (index--) node = node.next;
-    return this._deleteNode(node);
+    const entry: [K, V | undefined] = [node.key as K, node.value];
+    this._deleteNode(node);
+    return entry;
   }
 
   isEmpty(): boolean {

@@ -176,7 +176,7 @@ describe('BinaryTree', () => {
 
     if (node1) {
       const result = binTree.delete(node1);
-      expect(result).toHaveLength(1);
+      expect(result).toBe(true);
       expect(binTree.size).toBe(3); // null nodes don't count toward size (#70)
       expect(binTree.getMinHeight(binTree.root, 'RECURSIVE')).toBe(1);
     }
@@ -895,7 +895,7 @@ describe('BinaryTree - traversal suites', () => {
     const binTree = new BinaryTree<number>();
 
     const arr = [35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55];
-    binTree.refill(arr);
+    binTree.clear(); binTree.setMany(arr);
     expect(binTree.bfs(node => node, binTree.root, 'ITERATIVE', true).map(node => (node ? node.key : null))).toEqual([
       35,
       20,
@@ -1509,12 +1509,11 @@ describe('Coverage boosters - merge/print/iterator/startNode/addMany-mismatch/de
     expect(t2.get(8)).toBe(80);
   });
 
-  it('delete non-existent key: returns empty array and does not affect size', () => {
+  it('delete non-existent key: returns false and does not affect size', () => {
     const t = new BinaryTree<number>([1, 2, 3]);
     const before = t.size;
     const res = t.delete(999);
-    expect(Array.isArray(res)).toBe(true);
-    expect(res.length).toBe(0);
+    expect(res).toBe(false);
     expect(t.size).toBe(before);
   });
 

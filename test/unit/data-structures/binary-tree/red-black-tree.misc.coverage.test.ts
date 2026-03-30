@@ -94,17 +94,17 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('misc input', () => {
-  it('delete(null) returns [] and does not throw', () => {
+  it('delete(null) returns false and does not throw', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(1, 1);
-      expect(t.delete(null as any)).toEqual([]);
+      expect(t.delete(null as any)).toBe(false);
       expect(t.size).toBe(1);
     });
 
-    it('delete(undefined) returns [] and does not throw', () => {
+    it('delete(undefined) returns false and does not throw', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(1, 1);
-      expect(t.delete(undefined as any)).toEqual([]);
+      expect(t.delete(undefined as any)).toBe(false);
       expect(t.size).toBe(1);
     });
   });
@@ -452,13 +452,13 @@ describe('RedBlackTree misc coverage', () => {
 
       // delete(predicate)
       const r1 = t.delete((node) => node?.key === 5);
-      expect(r1.length).toBe(1);
+      expect(r1).toBe(true);
       expect(t.has(5)).toBe(false);
 
       // delete(node)
       const n15 = t.getNode(15)!;
       const r2 = t.delete(n15);
-      expect(r2.length).toBe(1);
+      expect(r2).toBe(true);
       expect(t.has(15)).toBe(false);
     });
 

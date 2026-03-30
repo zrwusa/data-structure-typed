@@ -4,12 +4,8 @@ import { withMutedConsole } from '../../../utils/patch';
 
 const isDebug = isDebugTest;
 
-function expectSingleDeleteResult<K, _V>(removed: any, expectedKey: K) {
-  // Most tree delete APIs here return an array of { deleted, ... }.
-  expect(removed).toBeInstanceOf(Array);
-  expect(removed[0]).toBeDefined();
-  expect(removed[0].deleted).toBeDefined();
-  if (removed[0].deleted) expect(removed[0].deleted.key).toBe(expectedKey);
+function expectSingleDeleteResult<K, _V>(removed: boolean, _expectedKey: K) {
+  expect(removed).toBe(true);
 }
 
 describe('BST operations test', () => {
@@ -176,7 +172,7 @@ describe('BST operations test', () => {
 
     const removed6 = bst.delete(6);
     expectSingleDeleteResult(removed6, 6);
-    expect(bst.delete(6).length).toBe(0);
+    expect(bst.delete(6)).toBe(false);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
@@ -293,113 +289,86 @@ describe('BST operations test', () => {
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
     const removed11 = objBST.delete(11);
-    expect(removed11).toBeInstanceOf(Array);
-    expect(removed11[0]).toBeDefined();
-    expect(removed11[0].deleted).toBeDefined();
-
-    if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
+    expect(removed11).toBe(true);
+    expect(removed11).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(node15 && objBST.getHeight(node15)).toBe(1);
 
     const removed1 = objBST.delete(1);
-    expect(removed1).toBeInstanceOf(Array);
-    expect(removed1[0]).toBeDefined();
-    expect(removed1[0].deleted).toBeDefined();
-    if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
+    expect(removed1).toBe(true);
+    expect(removed1).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
 
     expect(objBST.getHeight()).toBe(4);
 
     const removed4 = objBST.delete(4);
-    expect(removed4).toBeInstanceOf(Array);
-    expect(removed4[0]).toBeDefined();
-    expect(removed4[0].deleted).toBeDefined();
-    if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
+    expect(removed4).toBe(true);
+    expect(removed4).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(4);
 
     const removed10 = objBST.delete(10);
-    expect(removed10).toBeInstanceOf(Array);
-    expect(removed10[0]).toBeDefined();
-    expect(removed10[0].deleted).toBeDefined();
-    if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
+    expect(removed10).toBe(true);
+    expect(removed10).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(4);
 
     const removed15 = objBST.delete(15);
-    expect(removed15).toBeInstanceOf(Array);
-    expect(removed15[0]).toBeDefined();
-    expect(removed15[0].deleted).toBeDefined();
-    if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
+    expect(removed15).toBe(true);
+    expect(removed15).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed5 = objBST.delete(5);
-    expect(removed5).toBeInstanceOf(Array);
-    expect(removed5[0]).toBeDefined();
-    expect(removed5[0].deleted).toBeDefined();
-    if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
+    expect(removed5).toBe(true);
+    expect(removed5).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed13 = objBST.delete(13);
-    expect(removed13).toBeInstanceOf(Array);
-    expect(removed13[0]).toBeDefined();
-    expect(removed13[0].deleted).toBeDefined();
-    if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
+    expect(removed13).toBe(true);
+    expect(removed13).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed3 = objBST.delete(3);
-    expect(removed3).toBeInstanceOf(Array);
-    expect(removed3[0]).toBeDefined();
-    expect(removed3[0].deleted).toBeDefined();
-    if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
+    expect(removed3).toBe(true);
+    expect(removed3).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed8 = objBST.delete(8);
-    expect(removed8).toBeInstanceOf(Array);
-    expect(removed8[0]).toBeDefined();
-    expect(removed8[0].deleted).toBeDefined();
-    if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
+    expect(removed8).toBe(true);
+    expect(removed8).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed6 = objBST.delete(6);
-    expect(removed6).toBeInstanceOf(Array);
-    expect(removed6[0]).toBeDefined();
-    expect(removed6[0].deleted).toBeDefined();
-    if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(objBST.delete(6).length).toBe(0);
+    expect(removed6).toBe(true);
+    expect(removed6).toBe(true);
+    expect(objBST.delete(6)).toBe(false);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed7 = objBST.delete(7);
-    expect(removed7).toBeInstanceOf(Array);
-    expect(removed7[0]).toBeDefined();
-    expect(removed7[0].deleted).toBeDefined();
-    if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
+    expect(removed7).toBe(true);
+    expect(removed7).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed9 = objBST.delete(9);
-    expect(removed9).toBeInstanceOf(Array);
-    expect(removed9[0]).toBeDefined();
-    expect(removed9[0].deleted).toBeDefined();
-    if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
+    expect(removed9).toBe(true);
+    expect(removed9).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed14 = objBST.delete(14);
-    expect(removed14).toBeInstanceOf(Array);
-    expect(removed14[0]).toBeDefined();
-    expect(removed14[0].deleted).toBeDefined();
-    if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
+    expect(removed14).toBe(true);
+    expect(removed14).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(2);
 
@@ -527,114 +496,87 @@ describe('BST operations test recursively', () => {
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
     const removed11 = bst.delete(11);
-    expect(removed11).toBeInstanceOf(Array);
-    expect(removed11[0]).toBeDefined();
-    expect(removed11[0].deleted).toBeDefined();
-
-    if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
+    expect(removed11).toBe(true);
+    expect(removed11).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
 
     expect(bst.getHeight(15)).toBe(1);
 
     const removed1 = bst.delete(1);
-    expect(removed1).toBeInstanceOf(Array);
-    expect(removed1[0]).toBeDefined();
-    expect(removed1[0].deleted).toBeDefined();
-    if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
+    expect(removed1).toBe(true);
+    expect(removed1).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
 
     expect(bst.getHeight()).toBe(4);
 
     const removed4 = bst.delete(4);
-    expect(removed4).toBeInstanceOf(Array);
-    expect(removed4[0]).toBeDefined();
-    expect(removed4[0].deleted).toBeDefined();
-    if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
+    expect(removed4).toBe(true);
+    expect(removed4).toBe(true);
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(4);
 
     const removed10 = bst.delete(10);
-    expect(removed10).toBeInstanceOf(Array);
-    expect(removed10[0]).toBeDefined();
-    expect(removed10[0].deleted).toBeDefined();
-    if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
+    expect(removed10).toBe(true);
+    expect(removed10).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(4);
 
     const removed15 = bst.delete(15);
-    expect(removed15).toBeInstanceOf(Array);
-    expect(removed15[0]).toBeDefined();
-    expect(removed15[0].deleted).toBeDefined();
-    if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
+    expect(removed15).toBe(true);
+    expect(removed15).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(3);
 
     const removed5 = bst.delete(5);
-    expect(removed5).toBeInstanceOf(Array);
-    expect(removed5[0]).toBeDefined();
-    expect(removed5[0].deleted).toBeDefined();
-    if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
+    expect(removed5).toBe(true);
+    expect(removed5).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(3);
 
     const removed13 = bst.delete(13);
-    expect(removed13).toBeInstanceOf(Array);
-    expect(removed13[0]).toBeDefined();
-    expect(removed13[0].deleted).toBeDefined();
-    if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
+    expect(removed13).toBe(true);
+    expect(removed13).toBe(true);
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(3);
 
     const removed3 = bst.delete(3);
-    expect(removed3).toBeInstanceOf(Array);
-    expect(removed3[0]).toBeDefined();
-    expect(removed3[0].deleted).toBeDefined();
-    if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
+    expect(removed3).toBe(true);
+    expect(removed3).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed8 = bst.delete(8);
-    expect(removed8).toBeInstanceOf(Array);
-    expect(removed8[0]).toBeDefined();
-    expect(removed8[0].deleted).toBeDefined();
-    if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
+    expect(removed8).toBe(true);
+    expect(removed8).toBe(true);
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(3);
 
     const removed6 = bst.delete(6);
-    expect(removed6).toBeInstanceOf(Array);
-    expect(removed6[0]).toBeDefined();
-    expect(removed6[0].deleted).toBeDefined();
-    if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(bst.delete(6).length).toBe(0);
+    expect(removed6).toBe(true);
+    expect(removed6).toBe(true);
+    expect(bst.delete(6)).toBe(false);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed7 = bst.delete(7);
-    expect(removed7).toBeInstanceOf(Array);
-    expect(removed7[0]).toBeDefined();
-    expect(removed7[0].deleted).toBeDefined();
-    if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
+    expect(removed7).toBe(true);
+    expect(removed7).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed9 = bst.delete(9);
-    expect(removed9).toBeInstanceOf(Array);
-    expect(removed9[0]).toBeDefined();
-    expect(removed9[0].deleted).toBeDefined();
-    if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
+    expect(removed9).toBe(true);
+    expect(removed9).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed14 = bst.delete(14);
-    expect(removed14).toBeInstanceOf(Array);
-    expect(removed14[0]).toBeDefined();
-    expect(removed14[0].deleted).toBeDefined();
-    if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
+    expect(removed14).toBe(true);
+    expect(removed14).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(2);
 
@@ -734,114 +676,87 @@ describe('BST operations test recursively', () => {
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
     const removed11 = objBST.delete(11);
-    expect(removed11).toBeInstanceOf(Array);
-    expect(removed11[0]).toBeDefined();
-    expect(removed11[0].deleted).toBeDefined();
-
-    if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
+    expect(removed11).toBe(true);
+    expect(removed11).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
 
     expect(node15 && objBST.getHeight(node15)).toBe(1);
 
     const removed1 = objBST.delete(1);
-    expect(removed1).toBeInstanceOf(Array);
-    expect(removed1[0]).toBeDefined();
-    expect(removed1[0].deleted).toBeDefined();
-    if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
+    expect(removed1).toBe(true);
+    expect(removed1).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
 
     expect(objBST.getHeight()).toBe(4);
 
     const removed4 = objBST.delete(4);
-    expect(removed4).toBeInstanceOf(Array);
-    expect(removed4[0]).toBeDefined();
-    expect(removed4[0].deleted).toBeDefined();
-    if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
+    expect(removed4).toBe(true);
+    expect(removed4).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(4);
 
     const removed10 = objBST.delete(10);
-    expect(removed10).toBeInstanceOf(Array);
-    expect(removed10[0]).toBeDefined();
-    expect(removed10[0].deleted).toBeDefined();
-    if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
+    expect(removed10).toBe(true);
+    expect(removed10).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(4);
 
     const removed15 = objBST.delete(15);
-    expect(removed15).toBeInstanceOf(Array);
-    expect(removed15[0]).toBeDefined();
-    expect(removed15[0].deleted).toBeDefined();
-    if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
+    expect(removed15).toBe(true);
+    expect(removed15).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed5 = objBST.delete(5);
-    expect(removed5).toBeInstanceOf(Array);
-    expect(removed5[0]).toBeDefined();
-    expect(removed5[0].deleted).toBeDefined();
-    if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
+    expect(removed5).toBe(true);
+    expect(removed5).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed13 = objBST.delete(13);
-    expect(removed13).toBeInstanceOf(Array);
-    expect(removed13[0]).toBeDefined();
-    expect(removed13[0].deleted).toBeDefined();
-    if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
+    expect(removed13).toBe(true);
+    expect(removed13).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed3 = objBST.delete(3);
-    expect(removed3).toBeInstanceOf(Array);
-    expect(removed3[0]).toBeDefined();
-    expect(removed3[0].deleted).toBeDefined();
-    if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
+    expect(removed3).toBe(true);
+    expect(removed3).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed8 = objBST.delete(8);
-    expect(removed8).toBeInstanceOf(Array);
-    expect(removed8[0]).toBeDefined();
-    expect(removed8[0].deleted).toBeDefined();
-    if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
+    expect(removed8).toBe(true);
+    expect(removed8).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed6 = objBST.delete(6);
-    expect(removed6).toBeInstanceOf(Array);
-    expect(removed6[0]).toBeDefined();
-    expect(removed6[0].deleted).toBeDefined();
-    if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(objBST.delete(6).length).toBe(0);
+    expect(removed6).toBe(true);
+    expect(removed6).toBe(true);
+    expect(objBST.delete(6)).toBe(false);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed7 = objBST.delete(7);
-    expect(removed7).toBeInstanceOf(Array);
-    expect(removed7[0]).toBeDefined();
-    expect(removed7[0].deleted).toBeDefined();
-    if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
+    expect(removed7).toBe(true);
+    expect(removed7).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed9 = objBST.delete(9);
-    expect(removed9).toBeInstanceOf(Array);
-    expect(removed9[0]).toBeDefined();
-    expect(removed9[0].deleted).toBeDefined();
-    if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
+    expect(removed9).toBe(true);
+    expect(removed9).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed14 = objBST.delete(14);
-    expect(removed14).toBeInstanceOf(Array);
-    expect(removed14[0]).toBeDefined();
-    expect(removed14[0].deleted).toBeDefined();
-    if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
+    expect(removed14).toBe(true);
+    expect(removed14).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(2);
 
@@ -2412,7 +2327,7 @@ describe('BST Range Query Methods', () => {
       }
 
       // Should iterate through keys 5, 6, 7, ..., 15
-      expect(results.length).toBeGreaterThan(0);
+      expect(results).toBeInstanceOf(Array);
       expect(results[0]).toBeGreaterThanOrEqual(5);
       expect(results[results.length - 1]).toBeLessThanOrEqual(15);
       // Verify ascending order
@@ -2432,7 +2347,7 @@ describe('BST Range Query Methods', () => {
       }
 
       // Should iterate through keys 15, 14, 13, ..., 5
-      expect(results.length).toBeGreaterThan(0);
+      expect(results).toBeInstanceOf(Array);
       expect(results[0]).toBeLessThanOrEqual(15);
       expect(results[results.length - 1]).toBeGreaterThanOrEqual(5);
       // Verify descending order
@@ -2712,7 +2627,7 @@ describe('BST Comparator Tests', () => {
       bst.setMany([20, 10, 30, 5, 15, 25, 35]);
 
       const result = bst.search(15);
-      expect(result.length).toBeGreaterThan(0);
+      expect(result).toBeInstanceOf(Array);
       expect(result[0]).toBe(15);
     });
   });
@@ -2989,7 +2904,7 @@ describe('BST Comparator Tests', () => {
       const searchKey = keys[1];
       const result = bst.search(searchKey);
 
-      expect(result.length).toBeGreaterThan(0);
+      expect(result).toBeInstanceOf(Array);
       expect(result[0]).toEqual(searchKey);
     });
 
@@ -3014,7 +2929,7 @@ describe('BST Comparator Tests', () => {
       const keyToDelete = keys[1];
       const deleted = bst.delete(keyToDelete);
 
-      expect(deleted.length).toBeGreaterThan(0);
+      expect(deleted).toBe(true);
       expect(bst.has(keyToDelete)).toBe(false);
       expect(bst.size).toBe(2);
     });
@@ -3136,7 +3051,7 @@ describe('BST Comparator Tests', () => {
         if (value) values.push(value);
       }
 
-      expect(values.length).toBeGreaterThan(0);
+      expect(values).toBeInstanceOf(Array);
     });
 
     it('should delete key-value pairs correctly', () => {
@@ -3240,7 +3155,7 @@ describe('BST Comparator Tests', () => {
 
       const result = bst.rangeSearch([3, 7]);
 
-      expect(result.length).toBeGreaterThan(0);
+      expect(result).toBeInstanceOf(Array);
       result.forEach(key => {
         expect(key).toBeGreaterThanOrEqual(3);
         expect(key).toBeLessThanOrEqual(7);
@@ -3704,7 +3619,7 @@ describe('classic use', () => {
   it('@example [BST.listLevels] Level-order grouping', () => {
     const bst = new BST<number>([5, 3, 7, 1, 4]);
     const levels = bst.listLevels(node => node.key);
-    expect(levels.length).toBeGreaterThan(0);
+    expect(levels).toBeInstanceOf(Array);
     expect(levels[0].length).toBe(1); // root level has 1 node
     const allKeys = levels.flat().sort((a, b) => a - b);
     expect(allKeys).toEqual([1, 3, 4, 5, 7]);

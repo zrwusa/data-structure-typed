@@ -71,11 +71,10 @@ describe('classic use', () => {
 });
 describe('PriorityQueue Operation Test', () => {
   it('should PriorityQueue poll, pee, heapify, toArray work well', function () {
-    const minPQ = new PriorityQueue<number>([], {
+    const minPQ = new PriorityQueue<number>([5, 2, 3, 4, 6, 1], {
       comparator: (a, b) => a - b
     });
-    minPQ.refill([5, 2, 3, 4, 6, 1]);
-    expect(minPQ.toArray()).toEqual([1, 2, 3, 4, 6, 5]);
+    expect(minPQ.toArray()).toEqual([1, 4, 2, 5, 6, 3]);
     minPQ.poll();
     minPQ.poll();
     minPQ.poll();
@@ -89,11 +88,10 @@ describe('PriorityQueue Operation Test', () => {
   });
 
   it('should Max PriorityQueue poll, peek, heapify, toArray work well', function () {
-    const maxPriorityQueue = new PriorityQueue<number>([], {
+    const maxPriorityQueue = new PriorityQueue<number>([5, 2, 3, 4, 6, 1], {
       comparator: (a, b) => b - a
     });
-    maxPriorityQueue.refill([5, 2, 3, 4, 6, 1]);
-    expect(maxPriorityQueue.toArray()).toEqual([6, 5, 3, 4, 2, 1]);
+    expect(maxPriorityQueue.toArray()).toEqual([6, 5, 3, 2, 4, 1]);
     maxPriorityQueue.poll();
     maxPriorityQueue.poll();
     maxPriorityQueue.poll();
@@ -107,30 +105,28 @@ describe('PriorityQueue Operation Test', () => {
   });
 
   it('should PriorityQueue clone, sort, getNodes, dfs work well', function () {
-    const minPQ1 = new PriorityQueue<number>([], {
+    const minPQ1 = new PriorityQueue<number>([2, 5, 8, 3, 1, 6, 7, 4], {
       comparator: (a, b) => a - b
     });
-    minPQ1.refill([2, 5, 8, 3, 1, 6, 7, 4]);
     const clonedPriorityQueue = minPQ1.clone();
     expect(clonedPriorityQueue.elements).toEqual(minPQ1.elements);
     expect(clonedPriorityQueue.sort()).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(minPQ1.dfs('IN')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
-    expect(minPQ1.dfs('POST')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
-    expect(minPQ1.dfs('PRE')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
+    expect(minPQ1.dfs('IN')).toEqual([5, 4, 2, 3, 1, 8, 6, 7]);
+    expect(minPQ1.dfs('POST')).toEqual([5, 4, 3, 2, 8, 7, 6, 1]);
+    expect(minPQ1.dfs('PRE')).toEqual([1, 2, 4, 5, 3, 6, 8, 7]);
   });
 
   it('should PriorityQueue filter, map work well', function () {
-    const minPQ2 = new PriorityQueue<number>([], {
+    const minPQ2 = new PriorityQueue<number>([2, 5, 8, 3, 1, 6, 7, 4], {
       comparator: (a, b) => a - b
     });
-    minPQ2.refill([2, 5, 8, 3, 1, 6, 7, 4]);
     const filtered = minPQ2.filter(item => item % 2 === 1);
     expect(filtered instanceof PriorityQueue).toBe(true);
-    expect([...filtered]).toEqual([1, 3, 5, 7]);
+    expect([...filtered]).toEqual([1, 3, 7, 5]);
 
     const mapped = filtered.map(item => ({ key: item }), { comparator: (a, b) => a.key - b.key });
     expect(mapped instanceof PriorityQueue).toBe(true);
-    expect([...mapped]).toEqual([{ key: 1 }, { key: 3 }, { key: 5 }, { key: 7 }]);
+    expect([...mapped]).toEqual([{ key: 1 }, { key: 3 }, { key: 7 }, { key: 5 }]);
   });
 });
 

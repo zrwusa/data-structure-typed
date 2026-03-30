@@ -220,6 +220,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -318,6 +321,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -345,6 +351,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(1)
    * @param elements - Iterable of elements or raw values.
    * @returns Array of per-element success flags.
+   
+   
+   
    
    
    
@@ -438,6 +447,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Heap with custom comparator (MaxHeap behavior)
  *  interface Task {
@@ -480,6 +492,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
+   
+   
    
    
    
@@ -617,6 +632,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Check if heap is empty
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -666,6 +684,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Remove all elements
  *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
@@ -677,23 +698,16 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     this._elements = [];
   }
 
-  /**
-   * Replace the backing array and rebuild the heap.
-   * @remarks Time O(N), Space O(N)
-   * @param elements - Iterable used to refill the heap.
-   * @returns Array of per-node results from fixing steps.
-   */
 
-  refill(elements: Iterable<E>): boolean[] {
-    this._elements = Array.from(elements);
-    return this.fix();
-  }
 
   /**
    * Check if an equal element exists in the heap.
    * @remarks Time O(N), Space O(1)
    * @param element - Element to search for.
    * @returns True if found.
+   
+   
+   
    
    
    
@@ -769,6 +783,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Remove specific element
  *  const heap = new Heap<number>([3, 1, 4, 1, 5], { comparator: (a, b) => a - b });
@@ -798,13 +815,19 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
   }
 
   /**
+   * @deprecated Use `deleteWhere` instead. Will be removed in a future major version.
+   */
+  deleteBy(predicate: (element: E, index: number, heap: this) => boolean): boolean {
+    return this.deleteWhere(predicate);
+  }
+
+  /**
    * Delete the first element that matches a predicate.
    * @remarks Time O(N), Space O(1)
    * @param predicate - Function (element, index, heap) → boolean.
    * @returns True if an element was removed.
    */
-
-  deleteBy(predicate: (element: E, index: number, heap: this) => boolean): boolean {
+  deleteWhere(predicate: (element: E, index: number, heap: this) => boolean): boolean {
     let idx = -1;
     for (let i = 0; i < this.elements.length; i++) {
       if (predicate(this.elements[i], i, this)) {
@@ -842,6 +865,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(H)
    * @param [order] - Traversal order: 'PRE' | 'IN' | 'POST'.
    * @returns Array of visited elements.
+   
+   
+   
    
    
    
@@ -953,6 +979,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
@@ -975,6 +1004,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this heap.
    * @remarks Time O(N), Space O(N)
    * @returns A new heap with the same elements.
+   
+   
+   
    
    
    
@@ -1062,6 +1094,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    
    
    
+   
+   
+   
     * @example
  * // Filter elements
  *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
@@ -1091,6 +1126,9 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
+   
+   
+   
    
    
    
@@ -1361,17 +1399,17 @@ export class FibonacciHeap<E> {
    * Push an element into the root list.
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to insert.
-   * @returns This heap.
+   * @returns True when the element is added.
    */
 
-  push(element: E): this {
+  push(element: E): boolean {
     const node = this.createNode(element);
     node.left = node;
     node.right = node;
     this.mergeWithRoot(node);
     if (!this.min || this.comparator(node.element, this.min.element) <= 0) this._min = node;
     this._size++;
-    return this;
+    return true;
   }
 
   peek(): E | undefined {

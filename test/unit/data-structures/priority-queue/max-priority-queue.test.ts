@@ -81,10 +81,9 @@ describe('MaxPriorityQueue Operation Test', () => {
   it('should add elements and maintain heap property in a object MaxPriorityQueue', () => {
     const priorityQueue = new MaxPriorityQueue<{
       keyA: number;
-    }>([], {
+    }>([{ keyA: 5 }, { keyA: 3 }, { keyA: 1 }], {
       comparator: (a, b) => b.keyA - a.keyA
     });
-    priorityQueue.refill([{ keyA: 5 }, { keyA: 3 }, { keyA: 1 }]);
     priorityQueue.add({ keyA: 7 });
 
     expect(priorityQueue.poll()?.keyA).toBe(7);
@@ -122,8 +121,6 @@ describe('MaxPriorityQueue Operation Test', () => {
     const heap = MaxPriorityQueue.heapify<number>(array, {
       comparator: (a, b) => b - a
     });
-    heap.refill(array);
-
     expect(heap.poll()).toBe(7);
     expect(heap.poll()).toBe(5);
     expect(heap.poll()).toBe(3);
@@ -194,8 +191,7 @@ describe('MaxPriorityQueue Operation Test', () => {
   });
 
   it('should MaxPriorityQueue filter, map work well', function () {
-    const minPQ2 = new MaxPriorityQueue<number>([]);
-    minPQ2.refill([2, 5, 8, 1, 6, 7, 4]);
+    const minPQ2 = new MaxPriorityQueue<number>([2, 5, 8, 1, 6, 7, 4]);
 
     const cloned = minPQ2.clone();
     const filtered = cloned.filter(item => item % 2 === 1);
