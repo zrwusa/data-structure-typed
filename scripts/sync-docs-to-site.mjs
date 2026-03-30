@@ -48,6 +48,36 @@ const FILES = [
       keywords: ['data-structure-typed faq', 'typescript data structures questions'],
     },
   },
+  {
+    src: 'OVERVIEW.md',
+    dest: 'overview.md',
+    frontmatter: {
+      sidebar_label: 'OVERVIEW',
+      description: 'Complete overview of all 20+ data structures: trees, heaps, graphs, queues, linked lists, hash maps, and more.',
+      title: 'Data Structures Overview — Trees, Heaps, Graphs, Queues',
+      keywords: ['typescript data structures overview', 'red black tree', 'heap', 'priority queue', 'trie', 'graph', 'deque', 'treemap', 'treeset'],
+    },
+  },
+  {
+    src: 'CONCEPTS.md',
+    dest: 'concepts.md',
+    frontmatter: {
+      sidebar_label: 'CONCEPTS',
+      description: 'Core fundamentals and theory behind data-structure-typed. BST, balanced trees, heap, iterator protocol, and decision guide.',
+      title: 'Concepts — Core Fundamentals & Theory',
+      keywords: ['data structures concepts', 'binary search tree', 'balanced tree', 'heap theory', 'typescript data structures'],
+    },
+  },
+  {
+    src: 'ARCHITECTURE.md',
+    dest: 'architecture.md',
+    frontmatter: {
+      sidebar_label: 'ARCHITECTURE',
+      description: 'Design philosophy, V8 JIT optimizations, self-balancing strategies, and internal architecture of data-structure-typed.',
+      title: 'Architecture — Design & Implementation Details',
+      keywords: ['data structures architecture', 'red black tree implementation', 'v8 optimization', 'typescript library design'],
+    },
+  },
 ];
 
 // Link rewrites: relative docs/ paths → site guide/ paths
@@ -58,6 +88,8 @@ const LINK_REWRITES = [
   [/\(\.\/PERFORMANCE\.md\)/g, '(/guide/performance.md)'],
   [/\(\.\/REFERENCE\.md\)/g, '(/guide/overview.md)'],
   [/\(\.\/OVERVIEW\.md\)/g, '(/guide/overview.md)'],
+  [/\(\.\/CONCEPTS\.md\)/g, '(/guide/concepts.md)'],
+  [/\(\.\/ARCHITECTURE\.md\)/g, '(/guide/architecture.md)'],
 ];
 
 let synced = 0;

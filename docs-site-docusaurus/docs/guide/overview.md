@@ -2,9 +2,8 @@
 sidebar_label: "OVERVIEW"
 description: "Complete overview of all 20+ data structures: trees, heaps, graphs, queues, linked lists, hash maps, and more."
 title: "Data Structures Overview — Trees, Heaps, Graphs, Queues"
-keywords: [typescript data structures overview, red black tree, heap, priority queue, trie, graph, deque, treemap, treeset]
+keywords: ["typescript data structures overview", "red black tree", "heap", "priority queue", "trie", "graph", "deque", "treemap", "treeset"]
 ---
-
 # OVERVIEW
 
 A quick-reference guide to all structures, common operations, and usage patterns. For complete API details with method signatures and examples, see the **[Full API Docs](https://data-structure-typed-docs.vercel.app/)**.
@@ -57,7 +56,7 @@ A quick-reference guide to all structures, common operations, and usage patterns
 import { Stack } from 'data-structure-typed';
 
 const stack = new Stack<number>([1, 2]);
-stack.push(3);                // add to bottom
+stack.push(3);                // add to top
 const top = stack.pop();      // Remove from top - O(1)
 const peek = stack.peek();    // View top
 stack.print();                // [1, 2]
@@ -149,11 +148,6 @@ rbTree.print()
 //  /   \
 //  1    4
 
-// Order-Statistic mode — O(log n) rank queries
-const ost = new RedBlackTree<number, string>([[1, 'A'], [2, 'B'], [3, 'C']], { enableOrderStatistic: true });
-ost.getByRank(0);         // 1 (smallest key)
-ost.getRank(2);           // 1 (one element before key 2)
-ost.rangeByRank(0, 1); // [1, 2] (first two elements)
 ```
 
 #### AVL Tree
@@ -171,6 +165,97 @@ avl.print()
 //   1_     8_  
 //     \      \ 
 //      4      9 
+```
+
+#### TreeMap (Ordered Map)
+
+```typescript
+import { TreeMap } from 'data-structure-typed';
+
+const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+tm.set(4, 'd');                    // Set key-value - O(log n)
+tm.get(2);                         // 'b' - O(log n)
+tm.has(3);                         // true
+tm.delete(1);                      // Remove - O(log n)
+
+// Navigation — Java NavigableMap-style
+tm.first();                        // [2, 'b'] — smallest entry
+tm.last();                         // [4, 'd'] — largest entry
+tm.ceiling(3);                     // [3, 'c'] — smallest >= 3
+tm.floor(2);                       // [2, 'b'] — largest <= 2
+tm.higher(2);                      // [3, 'c'] — strictly > 2
+tm.lower(3);                       // [2, 'b'] — strictly < 3
+
+// Iteration (sorted order)
+console.log([...tm.keys()]);       // [2, 3, 4]
+console.log([...tm.values()]);     // ['b', 'c', 'd']
+
+// Bulk operations
+tm.setMany([[5, 'e'], [6, 'f']]);  // Set multiple at once
+
+// Functional
+const filtered = tm.filter((v, k) => k > 2);
+const mapped = tm.map((v, k) => [k * 10, v!.toUpperCase()] as [number, string]);
+```
+
+#### TreeSet (Ordered Set)
+
+```typescript
+import { TreeSet } from 'data-structure-typed';
+
+const ts = new TreeSet<number>([5, 3, 8, 1]);
+ts.add(4);                         // Add - O(log n)
+ts.has(3);                         // true
+ts.delete(5);                      // Remove - O(log n)
+
+// Navigation
+ts.first();                        // 1
+ts.last();                         // 8
+ts.ceiling(4);                     // 4 — smallest >= 4
+ts.floor(6);                       // 4 — largest <= 6
+ts.higher(3);                      // 4 — strictly > 3
+ts.lower(4);                       // 3 — strictly < 4
+
+// Iteration (sorted order)
+console.log([...ts.keys()]);       // [1, 3, 4, 8]
+
+// Bulk operations
+ts.addMany([10, 20, 30]);          // Add multiple at once
+```
+
+#### Order-Statistic Tree (Rank Queries)
+
+Enable `enableOrderStatistic: true` on any tree-based structure to get O(log n) rank operations:
+
+```typescript
+import { RedBlackTree, TreeMap, TreeSet } from 'data-structure-typed';
+
+// Works with RedBlackTree, TreeMap, TreeSet, TreeMultiMap, TreeMultiSet
+const tree = new RedBlackTree<number, string>(
+  [[100, 'Alice'], [85, 'Bob'], [92, 'Charlie'], [78, 'Diana']],
+  { comparator: (a, b) => b - a, enableOrderStatistic: true }
+);
+
+// getByRank(k) — element at position k in tree order, O(log n)
+tree.getByRank(0);                 // 100 (1st in tree order)
+tree.getByRank(2);                 // 92  (3rd in tree order)
+
+// getRank(key) — count of elements before key in tree order, O(log n)
+tree.getRank(92);                  // 2
+
+// rangeByRank(start, end) — elements between positions, O(log n + k)
+tree.rangeByRank(0, 2);           // [100, 92, 85] — positions 0..2
+
+// Also works with wrapper classes
+const tm = new TreeMap<number, string>([], { enableOrderStatistic: true });
+tm.set(10, 'a'); tm.set(20, 'b'); tm.set(30, 'c');
+tm.getByRank(1);                   // [20, 'b']
+tm.getRank(20);                    // 1
+
+const ts = new TreeSet<number>([], { enableOrderStatistic: true });
+ts.addMany([10, 20, 30]);
+ts.getByRank(0);                   // 10
+ts.getRank(30);                    // 2
 ```
 
 ### Heap & Priority Queue
@@ -191,7 +276,9 @@ const peek = minHeap.peek();  // View minimum - O(1)
 ```typescript
 import { MaxPriorityQueue } from 'data-structure-typed';
 
-const pq = new MaxPriorityQueue<Task>();
+const pq = new MaxPriorityQueue<Task>([], {
+  comparator: (a, b) => b.priority - a.priority
+});
 pq.add({ id: 1, priority: 5 });  // Add - O(log n)
 const task = pq.poll();          // Remove highest - O(log n)
 const size = pq.size;            // Current size
@@ -273,7 +360,7 @@ heap.peek();               // Highest priority element
 heap.size;                 // Current size
 
 // Trie
-trie.getWords('hello');      // true
+trie.has('hello');            // true
 trie.hasPrefix('hel');    // true
 
 // Graph
@@ -303,6 +390,12 @@ graph.deleteVertex('A');      // Remove vertex
 // All structures support:
 structure.clear();             // Remove all elements
 structure.delete(key);         // Remove specific
+
+// Conditional delete (BST-family and Deque)
+tree.deleteWhere(node => node.key < 10);           // Delete all matching
+tree.deleteWhere(node => node.key < 10, true);     // Delete first match only
+tree.deleteWhere(new Range(5, 15));                 // Delete by range
+deque.deleteWhere((val, idx) => val > 100);        // Deque predicate delete
 ```
 
 ---
@@ -335,12 +428,33 @@ structure.size;                // Element count
 structure.isEmpty();           // Check empty
 ```
 
+### Raw Data Mapping
+
+Pass raw objects directly — no `.map()` pre-processing needed:
+
+```typescript
+// toElementFn — extract a field, store only that (Heap, Queue, Stack, LinkedList, Trie)
+const heap = new MinHeap<number, User>(users, {
+  toElementFn: u => u.age
+});
+
+// toEntryFn — split into key-value pairs (TreeMap, HashMap, SkipList)
+const map = new TreeMap<number, User, User>(users, {
+  toEntryFn: u => [u.id, u]
+});
+
+// comparator — store full objects, sort by a field (all sorted structures)
+const set = new TreeSet<User>(users, {
+  comparator: (a, b) => a.id - b.id
+});
+```
+
 ### Structure-Specific Methods
 
 #### Trees
 
 ```typescript
-tree.height;                   // Tree height
+tree.height;                   // Tree height (getter)
 tree.isAVLBalanced();         // Balance check
 tree.getNode(key);            // Get node object
 tree.getHeight(key);          // Node height
@@ -351,10 +465,10 @@ tree.getRightMost();          // Rightmost node
 #### Deque
 
 ```typescript
-deque.peekFirst();            // View front
-deque.peekLast();             // View back
-deque.pollFirst();            // Remove front - O(1)
-deque.pollLast();             // Remove back - O(1)
+deque.first;                  // View front (getter)
+deque.last;                   // View back (getter)
+deque.shift();                // Remove front - O(1)
+deque.pop();                  // Remove back - O(1)
 ```
 
 #### Graph
@@ -470,7 +584,7 @@ const sorted = [...new RedBlackTree(data).keys()]; // Instant sort!
 
 ---
 
-## SkipList & SkipListSet
+## SkipList
 
 Probabilistic sorted containers. Interchangeable with `TreeMap`/`TreeSet`.
 

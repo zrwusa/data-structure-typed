@@ -1,10 +1,9 @@
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 sidebar_label: "CONCEPTS"
-description: "Core concepts behind data-structure-typed: uniform API, iterators, generics, comparators, and the 5 design traits."
+description: "Core fundamentals and theory behind data-structure-typed. BST, balanced trees, heap, iterator protocol, and decision guide."
+title: "Concepts — Core Fundamentals & Theory"
+keywords: ["data structures concepts", "binary search tree", "balanced tree", "heap theory", "typescript data structures"]
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
-
 # CONCEPTS
 
 This guide explains the foundational concepts behind data structures through plain language and practical understanding.
@@ -12,7 +11,6 @@ This guide explains the foundational concepts behind data structures through pla
 **👈 [Back to README](/.md) • [API Docs](https://data-structure-typed-docs.vercel.app/) • [Real-World Guides](/guide/guides.md)**
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Table of Contents
 
@@ -25,7 +23,6 @@ keywords: [typescript data structures concepts, comparator, iterator protocol, g
 7. [Decision Guide](#-decision-guide-choose-the-right-data-structure)
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## The Big Three Concepts
 
@@ -82,7 +79,6 @@ A complete binary tree where parent always has priority over children.
 **Perfect for**: Priority queues, heap sort
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🌍 Plain Language Explanations
 
@@ -108,7 +104,6 @@ For those who love understanding concepts through metaphors:
 | **Matrix**             | A 2D grid of numbers supporting standard linear algebra operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 2D grid transformations, linear algebra                                        |
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Iterator Protocol Design
 
@@ -170,7 +165,6 @@ for (const item of heap) console.log(item);
 ```
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🔗 Seamless Interoperability: Iterator Protocol Everywhere
 
@@ -186,7 +180,6 @@ Instead of forcing conversions between data structures, we made every structure 
 This is **zero friction** because you use the same mental model.
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🎁 All Array Methods Work Everywhere
 
@@ -258,92 +251,6 @@ const stats = {
 | forEach     | ✅           | ✅    | ✅     | ✅     | ✅          |
 
 ---
-
-## 🔄 Working with Raw Data
-
-Got raw objects? Every data structure lets you pass them directly. Pick the pattern that fits what you want to store.
-
-### Pattern 1: `toElementFn` — Extract a field
-
-Store only the extracted value. The original object is not kept.
-
-```typescript
-import { TreeSet, MinHeap } from 'data-structure-typed';
-
-interface User {
-  id: number;
-  name: string;
-}
-
-const users: User[] = [
-  { id: 3, name: 'Charlie' },
-  { id: 1, name: 'Alice' },
-  { id: 2, name: 'Bob' }
-];
-
-const ids = new TreeSet<number, User>(
-  users,
-  { toElementFn: u => u.id }
-);
-// [1, 2, 3] — numbers only
-
-const cheapest = new MinHeap<number, { price: number }>(
-  [{ price: 29.99 }, { price: 9.99 }, { price: 49.99 }],
-  { toElementFn: p => p.price }
-);
-cheapest.peek(); // 9.99
-```
-
-**Supported by:** TreeSet, TreeMultiSet, Heap, Queue, Deque, Stack, LinkedList, Trie
-
-### Pattern 2: `comparator` — Store full objects, sort by a field
-
-The original objects are stored as-is. The comparator tells the structure how to order them.
-
-```typescript
-import { TreeSet } from 'data-structure-typed';
-
-const fullSet = new TreeSet<User>(
-  users,
-  { comparator: (a, b) => a.id - b.id }
-);
-// [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }, { id: 3, name: 'Charlie' }]
-
-// Full objects preserved — access any field
-for (const user of fullSet) {
-  console.log(user.name);
-}
-```
-
-**Supported by:** All sorted structures (BST, AVL, RedBlackTree, TreeMap, TreeSet, Heap, PriorityQueue, SkipList)
-
-### Pattern 3: `toEntryFn` — Split into key-value
-
-Extract a key for sorting/lookup, store anything as the value.
-
-```typescript
-import { TreeMap } from 'data-structure-typed';
-
-const map = new TreeMap<number, User, User>(
-  users,
-  { toEntryFn: u => [u.id, u] }
-);
-map.get(1); // { id: 1, name: 'Alice' }
-map.floor(2.5); // [2, { id: 2, name: 'Bob' }]
-```
-
-**Supported by:** TreeMap, TreeMultiMap, HashMap, SkipList, BST, AVL, RedBlackTree
-
-### Which pattern should I use?
-
-| I want to... | Use |
-|---|---|
-| Store only IDs/scores/prices | `toElementFn` |
-| Store full objects, sorted by a field | `comparator` |
-| Look up full objects by a key | `toEntryFn` |
-
----
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Why Not Just Use Native JavaScript?
 
@@ -426,26 +333,7 @@ const tree = new RedBlackTree(prices);
 const inRange = tree.rangeSearch([30, 70]);
 ```
 
-### Case 5: Finding the K-th Element Requires Sorting
-
-❌ Array: sort + index is O(n log n):
-
-```javascript
-const scores = [85, 92, 78, 95, 88, 100, 73];
-scores.sort((a, b) => a - b);
-const median = scores[Math.floor(scores.length / 2)]; // re-sort on every update
-```
-
-✅ Order-statistic tree: O(log n) getByRank/getRank with live updates:
-
-```javascript
-const tree = new RedBlackTree(scores, { enableOrderStatistic: true });
-const median = tree.getByRank(Math.floor(tree.size / 2)); // O(log n)
-const rank = tree.getRank(92); // "how many scores below 92?" — O(log n)
-const top3 = tree.rangeByRank(tree.size - 3, tree.size - 1); // O(log n + 3)
-```
-
-### Case 6: Prefix Matching is Tedious
+### Case 5: Prefix Matching is Tedious
 
 ❌ Array.filter is O(n*m):
 
@@ -463,8 +351,50 @@ const matches = trie.getWords('appl');
 // O(5 + 4) = 9 operations ✅
 ```
 
+### Case 6: Finding the K-th Element or Rank
+
+❌ Array requires sorting O(n log n):
+
+```javascript
+const scores = [85, 92, 78, 95, 88, 73, 99];
+scores.sort((a, b) => b - a);
+const thirdPlace = scores[2];  // Must re-sort after every insert
+```
+
+✅ Order-Statistic Tree gives O(log n) rank queries:
+
+```javascript
+const tree = new RedBlackTree(scores.map(s => [s, null]), {
+  comparator: (a, b) => b - a,
+  enableOrderStatistic: true
+});
+tree.getByRank(2);     // 3rd place — O(log n)
+tree.getRank(92);      // How many scores are higher? — O(log n)
+tree.rangeByRank(0, 2); // Top 3 scores — O(log n + k)
+// Insert new score — O(log n), no re-sorting needed
+tree.set(91, null);
+```
+
+### Case 7: Pass Raw Objects Without Pre-Processing
+
+❌ Array.map just to reshape data:
+
+```javascript
+const users = [{ id: 3, name: 'Charlie' }, { id: 1, name: 'Alice' }];
+const entries = users.map(u => [u.id, u]);  // Extra step
+const map = new Map(entries);
+```
+
+✅ Pass raw objects directly with `toEntryFn`:
+
+```javascript
+const map = new TreeMap(users, {
+  toEntryFn: u => [u.id, u]
+});
+// No .map() needed — sorted by id automatically
+```
+
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## 🎯 Decision Guide: Choose the Right Data Structure
 
@@ -500,6 +430,12 @@ Need range queries on an indexed sequence?
     Only need prefix sums? → BinaryIndexedTree (simpler, less memory)
   No  → Continue
 
+Need k-th element or rank queries?
+  ↓
+  Yes → RedBlackTree / TreeMap / TreeSet with { enableOrderStatistic: true }
+    getByRank(k), getRank(key), rangeByRank(start, end) — all O(log n)
+  No  → Continue
+
 Need a sorted key-value map?
   ↓
   Yes → TreeMap (guaranteed O(log n) via Red-Black Tree)
@@ -508,7 +444,6 @@ Need a sorted key-value map?
 ```
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 ## Next Steps
 
@@ -525,7 +460,6 @@ keywords: [typescript data structures concepts, comparator, iterator protocol, g
 → [See architecture details](/guide/architecture.md)
 
 ---
-keywords: [typescript data structures concepts, comparator, iterator protocol, generics, uniform API]
 
 **Related:**
 
