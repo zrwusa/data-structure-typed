@@ -61,6 +61,43 @@ describe('TreeSet ES2025 Set operations', () => {
     });
   });
 
+  describe('TreeSet-to-TreeSet (branch coverage)', () => {
+    it('intersection with TreeSet', () => {
+      expect([...a.intersection(b)]).toEqual([3, 4, 5]);
+    });
+    it('difference with TreeSet', () => {
+      expect([...a.difference(b)]).toEqual([1, 2]);
+    });
+    it('symmetricDifference with TreeSet', () => {
+      expect([...a.symmetricDifference(b)]).toEqual([1, 2, 6, 7]);
+    });
+    it('isDisjointFrom with TreeSet', () => {
+      expect(a.isDisjointFrom(new TreeSet([8, 9]))).toBe(true);
+    });
+    it('isSubsetOf with TreeSet', () => {
+      expect(new TreeSet([3, 4]).isSubsetOf(a)).toBe(true);
+    });
+  });
+
+  describe('native Set inputs (branch coverage)', () => {
+    it('intersection with native Set', () => {
+      expect([...a.intersection(new Set([2, 4, 6]))]).toEqual([2, 4]);
+    });
+    it('difference with native Set', () => {
+      expect([...a.difference(new Set([3, 4, 5]))]).toEqual([1, 2]);
+    });
+    it('symmetricDifference with native Set', () => {
+      expect([...a.symmetricDifference(new Set([4, 5, 6]))]).toEqual([1, 2, 3, 6]);
+    });
+    it('isDisjointFrom with native Set', () => {
+      expect(a.isDisjointFrom(new Set([8, 9]))).toBe(true);
+      expect(a.isDisjointFrom(new Set([1]))).toBe(false);
+    });
+    it('isSubsetOf with native Set', () => {
+      expect(a.isSubsetOf(new Set([1, 2, 3, 4, 5, 6]))).toBe(true);
+    });
+  });
+
   describe('isSubsetOf', () => {
     it('@example [TreeSet.isSubsetOf] Check subset', () => {
       expect(new TreeSet([3, 4]).isSubsetOf(a)).toBe(true);
