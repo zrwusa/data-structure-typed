@@ -511,6 +511,10 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
+   
     * @example
  * // Set a key-value pair
  *  const avl = new AVLTree<number, string>();
@@ -535,6 +539,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
+   
+   
+   
    
    
    
@@ -752,6 +759,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
     * @example
  * // Rebalance the tree
  *  const avl = new AVLTree<number>();
@@ -801,6 +810,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
+   
+   
+   
    
    
    
