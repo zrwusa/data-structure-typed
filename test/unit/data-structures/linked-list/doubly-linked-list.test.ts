@@ -1273,10 +1273,10 @@ describe('classic use', () => {
     expect(found).toBe(20);
   });
 
-  it('@example [DoublyLinkedList.getBackward] Find value scanning from tail', () => {
+  it('@example [DoublyLinkedList.findLast] Find value scanning from tail', () => {
     const list = new DoublyLinkedList<number>([1, 2, 3, 4]);
-    // getBackward scans from tail to head, returns first match
-    const found = list.getBackward(node => node.value < 4);
+    // findLast scans from tail to head, returns first match
+    const found = list.findLast(node => node.value < 4);
     expect(found).toBe(3);
   });
 

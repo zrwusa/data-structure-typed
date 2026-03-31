@@ -1191,12 +1191,27 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     * @example
  * // Find value scanning from tail
  *  const list = new DoublyLinkedList<number>([1, 2, 3, 4]);
- *     // getBackward scans from tail to head, returns first match
- *     const found = list.getBackward(node => node.value < 4);
+ *     // findLast scans from tail to head, returns first match
+ *     const found = list.findLast(node => node.value < 4);
  *     console.log(found); // 3;
    */
 
+  /**
+   * @deprecated Use `findLast` instead. Will be removed in a future major version.
+   */
   getBackward(
+    elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
+  ): E | undefined {
+    return this.findLast(elementNodeOrPredicate);
+  }
+
+  /**
+   * Find the first value matching a predicate scanning backward (tail → head).
+   * @remarks Time O(N), Space O(1)
+   * @param elementNodeOrPredicate - Element, node, or predicate to match.
+   * @returns Matching value or undefined.
+   */
+  findLast(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
     const predicate = this._ensurePredicate(elementNodeOrPredicate);
