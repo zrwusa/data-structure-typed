@@ -5232,7 +5232,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *  console.log([...a.intersection(b)]); // [3, 4, 5];
    */
   intersection(other: Iterable<K>): TreeSet<K> {
-    const otherSet = other instanceof TreeSet ? other : new Set(other);
+    const otherSet = other instanceof TreeSet || other instanceof Set ? other : new Set(other);
     const result = new TreeSet<K>([], { comparator: this.#isDefaultComparator ? undefined : this.#userComparator });
     for (const key of this) {
       if (otherSet.has(key)) result.add(key);
@@ -5250,7 +5250,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *  console.log([...a.difference(b)]); // [1, 2];
    */
   difference(other: Iterable<K>): TreeSet<K> {
-    const otherSet = other instanceof TreeSet ? other : new Set(other);
+    const otherSet = other instanceof TreeSet || other instanceof Set ? other : new Set(other);
     const result = new TreeSet<K>([], { comparator: this.#isDefaultComparator ? undefined : this.#userComparator });
     for (const key of this) {
       if (!otherSet.has(key)) result.add(key);
@@ -5268,7 +5268,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *  console.log([...a.symmetricDifference(b)]); // [1, 2, 6, 7];
    */
   symmetricDifference(other: Iterable<K>): TreeSet<K> {
-    const otherSet = other instanceof TreeSet ? other : new Set(other);
+    const otherSet = other instanceof TreeSet || other instanceof Set ? other : new Set(other);
     const result = new TreeSet<K>([], { comparator: this.#isDefaultComparator ? undefined : this.#userComparator });
     for (const key of this) {
       if (!otherSet.has(key)) result.add(key);
@@ -5289,7 +5289,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *  console.log(new TreeSet([3, 4]).isSubsetOf(a)); // true;
    */
   isSubsetOf(other: Iterable<K>): boolean {
-    const otherSet = other instanceof TreeSet ? other : new Set(other);
+    const otherSet = other instanceof TreeSet || other instanceof Set ? other : new Set(other);
     for (const key of this) {
       if (!otherSet.has(key)) return false;
     }
@@ -5322,7 +5322,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
  *  console.log(a.isDisjointFrom(new TreeSet([8, 9]))); // true;
    */
   isDisjointFrom(other: Iterable<K>): boolean {
-    const otherSet = other instanceof TreeSet ? other : new Set(other);
+    const otherSet = other instanceof TreeSet || other instanceof Set ? other : new Set(other);
     for (const key of this) {
       if (otherSet.has(key)) return false;
     }
