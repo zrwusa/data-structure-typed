@@ -328,6 +328,17 @@ export abstract class LinearBase<
   abstract reverse(): this;
 
   /**
+   * Return a new instance of the same type with elements in reverse order (non-mutating).
+   * @remarks Provided for familiarity when migrating from Array (ES2023 `toReversed`). Time O(n), Space O(n).
+   * @returns A new reversed instance.
+   */
+  toReversed(): this {
+    const cloned = this.clone();
+    cloned.reverse();
+    return cloned as this;
+  }
+
+  /**
    * Append one element or node to the tail.
    * @param elementOrNode - Element or node.
    * @returns `true` if appended.

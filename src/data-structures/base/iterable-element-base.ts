@@ -191,6 +191,38 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
     return false;
   }
 
+  /**
+   * Check whether a value exists (Array-compatible alias for `has`).
+   * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
+   * @param element - Element to search for (uses `===`).
+   * @returns `true` if found.
+   */
+  includes(element: E): boolean {
+    return this.has(element);
+  }
+
+  /**
+   * Return an iterator of `[index, value]` pairs (Array-compatible).
+   * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1) per step.
+   */
+  *entries(): IterableIterator<[number, E]> {
+    let index = 0;
+    for (const value of this) {
+      yield [index++, value];
+    }
+  }
+
+  /**
+   * Return an iterator of numeric indices (Array-compatible).
+   * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1) per step.
+   */
+  *keys(): IterableIterator<number> {
+    let index = 0;
+    for (const _ of this) {
+      yield index++;
+    }
+  }
+
   reduce(callbackfn: ReduceElementCallback<E, R>): E;
   reduce(callbackfn: ReduceElementCallback<E, R>, initialValue: E): E;
   reduce<U>(callbackfn: ReduceElementCallback<E, R, U>, initialValue: U): U;
