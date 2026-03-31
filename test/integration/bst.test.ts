@@ -62,7 +62,6 @@ describe('Individual package BST operations test', () => {
 
     const removed11 = bst.delete(11);
     expect(removed11).toBe(true);
-    expect(removed11[0]).toBeDefined();
     expect(removed11).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
@@ -71,7 +70,6 @@ describe('Individual package BST operations test', () => {
 
     const removed1 = bst.delete(1);
     expect(removed1).toBe(true);
-    expect(removed1[0]).toBeDefined();
     expect(removed1).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
@@ -80,21 +78,18 @@ describe('Individual package BST operations test', () => {
 
     const removed4 = bst.delete(4);
     expect(removed4).toBe(true);
-    expect(removed4[0]).toBeDefined();
     expect(removed4).toBe(true);
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(4);
 
     const removed10 = bst.delete(10);
     expect(removed10).toBe(true);
-    expect(removed10[0]).toBeDefined();
     expect(removed10).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(4);
 
     const removed15 = bst.delete(15);
     expect(removed15).toBe(true);
-    expect(removed15[0]).toBeDefined();
     expect(removed15).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
@@ -102,7 +97,6 @@ describe('Individual package BST operations test', () => {
 
     const removed5 = bst.delete(5);
     expect(removed5).toBe(true);
-    expect(removed5[0]).toBeDefined();
     expect(removed5).toBe(true);
 
     expect(bst.isAVLBalanced()).toBe(true);
@@ -110,28 +104,24 @@ describe('Individual package BST operations test', () => {
 
     const removed13 = bst.delete(13);
     expect(removed13).toBe(true);
-    expect(removed13[0]).toBeDefined();
     expect(removed13).toBe(true);
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(3);
 
     const removed3 = bst.delete(3);
     expect(removed3).toBe(true);
-    expect(removed3[0]).toBeDefined();
     expect(removed3).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed8 = bst.delete(8);
     expect(removed8).toBe(true);
-    expect(removed8[0]).toBeDefined();
     expect(removed8).toBe(true);
     expect(bst.isAVLBalanced()).toBe(true);
     expect(bst.getHeight()).toBe(3);
 
     const removed6 = bst.delete(6);
     expect(removed6).toBe(true);
-    expect(removed6[0]).toBeDefined();
     expect(removed6).toBe(true);
     expect(bst.delete(6)).toBe(false);
     expect(bst.isAVLBalanced()).toBe(false);
@@ -139,21 +129,18 @@ describe('Individual package BST operations test', () => {
 
     const removed7 = bst.delete(7);
     expect(removed7).toBe(true);
-    expect(removed7[0]).toBeDefined();
     expect(removed7).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed9 = bst.delete(9);
     expect(removed9).toBe(true);
-    expect(removed9[0]).toBeDefined();
     expect(removed9).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(3);
 
     const removed14 = bst.delete(14);
     expect(removed14).toBe(true);
-    expect(removed14[0]).toBeDefined();
     expect(removed14).toBe(true);
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(2);
@@ -247,7 +234,6 @@ describe('Individual package BST operations test', () => {
 
     const removed11 = objBST.delete(11);
     expect(removed11).toBe(true);
-    expect(removed11[0]).toBeDefined();
     expect(removed11).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
@@ -255,7 +241,6 @@ describe('Individual package BST operations test', () => {
 
     const removed1 = objBST.delete(1);
     expect(removed1).toBe(true);
-    expect(removed1[0]).toBeDefined();
     expect(removed1).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
@@ -264,21 +249,18 @@ describe('Individual package BST operations test', () => {
 
     const removed4 = objBST.delete(4);
     expect(removed4).toBe(true);
-    expect(removed4[0]).toBeDefined();
     expect(removed4).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(4);
 
     const removed10 = objBST.delete(10);
     expect(removed10).toBe(true);
-    expect(removed10[0]).toBeDefined();
     expect(removed10).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(4);
 
     const removed15 = objBST.delete(15);
     expect(removed15).toBe(true);
-    expect(removed15[0]).toBeDefined();
     expect(removed15).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
@@ -286,7 +268,6 @@ describe('Individual package BST operations test', () => {
 
     const removed5 = objBST.delete(5);
     expect(removed5).toBe(true);
-    expect(removed5[0]).toBeDefined();
     expect(removed5).toBe(true);
 
     expect(objBST.isAVLBalanced()).toBe(true);
@@ -294,28 +275,24 @@ describe('Individual package BST operations test', () => {
 
     const removed13 = objBST.delete(13);
     expect(removed13).toBe(true);
-    expect(removed13[0]).toBeDefined();
     expect(removed13).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed3 = objBST.delete(3);
     expect(removed3).toBe(true);
-    expect(removed3[0]).toBeDefined();
     expect(removed3).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed8 = objBST.delete(8);
     expect(removed8).toBe(true);
-    expect(removed8[0]).toBeDefined();
     expect(removed8).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(true);
     expect(objBST.getHeight()).toBe(3);
 
     const removed6 = objBST.delete(6);
     expect(removed6).toBe(true);
-    expect(removed6[0]).toBeDefined();
     expect(removed6).toBe(true);
     expect(objBST.delete(6)).toBe(false);
     expect(objBST.isAVLBalanced()).toBe(false);
@@ -323,21 +300,18 @@ describe('Individual package BST operations test', () => {
 
     const removed7 = objBST.delete(7);
     expect(removed7).toBe(true);
-    expect(removed7[0]).toBeDefined();
     expect(removed7).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed9 = objBST.delete(9);
     expect(removed9).toBe(true);
-    expect(removed9[0]).toBeDefined();
     expect(removed9).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(3);
 
     const removed14 = objBST.delete(14);
     expect(removed14).toBe(true);
-    expect(removed14[0]).toBeDefined();
     expect(removed14).toBe(true);
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(2);
