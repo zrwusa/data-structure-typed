@@ -13,7 +13,7 @@ cd "$source_dir/docs-site-docusaurus"
 rm -rf docs/api
 npx typedoc --options typedoc.json
 node sort-protected.mjs
-npm run build
+pnpm build
 
 # Deploy to docs repo
 cd "$docs_dir"

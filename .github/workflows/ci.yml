@@ -45,7 +45,7 @@ jobs:
         run: pnpm install
 
       - name: Combined ci commands together
-        run: npm run ci
+        run: pnpm inspect && pnpm test:coverage
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
