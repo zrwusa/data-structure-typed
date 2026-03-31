@@ -168,7 +168,8 @@
     "check:exist-latest": "sh scripts/check_exist_remotely.sh",
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",
-    "toc": "doctoc README.md"
+    "toc": "doctoc README.md",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -208,6 +209,7 @@
     "eslint-plugin-import": "^2.31.0",
     "fast-glob": "^3.3.2",
     "heap-typed": "^2.5.3",
+    "husky": "^9.1.7",
     "istanbul-badges-readme": "^1.9.0",
     "jest": "^29.7.0",
     "js-sdsl": "^4.4.2",

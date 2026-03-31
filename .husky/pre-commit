@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "🔍 Pre-commit: check + lint + integration tests..."
+npm run check && npm run lint && npx jest --config jest.integration.config.js

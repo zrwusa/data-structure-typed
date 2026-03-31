@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var data_structure_typed_1 = require("data-structure-typed");
+
 describe('compile', function () {
     it('compiles an empty array', function () {
         var orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
