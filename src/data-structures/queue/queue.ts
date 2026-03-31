@@ -198,6 +198,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Track queue length
  *  const q = new Queue<number>();
@@ -215,6 +216,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element (front) without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Front element or undefined.
+   
    
    
    
@@ -343,6 +345,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Queue for...of iteration and isEmpty check
  *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
@@ -372,6 +375,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to enqueue.
    * @returns True on success.
+   
    
    
    
@@ -492,6 +496,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Queue shift and peek operations
  *  const queue = new Queue<number>([10, 20, 30, 40]);
@@ -559,6 +564,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Remove specific element
  *  const q = new Queue<number>([1, 2, 3, 2]);
@@ -581,6 +587,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param index - Zero-based index from the front.
    * @returns Element or undefined.
+   
    
    
    
@@ -744,6 +751,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Remove all elements
  *  const q = new Queue<number>([1, 2, 3]);
@@ -760,6 +768,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Compact storage by discarding consumed head elements.
    * @remarks Time O(N), Space O(N)
    * @returns True when compaction performed.
+   
    
    
    
@@ -881,6 +890,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Create independent copy
  *  const q = new Queue<number>([1, 2, 3]);
@@ -903,6 +913,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param predicate - Predicate (element, index, queue) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new queue with kept elements.
+   
    
    
    
@@ -969,6 +980,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options for the output queue (e.g., toElementFn, maxLen, autoCompactRatio).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Queue with mapped elements.
+   
    
    
    

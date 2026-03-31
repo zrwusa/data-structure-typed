@@ -8,7 +8,25 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v2.5.3](https://github.com/zrwusa/data-structure-typed/compare/v2.5.3...main) (upcoming)
+## [v2.5.4](https://github.com/zrwusa/data-structure-typed/compare/v2.5.3...main) (upcoming)
+
+### New Features
+
+- **Array-compatible APIs** (migration helpers on all IterableElementBase containers):
+  - `includes()` — alias for `has()`
+  - `entries()` — returns `[index, value]` iterator
+  - `keys()` — returns index iterator
+  - `toReversed()` — non-mutating reverse returning same-type instance
+- **DoublyLinkedList.findLast()** — replaces deprecated `getBackward()`, aligns with ES2023 `Array.findLast()`
+- **Deque.findLast()** / **Deque.findLastIndex()** — back-to-front search
+- **DoublyLinkedList.findLastIndex()** — back-to-front index search
+- **TreeSet ES2025 Set operations**: `union`, `intersection`, `difference`, `symmetricDifference`, `isSubsetOf`, `isSupersetOf`, `isDisjointFrom` — all accept any `Iterable<K>`
+- **TreeMultiMap.entries()** — yields `[K, V[]]` pairs
+- **TreeMultiSet.keys()** / **values()** — yield with multiplicity
+
+### Deprecations
+
+- `DoublyLinkedList.getBackward()` → use `findLast()` instead
 
 ## [v2.5.3](https://github.com/zrwusa/data-structure-typed/compare/v2.5.1...v2.5.3) (31 March 2026)
 

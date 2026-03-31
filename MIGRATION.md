@@ -124,9 +124,57 @@ heap.deleteBy(e => e.id === 42);
 heap.deleteWhere(e => e.id === 42);
 ```
 
+#### `DoublyLinkedList.getBackward()` → use `findLast()`
+
+```typescript
+// Deprecated
+list.getBackward(node => node.value > 5);
+
+// Preferred (aligns with ES2023 Array.findLast)
+list.findLast(node => node.value > 5);
+```
+
 ---
 
 ### New Features
+
+#### Array-Compatible APIs (v2.5.4+)
+
+All `IterableElementBase` containers (Queue, Deque, Stack, LinkedList, Heap, Trie) now support:
+
+```typescript
+structure.includes(element);    // alias for has()
+[...structure.entries()];       // [[0, val0], [1, val1], ...]
+[...structure.keys()];          // [0, 1, 2, ...]
+structure.toReversed();         // new instance, reversed (linear containers)
+```
+
+#### Back-to-Front Search (v2.5.4+)
+
+```typescript
+// Deque + DoublyLinkedList
+deque.findLast(v => v > 10);       // last matching value
+deque.findLastIndex(v => v > 10);  // last matching index, or -1
+```
+
+#### TreeSet ES2025 Set Operations (v2.5.4+)
+
+```typescript
+const a = new TreeSet([1, 2, 3, 4, 5]);
+const b = new TreeSet([3, 4, 5, 6, 7]);
+
+a.union(b);               // TreeSet [1,2,3,4,5,6,7]
+a.intersection(b);        // TreeSet [3,4,5]
+a.difference(b);          // TreeSet [1,2]
+a.symmetricDifference(b); // TreeSet [1,2,6,7]
+a.isSubsetOf(b);          // false
+a.isSupersetOf(b);        // false
+a.isDisjointFrom(b);      // false
+
+// Works with any Iterable
+a.union([10, 11]);
+a.intersection(new Set([2, 4]));
+```
 
 #### `deleteWhere()` — conditional deletion
 

@@ -1,7 +1,7 @@
 import { TreeMultiMap } from '../../../../src';
 
 describe('TreeMultiMap.entries()', () => {
-  it('returns [key, values[]] pairs', () => {
+  it('@example [TreeMultiMap.entries] Iterate over entries', () => {
     const mm = new TreeMultiMap<number, string>();
     mm.set(1, 'a');
     mm.set(1, 'b');

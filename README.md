@@ -362,6 +362,24 @@ taskQueue.add({ priority: 9, task: 'Alert' });  // Instant priority handling
 const nextTask = taskQueue.pop();  // { priority: 9, task: 'Alert' }
 ```
 
+### Set Operations (ES2025)
+
+```typescript
+import { TreeSet } from 'data-structure-typed';
+
+const a = new TreeSet([1, 2, 3, 4, 5]);
+const b = new TreeSet([3, 4, 5, 6, 7]);
+
+[...a.union(b)];               // [1,2,3,4,5,6,7]
+[...a.intersection(b)];        // [3,4,5]
+[...a.difference(b)];          // [1,2]
+[...a.symmetricDifference(b)]; // [1,2,6,7]
+a.isSubsetOf(b);               // false
+
+// Works with any Iterable — native Set, arrays, generators
+a.intersection(new Set([2, 4, 6]));  // TreeSet [2, 4]
+```
+
 ### Fast Queue (FIFO)
 
 ```typescript

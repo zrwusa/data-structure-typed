@@ -325,6 +325,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
     * @example
  * // basic Trie creation and add words
  *  // Create a simple Trie with initial words
@@ -367,6 +368,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(ΣL), Space O(ΣL)
    * @param words - Iterable of strings (or raw records if toElementFn is provided).
    * @returns Array of per-word 'added' flags.
+   
    
    
    
@@ -472,6 +474,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
     * @example
  * // Check if a word exists
  *  const dict = new Trie(['apple', 'app', 'application']);
@@ -496,6 +499,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Check whether the trie is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+   
    
    
    
@@ -588,6 +592,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
     * @example
  * // Remove all words
  *  const trie = new Trie(['a', 'b', 'c']);
@@ -605,6 +610,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to delete.
    * @returns True if a word was removed.
+   
    
    
    
@@ -791,6 +797,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
     * @example
  * // Check if a prefix exists
  *  const trie = new Trie(['hello', 'help', 'world']);
@@ -877,6 +884,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
     * @example
  * // Find shared prefix
  *  const trie = new Trie(['flower', 'flow', 'flight']);
@@ -903,6 +911,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
    * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
    * @returns Array of collected words (at most max).
+   
    
    
    
@@ -1034,6 +1043,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    
    
    
+   
     * @example
  * // Create independent copy
  *  const trie = new Trie(['hello', 'world']);
@@ -1054,6 +1064,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param predicate - Predicate (word, index, trie) → boolean to keep word.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new trie containing words that satisfy the predicate.
+   
    
    
    
@@ -1114,6 +1125,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
     /**
    * Transform words
   
+   
    
    
    

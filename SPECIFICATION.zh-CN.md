@@ -116,6 +116,16 @@ structure.peek(): T | undefined             // 查看队头元素（Queue/Deque/
 structure.first: T | undefined              // 查看第一个元素（getter）
 structure.last: T | undefined               // 查看最后一个元素（getter）
 
+// 反向查找
+structure.findLast(pred: Function): T | undefined   // Deque、DoublyLinkedList
+structure.findLastIndex(pred: Function): number     // Deque、DoublyLinkedList
+
+// Array 兼容（方便迁移）
+structure.includes(element: T): boolean     // has() 的别名
+structure.entries(): IterableIterator<[number, T]>  // [index, value] 对
+structure.keys(): IterableIterator<number>  // 索引迭代器
+structure.toReversed(): this                // 非破坏性反转（返回新实例）
+
 // 大小和查询
 structure.size: number                      // 元素数量（Stack、Trie 等）
 structure.length: number                    // 元素数量（Queue、Deque、LinkedList）
@@ -166,6 +176,20 @@ heap.peek(): T | undefined                 // 查看最高/最低优先级但不
 heap.size: number
 heap.isEmpty(): boolean
 ```
+
+### TreeSet — ES2025 集合操作
+
+```typescript
+treeSet.union(other: Iterable<K>): TreeSet<K>              // 并集
+treeSet.intersection(other: Iterable<K>): TreeSet<K>       // 交集
+treeSet.difference(other: Iterable<K>): TreeSet<K>         // 差集
+treeSet.symmetricDifference(other: Iterable<K>): TreeSet<K>// 对称差集
+treeSet.isSubsetOf(other: Iterable<K>): boolean            // 子集判断
+treeSet.isSupersetOf(other: Iterable<K>): boolean          // 超集判断
+treeSet.isDisjointFrom(other: Iterable<K>): boolean        // 不相交判断
+```
+
+接受任何 `Iterable<K>`（TreeSet、原生 Set、数组、生成器）。
 
 ### 数组方法（所有结构上可用）
 

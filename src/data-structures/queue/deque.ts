@@ -316,6 +316,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Deque peek at both ends
   
    
+   
     * @example
  * // Deque peek at both ends
  *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
@@ -340,6 +341,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the last element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
+   
    
    
    
@@ -420,6 +422,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to append.
    * @returns True when appended.
+   
    
    
    
@@ -545,6 +548,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Remove from the back
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -575,6 +579,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the first element.
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
+   
    
    
    
@@ -647,6 +652,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to prepend.
    * @returns True when prepended.
+   
    
    
    
@@ -805,6 +811,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Check if empty
  *  const dq = new Deque();
@@ -819,6 +826,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove all elements and reset structure.
    * @remarks Time O(1), Space O(1)
    * @returns void
+   
    
    
    
@@ -877,6 +885,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param pos - Zero-based position from the front.
    * @returns Element or undefined.
+   
    
    
    
@@ -1145,6 +1154,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Remove element
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -1267,6 +1277,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
    * @param predicate - Function called with (value, index, deque).
    * @returns Matching value or undefined.
+    * @example
+ * // Find last matching value
+ *  const d = new Deque([1, 2, 3, 4, 5]);
+ *     console.log(d.findLast(v => v > 2)); // 5;
+ *     console.log(d.findLast(v => v % 2 === 0)); // 4;
    */
   findLast(predicate: (value: E, index: number, deque: this) => boolean): E | undefined {
     for (let i = this.length - 1; i >= 0; i--) {
@@ -1281,6 +1296,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
    * @param predicate - Function called with (value, index, deque).
    * @returns Matching index, or -1 if not found.
+    * @example
+ * // Find last matching index
+ *  const d = new Deque([10, 20, 30, 20, 10]);
+ *     console.log(d.findLastIndex(v => v === 20)); // 3;
+ *     console.log(d.findLastIndex(v => v === 10)); // 4;
    */
   findLastIndex(predicate: (value: E, index: number, deque: this) => boolean): number {
     for (let i = this.length - 1; i >= 0; i--) {
@@ -1292,6 +1312,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     /**
    * Deque for...of iteration and reverse
   
+   
     * @example
  * // Deque for...of iteration and reverse
  *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
@@ -1417,6 +1438,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Reclaim memory
  *  const dq = new Deque<number>([1, 2, 3, 4, 5]);
@@ -1457,6 +1479,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Deep clone this deque, preserving options.
    * @remarks Time O(N), Space O(N)
    * @returns A new deque with the same content and options.
+   
    
    
    
@@ -1558,6 +1581,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    
    
    
+   
     * @example
  * // Filter elements
  *  const dq = new Deque<number>([1, 2, 3, 4]);
@@ -1604,6 +1628,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options for the output deque (e.g., bucketSize, toElementFn, maxLen).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Deque with mapped elements.
+   
    
    
    

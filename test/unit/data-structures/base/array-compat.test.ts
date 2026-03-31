@@ -2,7 +2,7 @@ import { Queue, Deque, DoublyLinkedList, SinglyLinkedList, Stack, Heap } from '.
 
 describe('Array-compatible API: includes, entries, keys', () => {
   describe('includes (alias for has)', () => {
-    it('Queue', () => {
+    it('@example [Queue.includes] Check element existence', () => {
       const q = new Queue([1, 2, 3]);
       expect(q.includes(2)).toBe(true);
       expect(q.includes(99)).toBe(false);
@@ -45,7 +45,7 @@ describe('Array-compatible API: includes, entries, keys', () => {
   });
 
   describe('entries', () => {
-    it('Queue returns [index, value] pairs', () => {
+    it('@example [Queue.entries] Get [index, value] pairs', () => {
       const q = new Queue(['a', 'b', 'c']);
       expect([...q.entries()]).toEqual([[0, 'a'], [1, 'b'], [2, 'c']]);
     });
@@ -61,7 +61,7 @@ describe('Array-compatible API: includes, entries, keys', () => {
   });
 
   describe('keys', () => {
-    it('Queue returns indices', () => {
+    it('@example [Queue.keys] Get index iterator', () => {
       const q = new Queue([1, 2, 3]);
       expect([...q.keys()]).toEqual([0, 1, 2]);
     });
@@ -78,7 +78,7 @@ describe('Array-compatible API: includes, entries, keys', () => {
 });
 
 describe('Deque findLast / findLastIndex', () => {
-  it('findLast returns last matching value', () => {
+  it('@example [Deque.findLast] Find last matching value', () => {
     const d = new Deque([1, 2, 3, 4, 5]);
     expect(d.findLast(v => v > 2)).toBe(5);
     expect(d.findLast(v => v % 2 === 0)).toBe(4);
@@ -100,7 +100,7 @@ describe('Deque findLast / findLastIndex', () => {
     expect(indices).toEqual([2, 1, 0]);
   });
 
-  it('findLastIndex returns last matching index', () => {
+  it('@example [Deque.findLastIndex] Find last matching index', () => {
     const d = new Deque([10, 20, 30, 20, 10]);
     expect(d.findLastIndex(v => v === 20)).toBe(3);
     expect(d.findLastIndex(v => v === 10)).toBe(4);
@@ -140,7 +140,7 @@ describe('DoublyLinkedList findLastIndex', () => {
 });
 
 describe('toReversed', () => {
-  it('Deque returns new reversed instance', () => {
+  it('@example [Deque.toReversed] Non-mutating reverse', () => {
     const d = new Deque([1, 2, 3]);
     const rev = d.toReversed();
     expect([...rev]).toEqual([3, 2, 1]);

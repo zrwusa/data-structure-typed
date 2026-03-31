@@ -1,13 +1,13 @@
 import { TreeMultiSet } from '../../../../src';
 
 describe('TreeMultiSet keys() / values()', () => {
-  it('keys yields elements with multiplicity', () => {
+  it('@example [TreeMultiSet.keys] Iterate with multiplicity', () => {
     const ms = new TreeMultiSet<number>();
     ms.add(1); ms.add(1); ms.add(2); ms.add(3); ms.add(3); ms.add(3);
     expect([...ms.keys()]).toEqual([1, 1, 2, 3, 3, 3]);
   });
 
-  it('values yields same as keys (Set compat)', () => {
+  it('@example [TreeMultiSet.values] Iterate with multiplicity', () => {
     const ms = new TreeMultiSet<number>();
     ms.add(5); ms.add(5); ms.add(10);
     expect([...ms.values()]).toEqual([5, 5, 10]);

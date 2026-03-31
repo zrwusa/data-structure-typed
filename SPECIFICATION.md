@@ -116,6 +116,16 @@ structure.peek(): T | undefined             // View front element (Queue/Deque/S
 structure.first: T | undefined              // View first element (getter)
 structure.last: T | undefined               // View last element (getter)
 
+// Search (back-to-front)
+structure.findLast(pred: Function): T | undefined   // Deque, DoublyLinkedList
+structure.findLastIndex(pred: Function): number     // Deque, DoublyLinkedList
+
+// Array-compatible (migration helpers)
+structure.includes(element: T): boolean     // Alias for has()
+structure.entries(): IterableIterator<[number, T]>  // [index, value] pairs
+structure.keys(): IterableIterator<number>  // Index iterator
+structure.toReversed(): this                // Non-mutating reverse (new instance)
+
 // Size and queries
 structure.size: number                      // Element count (Stack, Trie, etc.)
 structure.length: number                    // Element count (Queue, Deque, LinkedList)
@@ -166,6 +176,20 @@ heap.peek(): T | undefined                 // View highest/lowest without removi
 heap.size: number
 heap.isEmpty(): boolean
 ```
+
+### TreeSet — ES2025 Set Operations
+
+```typescript
+treeSet.union(other: Iterable<K>): TreeSet<K>
+treeSet.intersection(other: Iterable<K>): TreeSet<K>
+treeSet.difference(other: Iterable<K>): TreeSet<K>
+treeSet.symmetricDifference(other: Iterable<K>): TreeSet<K>
+treeSet.isSubsetOf(other: Iterable<K>): boolean
+treeSet.isSupersetOf(other: Iterable<K>): boolean
+treeSet.isDisjointFrom(other: Iterable<K>): boolean
+```
+
+All accept any `Iterable<K>` (TreeSet, native Set, Array, generators).
 
 ### Array Methods (Available on All Structures)
 

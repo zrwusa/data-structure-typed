@@ -5,7 +5,7 @@ describe('TreeSet ES2025 Set operations', () => {
   const b = new TreeSet([3, 4, 5, 6, 7]);
 
   describe('union', () => {
-    it('merges two TreeSets', () => {
+    it('@example [TreeSet.union] Merge two sets', () => {
       expect([...a.union(b)]).toEqual([1, 2, 3, 4, 5, 6, 7]);
     });
     it('works with plain array', () => {
@@ -25,7 +25,7 @@ describe('TreeSet ES2025 Set operations', () => {
   });
 
   describe('intersection', () => {
-    it('finds common elements', () => {
+    it('@example [TreeSet.intersection] Find common elements', () => {
       expect([...a.intersection(b)]).toEqual([3, 4, 5]);
     });
     it('returns empty when disjoint', () => {
@@ -37,7 +37,7 @@ describe('TreeSet ES2025 Set operations', () => {
   });
 
   describe('difference', () => {
-    it('finds elements only in this', () => {
+    it('@example [TreeSet.difference] Find exclusive elements', () => {
       expect([...a.difference(b)]).toEqual([1, 2]);
     });
     it('returns all when disjoint', () => {
@@ -49,7 +49,7 @@ describe('TreeSet ES2025 Set operations', () => {
   });
 
   describe('symmetricDifference', () => {
-    it('finds elements in either but not both', () => {
+    it('@example [TreeSet.symmetricDifference] Find symmetric difference', () => {
       expect([...a.symmetricDifference(b)]).toEqual([1, 2, 6, 7]);
     });
     it('equals union when disjoint', () => {
@@ -62,7 +62,7 @@ describe('TreeSet ES2025 Set operations', () => {
   });
 
   describe('isSubsetOf', () => {
-    it('returns true when subset', () => {
+    it('@example [TreeSet.isSubsetOf] Check subset', () => {
       expect(new TreeSet([3, 4]).isSubsetOf(a)).toBe(true);
     });
     it('returns true for equal sets', () => {
@@ -77,7 +77,7 @@ describe('TreeSet ES2025 Set operations', () => {
   });
 
   describe('isSupersetOf', () => {
-    it('returns true when superset', () => {
+    it('@example [TreeSet.isSupersetOf] Check superset', () => {
       expect(a.isSupersetOf(new TreeSet([2, 3]))).toBe(true);
     });
     it('returns false when not superset', () => {
@@ -89,7 +89,7 @@ describe('TreeSet ES2025 Set operations', () => {
   });
 
   describe('isDisjointFrom', () => {
-    it('returns true when no overlap', () => {
+    it('@example [TreeSet.isDisjointFrom] Check disjoint', () => {
       expect(a.isDisjointFrom(new TreeSet([8, 9]))).toBe(true);
     });
     it('returns false when overlap exists', () => {
