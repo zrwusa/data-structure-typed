@@ -2,9 +2,9 @@
 
 [English](./README.md) | 简体中文
 
-一个生产就绪的 TypeScript 数据结构库,提供 **Heap、Priority Queue、Deque、Trie、Graph、Red-Black Tree、TreeMap、TreeSet、SkipList、Segment Tree** 等数据结构,其 API 就像 JavaScript 原生 `Array` 一样直观。零依赖。类型安全。支持排名查询(`getRank`)、位置访问(`getByRank`)和范围查询(`rangeByRank`)。
+一个生产就绪的 TypeScript 数据结构库，包含 **Heap、Linked List、Deque、Trie、Graph、Red-Black Tree、TreeMap、TreeSet、SkipList、Segment Tree** 等 — API 对齐 JavaScript 原生 **Array、Map 和 Set**。零依赖。类型安全。ES2025 Set 操作。O(log n) 排名和范围查询。
 
-> **在 JavaScript 中寻找 TreeMap 或 TreeSet?** 需要优先级队列、有序集合或高效的排名/范围查询?厌倦了每次插入后反复排序数组?这个库提供了所有这些功能,并配有统一的、类似 Array 的 API。
+> **在 TypeScript/JavaScript 中寻找 TreeMap、TreeSet 或 PriorityQueue？** 熟悉的 API、集合操作、排名查询、有序访问 — 告别重复 `Array.sort()`。
 
 ![npm](https://img.shields.io/npm/dm/data-structure-typed)
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)

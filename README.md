@@ -2,9 +2,9 @@
 
 English | [简体中文](./README_CN.md)
 
-A production-ready TypeScript data structures library featuring **Heap, Priority Queue, Deque, Trie, Graph, Red-Black Tree, TreeMap, TreeSet, SkipList, Segment Tree**, and more — with an API that feels as intuitive as JavaScript's native `Array`. Zero dependencies. Type-safe. Supports rank queries (`getRank`), positional access (`getByRank`), and range queries (`rangeByRank`).
+A production-ready TypeScript data structures library featuring **Heap, Linked List, Deque, Trie, Graph, Red-Black Tree, TreeMap, TreeSet, SkipList, Segment Tree**, and more — with APIs that align with JavaScript's native **Array, Map, and Set**. Zero dependencies. Type-safe. ES2025 Set operations. O(log n) rank & range queries.
 
-> **Looking for a TreeMap or TreeSet in JavaScript?** Need a priority queue, an ordered set, or efficient rank/range queries? Tired of repeatedly sorting arrays after every insert? This library provides all of that with a unified, Array-like API.
+> **Looking for a TreeMap, TreeSet, or PriorityQueue in TypeScript/JavaScript?** Familiar API, set operations, rank queries, sorted access — no more repeated `Array.sort()`.
 
 ![npm](https://img.shields.io/npm/dm/data-structure-typed)
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
