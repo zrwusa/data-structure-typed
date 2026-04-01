@@ -15,8 +15,10 @@ export class UndirectedVertex<V = any> extends AbstractVertex<V> {
     super(key, value);
   }
 }
+
 export class UndirectedEdge<E = number> extends AbstractEdge<E> {
   endpoints: [VertexKey, VertexKey];
+
   constructor(v1: VertexKey, v2: VertexKey, weight?: number, value?: E) {
     super(weight, value);
     this.endpoints = [v1, v2];
@@ -150,10 +152,12 @@ export class UndirectedGraph<
     super(options);
     this._edgeMap = new Map<VO, EO[]>();
   }
+
   protected _edgeMap: Map<VO, EO[]>;
   get edgeMap(): Map<VO, EO[]> {
     return this._edgeMap;
   }
+
   set edgeMap(v: Map<VO, EO[]>) {
     this._edgeMap = v;
   }
@@ -168,7 +172,10 @@ export class UndirectedGraph<
   static fromKeys<K extends VertexKey>(
     keys: Iterable<K>
   ): UndirectedGraph<K, undefined, UndirectedVertex<K>, UndirectedEdge<undefined>> {
-    const g: UndirectedGraph<K, undefined, UndirectedVertex<K>, UndirectedEdge<undefined>> = new UndirectedGraph<K, undefined>({
+    const g: UndirectedGraph<K, undefined, UndirectedVertex<K>, UndirectedEdge<undefined>> = new UndirectedGraph<
+      K,
+      undefined
+    >({
       vertexValueInitializer: (k: VertexKey) => k as K
     });
     for (const k of keys) g.addVertex(k);
@@ -185,7 +192,10 @@ export class UndirectedGraph<
   static fromEntries<V>(
     entries: Iterable<[VertexKey, V]>
   ): UndirectedGraph<V, undefined, UndirectedVertex<V>, UndirectedEdge<undefined>> {
-    const g: UndirectedGraph<V, undefined, UndirectedVertex<V>, UndirectedEdge<undefined>> = new UndirectedGraph<V, undefined>();
+    const g: UndirectedGraph<V, undefined, UndirectedVertex<V>, UndirectedEdge<undefined>> = new UndirectedGraph<
+      V,
+      undefined
+    >();
     for (const [k, v] of entries) g.addVertex(k, v);
     return g;
   }
@@ -220,8 +230,6 @@ export class UndirectedGraph<
    * @param v2 - The other vertex or key.
    * @returns Edge instance or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
-
-
  * @example
  * // Get edge between vertices
  *  const g = new UndirectedGraph();
@@ -273,8 +281,6 @@ export class UndirectedGraph<
    * @param otherSideVertexKey - Required second endpoint when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
-
-
  * @example
  * // UndirectedGraph deleteEdge and vertex operations
  *  const graph = new UndirectedGraph<string>();
@@ -328,8 +334,6 @@ export class UndirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns `true` if removed; otherwise `false`.
    * @remarks Time O(deg), Space O(1)
-
-
  * @example
  * // Remove vertex and edges
  *  const g = new UndirectedGraph();
@@ -406,8 +410,6 @@ export class UndirectedGraph<
    * Unique set of undirected edges across endpoints.
    * @returns Array of edges.
    * @remarks Time O(E), Space O(E)
-
-
  * @example
  * // Get all edges
  *  const g = new UndirectedGraph();
@@ -426,10 +428,8 @@ export class UndirectedGraph<
     return [...edgeSet];
   }
 
-    /**
+  /**
    * UndirectedGraph connectivity and neighbors
-
-
  * @example
  * // UndirectedGraph connectivity and neighbors
  *  const graph = new UndirectedGraph<string>();
@@ -527,8 +527,6 @@ export class UndirectedGraph<
    * Tarjan-based bridge and articulation point detection.
    * @returns `{ dfnMap, lowMap, bridges, cutVertices }`.
    * @remarks Time O(V + E), Space O(V + E)
-
-
  * @example
  * // Find articulation points and bridges
  *  const g = new UndirectedGraph();
@@ -654,8 +652,6 @@ export class UndirectedGraph<
    * Uses DFS with parent tracking.
    * @returns `true` if a cycle exists, `false` otherwise.
    * @remarks Time O(V + E), Space O(V)
-
-
  * @example
  * // Detect cycle
  *  const g = new UndirectedGraph();
@@ -693,8 +689,6 @@ export class UndirectedGraph<
    * Get bridges discovered by `tarjan()`.
    * @returns Array of edges that are bridges.
    * @remarks Time O(B), Space O(1)
-
-
  * @example
  * // Find bridge edges
  *  const g = new UndirectedGraph();
@@ -714,8 +708,6 @@ export class UndirectedGraph<
    * Get articulation points discovered by `tarjan()`.
    * @returns Array of cut vertices.
    * @remarks Time O(C), Space O(1)
-
-
  * @example
  * // Find articulation points
  *  const g = new UndirectedGraph();

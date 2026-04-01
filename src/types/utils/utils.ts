@@ -3,16 +3,20 @@ export type Any = string | number | bigint | boolean | symbol | undefined | obje
 export type Arithmetic = number | bigint;
 export type ElemOf<T> = T extends (infer U)[] ? U : never;
 export type ComparablePrimitive = number | bigint | string | boolean;
+
 export interface BaseComparableObject {
   [key: string]: unknown;
 }
+
 export interface ValueComparableObject extends BaseComparableObject {
   valueOf: () => ComparablePrimitive | ValueComparableObject;
   toString?: () => string;
 }
+
 export interface StringComparableObject extends BaseComparableObject {
   toString: () => string;
 }
+
 export type ComparableObject = ValueComparableObject | StringComparableObject;
 export type Comparable = ComparablePrimitive | Date | ComparableObject;
 export type TrampolineThunk<T> = {

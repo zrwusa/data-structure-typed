@@ -13,7 +13,6 @@ import { raise } from '../../common';
  * and offers array-like helpers with predictable time/space complexity.
  */
 export abstract class IterableElementBase<E, R> implements Iterable<E> {
-
   /**
    * Create a new iterable base.
    *
@@ -222,6 +221,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
       yield index++;
     }
   }
+
   reduce(callbackfn: ReduceElementCallback<E, R>): E;
   reduce(callbackfn: ReduceElementCallback<E, R>, initialValue: E): E;
   reduce<U>(callbackfn: ReduceElementCallback<E, R, U>, initialValue: U): U;

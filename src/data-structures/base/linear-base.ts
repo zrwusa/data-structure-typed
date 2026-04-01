@@ -7,7 +7,6 @@ import { IterableElementBase } from './iterable-element-base';
  * @remarks Time O(1), Space O(1)
  */
 export class LinkedListNode<E = any> {
-
   /**
    * Initialize a node.
    * @param value - Element value.
@@ -17,6 +16,7 @@ export class LinkedListNode<E = any> {
     this._value = value;
     this._next = undefined;
   }
+
   protected _value: E;
 
   /**
@@ -36,6 +36,7 @@ export class LinkedListNode<E = any> {
   set value(value: E) {
     this._value = value;
   }
+
   protected _next: LinkedListNode<E> | undefined;
 
   /**
@@ -69,13 +70,12 @@ export abstract class LinearBase<
   R = any,
   NODE extends LinkedListNode<E> = LinkedListNode<E>
 > extends IterableElementBase<E, R> {
-
   /**
    * Construct a linear container with runtime options.
    * @param options - `{ maxLen?, ... }` bounds/behavior options.
    * @remarks Time O(1), Space O(1)
    */
-   constructor(options?: LinearBaseOptions<E, R>) {
+  constructor(options?: LinearBaseOptions<E, R>) {
     super(options);
     if (options) {
       const { maxLen } = options;
@@ -89,6 +89,7 @@ export abstract class LinearBase<
    * @remarks Time O(1), Space O(1)
    */
   abstract get length(): number;
+
   protected _maxLen: number = -1;
 
   /**
@@ -230,6 +231,7 @@ export abstract class LinearBase<
     }
     return array;
   }
+
   reduceRight(callbackfn: ReduceLinearCallback<E>): E;
   reduceRight(callbackfn: ReduceLinearCallback<E>, initialValue: E): E;
 
@@ -397,7 +399,7 @@ export abstract class LinearLinkedBase<
   R = any,
   NODE extends LinkedListNode<E> = LinkedListNode<E>
 > extends LinearBase<E, R, NODE> {
-   constructor(options?: LinearBaseOptions<E, R>) {
+  constructor(options?: LinearBaseOptions<E, R>) {
     super(options);
     if (options) {
       const { maxLen } = options;
@@ -536,6 +538,7 @@ export abstract class LinearLinkedBase<
     }
     return removedList;
   }
+
   override reduceRight(callbackfn: ReduceLinearCallback<E>): E;
   override reduceRight(callbackfn: ReduceLinearCallback<E>, initialValue: E): E;
 

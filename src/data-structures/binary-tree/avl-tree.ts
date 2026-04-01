@@ -7,7 +7,6 @@
  */
 import { BST } from './bst';
 import type {
-
   AVLTreeOptions,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
@@ -41,6 +40,7 @@ export class AVLTreeNode<K = any, V = any> {
     this.key = key;
     this.value = value;
   }
+
   _left?: AVLTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -65,6 +65,7 @@ export class AVLTreeNode<K = any, V = any> {
     }
     this._left = v;
   }
+
   _right?: AVLTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -89,6 +90,7 @@ export class AVLTreeNode<K = any, V = any> {
     }
     this._right = v;
   }
+
   _height: number = 0;
 
   /**
@@ -110,6 +112,7 @@ export class AVLTreeNode<K = any, V = any> {
   set height(value: number) {
     this._height = value;
   }
+
   _color: RBTNColor = 'BLACK';
 
   /**
@@ -118,14 +121,16 @@ export class AVLTreeNode<K = any, V = any> {
    *
    * @returns The node's color.
    */
-  /* istanbul ignore next -- inherited field, used by RedBlackTree subclass */  /* istanbul ignore next -- inherited field, not used by AVLTree */
+  /* istanbul ignore next -- inherited field, used by RedBlackTree subclass */ /* istanbul ignore next -- inherited field, not used by AVLTree */
   get color(): RBTNColor {
     return this._color;
   }
+
   /* istanbul ignore next -- inherited field, not used by AVLTree */
   set color(value: RBTNColor) {
     this._color = value;
   }
+
   _count: number = 1;
 
   /**
@@ -134,10 +139,12 @@ export class AVLTreeNode<K = any, V = any> {
    *
    * @returns The subtree node count.
    */
+
   /* istanbul ignore next -- inherited field, not used by AVLTree */
   get count(): number {
     return this._count;
   }
+
   /* istanbul ignore next -- inherited field, not used by AVLTree */
   set count(value: number) {
     this._count = value;
@@ -300,7 +307,6 @@ export class AVLTreeNode<K = any, V = any> {
  *  //    ];
  */
 export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
-
   /**
    * Creates an instance of AVLTree.
    * @remarks Time O(N log N) (from `setMany` with balanced set). Space O(N).
@@ -351,8 +357,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
-
-
  * @example
  * // Set a key-value pair
  *  const avl = new AVLTree<number, string>();
@@ -377,8 +381,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
-
-
  * @example
  * // Remove nodes and verify structure
  *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
@@ -406,8 +408,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
-
-
  * @example
  * // Rebalance the tree
  *  const avl = new AVLTree<number>();
@@ -453,8 +453,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
-
-
  * @example
  * // Transform to new tree
  *  const avl = new AVLTree<number, number>([[1, 10], [2, 20], [3, 30]]);

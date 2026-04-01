@@ -77,7 +77,6 @@ import { PriorityQueue } from './priority-queue';
  *     console.log(freq.peek()![0]); // 7;
  */
 export class MinPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
-
   /**
    * Creates a min-priority queue.
    * @param elements Optional initial elements to insert.

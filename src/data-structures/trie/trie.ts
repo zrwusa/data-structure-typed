@@ -14,7 +14,6 @@ import { ERR, raise } from '../../common';
  * @remarks Time O(1), Space O(1)
  */
 export class TrieNode {
-
   /**
    * Create a Trie node with a character key.
    * @remarks Time O(1), Space O(1)
@@ -25,6 +24,7 @@ export class TrieNode {
     this._isEnd = false;
     this._children = new Map<string, TrieNode>();
   }
+
   protected _key: string;
 
   /**
@@ -45,6 +45,7 @@ export class TrieNode {
   set key(value: string) {
     this._key = value;
   }
+
   protected _children: Map<string, TrieNode>;
 
   /**
@@ -65,6 +66,7 @@ export class TrieNode {
   set children(value: Map<string, TrieNode>) {
     this._children = value;
   }
+
   protected _isEnd: boolean;
 
   /**
@@ -204,7 +206,6 @@ export class TrieNode {
  *     console.log(ipRoutingTable.hasPrefix(subnet)); // true;
  */
 export class Trie<R = any> extends IterableElementBase<string, R> {
-
   /**
    * Create a Trie and optionally bulk-insert words.
    * @remarks Time O(totalChars), Space O(totalChars)
@@ -222,6 +223,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
       this.addMany(words);
     }
   }
+
   protected _size: number = 0;
 
   /**
@@ -232,6 +234,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   get size(): number {
     return this._size;
   }
+
   protected _caseSensitive: boolean = true;
 
   /**
@@ -242,6 +245,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   get caseSensitive(): boolean {
     return this._caseSensitive;
   }
+
   protected _root: TrieNode = new TrieNode('');
 
   /**
@@ -267,8 +271,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(L)
    * @param word - Word to insert.
    * @returns True if the word was newly added.
-
-
  * @example
  * // basic Trie creation and add words
  *  // Create a simple Trie with initial words
@@ -310,8 +312,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(ΣL), Space O(ΣL)
    * @param words - Iterable of strings (or raw records if toElementFn is provided).
    * @returns Array of per-word 'added' flags.
-
-
  * @example
  * // Add multiple words
  *  const trie = new Trie();
@@ -337,8 +337,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to search for.
    * @returns True if present.
-
-
  * @example
  * // Check if a word exists
  *  const dict = new Trie(['apple', 'app', 'application']);
@@ -362,8 +360,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Check whether the trie is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
-
-
  * @example
  * // Check if empty
  *  const trie = new Trie();
@@ -379,8 +375,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Remove all words and reset to a fresh root.
    * @remarks Time O(1), Space O(1)
    * @returns void
-
-
  * @example
  * // Remove all words
  *  const trie = new Trie(['a', 'b', 'c']);
@@ -397,8 +391,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to delete.
    * @returns True if a word was removed.
-
-
  * @example
  * // Trie delete and iteration
  *  const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
@@ -499,8 +491,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param input - String to test as prefix.
    * @returns True if input matches a path from root.
-
-
  * @example
  * // Check if a prefix exists
  *  const trie = new Trie(['hello', 'help', 'world']);
@@ -544,8 +534,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Return the longest common prefix among all words.
    * @remarks Time O(H), Space O(1)
    * @returns The longest common prefix string.
-
-
  * @example
  * // Find shared prefix
  *  const trie = new Trie(['flower', 'flow', 'flight']);
@@ -571,8 +559,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
    * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
    * @returns Array of collected words (at most max).
-
-
  * @example
  * // Trie getWords and prefix search
  *  const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
@@ -619,8 +605,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Deep clone this trie by iterating and inserting all words.
    * @remarks Time O(ΣL), Space O(ΣL)
    * @returns A new trie with the same words and options.
-
-
  * @example
  * // Create independent copy
  *  const trie = new Trie(['hello', 'world']);
@@ -640,8 +624,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param predicate - Predicate (word, index, trie) → boolean to keep word.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new trie containing words that satisfy the predicate.
-
-
  * @example
  * // Filter words
  *  const trie = new Trie(['cat', 'car', 'dog', 'card']);
@@ -660,10 +642,8 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
     return results;
   }
 
-    /**
+  /**
    * Transform words
-
-
  * @example
  * // Transform words
  *  const trie = new Trie(['hello', 'world']);
@@ -724,10 +704,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @returns An empty like-kind trie instance.
    */
   protected _createInstance(options?: TrieOptions<R>): this {
-    const Ctor = this.constructor as new (
-      elements?: Iterable<string> | Iterable<R>,
-      options?: TrieOptions<R>
-    ) => this;
+    const Ctor = this.constructor as new (elements?: Iterable<string> | Iterable<R>, options?: TrieOptions<R>) => this;
     return new Ctor([], {
       toElementFn: this.toElementFn,
       caseSensitive: this.caseSensitive,
@@ -776,6 +753,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
         yield* _dfs(childNode, path + char);
       }
     }
+
     yield* _dfs(this.root, '');
   }
 

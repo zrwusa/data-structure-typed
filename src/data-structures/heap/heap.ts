@@ -164,6 +164,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     }
     this.addMany(elements as Iterable<E | R>);
   }
+
   protected _elements: E[] = [];
 
   /**
@@ -179,8 +180,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of elements.
    * @remarks Time O(1), Space O(1)
    * @returns Heap size.
-
-
  * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -202,6 +201,15 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    */
   get leaf(): E | undefined {
     return this.elements[this.size - 1] ?? undefined;
+  }
+
+  /**
+   * Get the comparator used to order elements.
+   * @remarks Time O(1), Space O(1)
+   * @returns Comparator function.
+   */
+  get comparator() {
+    return this._comparator;
   }
 
   /**
@@ -240,8 +248,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(log N) amortized, Space O(1)
    * @param element - Element to insert.
    * @returns True.
-
-
  * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -268,8 +274,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(1)
    * @param elements - Iterable of elements or raw values.
    * @returns Array of per-element success flags.
-
-
  * @example
  * // Add multiple elements
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -295,36 +299,34 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove and return the top element.
    * @remarks Time O(log N), Space O(1)
    * @returns Top element or undefined.
-    * @example
- * // Heap with custom comparator (MaxHeap behavior)
- *  interface Task {
- *       id: number;
- *       priority: number;
- *       name: string;
- *     }
- *
- *     // Custom comparator for max heap behavior (higher priority first)
- *     const tasks: Task[] = [
- *       { id: 1, priority: 5, name: 'Email' },
- *       { id: 2, priority: 3, name: 'Chat' },
- *       { id: 3, priority: 8, name: 'Alert' }
- *     ];
- *
- *     const maxHeap = new Heap(tasks, {
- *       comparator: (a: Task, b: Task) => b.priority - a.priority
- *     });
- *
- *     console.log(maxHeap.size); // 3;
- *
- *     // Peek returns highest priority task
- *     const topTask = maxHeap.peek();
- *     console.log(topTask?.priority); // 8;
- *     console.log(topTask?.name); // 'Alert';
+   * @example
+   * // Heap with custom comparator (MaxHeap behavior)
+   *  interface Task {
+   *       id: number;
+   *       priority: number;
+   *       name: string;
+   *     }
+   *
+   *     // Custom comparator for max heap behavior (higher priority first)
+   *     const tasks: Task[] = [
+   *       { id: 1, priority: 5, name: 'Email' },
+   *       { id: 2, priority: 3, name: 'Chat' },
+   *       { id: 3, priority: 8, name: 'Alert' }
+   *     ];
+   *
+   *     const maxHeap = new Heap(tasks, {
+   *       comparator: (a: Task, b: Task) => b.priority - a.priority
+   *     });
+   *
+   *     console.log(maxHeap.size); // 3;
+   *
+   *     // Peek returns highest priority task
+   *     const topTask = maxHeap.peek();
+   *     console.log(topTask?.priority); // 8;
+   *     console.log(topTask?.name); // 'Alert';
    */
   /**
    * @deprecated Use `pop` instead. Will be removed in a future major version.
-
-
  * @example
  * // Heap with custom comparator (MaxHeap behavior)
  *  interface Task {
@@ -375,8 +377,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
-
-
  * @example
  * // Heap for event processing with priority
  *  interface Event {
@@ -445,8 +445,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the heap is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
-
-
  * @example
  * // Check if heap is empty
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -462,8 +460,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
-
-
  * @example
  * // Remove all elements
  *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
@@ -479,8 +475,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to search for.
    * @returns True if found.
-
-
  * @example
  * // Check element existence
  *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
@@ -497,8 +491,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to delete.
    * @returns True if an element was removed.
-
-
  * @example
  * // Remove specific element
  *  const heap = new Heap<number>([3, 1, 4, 1, 5], { comparator: (a, b) => a - b });
@@ -576,8 +568,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(H)
    * @param [order] - Traversal order: 'PRE' | 'IN' | 'POST'.
    * @returns Array of visited elements.
-
-
  * @example
  * // Depth-first traversal
  *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
@@ -626,8 +616,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Return all elements in ascending order by repeatedly polling.
    * @remarks Time O(N log N), Space O(N)
    * @returns Sorted array of elements.
-
-
  * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
@@ -649,8 +637,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this heap.
    * @remarks Time O(N), Space O(N)
    * @returns A new heap with the same elements.
-
-
  * @example
  * // Create independent copy
  *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
@@ -671,8 +657,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param callback - Predicate (element, index, heap) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with the kept elements.
-
-
  * @example
  * // Filter elements
  *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
@@ -701,8 +685,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
-
-
  * @example
  * // Transform elements
  *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
@@ -741,6 +723,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     }
     return out;
   }
+
   protected readonly _DEFAULT_COMPARATOR: Comparator<E> = (a: E, b: E): number => {
     if (typeof a === 'object' || typeof b === 'object') {
       raise(TypeError, ERR.comparatorRequired('Heap'));
@@ -749,19 +732,13 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     if (a < b) return -1;
     return 0;
   };
+
   protected readonly _comparator: Comparator<E> = this._DEFAULT_COMPARATOR;
 
-  /**
-   * Get the comparator used to order elements.
-   * @remarks Time O(1), Space O(1)
-   * @returns Comparator function.
-   */
-  get comparator() {
-    return this._comparator;
-  }
   protected *_getIterator(): IterableIterator<E> {
     for (const element of this.elements) yield element;
   }
+
   protected _bubbleUp(index: number): boolean {
     const element = this.elements[index];
     while (index > 0) {
@@ -774,6 +751,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     this.elements[index] = element;
     return true;
   }
+
   protected _sinkDown(index: number, halfLength: number): boolean {
     const element = this.elements[index];
     while (index < halfLength) {
@@ -799,10 +777,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @returns A like-kind empty heap instance.
    */
   protected _createInstance(options?: HeapOptions<E, R>): this {
-    const Ctor = this.constructor as new (
-      elements?: Iterable<E> | Iterable<R>,
-      options?: HeapOptions<E, R>
-    ) => this;
+    const Ctor = this.constructor as new (elements?: Iterable<E> | Iterable<R>, options?: HeapOptions<E, R>) => this;
     return new Ctor([], { comparator: this.comparator, toElementFn: this.toElementFn, ...(options ?? {}) });
   }
 
@@ -852,6 +827,7 @@ export class FibonacciHeapNode<E> {
   child?: FibonacciHeapNode<E>;
   parent?: FibonacciHeapNode<E>;
   marked: boolean;
+
   constructor(element: E, degree = 0) {
     this.element = element;
     this.degree = degree;
@@ -866,6 +842,7 @@ export class FibonacciHeapNode<E> {
  * @example examples will be generated by unit test
  */
 export class FibonacciHeap<E> {
+  protected readonly _comparator: Comparator<E>;
 
   /**
    * Create a FibonacciHeap.
@@ -878,6 +855,7 @@ export class FibonacciHeap<E> {
     this._comparator = comparator || this._defaultComparator;
     if (typeof this.comparator !== 'function') raise(TypeError, ERR.notAFunction('comparator', 'FibonacciHeap'));
   }
+
   protected _root?: FibonacciHeapNode<E>;
 
   /**
@@ -888,10 +866,13 @@ export class FibonacciHeap<E> {
   get root(): FibonacciHeapNode<E> | undefined {
     return this._root;
   }
+
   protected _size = 0;
+
   get size(): number {
     return this._size;
   }
+
   protected _min?: FibonacciHeapNode<E>;
 
   /**
@@ -902,15 +883,17 @@ export class FibonacciHeap<E> {
   get min(): FibonacciHeapNode<E> | undefined {
     return this._min;
   }
-  protected readonly _comparator: Comparator<E>;
+
   get comparator(): Comparator<E> {
     return this._comparator;
   }
+
   clear(): void {
     this._root = undefined;
     this._min = undefined;
     this._size = 0;
   }
+
   add(element: E): boolean {
     this.push(element);
     return true;
@@ -931,6 +914,7 @@ export class FibonacciHeap<E> {
     this._size++;
     return true;
   }
+
   peek(): E | undefined {
     return this.min ? this.min.element : undefined;
   }
@@ -971,6 +955,7 @@ export class FibonacciHeap<E> {
       parent.child.right = node;
     }
   }
+
   poll(): E | undefined {
     return this.pop();
   }
@@ -1028,17 +1013,21 @@ export class FibonacciHeap<E> {
     this._size += heapToMerge.size;
     heapToMerge.clear();
   }
+
   createNode(element: E): FibonacciHeapNode<E> {
     return new FibonacciHeapNode<E>(element);
   }
+
   isEmpty(): boolean {
     return this._size === 0;
   }
+
   protected _defaultComparator(a: E, b: E): number {
     if (a < b) return -1;
     if (a > b) return 1;
     return 0;
   }
+
   protected mergeWithRoot(node: FibonacciHeapNode<E>): void {
     if (!this.root) this._root = node;
     else {
@@ -1048,11 +1037,13 @@ export class FibonacciHeap<E> {
       this.root.right = node;
     }
   }
+
   protected removeFromRoot(node: FibonacciHeapNode<E>): void {
     if (this.root === node) this._root = node.right;
     if (node.left) node.left.right = node.right;
     if (node.right) node.right.left = node.left;
   }
+
   protected _link(y: FibonacciHeapNode<E>, x: FibonacciHeapNode<E>): void {
     this.removeFromRoot(y);
     y.left = y;
@@ -1061,6 +1052,7 @@ export class FibonacciHeap<E> {
     x.degree++;
     y.parent = x;
   }
+
   protected _consolidate(): void {
     const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this._size);
     const elements = this.consumeLinkedList(this.root);

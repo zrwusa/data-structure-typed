@@ -6,7 +6,6 @@
  * @license MIT License
  */
 import type {
-
   EntryCallback,
   HashMapLinkedNode,
   HashMapOptions,
@@ -95,6 +94,7 @@ import { ERR, raise } from '../../common';
  *     console.log(keys.sort()); // ['x', 'y'];
  */
 export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
+  protected readonly _toEntryFn?: (rawElement: R) => [K, V];
 
   /**
    * Create a HashMap and optionally bulk-insert entries.
@@ -112,6 +112,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     }
     if (entryOrRawElements) this.setMany(entryOrRawElements);
   }
+
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
 
   /**
@@ -122,6 +123,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   get store(): { [p: string]: HashMapStoreItem<K, V> } {
     return this._store;
   }
+
   protected _objMap: Map<object, V> = new Map();
 
   /**
@@ -132,7 +134,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   get objMap(): Map<object, V> {
     return this._objMap;
   }
-  protected readonly _toEntryFn?: (rawElement: R) => [K, V];
 
   /**
    * Get the raw→entry converter function if present.
@@ -142,6 +143,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   get toEntryFn() {
     return this._toEntryFn;
   }
+
   protected _size = 0;
 
   /**
@@ -152,6 +154,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   get size(): number {
     return this._size;
   }
+
   protected _hashFn: (key: K) => string = (key: K) => String(key);
 
   /**
@@ -167,8 +170,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Check whether the map is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
-
-
  * @example
  * // Check if empty
  *  const map = new HashMap();
@@ -182,8 +183,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Remove all entries and reset counters.
    * @remarks Time O(N), Space O(1)
    * @returns void
-
-
  * @example
  * // Remove all entries
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -211,8 +210,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
-
-
  * @example
  * // basic HashMap creation and set operation
  *  // Create a simple HashMap with key-value pairs
@@ -249,8 +246,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(N), Space O(N)
    * @param entryOrRawElements - Iterable of entries or raw elements to insert.
    * @returns Array of per-entry results.
-
-
  * @example
  * // Add multiple entries
  *  const map = new HashMap<string, number>();
@@ -277,8 +272,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
-
-
  * @example
  * // HashMap get and has operations
  *  const map = new HashMap<string, number>([
@@ -312,8 +305,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to test.
    * @returns True if present.
-
-
  * @example
  * // Check key existence
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -332,8 +323,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
-
-
  * @example
  * // Remove entries by key
  *  const map = new HashMap<string, number>([['x', 10], ['y', 20], ['z', 30]]);
@@ -373,8 +362,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Deep clone this map, preserving hashing behavior.
    * @remarks Time O(N), Space O(N)
    * @returns A new map with the same content.
-
-
  * @example
  * // Create independent copy
  *  const map = new HashMap<string, number>([['a', 1]]);
@@ -394,8 +381,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
-
-
  * @example
  * // Transform all values
  *  const prices = new HashMap<string, number>([['apple', 1], ['banana', 2]]);
@@ -417,8 +402,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
-
-
  * @example
  * // HashMap iteration and filter operations
  *  const map = new HashMap<number, string>([
@@ -462,10 +445,14 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param [options] - Options forwarded to the constructor.
    * @returns A like-kind map instance.
    */
-  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(entries: Iterable<[TK, TV] | TR> = [], options?: Record<string, unknown>): this {
+  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(
+    entries: Iterable<[TK, TV] | TR> = [],
+    options?: Record<string, unknown>
+  ): this {
     const Ctor = this.constructor as new (e?: Iterable<[TK, TV] | TR>, o?: Record<string, unknown>) => this;
     return new Ctor(entries, options);
   }
+
   protected _rehashNoObj(): void {
     const fresh: Record<string, HashMapStoreItem<K, V>> = {};
     for (const { key, value } of Object.values(this._store)) {
@@ -474,14 +461,17 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     }
     this._store = fresh;
   }
+
   protected *_getIterator(): IterableIterator<[K, V]> {
     for (const node of Object.values(this.store)) yield [node.key, node.value] as [K, V];
     for (const node of this.objMap) yield node as [K, V];
   }
+
   protected _isObjKey(key: unknown): key is object | ((...args: unknown[]) => unknown) {
     const keyType = typeof key;
     return (keyType === 'object' || keyType === 'function') && key !== null;
   }
+
   protected _getNoObjKey(key: K): string {
     const keyType = typeof key;
     let strKey: string;
@@ -528,10 +518,12 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     if (entryOrRawElements) this.setMany(entryOrRawElements);
   }
+
   protected _hashFn: (key: K) => string = (key: K) => String(key);
   get hashFn(): (key: K) => string {
     return this._hashFn;
   }
+
   protected _objHashFn: (key: K) => object = (key: K) => <object>key;
 
   /**
@@ -542,6 +534,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   get objHashFn(): (key: K) => object {
     return this._objHashFn;
   }
+
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
 
   /**
@@ -552,10 +545,12 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   get noObjMap(): Record<string, HashMapLinkedNode<K, V | undefined>> {
     return this._noObjMap;
   }
+
   protected _objMap = new WeakMap<object, HashMapLinkedNode<K, V | undefined>>();
   get objMap(): WeakMap<object, HashMapLinkedNode<K, V | undefined>> {
     return this._objMap;
   }
+
   protected _head: HashMapLinkedNode<K, V | undefined>;
 
   /**
@@ -566,6 +561,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   get head(): HashMapLinkedNode<K, V | undefined> {
     return this._head;
   }
+
   protected _tail: HashMapLinkedNode<K, V | undefined>;
 
   /**
@@ -576,16 +572,13 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   get tail(): HashMapLinkedNode<K, V | undefined> {
     return this._tail;
   }
-  protected readonly _toEntryFn?: (rawElement: R) => [K, V] = (rawElement: R) => {
-    if (this.isEntry(rawElement)) {
-      return rawElement;
-    }
-    raise(TypeError, ERR.invalidArgument('If elements do not adhere to [key, value], provide options.toEntryFn to transform raw records.', 'HashMap'));
-  };
+
   get toEntryFn() {
     return this._toEntryFn;
   }
+
   protected _size = 0;
+
   get size() {
     return this._size;
   }
@@ -678,6 +671,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return this;
   }
+
   setMany(entryOrRawElements: Iterable<R | [K, V]>): boolean[] {
     const results: boolean[] = [];
     for (const rawEle of entryOrRawElements) {
@@ -692,6 +686,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return results;
   }
+
   override has(key: K): boolean {
     if (isWeakKey(key)) {
       const hash = this._objHashFn(key);
@@ -700,6 +695,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     const hash = this._hashFn(key);
     return hash in this.noObjMap;
   }
+
   override get(key: K): V | undefined {
     if (isWeakKey(key)) {
       const hash = this._objHashFn(key);
@@ -723,6 +719,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     while (index--) node = node.next;
     return node.value;
   }
+
   delete(key: K): boolean {
     let node: HashMapLinkedNode<K, V | undefined> | undefined;
     if (isWeakKey(key)) {
@@ -780,21 +777,26 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     this._deleteNode(node);
     return entry;
   }
+
   isEmpty(): boolean {
     return this._size === 0;
   }
+
   isEntry(rawElement: unknown): rawElement is [K, V] {
     return Array.isArray(rawElement) && rawElement.length === 2;
   }
+
   clear(): void {
     this._noObjMap = {};
     this._size = 0;
     this._head = this._tail = this._sentinel.prev = this._sentinel.next = this._sentinel;
   }
+
   clone(): this {
     const opts = { hashFn: this._hashFn, objHashFn: this._objHashFn };
     return this._createLike<K, V, [K, V]>(this, opts);
   }
+
   filter(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): this {
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;
@@ -824,6 +826,20 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return out;
   }
+
+  protected readonly _toEntryFn?: (rawElement: R) => [K, V] = (rawElement: R) => {
+    if (this.isEntry(rawElement)) {
+      return rawElement;
+    }
+    raise(
+      TypeError,
+      ERR.invalidArgument(
+        'If elements do not adhere to [key, value], provide options.toEntryFn to transform raw records.',
+        'HashMap'
+      )
+    );
+  };
+
   protected *_getIterator(): IterableIterator<[K, V]> {
     let node = this.head;
     while (node !== this._sentinel) {
@@ -831,6 +847,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       node = node.next;
     }
   }
+
   protected _deleteNode(node: HashMapLinkedNode<K, V | undefined>): boolean {
     // Remove from hash table
     const key: unknown = node.key;
@@ -849,7 +866,11 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     this._size -= 1;
     return true;
   }
-  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(entries: Iterable<[TK, TV] | TR> = [], options?: Record<string, unknown>): this {
+
+  protected _createLike<TK = K, TV = V, TR = [TK, TV]>(
+    entries: Iterable<[TK, TV] | TR> = [],
+    options?: Record<string, unknown>
+  ): this {
     const Ctor = this.constructor as new (e?: Iterable<[TK, TV] | TR>, o?: Record<string, unknown>) => this;
     return new Ctor(entries, options);
   }

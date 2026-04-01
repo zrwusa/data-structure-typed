@@ -6,14 +6,14 @@
  * @license MIT License
  */
 import type {
-
   BTNRep,
   CRUD,
   EntryCallback,
-  FamilyPosition, NodePredicate,
+  FamilyPosition,
+  IterationType,
+  NodePredicate,
   OptNode,
   RBTNColor,
-  IterationType,
   RedBlackTreeOptions
 } from '../../types';
 import { BST } from './bst';
@@ -36,6 +36,7 @@ export class RedBlackTreeNode<K = any, V = any> {
     this.value = value;
     this.color = color;
   }
+
   _left?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -59,6 +60,7 @@ export class RedBlackTreeNode<K = any, V = any> {
     }
     this._left = v;
   }
+
   _right?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -82,6 +84,7 @@ export class RedBlackTreeNode<K = any, V = any> {
     }
     this._right = v;
   }
+
   _height: number = 0;
 
   /**
@@ -90,14 +93,17 @@ export class RedBlackTreeNode<K = any, V = any> {
    *
    * @returns The height.
    */
+
   /* istanbul ignore next -- covered by AVLTree tests (subclass uses height) */
   get height(): number {
     return this._height;
   }
+
   /* istanbul ignore next -- covered by AVLTree tests (subclass uses height) */
   set height(value: number) {
     this._height = value;
   }
+
   _color: RBTNColor = 'BLACK';
 
   /**
@@ -119,6 +125,7 @@ export class RedBlackTreeNode<K = any, V = any> {
   set color(value: RBTNColor) {
     this._color = value;
   }
+
   _count: number = 1;
 
   /**
@@ -127,6 +134,7 @@ export class RedBlackTreeNode<K = any, V = any> {
    *
    * @returns The subtree node count.
    */
+
   /* istanbul ignore next -- internal field, exercised indirectly via tree operations */
   get count(): number {
     return this._count;
@@ -238,26 +246,6 @@ export class RedBlackTreeNode<K = any, V = any> {
  *     console.log(stocksInRange.some((s: any) => s.symbol === 'MSFT')); // true;
  */
 export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
-  constructor(
-    keysNodesEntriesOrRaws: Iterable<
-      K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
-    > = [],
-    options?: RedBlackTreeOptions<K, V, R>
-  ) {
-    super([], options);
-    this._root = this.NIL;
-    // Not part of the actual tree; used only as an internal cache hub.
-    this._header = new RedBlackTreeNode<K, V>(undefined as K, undefined, 'BLACK');
-    this._header.parent = this.NIL;
-    // Avoid using accessors here: they would set NIL.parent and can corrupt sentinel invariants.
-    this._header._left = this.NIL;
-    this._header._right = this.NIL;
-    if (keysNodesEntriesOrRaws) {
-      this.setMany(keysNodesEntriesOrRaws);
-    }
-  }
-  protected override _root: RedBlackTreeNode<K, V> | undefined;
-
   /**
    * (Internal) Header sentinel:
    * - header.parent -> root
@@ -277,6 +265,27 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    */
   protected _minNode: RedBlackTreeNode<K, V> | undefined;
   protected _maxNode: RedBlackTreeNode<K, V> | undefined;
+
+  constructor(
+    keysNodesEntriesOrRaws: Iterable<
+      K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+    > = [],
+    options?: RedBlackTreeOptions<K, V, R>
+  ) {
+    super([], options);
+    this._root = this.NIL;
+    // Not part of the actual tree; used only as an internal cache hub.
+    this._header = new RedBlackTreeNode<K, V>(undefined as K, undefined, 'BLACK');
+    this._header.parent = this.NIL;
+    // Avoid using accessors here: they would set NIL.parent and can corrupt sentinel invariants.
+    this._header._left = this.NIL;
+    this._header._right = this.NIL;
+    if (keysNodesEntriesOrRaws) {
+      this.setMany(keysNodesEntriesOrRaws);
+    }
+  }
+
+  protected override _root: RedBlackTreeNode<K, V> | undefined;
 
   /**
    * Get the current root node.
@@ -314,8 +323,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Remove all nodes, clear the key→value store (if in map mode) and internal caches.
    * @remarks Time O(n), Space O(1)
-
-
  * @example
  * // Remove all entries
  *  const rbt = new RedBlackTree<number>([1, 2, 3]);
@@ -331,6 +338,334 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   /**
+   * Insert/update using a hint node to speed up nearby insertions.
+   *
+   * close to the expected insertion position (often the previously returned node in a loop).
+   *
+   * When the hint is a good fit (sorted / nearly-sorted insertion), this can avoid most of the
+   * normal root-to-leaf search and reduce constant factors.
+   *
+   * When the hint does not match (random workloads), this will fall back to the normal set path.
+   * @remarks Time O(log n) average, Space O(1)
+   */
+  setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
+    if (!hint || !this.isRealNode(hint)) {
+      return this._setKVNode(key, value)?.node;
+    }
+    const cmp = this._compare.bind(this);
+    const c0 = cmp(key, hint.key);
+    if (c0 === 0) {
+      hint.value = value;
+      if (this._isMapMode) this._store.set(key, hint);
+      return hint;
+    }
+    if (c0 < 0) {
+      // Ultra-fast path: direct attach if the target slot is empty.
+      if (!this.isRealNode(hint.left)) {
+        const newNode = this.createNode(key, value);
+        if (!this.isRealNode(newNode)) return undefined;
+        this._attachNewNode(hint, 'left', newNode);
+        if (this._isMapMode) this._store.set(key, newNode);
+        this._size++;
+        // Maintain header/min/max caches.
+        const NIL = this.NIL;
+        const hMin = this._header._left ?? NIL;
+        if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+        const hMax = this._header._right ?? NIL;
+        if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+        return newNode;
+      }
+      const pred = this._predecessorOf(hint);
+      if (pred && cmp(pred.key, key) >= 0) {
+        return this._setKVNode(key, value)?.node;
+      }
+      // Try attach as right of pred.
+      if (pred && !this.isRealNode(pred.right)) {
+        const newNode = this.createNode(key, value);
+        if (!this.isRealNode(newNode)) return undefined;
+        this._attachNewNode(pred, 'right', newNode);
+        if (this._isMapMode) this._store.set(key, newNode);
+        this._size++;
+        // Maintain header/min/max caches.
+        const NIL = this.NIL;
+        const hMin = this._header._left ?? NIL;
+        if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+        const hMax = this._header._right ?? NIL;
+        if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+        return newNode;
+      }
+      /* istanbul ignore next -- structurally unreachable: predecessor never has a right child (it's the max of left subtree) */
+      return this._setKVNode(key, value)?.node;
+    }
+    // c0 > 0
+    // Ultra-fast path: direct attach if the target slot is empty.
+    if (!this.isRealNode(hint.right)) {
+      const newNode = this.createNode(key, value);
+      if (!this.isRealNode(newNode)) return undefined;
+      this._attachNewNode(hint, 'right', newNode);
+      if (this._isMapMode) this._store.set(key, newNode);
+      this._size++;
+      // Maintain header/min/max caches.
+      const NIL = this.NIL;
+      const hMin = this._header._left ?? NIL;
+      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+      const hMax = this._header._right ?? NIL;
+      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+      return newNode;
+    }
+    const succ = this._successorOf(hint);
+    if (succ && cmp(succ.key, key) <= 0) {
+      return this._setKVNode(key, value)?.node;
+    }
+    if (succ && !this.isRealNode(succ.left)) {
+      const newNode = this.createNode(key, value);
+      if (!this.isRealNode(newNode)) return undefined;
+      this._attachNewNode(succ, 'left', newNode);
+      if (this._isMapMode) this._store.set(key, newNode);
+      this._size++;
+      // Maintain header/min/max caches.
+      const NIL = this.NIL;
+      const hMin = this._header._left ?? NIL;
+      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+      const hMax = this._header._right ?? NIL;
+      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+      return newNode;
+    }
+    /* istanbul ignore next -- structurally unreachable: successor never has a left child (it's the min of right subtree) */
+    return this._setKVNode(key, value)?.node;
+  }
+
+  /**
+   * Boolean wrapper for setWithHintNode.
+   * @remarks Time O(log n) average, Space O(1)
+   */
+  setWithHint(key: K, value: V, hint?: RedBlackTreeNode<K, V>): boolean {
+    return this.setWithHintNode(key, value, hint) !== undefined;
+  }
+
+  /**
+   * Insert or update a key/value (map mode) or key-only (set mode).
+   *
+   * This method is optimized for:
+   * - monotonic inserts via min/max boundary fast paths
+   * - updates via a single-pass search (no double walk)
+   *
+   * @remarks Time O(log n) average, Space O(1)
+ * @example
+ * // basic Red-Black Tree with simple number keys
+ *  // Create a simple Red-Black Tree with numeric keys
+ *     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
+ *
+ *     tree.print();
+ *     //   _2___
+ *     //  /     \
+ *     //  1    _8_
+ *     //      /   \
+ *     //      5   9
+ *
+ *     // Verify the tree maintains sorted order
+ *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
+ *
+ *     // Check size
+ *     console.log(tree.size); // 5;
+*/
+  override set(
+    keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    value?: V
+  ): boolean {
+    // Common path: tree.set(key, value) or tree.set([key, value]).
+    if (!this.isNode(keyNodeOrEntry)) {
+      if (keyNodeOrEntry === null || keyNodeOrEntry === undefined) return false;
+      if (this.isEntry(keyNodeOrEntry)) {
+        const key = keyNodeOrEntry[0];
+        if (key === null || key === undefined) return false;
+        const nextValue = value ?? keyNodeOrEntry[1];
+        return this._setKV(key, nextValue);
+      }
+      // key-only
+      return this._setKV(keyNodeOrEntry, value);
+    }
+    // Node insertion path (advanced usage)
+    const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
+    if (!this.isRealNode(newNode)) return false;
+    const insertStatus = this._insert(newNode);
+    if (insertStatus === 'CREATED') {
+      if (this.isRealNode(this._root)) {
+        this._root.color = 'BLACK';
+      } else {
+        return false;
+      }
+      if (this._isMapMode) {
+        const n = this.getNode(newNode.key);
+        if (this.isRealNode(n)) {
+          n.value = newValue as V;
+          this._store.set(n.key, n);
+        }
+      }
+      this._size++;
+      return true;
+    }
+    if (insertStatus === 'UPDATED') {
+      if (this._isMapMode) {
+        const n = this.getNode(newNode.key);
+        if (this.isRealNode(n)) {
+          n.value = newValue as V;
+          this._store.set(n.key, n);
+        }
+      }
+      return true;
+    }
+    /* istanbul ignore next -- defensive: _insert only returns CREATED|UPDATED */
+    return false;
+  }
+
+  /**
+   * Delete a node by key/node/entry and rebalance as needed.
+   * @remarks Time O(log n) average, Space O(1)
+   * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
+   * @returns Array with deletion metadata (removed node, rebalancing hint if any).
+ * @example
+ * // Remove and rebalance
+ *  const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
+ *     rbt.delete(5);
+ *     console.log(rbt.has(5)); // false;
+ *     console.log(rbt.size); // 4;
+*/
+  override delete(
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>
+  ): boolean {
+    if (keyNodeEntryRawOrPredicate === null) return false;
+    let nodeToDelete: OptNode<RedBlackTreeNode<K, V>>;
+    if (this._isPredicate(keyNodeEntryRawOrPredicate)) nodeToDelete = this.getNode(keyNodeEntryRawOrPredicate);
+    else
+      nodeToDelete = this.isRealNode(keyNodeEntryRawOrPredicate)
+        ? keyNodeEntryRawOrPredicate
+        : this.getNode(keyNodeEntryRawOrPredicate);
+    if (!nodeToDelete) {
+      return false;
+    }
+    // Track min/max cache updates before structural modifications.
+    const willDeleteMin = nodeToDelete === this._minNode;
+    const willDeleteMax = nodeToDelete === this._maxNode;
+    const nextMin = willDeleteMin ? this._successorOf(nodeToDelete) : undefined;
+    const nextMax = willDeleteMax ? this._predecessorOf(nodeToDelete) : undefined;
+    let originalColor = nodeToDelete.color;
+    const NIL = this.NIL;
+    let replacementNode: RedBlackTreeNode<K, V> = NIL;
+    if (!this.isRealNode(nodeToDelete.left)) {
+      // No real left child → replace with right (may be NIL)
+      replacementNode = nodeToDelete.right ?? NIL;
+      this._transplant(nodeToDelete, replacementNode);
+    } else if (!this.isRealNode(nodeToDelete.right)) {
+      // No real right child → replace with left
+      replacementNode = nodeToDelete.left;
+      this._transplant(nodeToDelete, replacementNode);
+    } else {
+      // Two children → find in-order successor
+      const successor = this.getLeftMost(node => node, nodeToDelete.right);
+      if (successor) {
+        originalColor = successor.color;
+        replacementNode = successor.right ?? NIL;
+        if (successor.parent === nodeToDelete) {
+          // Even if replacementNode is NIL, set its parent for fixup
+          replacementNode.parent = successor;
+        } else {
+          this._transplant(successor, replacementNode);
+          successor.right = nodeToDelete.right;
+          if (successor.right) {
+            successor.right.parent = successor;
+          }
+        }
+        this._transplant(nodeToDelete, successor);
+        successor.left = nodeToDelete.left;
+        if (successor.left) {
+          successor.left.parent = successor;
+        }
+        successor.color = nodeToDelete.color;
+      }
+    }
+    if (this._isMapMode) this._store.delete(nodeToDelete.key);
+    this._size--;
+    // Update order-statistic counts from replacement up to root
+    this._updateCountAlongPath((replacementNode?.parent as RedBlackTreeNode<K, V> | undefined) ?? replacementNode);
+    // Update min/max caches.
+    if (this._size <= 0) {
+      this._setMinCache(undefined);
+      this._setMaxCache(undefined);
+    } else {
+      if (willDeleteMin) this._setMinCache(nextMin);
+      if (willDeleteMax) this._setMaxCache(nextMax);
+      // Fallback if successor/predecessor was unavailable.
+      if (!this._minNode || !this.isRealNode(this._minNode)) {
+        this._setMinCache(this.isRealNode(this._root) ? this.getLeftMost(n => n, this._root) : undefined);
+      }
+      if (!this._maxNode || !this.isRealNode(this._maxNode)) {
+        this._setMaxCache(this.isRealNode(this._root) ? this.getRightMost(n => n, this._root) : undefined);
+      }
+    }
+    if (originalColor === 'BLACK') {
+      this._deleteFixup(replacementNode);
+    }
+    return true;
+  }
+
+  /**
+   * Transform entries into a like-kind red-black tree with possibly different key/value types.
+   * @remarks Time O(n) average, Space O(n)
+   * @template MK
+   * @template MV
+   * @template MR
+   * @param callback - Mapping function from (key, value, index, tree) to a new [key, value].
+   * @param [options] - See parameter type for details.
+   * @param [thisArg] - See parameter type for details.
+   * @returns A new RedBlackTree with mapped entries.
+   */
+  /**
+   * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
+   * sorted bulk insert, which naturally produces a balanced RBT.
+   * @remarks Time O(N), Space O(N)
+ * @example
+ * // Rebalance tree
+ *  const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
+ *     rbt.perfectlyBalance();
+ *     console.log(rbt.isAVLBalanced()); // true;
+*/
+  override perfectlyBalance(_iterationType?: IterationType): boolean {
+    // Extract sorted entries, clear, re-insert — RBT self-balances on insert
+    const entries: [K, V | undefined][] = [];
+    for (const [key, value] of this) entries.push([key, value]);
+    if (entries.length <= 1) return true;
+    this.clear();
+    this.setMany(
+      entries.map(([k]) => k),
+      entries.map(([, v]) => v),
+      true // isBalanceAdd
+    );
+    return true;
+  }
+
+  /**
+   * Transform to new tree
+ * @example
+ * // Transform to new tree
+ *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
+ *     const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40];
+*/
+  override map<MK = K, MV = V, MR = any>(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
+  ): RedBlackTree<MK, MV, MR> {
+    const out = this._createLike<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      out.set(callback.call(thisArg, value, key, index++, this));
+    }
+    return out;
+  }
+
+  /**
    * (Internal) Find a node by key using a tight BST walk (no allocations).
    *
    * NOTE: This uses `header.parent` as the canonical root pointer.
@@ -339,7 +674,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   protected _findNodeByKey(key: K): RedBlackTreeNode<K, V> | undefined {
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
-    let cur = (this._header.parent) ?? NIL;
+    let cur = this._header.parent ?? NIL;
     while (cur !== NIL) {
       const c = cmp(key, cur.key);
       if (c < 0) cur = cur.left ?? NIL;
@@ -474,7 +809,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._size++;
         this._setMinCache(newNode);
         // If max is not initialized yet (tree had 0/1 nodes), mirror max too.
-        if (header._right  === NIL) this._setMaxCache(newNode);
+        if (header._right === NIL) this._setMaxCache(newNode);
         return { node: newNode, created: true };
       }
       // Only touch max when key is not less than min.
@@ -545,10 +880,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (hMin === NIL || hMax === NIL) {
       this._setMinCache(newNode);
       this._setMaxCache(newNode);
-    } else /* istanbul ignore next -- boundary fast-paths at top of _setKVNode intercept boundary inserts before normal path */ if (parent === hMax && lastCompared > 0) {
-      /* istanbul ignore next */ this._setMaxCache(newNode);
-    } else /* istanbul ignore next */ if (parent === hMin && lastCompared < 0) {
-      /* istanbul ignore next */ this._setMinCache(newNode);
+    } else if (parent === hMax && lastCompared > 0) {
+      /* istanbul ignore next -- boundary fast-paths at top of _setKVNode intercept boundary inserts before normal path */ /* istanbul ignore next */
+      this._setMaxCache(newNode);
+    } else if (parent === hMin && lastCompared < 0) {
+      /* istanbul ignore next */ /* istanbul ignore next */
+      this._setMinCache(newNode);
     } else {
       if (cmp(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
       if (cmp(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
@@ -576,339 +913,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       }
     }
     return this._setKVNode(key, nextValue) !== undefined;
-  }
-
-  /**
-   * Insert/update using a hint node to speed up nearby insertions.
-   *
-   * close to the expected insertion position (often the previously returned node in a loop).
-   *
-   * When the hint is a good fit (sorted / nearly-sorted insertion), this can avoid most of the
-   * normal root-to-leaf search and reduce constant factors.
-   *
-   * When the hint does not match (random workloads), this will fall back to the normal set path.
-   * @remarks Time O(log n) average, Space O(1)
-   */
-  setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
-    if (!hint || !this.isRealNode(hint)) {
-      return this._setKVNode(key, value)?.node;
-    }
-    const cmp = this._compare.bind(this);
-    const c0 = cmp(key, hint.key);
-    if (c0 === 0) {
-      hint.value = value;
-      if (this._isMapMode) this._store.set(key, hint);
-      return hint;
-    }
-    if (c0 < 0) {
-      // Ultra-fast path: direct attach if the target slot is empty.
-      if (!this.isRealNode(hint.left)) {
-        const newNode = this.createNode(key, value);
-        if (!this.isRealNode(newNode)) return undefined;
-        this._attachNewNode(hint, 'left', newNode);
-        if (this._isMapMode) this._store.set(key, newNode);
-        this._size++;
-        // Maintain header/min/max caches.
-        const NIL = this.NIL;
-        const hMin = this._header._left ?? NIL;
-        if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-        const hMax = this._header._right ?? NIL;
-        if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
-        return newNode;
-      }
-      const pred = this._predecessorOf(hint);
-      if (pred && cmp(pred.key, key) >= 0) {
-        return this._setKVNode(key, value)?.node;
-      }
-      // Try attach as right of pred.
-      if (pred && !this.isRealNode(pred.right)) {
-        const newNode = this.createNode(key, value);
-        if (!this.isRealNode(newNode)) return undefined;
-        this._attachNewNode(pred, 'right', newNode);
-        if (this._isMapMode) this._store.set(key, newNode);
-        this._size++;
-        // Maintain header/min/max caches.
-        const NIL = this.NIL;
-        const hMin = this._header._left ?? NIL;
-        if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-        const hMax = this._header._right ?? NIL;
-        if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
-        return newNode;
-      }
-      /* istanbul ignore next -- structurally unreachable: predecessor never has a right child (it's the max of left subtree) */
-      return this._setKVNode(key, value)?.node;
-    }
-    // c0 > 0
-    // Ultra-fast path: direct attach if the target slot is empty.
-    if (!this.isRealNode(hint.right)) {
-      const newNode = this.createNode(key, value);
-      if (!this.isRealNode(newNode)) return undefined;
-      this._attachNewNode(hint, 'right', newNode);
-      if (this._isMapMode) this._store.set(key, newNode);
-      this._size++;
-      // Maintain header/min/max caches.
-      const NIL = this.NIL;
-      const hMin = this._header._left ?? NIL;
-      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-      const hMax = this._header._right ?? NIL;
-      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
-      return newNode;
-    }
-    const succ = this._successorOf(hint);
-    if (succ && cmp(succ.key, key) <= 0) {
-      return this._setKVNode(key, value)?.node;
-    }
-    if (succ && !this.isRealNode(succ.left)) {
-      const newNode = this.createNode(key, value);
-      if (!this.isRealNode(newNode)) return undefined;
-      this._attachNewNode(succ, 'left', newNode);
-      if (this._isMapMode) this._store.set(key, newNode);
-      this._size++;
-      // Maintain header/min/max caches.
-      const NIL = this.NIL;
-      const hMin = this._header._left ?? NIL;
-      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-      const hMax = this._header._right ?? NIL;
-      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
-      return newNode;
-    }
-    /* istanbul ignore next -- structurally unreachable: successor never has a left child (it's the min of right subtree) */
-    return this._setKVNode(key, value)?.node;
-  }
-
-  /**
-   * Boolean wrapper for setWithHintNode.
-   * @remarks Time O(log n) average, Space O(1)
-   */
-  setWithHint(key: K, value: V, hint?: RedBlackTreeNode<K, V>): boolean {
-    return this.setWithHintNode(key, value, hint) !== undefined;
-  }
-
-  /**
-   * Insert or update a key/value (map mode) or key-only (set mode).
-   *
-   * This method is optimized for:
-   * - monotonic inserts via min/max boundary fast paths
-   * - updates via a single-pass search (no double walk)
-   *
-   * @remarks Time O(log n) average, Space O(1)
-
-
- * @example
- * // basic Red-Black Tree with simple number keys
- *  // Create a simple Red-Black Tree with numeric keys
- *     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
- *
- *     tree.print();
- *     //   _2___
- *     //  /     \
- *     //  1    _8_
- *     //      /   \
- *     //      5   9
- *
- *     // Verify the tree maintains sorted order
- *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
- *
- *     // Check size
- *     console.log(tree.size); // 5;
-*/
-  override set(
-    keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
-    value?: V
-  ): boolean {
-    // Common path: tree.set(key, value) or tree.set([key, value]).
-    if (!this.isNode(keyNodeOrEntry)) {
-      if (keyNodeOrEntry === null || keyNodeOrEntry === undefined) return false;
-      if (this.isEntry(keyNodeOrEntry)) {
-        const key = keyNodeOrEntry[0];
-        if (key === null || key === undefined) return false;
-        const nextValue = value ?? keyNodeOrEntry[1];
-        return this._setKV(key, nextValue);
-      }
-      // key-only
-      return this._setKV(keyNodeOrEntry, value);
-    }
-    // Node insertion path (advanced usage)
-    const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
-    if (!this.isRealNode(newNode)) return false;
-    const insertStatus = this._insert(newNode);
-    if (insertStatus === 'CREATED') {
-      if (this.isRealNode(this._root)) {
-        this._root.color = 'BLACK';
-      } else {
-        return false;
-      }
-      if (this._isMapMode) {
-        const n = this.getNode(newNode.key);
-        if (this.isRealNode(n)) {
-          n.value = newValue as V;
-          this._store.set(n.key, n);
-        }
-      }
-      this._size++;
-      return true;
-    }
-    if (insertStatus === 'UPDATED') {
-      if (this._isMapMode) {
-        const n = this.getNode(newNode.key);
-        if (this.isRealNode(n)) {
-          n.value = newValue as V;
-          this._store.set(n.key, n);
-        }
-      }
-      return true;
-    }
-    /* istanbul ignore next -- defensive: _insert only returns CREATED|UPDATED */
-    return false;
-  }
-
-  /**
-   * Delete a node by key/node/entry and rebalance as needed.
-   * @remarks Time O(log n) average, Space O(1)
-   * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
-   * @returns Array with deletion metadata (removed node, rebalancing hint if any).
-
-
- * @example
- * // Remove and rebalance
- *  const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
- *     rbt.delete(5);
- *     console.log(rbt.has(5)); // false;
- *     console.log(rbt.size); // 4;
-*/
-  override delete(
-    keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>
-  ): boolean {
-    if (keyNodeEntryRawOrPredicate === null) return false;
-    let nodeToDelete: OptNode<RedBlackTreeNode<K, V>>;
-    if (this._isPredicate(keyNodeEntryRawOrPredicate)) nodeToDelete = this.getNode(keyNodeEntryRawOrPredicate);
-    else nodeToDelete = this.isRealNode(keyNodeEntryRawOrPredicate) ? keyNodeEntryRawOrPredicate : this.getNode(keyNodeEntryRawOrPredicate);
-    if (!nodeToDelete) {
-      return false;
-    }
-    // Track min/max cache updates before structural modifications.
-    const willDeleteMin = nodeToDelete === this._minNode;
-    const willDeleteMax = nodeToDelete === this._maxNode;
-    const nextMin = willDeleteMin ? this._successorOf(nodeToDelete) : undefined;
-    const nextMax = willDeleteMax ? this._predecessorOf(nodeToDelete) : undefined;
-    let originalColor = nodeToDelete.color;
-    const NIL = this.NIL;
-    let replacementNode: RedBlackTreeNode<K, V> = NIL;
-    if (!this.isRealNode(nodeToDelete.left)) {
-      // No real left child → replace with right (may be NIL)
-      replacementNode = nodeToDelete.right ?? NIL;
-      this._transplant(nodeToDelete, replacementNode);
-    } else if (!this.isRealNode(nodeToDelete.right)) {
-      // No real right child → replace with left
-      replacementNode = nodeToDelete.left;
-      this._transplant(nodeToDelete, replacementNode);
-    } else {
-      // Two children → find in-order successor
-      const successor = this.getLeftMost(node => node, nodeToDelete.right);
-      if (successor) {
-        originalColor = successor.color;
-        replacementNode = successor.right ?? NIL;
-        if (successor.parent === nodeToDelete) {
-          // Even if replacementNode is NIL, set its parent for fixup
-          replacementNode.parent = successor;
-        } else {
-          this._transplant(successor, replacementNode);
-          successor.right = nodeToDelete.right;
-          if (successor.right) {
-            successor.right.parent = successor;
-          }
-        }
-        this._transplant(nodeToDelete, successor);
-        successor.left = nodeToDelete.left;
-        if (successor.left) {
-          successor.left.parent = successor;
-        }
-        successor.color = nodeToDelete.color;
-      }
-    }
-    if (this._isMapMode) this._store.delete(nodeToDelete.key);
-    this._size--;
-    // Update order-statistic counts from replacement up to root
-    this._updateCountAlongPath(replacementNode?.parent as RedBlackTreeNode<K, V> | undefined ?? replacementNode);
-    // Update min/max caches.
-    if (this._size <= 0) {
-      this._setMinCache(undefined);
-      this._setMaxCache(undefined);
-    } else {
-      if (willDeleteMin) this._setMinCache(nextMin);
-      if (willDeleteMax) this._setMaxCache(nextMax);
-      // Fallback if successor/predecessor was unavailable.
-      if (!this._minNode || !this.isRealNode(this._minNode)) {
-        this._setMinCache(this.isRealNode(this._root) ? this.getLeftMost(n => n, this._root) : undefined);
-      }
-      if (!this._maxNode || !this.isRealNode(this._maxNode)) {
-        this._setMaxCache(this.isRealNode(this._root) ? this.getRightMost(n => n, this._root) : undefined);
-      }
-    }
-    if (originalColor === 'BLACK') {
-      this._deleteFixup(replacementNode);
-    }
-    return true;
-  }
-
-  /**
-   * Transform entries into a like-kind red-black tree with possibly different key/value types.
-   * @remarks Time O(n) average, Space O(n)
-   * @template MK
-   * @template MV
-   * @template MR
-   * @param callback - Mapping function from (key, value, index, tree) to a new [key, value].
-   * @param [options] - See parameter type for details.
-   * @param [thisArg] - See parameter type for details.
-   * @returns A new RedBlackTree with mapped entries.
-   */
-  /**
-   * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
-   * sorted bulk insert, which naturally produces a balanced RBT.
-   * @remarks Time O(N), Space O(N)
-
-
- * @example
- * // Rebalance tree
- *  const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
- *     rbt.perfectlyBalance();
- *     console.log(rbt.isAVLBalanced()); // true;
-*/
-  override perfectlyBalance(_iterationType?: IterationType): boolean {
-    // Extract sorted entries, clear, re-insert — RBT self-balances on insert
-    const entries: [K, V | undefined][] = [];
-    for (const [key, value] of this) entries.push([key, value]);
-    if (entries.length <= 1) return true;
-    this.clear();
-    this.setMany(
-      entries.map(([k]) => k),
-      entries.map(([, v]) => v),
-      true // isBalanceAdd
-    );
-    return true;
-  }
-
-    /**
-   * Transform to new tree
-
-
- * @example
- * // Transform to new tree
- *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
- *     const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
- *     console.log([...doubled.values()]); // [20, 40];
-*/
-  override map<MK = K, MV = V, MR = any>(
-    callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
-    thisArg?: unknown
-  ): RedBlackTree<MK, MV, MR> {
-    const out = this._createLike<MK, MV, MR>([], options);
-    let index = 0;
-    for (const [key, value] of this) {
-      out.set(callback.call(thisArg, value, key, index++, this));
-    }
-    return out;
   }
 
   /**

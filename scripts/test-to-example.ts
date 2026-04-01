@@ -411,7 +411,10 @@ function addExamplesToSourceFile(
     sourceContent.slice(0, commentStart) + newCommentBlock + sourceContent.slice(commentEndInclusive);
 
   // Clean up whitespace-only lines
-  const cleanedContent = updatedContent.replace(/^[ \t]+$/gm, '').replace(/\n{4,}/g, '\n\n\n');
+  const cleanedContent = updatedContent
+    .replace(/^[ \t]+$/gm, '')
+    .replace(/\n{4,}/g, '\n\n\n')
+    .replace(/\n\n(\s*\* @example)/g, '\n$1');
   fs.writeFileSync(sourceFilePath, cleanedContent, 'utf-8');
   console.log(`  ✅ [class] ${className} ← ${examples.length} example(s)`);
 }
@@ -497,6 +500,8 @@ function addExampleToMethod(
   sourceContent = sourceContent.replace(/^[ \t]+$/gm, '');
   // Collapse 3+ consecutive blank lines into 2
   sourceContent = sourceContent.replace(/\n{4,}/g, '\n\n\n');
+  // Remove blank lines before * @example inside JSDoc
+  sourceContent = sourceContent.replace(/\n\n(\s*\* @example)/g, '\n$1');
   fs.writeFileSync(sourceFilePath, sourceContent);
   console.log(`  ✅ [method] ${className}.${methodName} ← "${example.name}"`);
   return true;

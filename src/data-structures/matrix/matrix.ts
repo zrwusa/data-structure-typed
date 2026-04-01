@@ -95,7 +95,6 @@ import { ERR, raise } from '../../common';
  *     console.log(m.get(5, 5)); // undefined;
  */
 export class Matrix {
-
   /**
    * The constructor function initializes a matrix object with the provided data and options, or with
    * default values if no options are provided.
@@ -126,6 +125,7 @@ export class Matrix {
       }
     }
   }
+
   protected _rows: number = 0;
 
   /**
@@ -135,6 +135,7 @@ export class Matrix {
   get rows(): number {
     return this._rows;
   }
+
   protected _cols: number = 0;
 
   /**
@@ -144,6 +145,7 @@ export class Matrix {
   get cols(): number {
     return this._cols;
   }
+
   protected _data: number[][];
 
   /**
@@ -179,6 +181,51 @@ export class Matrix {
   }
 
   /**
+   * Returns [rows, cols] dimensions tuple.
+   */
+  get size(): [number, number] {
+    return [this._rows, this._cols];
+  }
+
+  /**
+   * Creates a rows×cols zero matrix.
+   * @example
+   * ```ts
+   * const z = Matrix.zeros(2, 3); // [[0,0,0],[0,0,0]]
+   * ```
+   */
+  static zeros(rows: number, cols: number): Matrix {
+    const data: number[][] = Array.from({ length: rows }, () => new Array(cols).fill(0));
+    return new Matrix(data);
+  }
+
+  /**
+   * Creates an n×n identity matrix.
+   * @example
+   * ```ts
+   * const I = Matrix.identity(3); // [[1,0,0],[0,1,0],[0,0,1]]
+   * ```
+   */
+  static identity(n: number): Matrix {
+    const data: number[][] = Array.from({ length: n }, (_, i) =>
+      Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))
+    );
+    return new Matrix(data);
+  }
+
+  /**
+   * Creates a Matrix from a plain 2D array (deep copy).
+   * @example
+   * ```ts
+   * const m = Matrix.from([[1, 2], [3, 4]]);
+   * m.get(0, 1); // 2
+   * ```
+   */
+  static from(data: number[][]): Matrix {
+    return new Matrix(data.map(row => [...row]));
+  }
+
+  /**
    * The `get` function returns the value at the specified row and column index if it is a valid index.
    * @param {number} row - The `row` parameter represents the row index of the element you want to
    * retrieve from the data array.
@@ -186,8 +233,6 @@ export class Matrix {
    * retrieve from the data array.
    * @returns The `get` function returns a number if the provided row and column indices are valid.
    * Otherwise, it returns `undefined`.
-
-
  * @example
  * // Get and set individual cells
  *  const m = new Matrix([
@@ -222,8 +267,6 @@ export class Matrix {
    * @returns a boolean value. It returns true if the index (row, col) is valid and the value is
    * successfully set in the data array. It returns false if the index is invalid and the value is not
    * set.
-
-
  * @example
  * // Modify individual cells
  *  const m = Matrix.zeros(2, 2);
@@ -255,8 +298,6 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns The `add` method returns a new `Matrix` object that represents the result of adding the
    * current matrix with the provided `matrix` parameter.
-
-
  * @example
  * // Basic matrix arithmetic
  *  const a = new Matrix([
@@ -310,8 +351,6 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class. It
    * represents the matrix that you want to subtract from the current matrix.
    * @returns a new Matrix object with the result of the subtraction operation.
-
-
  * @example
  * // Element-wise subtraction
  *  const a = Matrix.from([[5, 6], [7, 8]]);
@@ -348,8 +387,6 @@ export class Matrix {
    * as a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
-
-
  * @example
  * // Matrix multiplication for transformations
  *  // 2x3 matrix * 3x2 matrix = 2x2 matrix
@@ -408,8 +445,6 @@ export class Matrix {
    * The transpose function takes a matrix and returns a new matrix that is the transpose of the
    * original matrix.
    * @returns The transpose() function returns a new Matrix object with the transposed data.
-
-
  * @example
  * // Matrix transpose (square matrix)
  *  const m = new Matrix([
@@ -451,11 +486,11 @@ export class Matrix {
     });
   }
 
+  // ─── Standard interface ─────────────────────────────────────
+
   /**
    * The `inverse` function calculates the inverse of a square matrix using Gaussian elimination.
    * @returns a Matrix object, which represents the inverse of the original matrix.
-
-
  * @example
  * // Compute the inverse of a 2x2 matrix
  *  const m = Matrix.from([[4, 7], [2, 6]]);
@@ -535,8 +570,6 @@ export class Matrix {
    * The dot function calculates the dot product of two matrices and returns a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
-
-
  * @example
  * // Dot product of two matrices
  *  const a = Matrix.from([[1, 2], [3, 4]]);
@@ -605,14 +638,7 @@ export class Matrix {
       }
     );
   }
-  // ─── Standard interface ─────────────────────────────────────
 
-  /**
-   * Returns [rows, cols] dimensions tuple.
-   */
-  get size(): [number, number] {
-    return [this._rows, this._cols];
-  }
   isEmpty(): boolean {
     return this._rows === 0 || this._cols === 0;
   }
@@ -654,6 +680,8 @@ export class Matrix {
     };
   }
 
+  // ─── Factory methods ────────────────────────────────────────
+
   /**
    * Visits each element with its row and column index.
    */
@@ -684,57 +712,22 @@ export class Matrix {
       multiplyFn: this.multiplyFn
     });
   }
+
   print(): void {
     for (const row of this._data) {
       console.log(row.join('\t'));
     }
   }
-  // ─── Factory methods ────────────────────────────────────────
 
-  /**
-   * Creates a rows×cols zero matrix.
-   * @example
-   * ```ts
-   * const z = Matrix.zeros(2, 3); // [[0,0,0],[0,0,0]]
-   * ```
-   */
-  static zeros(rows: number, cols: number): Matrix {
-    const data: number[][] = Array.from({ length: rows }, () => new Array(cols).fill(0));
-    return new Matrix(data);
-  }
-
-  /**
-   * Creates an n×n identity matrix.
-   * @example
-   * ```ts
-   * const I = Matrix.identity(3); // [[1,0,0],[0,1,0],[0,0,1]]
-   * ```
-   */
-  static identity(n: number): Matrix {
-    const data: number[][] = Array.from({ length: n }, (_, i) =>
-      Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))
-    );
-    return new Matrix(data);
-  }
-
-  /**
-   * Creates a Matrix from a plain 2D array (deep copy).
-   * @example
-   * ```ts
-   * const m = Matrix.from([[1, 2], [3, 4]]);
-   * m.get(0, 1); // 2
-   * ```
-   */
-  static from(data: number[][]): Matrix {
-    return new Matrix(data.map(row => [...row]));
-  }
   protected _addFn(a: number | undefined, b: number): number | undefined {
     if (a === undefined) return b;
     return a + b;
   }
+
   protected _subtractFn(a: number, b: number) {
     return a - b;
   }
+
   protected _multiplyFn(a: number, b: number) {
     return a * b;
   }

@@ -29,7 +29,7 @@ import { ERR, raise } from '../../common';
  */
 export class BinaryIndexedTree implements Iterable<number> {
   protected readonly _size: number;
-  protected _tree: number[];  // 1-indexed BIT array
+  protected _tree: number[]; // 1-indexed BIT array
 
   /**
    * Construct a BIT of given size (all zeros), or from an initial values array.
@@ -50,13 +50,16 @@ export class BinaryIndexedTree implements Iterable<number> {
       this._tree = new Array(this._size + 1).fill(0);
     }
   }
+
   // ─── Core operations ──────────────────────────────────────────
+
+  get size(): number {
+    return this._size;
+  }
 
   /**
    * Point update: add delta to the value at index (0-based).
    * Time: O(log n)
-
-
  * @example
  * // Add delta at index
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
@@ -71,8 +74,6 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Point set: set the value at index to an absolute value (0-based).
    * Time: O(log n)
-
-
  * @example
  * // Set value at index
  *  const bit = new BinaryIndexedTree([1, 2, 3]);
@@ -88,8 +89,6 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Get the point value at index (0-based).
    * Time: O(log n)
-
-
  * @example
  * // Get value at index
  *  const bit = new BinaryIndexedTree([1, 2, 3]);
@@ -104,8 +103,6 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Prefix sum query: returns sum of elements [0..index] (inclusive, 0-based).
    * Time: O(log n)
-
-
  * @example
  * // Prefix sum
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4]);
@@ -116,11 +113,11 @@ export class BinaryIndexedTree implements Iterable<number> {
     return this._prefixSum(index + 1);
   }
 
+  // ─── Binary search ───────────────────────────────────────────
+
   /**
    * Range sum query: returns sum of elements [start..end] (inclusive, 0-based).
    * Time: O(log n)
-
-
  * @example
  * // Range sum
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4]);
@@ -133,15 +130,12 @@ export class BinaryIndexedTree implements Iterable<number> {
     if (start === 0) return this._prefixSum(end + 1);
     return this._prefixSum(end + 1) - this._prefixSum(start);
   }
-  // ─── Binary search ───────────────────────────────────────────
 
   /**
    * Find the smallest index i such that prefix sum [0..i] >= sum.
    * Requires all values to be non-negative (behavior undefined otherwise).
    * Returns size if no such index exists.
    * Time: O(log n)
-
-
  * @example
  * // Find index with prefix sum ≥ target
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4]);
@@ -151,6 +145,7 @@ export class BinaryIndexedTree implements Iterable<number> {
   lowerBound(sum: number): number {
     let pos = 0;
     let bitMask = this._highBit(this._size);
+
     while (bitMask > 0) {
       const next = pos + bitMask;
       if (next <= this._size && this._tree[next] < sum) {
@@ -159,16 +154,17 @@ export class BinaryIndexedTree implements Iterable<number> {
       }
       bitMask >>= 1;
     }
+
     return pos; // 0-based
   }
+
+  // ─── Standard interface ──────────────────────────────────────
 
   /**
    * Find the smallest index i such that prefix sum [0..i] > sum.
    * Requires all values to be non-negative (behavior undefined otherwise).
    * Returns size if no such index exists.
    * Time: O(log n)
-
-
  * @example
  * // Find index with prefix sum > target
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4]);
@@ -178,6 +174,7 @@ export class BinaryIndexedTree implements Iterable<number> {
   upperBound(sum: number): number {
     let pos = 0;
     let bitMask = this._highBit(this._size);
+
     while (bitMask > 0) {
       const next = pos + bitMask;
       if (next <= this._size && this._tree[next] <= sum) {
@@ -186,18 +183,18 @@ export class BinaryIndexedTree implements Iterable<number> {
       }
       bitMask >>= 1;
     }
+
     return pos; // 0-based
   }
-  // ─── Standard interface ──────────────────────────────────────
-  get size(): number {
-    return this._size;
-  }
+
   isEmpty(): boolean {
     return this._size === 0;
   }
+
   clear(): void {
     this._tree.fill(0);
   }
+
   clone(): BinaryIndexedTree {
     return new BinaryIndexedTree(this.toArray());
   }
@@ -205,8 +202,6 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Returns the point values as a plain array.
    * Time: O(n log n)
-
-
  * @example
  * // Convert to array
  *  const bit = new BinaryIndexedTree([1, 2, 3]);
@@ -240,14 +235,17 @@ export class BinaryIndexedTree implements Iterable<number> {
       }
     };
   }
+
   forEach(callback: (value: number, index: number) => void): void {
     for (let i = 0; i < this._size; i++) {
       callback(this._pointQuery(i + 1), i);
     }
   }
+
   print(): void {
     console.log(this.toArray());
   }
+
   // ─── Internal helpers ─────────────────────────────────────────
 
   /** 1-based prefix sum up to pos (inclusive). */
@@ -271,7 +269,7 @@ export class BinaryIndexedTree implements Iterable<number> {
   /** 1-based point query: get exact value at pos. */
   protected _pointQuery(pos: number): number {
     let val = this._tree[pos];
-    const lca = pos - (pos & -pos);  // parent in prefix-sum sense
+    const lca = pos - (pos & -pos); // parent in prefix-sum sense
     pos--;
     while (pos > lca) {
       val -= this._tree[pos];
@@ -279,6 +277,7 @@ export class BinaryIndexedTree implements Iterable<number> {
     }
     return val;
   }
+
   protected _checkIndex(index: number): void {
     if (!Number.isInteger(index)) {
       raise(TypeError, ERR.invalidIndex('BinaryIndexedTree'));

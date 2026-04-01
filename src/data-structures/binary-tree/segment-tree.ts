@@ -29,9 +29,9 @@ export type SegmentTreeOptions<E> = {
 export class SegmentTree<E = number> implements Iterable<E> {
   protected readonly _merger: (a: E, b: E) => E;
   protected readonly _identity: E;
-  protected _n: number;         // number of leaf elements
-  protected _tree: E[];         // flat array, 1-indexed, size 2*_size
-  protected _treeSize: number;  // internal tree size (next power of 2 >= _n)
+  protected _n: number; // number of leaf elements
+  protected _tree: E[]; // flat array, 1-indexed, size 2*_size
+  protected _treeSize: number; // internal tree size (next power of 2 >= _n)
   constructor(elements: E[], options: SegmentTreeOptions<E>) {
     this._merger = options.merger;
     this._identity = options.identity;
@@ -50,7 +50,13 @@ export class SegmentTree<E = number> implements Iterable<E> {
       this._tree[i] = this._merger(this._tree[2 * i], this._tree[2 * i + 1]);
     }
   }
+
   // ─── Convenience factories ─────────────────────────────────
+
+  // ─── Standard interface ────────────────────────────────────
+  get size(): number {
+    return this._n;
+  }
 
   /**
    * Create a sum segment tree.
@@ -71,8 +77,6 @@ export class SegmentTree<E = number> implements Iterable<E> {
 
   /**
    * Create a min segment tree.
-
-
  * @example
  * // Temperature monitoring with range queries
  *  // Hourly temperatures for a day (24 readings)
@@ -93,6 +97,8 @@ export class SegmentTree<E = number> implements Iterable<E> {
     });
   }
 
+  // ─── Core operations ───────────────────────────────────────
+
   /**
    * Create a max segment tree.
    * @example
@@ -107,13 +113,10 @@ export class SegmentTree<E = number> implements Iterable<E> {
       identity: -Infinity
     });
   }
-  // ─── Core operations ───────────────────────────────────────
 
   /**
    * Point update: set element at index to value.
    * Time: O(log n)
-
-
  * @example
  * // Dynamic range sum with updates
  *  // Monthly revenue data (in thousands)
@@ -147,8 +150,6 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Range query: returns merger result over [start, end] (inclusive).
    * Time: O(log n)
-
-
  * @example
  * // Range sum query on an array
  *  const tree = SegmentTree.sum([1, 3, 5, 7, 9, 11]);
@@ -185,11 +186,11 @@ export class SegmentTree<E = number> implements Iterable<E> {
     return this._merger(resultLeft, resultRight);
   }
 
+  // ─── Binary search on tree (ACL-style) ─────────────────────
+
   /**
    * Get element at index.
    * Time: O(1)
-
-
  * @example
  * // Point access on segment tree
  *  const st = SegmentTree.sum([10, 20, 30, 40]);
@@ -200,15 +201,12 @@ export class SegmentTree<E = number> implements Iterable<E> {
     if (index < 0 || index >= this._n) return this._identity;
     return this._tree[this._treeSize + index];
   }
-  // ─── Binary search on tree (ACL-style) ─────────────────────
 
   /**
    * Find the largest r such that predicate(query(left, r)) is true.
    * Returns left-1 if predicate(identity) is false.
    * Returns n-1 if predicate holds for the entire range [left, n-1].
    * Time: O(log n)
-
-
  * @example
  * // Find rightmost position where predicate holds
  *  // Prefix sums: find the rightmost index where prefix sum < 10
@@ -260,8 +258,6 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns right+1 if predicate(identity) is false.
    * Returns 0 if predicate holds for the entire range [0, right].
    * Time: O(log n)
-
-
  * @example
  * // Find leftmost position where predicate holds
  *  const st = SegmentTree.sum([3, 1, 4, 1, 5]);
@@ -302,13 +298,11 @@ export class SegmentTree<E = number> implements Iterable<E> {
       if (pos === 1) return 0;
     }
   }
-  // ─── Standard interface ────────────────────────────────────
-  get size(): number {
-    return this._n;
-  }
+
   isEmpty(): boolean {
     return this._n === 0;
   }
+
   clone(): SegmentTree<E> {
     const elements: E[] = [];
     for (let i = 0; i < this._n; i++) {
@@ -319,6 +313,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
       identity: this._identity
     });
   }
+
   toArray(): E[] {
     const result: E[] = [];
     for (let i = 0; i < this._n; i++) {
@@ -347,11 +342,13 @@ export class SegmentTree<E = number> implements Iterable<E> {
       }
     };
   }
+
   forEach(callback: (value: E, index: number) => void): void {
     for (let i = 0; i < this._n; i++) {
       callback(this._tree[this._treeSize + i], i);
     }
   }
+
   print(): void {
     console.log(this.toArray());
   }

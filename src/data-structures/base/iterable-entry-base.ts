@@ -7,7 +7,6 @@ import type { EntryCallback, ReduceEntryCallback } from '../../types';
  * @remarks Time O(1), Space O(1)
  */
 export abstract class IterableEntryBase<K = any, V = any> {
-
   /**
    * Total number of entries.
    * @returns Entry count.

@@ -132,8 +132,6 @@ import { IterableElementBase } from '../base';
  *     console.log(stack.toArray()); // [1, 2, 3];
  */
 export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
-  protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
-
   /**
    * Create a Stack and optionally bulk-push elements.
    * @remarks Time O(N), Space O(N)
@@ -145,6 +143,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
     super(options);
     this.pushMany(elements);
   }
+
   protected _elements: E[] = [];
 
   /**
@@ -160,8 +159,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of stored elements.
    * @remarks Time O(1), Space O(1)
    * @returns Current size.
-
-
  * @example
  * // Get number of elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -193,8 +190,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the stack is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
-
-
  * @example
  * // Check if stack has elements
  *  const stack = new Stack<number>();
@@ -210,8 +205,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
-
-
  * @example
  * // View the top element without removing it
  *  const stack = new Stack<string>(['a', 'b', 'c']);
@@ -227,8 +220,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
-
-
  * @example
  * // basic Stack creation and push operation
  *  // Create a simple Stack with initial values
@@ -253,8 +244,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
-
-
  * @example
  * // Stack pop operation (LIFO - Last In First Out)
  *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
@@ -298,8 +287,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (using the configured equality).
    * @returns True if an element was removed.
-
-
  * @example
  * // Remove element
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -343,8 +330,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements and reset storage.
    * @remarks Time O(1), Space O(1)
    * @returns void
-
-
  * @example
  * // Remove all elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -359,8 +344,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this stack.
    * @remarks Time O(N), Space O(N)
    * @returns A new stack with the same content.
-
-
  * @example
  * // Create independent copy
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -381,8 +364,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param predicate - Predicate (value, index, stack) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new stack with kept values.
-
-
  * @example
  * // Filter elements
  *  const stack = new Stack<number>([1, 2, 3, 4, 5]);
@@ -425,8 +406,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options for the output stack (e.g., toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Stack with mapped elements.
-
-
  * @example
  * // Transform elements
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -457,6 +436,8 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
     this._equals = equals;
     return this;
   }
+
+  protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
 
   /**
    * (Protected) Find the index of a target element using the equality function.
