@@ -8,7 +8,7 @@ const suite = new Benchmark.Suite();
 const { MILLION } = magnitude;
 
 // Test 1: 1M push
-suite.add('1M push', function() {
+suite.add('1M push', function () {
   const stack = new Stack();
   for (let i = 0; i < MILLION; i++) {
     stack.push(i);
@@ -16,7 +16,7 @@ suite.add('1M push', function() {
   this.val = stack;
 });
 
-suite.add('1M push (js-sdsl)', function() {
+suite.add('1M push (js-sdsl)', function () {
   const stack = new SdslStack();
   for (let i = 0; i < MILLION; i++) {
     stack.push(i);
@@ -24,7 +24,7 @@ suite.add('1M push (js-sdsl)', function() {
   this.val = stack;
 });
 
-suite.add('Native JS Array 1M push', function() {
+suite.add('Native JS Array 1M push', function () {
   const arr = [];
   for (let i = 0; i < MILLION; i++) {
     arr.push(i);
@@ -33,7 +33,7 @@ suite.add('Native JS Array 1M push', function() {
 });
 
 // Test 2: 1M push & pop
-suite.add('1M push & pop', function() {
+suite.add('1M push & pop', function () {
   const stack = new Stack();
   for (let i = 0; i < MILLION; i++) {
     stack.push(i);
@@ -44,7 +44,7 @@ suite.add('1M push & pop', function() {
   this.val = stack;
 });
 
-suite.add('1M push & pop (js-sdsl)', function() {
+suite.add('1M push & pop (js-sdsl)', function () {
   const stack = new SdslStack();
   for (let i = 0; i < MILLION; i++) {
     stack.push(i);
@@ -55,7 +55,7 @@ suite.add('1M push & pop (js-sdsl)', function() {
   this.val = stack;
 });
 
-suite.add('Native JS Array 1M push & pop', function() {
+suite.add('Native JS Array 1M push & pop', function () {
   const arr = [];
   for (let i = 0; i < MILLION; i++) {
     arr.push(i);

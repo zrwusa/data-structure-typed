@@ -11,9 +11,8 @@ class RBTTransplantCorruptRoot extends RedBlackTree<number, number> {
 }
 
 describe('RedBlackTree misc coverage', () => {
-
   describe('internal factory', () => {
-  it('_createLike default iterable branch returns empty like-kind', () => {
+    it('_createLike default iterable branch returns empty like-kind', () => {
       const t = new RedBlackTree<number, number>();
       t.set(1, 1);
 
@@ -38,7 +37,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('internal walk', () => {
-  it('_findNodeByKey covers header.parent ?? NIL and child ?? NIL branches', () => {
+    it('_findNodeByKey covers header.parent ?? NIL and child ?? NIL branches', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(10, 10);
 
@@ -94,7 +93,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('misc input', () => {
-  it('delete(null) returns false and does not throw', () => {
+    it('delete(null) returns false and does not throw', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(1, 1);
       expect(t.delete(null as any)).toBe(false);
@@ -110,7 +109,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('predecessor/successor', () => {
-  it('covers predecessor/successor: subtree-walk, parent-climb, and undefined edges', () => {
+    it('covers predecessor/successor: subtree-walk, parent-climb, and undefined edges', () => {
       const t = new RedBlackTree<number, string>([], { isMapMode: false });
 
       // Build a tree with nodes that have (and do not have) left/right subtrees.
@@ -149,7 +148,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('reachable branches (coverage)', () => {
-  it('mapMode updates existing MAX key with defined value via boundary cMax===0 path inside _setKVNode (covers store.set branch)', () => {
+    it('mapMode updates existing MAX key with defined value via boundary cMax===0 path inside _setKVNode (covers store.set branch)', () => {
       const t = new RedBlackTree<number, string>([], { isMapMode: true });
       t.set(1, 'a');
       t.set(2, 'b');
@@ -269,7 +268,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('reachable branch (batch 3)', () => {
-  it('insertion cache: hits parent===hMax and parent===hMin else-if branches', () => {
+    it('insertion cache: hits parent===hMax and parent===hMin else-if branches', () => {
       const t = new RedBlackTree<number, number>();
 
       t.set(2, 2);
@@ -323,7 +322,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('reachable branch (batch 4)', () => {
-  it('setWithHintNode: covers header._left/_right nullish-coalescing RHS (?? NIL) in all 4 ultra-fast attach variants', () => {
+    it('setWithHintNode: covers header._left/_right nullish-coalescing RHS (?? NIL) in all 4 ultra-fast attach variants', () => {
       const t = new RedBlackTree<number, number>();
 
       t.setMany([
@@ -366,7 +365,7 @@ describe('RedBlackTree misc coverage', () => {
   });
 
   describe('remaining-branch', () => {
-  it('covers hint cache-maintenance binary-expr false paths (no cache update)', () => {
+    it('covers hint cache-maintenance binary-expr false paths (no cache update)', () => {
       // direct attach left: hint.left empty, but extremes exist elsewhere.
       const t1 = new RedBlackTree<number, number>([], { isMapMode: false });
       for (const k of [50, 1, 100, 60]) t1.set(k, k);
@@ -451,7 +450,7 @@ describe('RedBlackTree misc coverage', () => {
       for (const k of [10, 5, 15]) t.set(k, k);
 
       // delete(predicate)
-      const r1 = t.delete((node) => node?.key === 5);
+      const r1 = t.delete(node => node?.key === 5);
       expect(r1).toBe(true);
       expect(t.has(5)).toBe(false);
 

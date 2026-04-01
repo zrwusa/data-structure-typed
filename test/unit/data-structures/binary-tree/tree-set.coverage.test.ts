@@ -24,8 +24,6 @@ describe('TreeSet branch coverage', () => {
       expect(() => ts.add(NaN)).toThrow(/NaN/); // compare(NaN, 1) → isNaN(a)
     });
 
-
-
     it('invalid Date in comparison throws', () => {
       const ts = new TreeSet<Date>([new Date('2020-01-01')]);
       expect(() => ts.add(new Date('invalid'))).toThrow(/Date/);
@@ -71,17 +69,21 @@ describe('TreeSet branch coverage', () => {
     it('every with thisArg', () => {
       const ts = new TreeSet<number>([1, 2, 3]);
       const ctx = { max: 5 };
-      expect(ts.every(function (this: typeof ctx, v) {
-        return v <= this.max;
-      }, ctx)).toBe(true);
+      expect(
+        ts.every(function (this: typeof ctx, v) {
+          return v <= this.max;
+        }, ctx)
+      ).toBe(true);
     });
 
     it('some with thisArg', () => {
       const ts = new TreeSet<number>([1, 2, 3]);
       const ctx = { target: 2 };
-      expect(ts.some(function (this: typeof ctx, v) {
-        return v === this.target;
-      }, ctx)).toBe(true);
+      expect(
+        ts.some(function (this: typeof ctx, v) {
+          return v === this.target;
+        }, ctx)
+      ).toBe(true);
     });
 
     it('find with thisArg', () => {

@@ -8,9 +8,7 @@ const suite = new Benchmark.Suite();
 
 const { HUNDRED_THOUSAND } = magnitude;
 
-const randomArray = new Array(HUNDRED_THOUSAND)
-    .fill(0)
-    .map(() => getRandomInt(0, HUNDRED_THOUSAND - 1));
+const randomArray = new Array(HUNDRED_THOUSAND).fill(0).map(() => getRandomInt(0, HUNDRED_THOUSAND - 1));
 
 // Global trees for tests that need pre-built data
 let treeForGet = null;
@@ -28,7 +26,7 @@ const QUERY_COUNT = Number(process.env.AVL_RS_QUERY_COUNT ?? HUNDRED_THOUSAND);
 const RANGE_SIZE = Number(process.env.AVL_RS_RANGE_SIZE ?? 100);
 
 // Initialize all trees in suite 'start' event (NOT TIMED)
-suite.on('start', function() {
+suite.on('start', function () {
   treeForGet = new AVLTree();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     treeForGet.add(randomArray[i]);
@@ -59,7 +57,7 @@ suite.on('start', function() {
   }
 });
 
-suite.add('100K add randomly', function() {
+suite.add('100K add randomly', function () {
   const tree = new AVLTree();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     tree.add(randomArray[i]);
@@ -67,7 +65,7 @@ suite.add('100K add randomly', function() {
   this.val = tree;
 });
 
-suite.add('100K add', function() {
+suite.add('100K add', function () {
   const tree = new AVLTree();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     tree.add(i);
@@ -75,7 +73,7 @@ suite.add('100K add', function() {
   this.val = tree;
 });
 
-suite.add('100K get', function() {
+suite.add('100K get', function () {
   let count = 0;
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     if (treeForGet.get(randomArray[i]) !== undefined) {
@@ -85,7 +83,7 @@ suite.add('100K get', function() {
   this.val = count;
 });
 
-suite.add('100K getNode', function() {
+suite.add('100K getNode', function () {
   let count = 0;
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     if (treeForGetNode.getNode(randomArray[i]) !== undefined) {
@@ -95,7 +93,7 @@ suite.add('100K getNode', function() {
   this.val = count;
 });
 
-suite.add('100K iterator', function() {
+suite.add('100K iterator', function () {
   let count = 0;
   for (const node of treeForIterator) {
     count++;
@@ -103,7 +101,7 @@ suite.add('100K iterator', function() {
   this.val = count;
 });
 
-suite.add('100K add & delete orderly', function() {
+suite.add('100K add & delete orderly', function () {
   const tree = new AVLTree();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     tree.add(i);
@@ -114,7 +112,7 @@ suite.add('100K add & delete orderly', function() {
   this.val = tree;
 });
 
-suite.add('100K add & delete randomly', function() {
+suite.add('100K add & delete randomly', function () {
   const tree = new AVLTree();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     tree.add(randomArray[i]);
@@ -126,7 +124,7 @@ suite.add('100K add & delete randomly', function() {
 });
 
 // rangeSearch queries (default: 100K queries on 100K data)
-suite.add('AVL Tree 100K rangeSearch queries', function() {
+suite.add('AVL Tree 100K rangeSearch queries', function () {
   let totalResults = 0;
   for (let i = 0; i < QUERY_COUNT; i++) {
     const result = treeForRangeSearch.rangeSearch(queryRanges[i]);

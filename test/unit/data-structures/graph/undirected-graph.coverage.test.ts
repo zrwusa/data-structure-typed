@@ -1,9 +1,8 @@
 import { UndirectedEdge, UndirectedGraph } from '../../../../src';
 
 describe('UndirectedGraph misc coverage', () => {
-
   describe('branch (batch 2)', () => {
-  it('createEdge uses final fallback weight=1 when defaultEdgeWeight is explicitly undefined', () => {
+    it('createEdge uses final fallback weight=1 when defaultEdgeWeight is explicitly undefined', () => {
       const g = new UndirectedGraph<string, any>();
       (g as any).options.defaultEdgeWeight = undefined;
 
@@ -37,7 +36,7 @@ describe('UndirectedGraph misc coverage', () => {
   });
 
   describe('branch', () => {
-  it('createEdge falls back to hard-coded weight=1 when weight and defaultEdgeWeight are both undefined', () => {
+    it('createEdge falls back to hard-coded weight=1 when weight and defaultEdgeWeight are both undefined', () => {
       const g = new UndirectedGraph<string, any>();
       const e = g.createEdge('a', 'b');
       expect(e.weight).toBe(1);

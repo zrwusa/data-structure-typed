@@ -22,15 +22,15 @@ const suite = new Benchmark.Suite();
 const { HUNDRED_THOUSAND } = magnitude;
 
 // Test 1: 100K add
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, function() {
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, function () {
   const pq = new PriorityQueue([], { comparator: (a, b) => b - a });
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     pq.add(i);
   }
-  this.val = pq;  // Prevent JIT optimization
+  this.val = pq; // Prevent JIT optimization
 });
 
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add (js-sdsl)`, function() {
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add (js-sdsl)`, function () {
   const pq = new SdslPriorityQueue([], (a, b) => b - a);
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     pq.push(i);
@@ -39,7 +39,7 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add (js-sdsl)`, function() {
 });
 
 // Test 2: 100K add & poll
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & poll`, function() {
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & poll`, function () {
   const pq = new PriorityQueue([], { comparator: (a, b) => b - a });
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     pq.add(i);
@@ -47,10 +47,10 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & poll`, function() {
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     pq.poll();
   }
-  this.val = pq;  // Prevent JIT optimization
+  this.val = pq; // Prevent JIT optimization
 });
 
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & poll (js-sdsl)`, function() {
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & poll (js-sdsl)`, function () {
   const pq = new SdslPriorityQueue([], (a, b) => b - a);
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     pq.push(i);

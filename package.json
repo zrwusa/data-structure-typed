@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Production-ready TypeScript data structures: Heap, Deque, Trie, Graph, Red-Black Tree, TreeMap, TreeSet, and more. Zero dependencies, type-safe, with getRank/getByRank/rangeByRank support.",
   "browser": "dist/umd/data-structure-typed.min.js",
   "umd:main": "dist/umd/data-structure-typed.min.js",

@@ -1,9 +1,8 @@
 import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 
 describe('RedBlackTree cache coverage', () => {
-
   describe('delete cache fallback', () => {
-  it('forces min/max fallback recomputation branches after deleting min/max', () => {
+    it('forces min/max fallback recomputation branches after deleting min/max', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15, 3, 7, 12, 18]) t.set(k, k);
 
@@ -51,7 +50,7 @@ describe('RedBlackTree cache coverage', () => {
   });
 
   describe('cache edge', () => {
-  it('boundary min attach updates max cache when header._right is stale NIL', () => {
+    it('boundary min attach updates max cache when header._right is stale NIL', () => {
       const t = new RedBlackTree<number, number>();
       t.set(10, 10);
 
@@ -87,7 +86,7 @@ describe('RedBlackTree cache coverage', () => {
   });
 
   describe('stale cache insert', () => {
-  it('stale header min/max caches trigger comparison-based cache repair on insertion', () => {
+    it('stale header min/max caches trigger comparison-based cache repair on insertion', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(10, 10);
       t.set(5, 5);
@@ -125,7 +124,7 @@ describe('RedBlackTree cache coverage', () => {
   });
 
   describe('insert cache nullish', () => {
-  it('normal insert repairs nullish header._left/_right via (hMin===NIL || hMax===NIL) fast-path', () => {
+    it('normal insert repairs nullish header._left/_right via (hMin===NIL || hMax===NIL) fast-path', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
 
       // Build a non-empty tree so header.parent/root is real.
@@ -153,7 +152,7 @@ describe('RedBlackTree cache coverage', () => {
   });
 
   describe('_insert header.parent ?? NIL', () => {
-  it('covers _insert with header.parent undefined (current starts at NIL)', () => {
+    it('covers _insert with header.parent undefined (current starts at NIL)', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
 
       // Force the _insert walk to start from NIL.

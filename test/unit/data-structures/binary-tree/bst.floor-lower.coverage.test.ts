@@ -1,9 +1,8 @@
 import { BST } from '../../../../src';
 
 describe('BST floor-lower coverage', () => {
-
   describe('floor()/lower() predicate + callback-shape', () => {
-  it('floor(predicate, iterationTypeString) returns node.key (actualCallback undefined branch)', () => {
+    it('floor(predicate, iterationTypeString) returns node.key (actualCallback undefined branch)', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15, 3, 7]) t.set(k, k);
 
@@ -31,7 +30,7 @@ describe('BST floor-lower coverage', () => {
   });
 
   describe('floor() and setMany() extra', () => {
-  it('floor: nullish input returns undefined (callback string and callback function cases)', () => {
+    it('floor: nullish input returns undefined (callback string and callback function cases)', () => {
       const t = new BST<number, number>([], { isMapMode: false });
 
       expect(t.floor(null as any, 'RECURSIVE' as any)).toBeUndefined();
@@ -53,11 +52,19 @@ describe('BST floor-lower coverage', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15, 3, 7]) t.set(k, k);
 
-      const found = t.floor((node: any) => node.key >= 7, (node: any) => node.key, 'ITERATIVE' as any);
+      const found = t.floor(
+        (node: any) => node.key >= 7,
+        (node: any) => node.key,
+        'ITERATIVE' as any
+      );
       // floor-by-predicate returns the first node that satisfies the predicate in the chosen traversal.
       expect(found).toBe(15);
 
-      const notFound = t.floor((node: any) => node.key === 999, (node: any) => node.key, 'RECURSIVE' as any);
+      const notFound = t.floor(
+        (node: any) => node.key === 999,
+        (node: any) => node.key,
+        'RECURSIVE' as any
+      );
       expect(notFound).toBeUndefined();
     });
 
@@ -102,7 +109,7 @@ describe('BST floor-lower coverage', () => {
   });
 
   describe('_boundByPredicate', () => {
-  it('recursive traversal: returns first in-order match and short-circuits once found', () => {
+    it('recursive traversal: returns first in-order match and short-circuits once found', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15, 3, 7, 12, 18]) t.set(k, k);
 

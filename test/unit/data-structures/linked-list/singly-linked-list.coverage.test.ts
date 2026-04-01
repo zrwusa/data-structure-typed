@@ -1,9 +1,8 @@
 import { SinglyLinkedList, SinglyLinkedListNode } from '../../../../src';
 
 describe('SinglyLinkedList misc coverage', () => {
-
   describe('coverage', () => {
-  it('push respects maxLen by shifting when over capacity', () => {
+    it('push respects maxLen by shifting when over capacity', () => {
       const list = new SinglyLinkedList<number>([], { maxLen: 2 });
       list.push(1);
       list.push(2);
@@ -223,7 +222,7 @@ describe('SinglyLinkedList misc coverage', () => {
   });
 
   describe('branch', () => {
-  it('unshiftMany uses toElementFn branch when provided', () => {
+    it('unshiftMany uses toElementFn branch when provided', () => {
       const l = new SinglyLinkedList<number, { v: number }>([], {
         toElementFn: r => r.v
       });

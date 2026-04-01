@@ -54,12 +54,7 @@ describe('classic use', () => {
     while (cpuQueue.size > 0) {
       order.push(cpuQueue.poll()![1]);
     }
-    expect(order).toEqual([
-      'User interaction',
-      'System process',
-      'Network sync',
-      'Background task'
-    ]);
+    expect(order).toEqual(['User interaction', 'System process', 'Network sync', 'Background task']);
   });
 });
 

@@ -47,7 +47,7 @@ describe('AVL Tree Test', () => {
     tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
-    expect(node15?.value).toBe(15);  // add([15, 15]) set value=15
+    expect(node15?.value).toBe(15); // add([15, 15]) set value=15
 
     const dfs = tree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);

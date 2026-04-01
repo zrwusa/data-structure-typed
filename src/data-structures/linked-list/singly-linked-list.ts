@@ -283,22 +283,22 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to append.
    * @returns True when appended.
- * @example
- * // basic SinglyLinkedList creation and push operation
- *  // Create a simple SinglyLinkedList with initial values
- *     const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
- *
- *     // Verify the list maintains insertion order
- *     console.log([...list]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(list.length); // 5;
- *
- *     // Push a new element to the end
- *     list.push(6);
- *     console.log(list.length); // 6;
- *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
-*/
+   * @example
+   * // basic SinglyLinkedList creation and push operation
+   *  // Create a simple SinglyLinkedList with initial values
+   *     const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
+   *
+   *     // Verify the list maintains insertion order
+   *     console.log([...list]); // [1, 2, 3, 4, 5];
+   *
+   *     // Check length
+   *     console.log(list.length); // 5;
+   *
+   *     // Push a new element to the end
+   *     list.push(6);
+   *     console.log(list.length); // 6;
+   *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
+   */
   push(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -316,22 +316,22 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // SinglyLinkedList pop and shift operations
- *  const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
- *
- *     // Pop removes from the end
- *     const last = list.pop();
- *     console.log(last); // 50;
- *
- *     // Shift removes from the beginning
- *     const first = list.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements
- *     console.log([...list]); // [20, 30, 40];
- *     console.log(list.length); // 3;
-*/
+   * @example
+   * // SinglyLinkedList pop and shift operations
+   *  const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
+   *
+   *     // Pop removes from the end
+   *     const last = list.pop();
+   *     console.log(last); // 50;
+   *
+   *     // Shift removes from the beginning
+   *     const first = list.shift();
+   *     console.log(first); // 10;
+   *
+   *     // Verify remaining elements
+   *     console.log([...list]); // [20, 30, 40];
+   *     console.log(list.length); // 3;
+   */
   pop(): E | undefined {
     if (!this.head) return undefined;
     if (this.head === this.tail) {
@@ -354,12 +354,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the head element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // Remove from the front
- *  const list = new SinglyLinkedList<number>([10, 20, 30]);
- *     console.log(list.shift()); // 10;
- *     console.log(list.length); // 2;
-*/
+   * @example
+   * // Remove from the front
+   *  const list = new SinglyLinkedList<number>([10, 20, 30]);
+   *     console.log(list.shift()); // 10;
+   *     console.log(list.length); // 2;
+   */
   shift(): E | undefined {
     if (!this.head) return undefined;
     const removed = this.head;
@@ -374,27 +374,27 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
- * @example
- * // SinglyLinkedList unshift and forward traversal
- *  const list = new SinglyLinkedList<number>([20, 30, 40]);
- *
- *     // Unshift adds to the beginning
- *     list.unshift(10);
- *     console.log([...list]); // [10, 20, 30, 40];
- *
- *     // Access elements (forward traversal only for singly linked)
- *     const second = list.at(1);
- *     console.log(second); // 20;
- *
- *     // SinglyLinkedList allows forward iteration only
- *     const elements: number[] = [];
- *     for (const item of list) {
- *       elements.push(item);
- *     }
- *     console.log(elements); // [10, 20, 30, 40];
- *
- *     console.log(list.length); // 4;
-*/
+   * @example
+   * // SinglyLinkedList unshift and forward traversal
+   *  const list = new SinglyLinkedList<number>([20, 30, 40]);
+   *
+   *     // Unshift adds to the beginning
+   *     list.unshift(10);
+   *     console.log([...list]); // [10, 20, 30, 40];
+   *
+   *     // Access elements (forward traversal only for singly linked)
+   *     const second = list.at(1);
+   *     console.log(second); // 20;
+   *
+   *     // SinglyLinkedList allows forward iteration only
+   *     const elements: number[] = [];
+   *     for (const item of list) {
+   *       elements.push(item);
+   *     }
+   *     console.log(elements); // [10, 20, 30, 40];
+   *
+   *     console.log(list.length); // 4;
+   */
   unshift(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -460,13 +460,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Element or undefined.
- * @example
- * // Access element by index
- *  const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
- *     console.log(list.at(0)); // 'a';
- *     console.log(list.at(2)); // 'c';
- *     console.log(list.at(3)); // 'd';
-*/
+   * @example
+   * // Access element by index
+   *  const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
+   *     console.log(list.at(0)); // 'a';
+   *     console.log(list.at(2)); // 'c';
+   *     console.log(list.at(3)); // 'd';
+   */
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
@@ -491,11 +491,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Node or undefined.
- * @example
- * // Get node at index
- *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
- *     console.log(list.getNodeAt(1)?.value); // 'b';
-*/
+   * @example
+   * // Get node at index
+   *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+   *     console.log(list.getNodeAt(1)?.value); // 'b';
+   */
   getNodeAt(index: number): SinglyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
@@ -508,12 +508,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Removed element or undefined.
- * @example
- * // Remove by index
- *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
- *     list.deleteAt(1);
- *     console.log(list.toArray()); // ['a', 'c'];
-*/
+   * @example
+   * // Remove by index
+   *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+   *     list.deleteAt(1);
+   *     console.log(list.toArray()); // ['a', 'c'];
+   */
   deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     if (index === 0) return this.shift();
@@ -531,12 +531,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param [elementOrNode] - Element or node to remove; if omitted/undefined, nothing happens.
    * @returns True if removed.
- * @example
- * // Remove first occurrence
- *  const list = new SinglyLinkedList<number>([1, 2, 3, 2]);
- *     list.delete(2);
- *     console.log(list.toArray()); // [1, 3, 2];
-*/
+   * @example
+   * // Remove first occurrence
+   *  const list = new SinglyLinkedList<number>([1, 2, 3, 2]);
+   *     list.delete(2);
+   *     console.log(list.toArray()); // [1, 3, 2];
+   */
   delete(elementOrNode: E | SinglyLinkedListNode<E> | undefined): boolean {
     if (elementOrNode === undefined || !this.head) return false;
     const node = this.isNode(elementOrNode) ? elementOrNode : this.getNode(elementOrNode);
@@ -559,12 +559,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param index - Zero-based index.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
- * @example
- * // Insert at index
- *  const list = new SinglyLinkedList<number>([1, 3]);
- *     list.addAt(1, 2);
- *     console.log(list.toArray()); // [1, 2, 3];
-*/
+   * @example
+   * // Insert at index
+   *  const list = new SinglyLinkedList<number>([1, 3]);
+   *     list.addAt(1, 2);
+   *     console.log(list.toArray()); // [1, 2, 3];
+   */
   addAt(index: number, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
     if (index < 0 || index > this._length) return false;
     if (index === 0) return this.unshift(newElementOrNode);
@@ -595,10 +595,10 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Check whether the list is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
- * @example
- * // Check empty
- *  console.log(new SinglyLinkedList().isEmpty()); // true;
-*/
+   * @example
+   * // Check empty
+   *  console.log(new SinglyLinkedList().isEmpty()); // true;
+   */
   isEmpty(): boolean {
     return this._length === 0;
   }
@@ -607,12 +607,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
- * @example
- * // Remove all
- *  const list = new SinglyLinkedList<number>([1, 2, 3]);
- *     list.clear();
- *     console.log(list.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all
+   *  const list = new SinglyLinkedList<number>([1, 2, 3]);
+   *     list.clear();
+   *     console.log(list.isEmpty()); // true;
+   */
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
@@ -623,12 +623,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
- * @example
- * // Reverse the list in-place
- *  const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
- *     list.reverse();
- *     console.log([...list]); // [4, 3, 2, 1];
-*/
+   * @example
+   * // Reverse the list in-place
+   *  const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
+   *     list.reverse();
+   *     console.log([...list]); // [4, 3, 2, 1];
+   */
   reverse(): this {
     if (!this.head || this.head === this.tail) return this;
     let prev: SinglyLinkedListNode<E> | undefined;
@@ -819,14 +819,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Deep clone this list (values are copied by reference).
    * @remarks Time O(N), Space O(N)
    * @returns A new list with the same element sequence.
- * @example
- * // Deep copy
- *  const list = new SinglyLinkedList<number>([1, 2, 3]);
- *     const copy = list.clone();
- *     copy.pop();
- *     console.log(list.length); // 3;
- *     console.log(copy.length); // 2;
-*/
+   * @example
+   * // Deep copy
+   *  const list = new SinglyLinkedList<number>([1, 2, 3]);
+   *     const copy = list.clone();
+   *     copy.pop();
+   *     console.log(list.length); // 3;
+   *     console.log(copy.length); // 2;
+   */
   clone(): this {
     const out = this._createInstance();
     for (const v of this) out.push(v);
@@ -839,22 +839,22 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
- * @example
- * // SinglyLinkedList filter and map operations
- *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
- *
- *     // Filter even numbers
- *     const filtered = list.filter(value => value % 2 === 0);
- *     console.log(filtered.length); // 2;
- *
- *     // Map to double values
- *     const doubled = list.map(value => value * 2);
- *     console.log(doubled.length); // 5;
- *
- *     // Use reduce to sum
- *     const sum = list.reduce((acc, value) => acc + value, 0);
- *     console.log(sum); // 15;
-*/
+   * @example
+   * // SinglyLinkedList filter and map operations
+   *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
+   *
+   *     // Filter even numbers
+   *     const filtered = list.filter(value => value % 2 === 0);
+   *     console.log(filtered.length); // 2;
+   *
+   *     // Map to double values
+   *     const doubled = list.map(value => value * 2);
+   *     console.log(doubled.length); // 5;
+   *
+   *     // Use reduce to sum
+   *     const sum = list.reduce((acc, value) => acc + value, 0);
+   *     console.log(sum); // 15;
+   */
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance();
     let index = 0;
@@ -888,12 +888,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new SinglyLinkedList with mapped values.
- * @example
- * // Transform elements
- *  const list = new SinglyLinkedList<number>([1, 2, 3]);
- *     const doubled = list.map(n => n * 2);
- *     console.log([...doubled]); // [2, 4, 6];
-*/
+   * @example
+   * // Transform elements
+   *  const list = new SinglyLinkedList<number>([1, 2, 3]);
+   *     const doubled = list.map(n => n * 2);
+   *     console.log([...doubled]); // [2, 4, 6];
+   */
   map<EM, RM = any>(
     callback: ElementCallback<E, R, EM>,
     options?: SinglyLinkedListOptions<EM, RM>,

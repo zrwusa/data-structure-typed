@@ -211,7 +211,10 @@ describe('TreeMultiMap (Simplified API)', () => {
       const mm = new TreeMultiMap<number, string>();
       mm.add(1, 'a');
       mm.add(2, 'b');
-      expect([...mm]).toEqual([[1, ['a']], [2, ['b']]]);
+      expect([...mm]).toEqual([
+        [1, ['a']],
+        [2, ['b']]
+      ]);
     });
 
     it('keys() yields keys in order', () => {
@@ -340,7 +343,10 @@ describe('TreeMultiMap (Simplified API)', () => {
       mm.add(2, 'b');
       const result: Array<[number, string[]]> = [];
       mm.forEach((bucket, key) => result.push([key, bucket]));
-      expect(result).toEqual([[1, ['a']], [2, ['b']]]);
+      expect(result).toEqual([
+        [1, ['a']],
+        [2, ['b']]
+      ]);
     });
 
     it('filter() creates filtered map', () => {
@@ -425,7 +431,7 @@ describe('TreeMultiMap (Simplified API)', () => {
 
     it('custom comparator', () => {
       const mm = new TreeMultiMap<number, string>([], {
-        comparator: (a, b) => b - a  // descending
+        comparator: (a, b) => b - a // descending
       });
       mm.add(1, 'a');
       mm.add(2, 'b');
@@ -435,7 +441,10 @@ describe('TreeMultiMap (Simplified API)', () => {
 
     it('setMany() adds multiple entries', () => {
       const mm = new TreeMultiMap<number, string>();
-      mm.setMany([[1, ['a']], [2, ['b']]]);
+      mm.setMany([
+        [1, ['a']],
+        [2, ['b']]
+      ]);
       expect(mm.size).toBe(2);
     });
 
@@ -446,7 +455,10 @@ describe('TreeMultiMap (Simplified API)', () => {
     });
 
     it('constructor with key-only entries', () => {
-      const mm = new TreeMultiMap<number, string>([[1, undefined], [2, undefined]] as any);
+      const mm = new TreeMultiMap<number, string>([
+        [1, undefined],
+        [2, undefined]
+      ] as any);
       expect(mm.has(1)).toBe(true);
       expect(mm.has(2)).toBe(true);
       expect(mm.get(1)).toEqual([]);
@@ -459,7 +471,10 @@ describe('TreeMultiMap (Simplified API)', () => {
     });
 
     it('constructor with key having null key in tuple skipped', () => {
-      const mm = new TreeMultiMap<number, string>([[null, ['a']], [1, ['b']]] as any);
+      const mm = new TreeMultiMap<number, string>([
+        [null, ['a']],
+        [1, ['b']]
+      ] as any);
       expect(mm.size).toBe(1);
     });
 
@@ -543,7 +558,7 @@ describe('TreeMultiMap (Simplified API)', () => {
       mm.add(1, 'a');
       mm.add(2, 'b');
       const filtered = mm.filter(() => true);
-      expect([...filtered.keys()]).toEqual([2, 1]);  // descending
+      expect([...filtered.keys()]).toEqual([2, 1]); // descending
     });
 
     it('constructor with plain key entries (not array)', () => {
@@ -593,7 +608,10 @@ describe('TreeMultiMap (Simplified API)', () => {
 
     it('@example [TreeMultiMap.setMany] Set multiple entries', () => {
       const mm = new TreeMultiMap<number, string>();
-      mm.setMany([[1, ['a']], [2, ['b']]]);
+      mm.setMany([
+        [1, ['a']],
+        [2, ['b']]
+      ]);
       expect(mm.size).toBe(2);
     });
 
@@ -710,7 +728,10 @@ describe('TreeMultiMap (Simplified API)', () => {
       const mm = new TreeMultiMap<number, string>();
       mm.add(1, 'a');
       mm.add(1, 'b');
-      expect([...mm.entriesOf(1)]).toEqual([[1, 'a'], [1, 'b']]);
+      expect([...mm.entriesOf(1)]).toEqual([
+        [1, 'a'],
+        [1, 'b']
+      ]);
     });
 
     it('@example [TreeMultiMap.valuesOf] Get flat values for key', () => {
@@ -725,7 +746,11 @@ describe('TreeMultiMap (Simplified API)', () => {
       mm.add(1, 'a');
       mm.add(1, 'b');
       mm.add(2, 'c');
-      expect([...mm.flatEntries()]).toEqual([[1, 'a'], [1, 'b'], [2, 'c']]);
+      expect([...mm.flatEntries()]).toEqual([
+        [1, 'a'],
+        [1, 'b'],
+        [2, 'c']
+      ]);
     });
 
     it('@example [TreeMultiMap.hasEntry] Check specific key-value', () => {

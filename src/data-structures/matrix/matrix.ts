@@ -233,23 +233,23 @@ export class Matrix {
    * retrieve from the data array.
    * @returns The `get` function returns a number if the provided row and column indices are valid.
    * Otherwise, it returns `undefined`.
- * @example
- * // Get and set individual cells
- *  const m = new Matrix([
- *       [0, 0, 0],
- *       [0, 0, 0]
- *     ]);
- *
- *     m.set(0, 1, 42);
- *     m.set(1, 2, 99);
- *
- *     console.log(m.get(0, 1)); // 42;
- *     console.log(m.get(1, 2)); // 99;
- *     console.log(m.get(0, 0)); // 0;
- *
- *     // Out of bounds returns undefined
- *     console.log(m.get(5, 5)); // undefined;
-*/
+   * @example
+   * // Get and set individual cells
+   *  const m = new Matrix([
+   *       [0, 0, 0],
+   *       [0, 0, 0]
+   *     ]);
+   *
+   *     m.set(0, 1, 42);
+   *     m.set(1, 2, 99);
+   *
+   *     console.log(m.get(0, 1)); // 42;
+   *     console.log(m.get(1, 2)); // 99;
+   *     console.log(m.get(0, 0)); // 0;
+   *
+   *     // Out of bounds returns undefined
+   *     console.log(m.get(5, 5)); // undefined;
+   */
   get(row: number, col: number): number | undefined {
     if (this.isValidIndex(row, col)) {
       return this.data[row][col];
@@ -267,14 +267,14 @@ export class Matrix {
    * @returns a boolean value. It returns true if the index (row, col) is valid and the value is
    * successfully set in the data array. It returns false if the index is invalid and the value is not
    * set.
- * @example
- * // Modify individual cells
- *  const m = Matrix.zeros(2, 2);
- *     console.log(m.set(0, 0, 5)); // true;
- *     console.log(m.set(1, 1, 10)); // true;
- *     console.log(m.get(0, 0)); // 5;
- *     console.log(m.get(1, 1)); // 10;
-*/
+   * @example
+   * // Modify individual cells
+   *  const m = Matrix.zeros(2, 2);
+   *     console.log(m.set(0, 0, 5)); // true;
+   *     console.log(m.set(1, 1, 10)); // true;
+   *     console.log(m.get(0, 0)); // 5;
+   *     console.log(m.get(1, 1)); // 10;
+   */
   set(row: number, col: number, value: number): boolean {
     if (this.isValidIndex(row, col)) {
       this.data[row][col] = value;
@@ -298,29 +298,29 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns The `add` method returns a new `Matrix` object that represents the result of adding the
    * current matrix with the provided `matrix` parameter.
- * @example
- * // Basic matrix arithmetic
- *  const a = new Matrix([
- *       [1, 2],
- *       [3, 4]
- *     ]);
- *     const b = new Matrix([
- *       [5, 6],
- *       [7, 8]
- *     ]);
- *
- *     const sum = a.add(b);
- *     console.log(sum?.data); // [
- *  //      [6, 8],
- *  //      [10, 12]
- *  //    ];
- *
- *     const diff = b.subtract(a);
- *     console.log(diff?.data); // [
- *  //      [4, 4],
- *  //      [4, 4]
- *  //    ];
-*/
+   * @example
+   * // Basic matrix arithmetic
+   *  const a = new Matrix([
+   *       [1, 2],
+   *       [3, 4]
+   *     ]);
+   *     const b = new Matrix([
+   *       [5, 6],
+   *       [7, 8]
+   *     ]);
+   *
+   *     const sum = a.add(b);
+   *     console.log(sum?.data); // [
+   *  //      [6, 8],
+   *  //      [10, 12]
+   *  //    ];
+   *
+   *     const diff = b.subtract(a);
+   *     console.log(diff?.data); // [
+   *  //      [4, 4],
+   *  //      [4, 4]
+   *  //    ];
+   */
   add(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
       raise(Error, ERR.matrixDimensionMismatch('addition'));
@@ -351,13 +351,22 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class. It
    * represents the matrix that you want to subtract from the current matrix.
    * @returns a new Matrix object with the result of the subtraction operation.
- * @example
- * // Element-wise subtraction
- *  const a = Matrix.from([[5, 6], [7, 8]]);
- *     const b = Matrix.from([[1, 2], [3, 4]]);
- *     const result = a.subtract(b);
- *     console.log(result?.toArray()); // [[4, 4], [4, 4]];
-*/
+   * @example
+   * // Element-wise subtraction
+   *  const a = Matrix.from([
+   *       [5, 6],
+   *       [7, 8]
+   *     ]);
+   *     const b = Matrix.from([
+   *       [1, 2],
+   *       [3, 4]
+   *     ]);
+   *     const result = a.subtract(b);
+   *     console.log(result?.toArray()); // [
+   *  //      [4, 4],
+   *  //      [4, 4]
+   *  //    ];
+   */
   subtract(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
       raise(Error, ERR.matrixDimensionMismatch('subtraction'));
@@ -387,29 +396,29 @@ export class Matrix {
    * as a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
- * @example
- * // Matrix multiplication for transformations
- *  // 2x3 matrix * 3x2 matrix = 2x2 matrix
- *     const a = new Matrix([
- *       [1, 2, 3],
- *       [4, 5, 6]
- *     ]);
- *     const b = new Matrix([
- *       [7, 8],
- *       [9, 10],
- *       [11, 12]
- *     ]);
- *
- *     const product = a.multiply(b);
- *     console.log(product?.rows); // 2;
- *     console.log(product?.cols); // 2;
- *     // Row 0: 1*7+2*9+3*11=58, 1*8+2*10+3*12=64
- *     // Row 1: 4*7+5*9+6*11=139, 4*8+5*10+6*12=154
- *     console.log(product?.data); // [
- *  //      [58, 64],
- *  //      [139, 154]
- *  //    ];
-*/
+   * @example
+   * // Matrix multiplication for transformations
+   *  // 2x3 matrix * 3x2 matrix = 2x2 matrix
+   *     const a = new Matrix([
+   *       [1, 2, 3],
+   *       [4, 5, 6]
+   *     ]);
+   *     const b = new Matrix([
+   *       [7, 8],
+   *       [9, 10],
+   *       [11, 12]
+   *     ]);
+   *
+   *     const product = a.multiply(b);
+   *     console.log(product?.rows); // 2;
+   *     console.log(product?.cols); // 2;
+   *     // Row 0: 1*7+2*9+3*11=58, 1*8+2*10+3*12=64
+   *     // Row 1: 4*7+5*9+6*11=139, 4*8+5*10+6*12=154
+   *     console.log(product?.data); // [
+   *  //      [58, 64],
+   *  //      [139, 154]
+   *  //    ];
+   */
   multiply(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {
       raise(Error, ERR.matrixDimensionMismatch('multiplication (A.cols must equal B.rows)'));
@@ -445,26 +454,26 @@ export class Matrix {
    * The transpose function takes a matrix and returns a new matrix that is the transpose of the
    * original matrix.
    * @returns The transpose() function returns a new Matrix object with the transposed data.
- * @example
- * // Matrix transpose (square matrix)
- *  const m = new Matrix([
- *       [1, 2, 3],
- *       [4, 5, 6],
- *       [7, 8, 9]
- *     ]);
- *
- *     const transposed = m.transpose();
- *     console.log(transposed.rows); // 3;
- *     console.log(transposed.cols); // 3;
- *     console.log(transposed.data); // [
- *  //      [1, 4, 7],
- *  //      [2, 5, 8],
- *  //      [3, 6, 9]
- *  //    ];
- *
- *     // Transpose of transpose = original
- *     console.log(transposed.transpose().data); // m.data;
-*/
+   * @example
+   * // Matrix transpose (square matrix)
+   *  const m = new Matrix([
+   *       [1, 2, 3],
+   *       [4, 5, 6],
+   *       [7, 8, 9]
+   *     ]);
+   *
+   *     const transposed = m.transpose();
+   *     console.log(transposed.rows); // 3;
+   *     console.log(transposed.cols); // 3;
+   *     console.log(transposed.data); // [
+   *  //      [1, 4, 7],
+   *  //      [2, 5, 8],
+   *  //      [3, 6, 9]
+   *  //    ];
+   *
+   *     // Transpose of transpose = original
+   *     console.log(transposed.transpose().data); // m.data;
+   */
   transpose(): Matrix {
     if (this.data.some(row => row.length !== this.cols)) {
       raise(Error, ERR.matrixNotRectangular());
@@ -491,18 +500,21 @@ export class Matrix {
   /**
    * The `inverse` function calculates the inverse of a square matrix using Gaussian elimination.
    * @returns a Matrix object, which represents the inverse of the original matrix.
- * @example
- * // Compute the inverse of a 2x2 matrix
- *  const m = Matrix.from([[4, 7], [2, 6]]);
- *     const inv = m.inverse();
- *     console.log(inv); // defined;
- *     // A * A^-1 should ≈ Identity
- *     const product = m.multiply(inv!);
- *     console.log(product?.get(0, 0)); // toBeCloseTo;
- *     console.log(product?.get(0, 1)); // toBeCloseTo;
- *     console.log(product?.get(1, 0)); // toBeCloseTo;
- *     console.log(product?.get(1, 1)); // toBeCloseTo;
-*/
+   * @example
+   * // Compute the inverse of a 2x2 matrix
+   *  const m = Matrix.from([
+   *       [4, 7],
+   *       [2, 6]
+   *     ]);
+   *     const inv = m.inverse();
+   *     console.log(inv); // defined;
+   *     // A * A^-1 should ≈ Identity
+   *     const product = m.multiply(inv!);
+   *     console.log(product?.get(0, 0)); // toBeCloseTo;
+   *     console.log(product?.get(0, 1)); // toBeCloseTo;
+   *     console.log(product?.get(1, 0)); // toBeCloseTo;
+   *     console.log(product?.get(1, 1)); // toBeCloseTo;
+   */
   inverse(): Matrix | undefined {
     // Check if the matrix is square
     if (this.rows !== this.cols) {
@@ -570,13 +582,22 @@ export class Matrix {
    * The dot function calculates the dot product of two matrices and returns a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
- * @example
- * // Dot product of two matrices
- *  const a = Matrix.from([[1, 2], [3, 4]]);
- *     const b = Matrix.from([[5, 6], [7, 8]]);
- *     const result = a.dot(b);
- *     console.log(result?.toArray()); // [[19, 22], [43, 50]];
-*/
+   * @example
+   * // Dot product of two matrices
+   *  const a = Matrix.from([
+   *       [1, 2],
+   *       [3, 4]
+   *     ]);
+   *     const b = Matrix.from([
+   *       [5, 6],
+   *       [7, 8]
+   *     ]);
+   *     const result = a.dot(b);
+   *     console.log(result?.toArray()); // [
+   *  //      [19, 22],
+   *  //      [43, 50]
+   *  //    ];
+   */
   dot(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {
       raise(Error, ERR.matrixDimensionMismatch('dot product (A.cols must equal B.rows)'));

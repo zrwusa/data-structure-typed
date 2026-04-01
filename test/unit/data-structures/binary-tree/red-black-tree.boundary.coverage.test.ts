@@ -1,9 +1,8 @@
 import { RedBlackTree } from '../../../../src';
 
 describe('RedBlackTree boundary coverage', () => {
-
   describe('boundary corruption repair', () => {
-  it('min-attach: when header._right is corrupted to NIL, branch mirrors max cache to new min', () => {
+    it('min-attach: when header._right is corrupted to NIL, branch mirrors max cache to new min', () => {
       let tree: RedBlackTree<number, number> = new RedBlackTree<number>();
       let active = false;
       let flipped = false;
@@ -36,7 +35,7 @@ describe('RedBlackTree boundary coverage', () => {
     });
 
     it('max-attach: when header._left is corrupted to NIL, branch initializes min cache during max attach', () => {
-      let tree: RedBlackTree<number, number> = new RedBlackTree<number>();;
+      let tree: RedBlackTree<number, number> = new RedBlackTree<number>();
       let active = false;
       let flipped = false;
       const comparator = (a: number, b: number) => {
@@ -68,7 +67,7 @@ describe('RedBlackTree boundary coverage', () => {
   });
 
   describe('boundary max update', () => {
-  it('mapMode: updating existing max key with defined value hits store.set branch in cMax===0 fast-path', () => {
+    it('mapMode: updating existing max key with defined value hits store.set branch in cMax===0 fast-path', () => {
       const t = new RedBlackTree<number, string>(); // mapMode default
 
       t.set(10, 'mid');
@@ -85,7 +84,7 @@ describe('RedBlackTree boundary coverage', () => {
   });
 
   describe('boundary attach null/undefined', () => {
-  it('min boundary attach works when min.left is null', () => {
+    it('min boundary attach works when min.left is null', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(10, 10);
       t.set(5, 5);
@@ -137,7 +136,7 @@ describe('RedBlackTree boundary coverage', () => {
   });
 
   describe('boundary attach stale cache', () => {
-  it('boundary max attach repairs stale min cache when header._left === NIL', () => {
+    it('boundary max attach repairs stale min cache when header._left === NIL', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(10, 10);
       t.set(5, 5);
@@ -161,7 +160,7 @@ describe('RedBlackTree boundary coverage', () => {
   });
 
   describe('boundary update', () => {
-  it('updating existing min/max via boundary cache fast paths does not change size', () => {
+    it('updating existing min/max via boundary cache fast paths does not change size', () => {
       const t = new RedBlackTree<number, string>([], { isMapMode: false });
 
       t.set(10, 'a');

@@ -250,22 +250,22 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to append.
    * @returns True when appended.
- * @example
- * // basic DoublyLinkedList creation and push operation
- *  // Create a simple DoublyLinkedList with initial values
- *     const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
- *
- *     // Verify the list maintains insertion order
- *     console.log([...list]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(list.length); // 5;
- *
- *     // Push a new element to the end
- *     list.push(6);
- *     console.log(list.length); // 6;
- *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
-*/
+   * @example
+   * // basic DoublyLinkedList creation and push operation
+   *  // Create a simple DoublyLinkedList with initial values
+   *     const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
+   *
+   *     // Verify the list maintains insertion order
+   *     console.log([...list]); // [1, 2, 3, 4, 5];
+   *
+   *     // Check length
+   *     console.log(list.length); // 5;
+   *
+   *     // Push a new element to the end
+   *     list.push(6);
+   *     console.log(list.length); // 6;
+   *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
+   */
   push(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -285,22 +285,22 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove and return the tail element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // DoublyLinkedList pop and shift operations
- *  const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
- *
- *     // Pop removes from the end
- *     const last = list.pop();
- *     console.log(last); // 50;
- *
- *     // Shift removes from the beginning
- *     const first = list.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements
- *     console.log([...list]); // [20, 30, 40];
- *     console.log(list.length); // 3;
-*/
+   * @example
+   * // DoublyLinkedList pop and shift operations
+   *  const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
+   *
+   *     // Pop removes from the end
+   *     const last = list.pop();
+   *     console.log(last); // 50;
+   *
+   *     // Shift removes from the beginning
+   *     const first = list.shift();
+   *     console.log(first); // 10;
+   *
+   *     // Verify remaining elements
+   *     console.log([...list]); // [20, 30, 40];
+   *     console.log(list.length); // 3;
+   */
   pop(): E | undefined {
     if (!this.tail) return undefined;
     const removed = this.tail;
@@ -319,12 +319,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove and return the head element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // Remove from the front
- *  const list = new DoublyLinkedList<number>([10, 20, 30]);
- *     console.log(list.shift()); // 10;
- *     console.log(list.first); // 20;
-*/
+   * @example
+   * // Remove from the front
+   *  const list = new DoublyLinkedList<number>([10, 20, 30]);
+   *     console.log(list.shift()); // 10;
+   *     console.log(list.first); // 20;
+   */
   shift(): E | undefined {
     if (!this.head) return undefined;
     const removed = this.head;
@@ -344,12 +344,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
- * @example
- * // Add to the front
- *  const list = new DoublyLinkedList<number>([2, 3]);
- *     list.unshift(1);
- *     console.log([...list]); // [1, 2, 3];
-*/
+   * @example
+   * // Add to the front
+   *  const list = new DoublyLinkedList<number>([2, 3]);
+   *     list.unshift(1);
+   *     console.log([...list]); // [1, 2, 3];
+   */
   unshift(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -400,12 +400,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Element or undefined.
- * @example
- * // Access by index
- *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
- *     console.log(list.at(1)); // 'b';
- *     console.log(list.at(2)); // 'c';
-*/
+   * @example
+   * // Access by index
+   *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+   *     console.log(list.at(1)); // 'b';
+   *     console.log(list.at(2)); // 'c';
+   */
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
@@ -418,11 +418,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Node or undefined.
- * @example
- * // Get node at index
- *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
- *     console.log(list.getNodeAt(1)?.value); // 'b';
-*/
+   * @example
+   * // Get node at index
+   *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+   *     console.log(list.getNodeAt(1)?.value); // 'b';
+   */
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
@@ -470,12 +470,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param index - Zero-based index.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
- * @example
- * // Insert at position
- *  const list = new DoublyLinkedList<number>([1, 3]);
- *     list.addAt(1, 2);
- *     console.log(list.toArray()); // [1, 2, 3];
-*/
+   * @example
+   * // Insert at position
+   *  const list = new DoublyLinkedList<number>([1, 3]);
+   *     list.addAt(1, 2);
+   *     console.log(list.toArray()); // [1, 2, 3];
+   */
   addAt(index: number, newElementOrNode: E | DoublyLinkedListNode<E>): boolean {
     if (index < 0 || index > this._length) return false;
     if (index === 0) return this.unshift(newElementOrNode);
@@ -557,12 +557,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Removed element or undefined.
- * @example
- * // Remove by index
- *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
- *     list.deleteAt(1);
- *     console.log(list.toArray()); // ['a', 'c'];
-*/
+   * @example
+   * // Remove by index
+   *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+   *     list.deleteAt(1);
+   *     console.log(list.toArray()); // ['a', 'c'];
+   */
   deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this._length) return;
     if (index === 0) return this.shift();
@@ -581,12 +581,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param [elementOrNode] - Element or node to remove.
    * @returns True if removed.
- * @example
- * // Remove first occurrence
- *  const list = new DoublyLinkedList<number>([1, 2, 3, 2]);
- *     list.delete(2);
- *     console.log(list.toArray()); // [1, 3, 2];
-*/
+   * @example
+   * // Remove first occurrence
+   *  const list = new DoublyLinkedList<number>([1, 2, 3, 2]);
+   *     list.delete(2);
+   *     console.log(list.toArray()); // [1, 3, 2];
+   */
   delete(elementOrNode: E | DoublyLinkedListNode<E> | undefined): boolean {
     const node = this.getNode(elementOrNode);
     if (!node) return false;
@@ -606,10 +606,10 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Check whether the list is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
- * @example
- * // Check empty
- *  console.log(new DoublyLinkedList().isEmpty()); // true;
-*/
+   * @example
+   * // Check empty
+   *  console.log(new DoublyLinkedList().isEmpty()); // true;
+   */
   isEmpty(): boolean {
     return this._length === 0;
   }
@@ -618,12 +618,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
- * @example
- * // Remove all
- *  const list = new DoublyLinkedList<number>([1, 2]);
- *     list.clear();
- *     console.log(list.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all
+   *  const list = new DoublyLinkedList<number>([1, 2]);
+   *     list.clear();
+   *     console.log(list.isEmpty()); // true;
+   */
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
@@ -635,12 +635,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param elementNodeOrPredicate - Element, node, or predicate to match.
    * @returns Matched value or undefined.
- * @example
- * // Search with predicate
- *  const list = new DoublyLinkedList<number>([10, 20, 30]);
- *     const found = list.search(node => node.value > 15);
- *     console.log(found); // 20;
-*/
+   * @example
+   * // Search with predicate
+   *  const list = new DoublyLinkedList<number>([10, 20, 30]);
+   *     const found = list.search(node => node.value > 15);
+   *     console.log(found); // 20;
+   */
   search(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
@@ -679,13 +679,13 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param elementNodeOrPredicate - Element, node, or predicate to match.
    * @returns Matching value or undefined.
- * @example
- * // Find value scanning from tail
- *  const list = new DoublyLinkedList<number>([1, 2, 3, 4]);
- *     // findLast scans from tail to head, returns first match
- *     const found = list.findLast(node => node.value < 4);
- *     console.log(found); // 3;
-*/
+   * @example
+   * // Find value scanning from tail
+   *  const list = new DoublyLinkedList<number>([1, 2, 3, 4]);
+   *     // findLast scans from tail to head, returns first match
+   *     const found = list.findLast(node => node.value < 4);
+   *     console.log(found); // 3;
+   */
   findLast(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
@@ -719,12 +719,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
- * @example
- * // Reverse in-place
- *  const list = new DoublyLinkedList<number>([1, 2, 3]);
- *     list.reverse();
- *     console.log([...list]); // [3, 2, 1];
-*/
+   * @example
+   * // Reverse in-place
+   *  const list = new DoublyLinkedList<number>([1, 2, 3]);
+   *     list.reverse();
+   *     console.log([...list]); // [3, 2, 1];
+   */
   reverse(): this {
     let current = this.head;
     [this._head, this._tail] = [this.tail, this.head];
@@ -771,13 +771,13 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Deep clone this list (values are copied by reference).
    * @remarks Time O(N), Space O(N)
    * @returns A new list with the same element sequence.
- * @example
- * // Deep copy
- *  const list = new DoublyLinkedList<number>([1, 2, 3]);
- *     const copy = list.clone();
- *     copy.pop();
- *     console.log(list.length); // 3;
-*/
+   * @example
+   * // Deep copy
+   *  const list = new DoublyLinkedList<number>([1, 2, 3]);
+   *     const copy = list.clone();
+   *     copy.pop();
+   *     console.log(list.length); // 3;
+   */
   clone(): this {
     const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
     for (const v of this) out.push(v);
@@ -790,12 +790,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
- * @example
- * // Filter elements
- *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
- *     const evens = list.filter(n => n % 2 === 0);
- *     console.log([...evens]); // [2, 4];
-*/
+   * @example
+   * // Filter elements
+   *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
+   *     const evens = list.filter(n => n % 2 === 0);
+   *     console.log([...evens]); // [2, 4];
+   */
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
     let index = 0;
@@ -829,21 +829,21 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new DoublyLinkedList with mapped values.
- * @example
- * // DoublyLinkedList for...of iteration and map operation
- *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
- *
- *     // Iterate through list
- *     const doubled = list.map(value => value * 2);
- *     console.log(doubled.length); // 5;
- *
- *     // Use for...of loop
- *     const result: number[] = [];
- *     for (const item of list) {
- *       result.push(item);
- *     }
- *     console.log(result); // [1, 2, 3, 4, 5];
-*/
+   * @example
+   * // DoublyLinkedList for...of iteration and map operation
+   *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
+   *
+   *     // Iterate through list
+   *     const doubled = list.map(value => value * 2);
+   *     console.log(doubled.length); // 5;
+   *
+   *     // Use for...of loop
+   *     const result: number[] = [];
+   *     for (const item of list) {
+   *       result.push(item);
+   *     }
+   *     console.log(result); // [1, 2, 3, 4, 5];
+   */
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options?: DoublyLinkedListOptions<EM, RM>,

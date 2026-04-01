@@ -180,16 +180,16 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of elements.
    * @remarks Time O(1), Space O(1)
    * @returns Heap size.
- * @example
- * // Track heap capacity
- *  const heap = new Heap<number>();
- *     console.log(heap.size); // 0;
- *     heap.add(10);
- *     heap.add(20);
- *     console.log(heap.size); // 2;
- *     heap.poll();
- *     console.log(heap.size); // 1;
-*/
+   * @example
+   * // Track heap capacity
+   *  const heap = new Heap<number>();
+   *     console.log(heap.size); // 0;
+   *     heap.add(10);
+   *     heap.add(20);
+   *     console.log(heap.size); // 2;
+   *     heap.poll();
+   *     console.log(heap.size); // 1;
+   */
   get size(): number {
     return this.elements.length;
   }
@@ -248,22 +248,22 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(log N) amortized, Space O(1)
    * @param element - Element to insert.
    * @returns True.
- * @example
- * // basic Heap creation and add operation
- *  // Create a min heap (default)
- *     const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
- *
- *     // Verify size
- *     console.log(minHeap.size); // 6;
- *
- *     // Add new element
- *     minHeap.add(4);
- *     console.log(minHeap.size); // 7;
- *
- *     // Min heap property: smallest element at root
- *     const min = minHeap.peek();
- *     console.log(min); // 1;
-*/
+   * @example
+   * // basic Heap creation and add operation
+   *  // Create a min heap (default)
+   *     const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
+   *
+   *     // Verify size
+   *     console.log(minHeap.size); // 6;
+   *
+   *     // Add new element
+   *     minHeap.add(4);
+   *     console.log(minHeap.size); // 7;
+   *
+   *     // Min heap property: smallest element at root
+   *     const min = minHeap.peek();
+   *     console.log(min); // 1;
+   */
   add(element: E): boolean {
     this._elements.push(element);
     return this._bubbleUp(this.elements.length - 1);
@@ -274,13 +274,13 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(1)
    * @param elements - Iterable of elements or raw values.
    * @returns Array of per-element success flags.
- * @example
- * // Add multiple elements
- *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
- *     heap.addMany([5, 3, 7, 1]);
- *     console.log(heap.peek()); // 1;
- *     console.log(heap.size); // 4;
-*/
+   * @example
+   * // Add multiple elements
+   *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
+   *     heap.addMany([5, 3, 7, 1]);
+   *     console.log(heap.peek()); // 1;
+   *     console.log(heap.size); // 4;
+   */
   addMany(elements: Iterable<E | R>): boolean[] {
     const flags: boolean[] = [];
     for (const el of elements) {
@@ -327,32 +327,32 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    */
   /**
    * @deprecated Use `pop` instead. Will be removed in a future major version.
- * @example
- * // Heap with custom comparator (MaxHeap behavior)
- *  interface Task {
- *       id: number;
- *       priority: number;
- *       name: string;
- *     }
- *
- *     // Custom comparator for max heap behavior (higher priority first)
- *     const tasks: Task[] = [
- *       { id: 1, priority: 5, name: 'Email' },
- *       { id: 2, priority: 3, name: 'Chat' },
- *       { id: 3, priority: 8, name: 'Alert' }
- *     ];
- *
- *     const maxHeap = new Heap(tasks, {
- *       comparator: (a: Task, b: Task) => b.priority - a.priority
- *     });
- *
- *     console.log(maxHeap.size); // 3;
- *
- *     // Peek returns highest priority task
- *     const topTask = maxHeap.peek();
- *     console.log(topTask?.priority); // 8;
- *     console.log(topTask?.name); // 'Alert';
-*/
+   * @example
+   * // Heap with custom comparator (MaxHeap behavior)
+   *  interface Task {
+   *       id: number;
+   *       priority: number;
+   *       name: string;
+   *     }
+   *
+   *     // Custom comparator for max heap behavior (higher priority first)
+   *     const tasks: Task[] = [
+   *       { id: 1, priority: 5, name: 'Email' },
+   *       { id: 2, priority: 3, name: 'Chat' },
+   *       { id: 3, priority: 8, name: 'Alert' }
+   *     ];
+   *
+   *     const maxHeap = new Heap(tasks, {
+   *       comparator: (a: Task, b: Task) => b.priority - a.priority
+   *     });
+   *
+   *     console.log(maxHeap.size); // 3;
+   *
+   *     // Peek returns highest priority task
+   *     const topTask = maxHeap.peek();
+   *     console.log(topTask?.priority); // 8;
+   *     console.log(topTask?.name); // 'Alert';
+   */
   poll(): E | undefined {
     return this.pop();
   }
@@ -377,66 +377,66 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
- * @example
- * // Heap for event processing with priority
- *  interface Event {
- *       id: number;
- *       type: 'critical' | 'warning' | 'info';
- *       timestamp: number;
- *       message: string;
- *     }
- *
- *     // Custom priority: critical > warning > info
- *     const priorityMap = { critical: 3, warning: 2, info: 1 };
- *
- *     const eventHeap = new Heap<Event>([], {
- *       comparator: (a: Event, b: Event) => {
- *         const priorityA = priorityMap[a.type];
- *         const priorityB = priorityMap[b.type];
- *         return priorityB - priorityA; // Higher priority first
- *       }
- *     });
- *
- *     // Add events in random order
- *     eventHeap.add({ id: 1, type: 'info', timestamp: 100, message: 'User logged in' });
- *     eventHeap.add({ id: 2, type: 'critical', timestamp: 101, message: 'Server down' });
- *     eventHeap.add({ id: 3, type: 'warning', timestamp: 102, message: 'High memory' });
- *     eventHeap.add({ id: 4, type: 'info', timestamp: 103, message: 'Cache cleared' });
- *     eventHeap.add({ id: 5, type: 'critical', timestamp: 104, message: 'Database error' });
- *
- *     console.log(eventHeap.size); // 5;
- *
- *     // Process events by priority (critical first)
- *     const processedOrder: Event[] = [];
- *     while (eventHeap.size > 0) {
- *       const event = eventHeap.poll();
- *       if (event) {
- *         processedOrder.push(event);
- *       }
- *     }
- *
- *     // Verify critical events came first
- *     console.log(processedOrder[0].type); // 'critical';
- *     console.log(processedOrder[1].type); // 'critical';
- *     console.log(processedOrder[2].type); // 'warning';
- *     console.log(processedOrder[3].type); // 'info';
- *     console.log(processedOrder[4].type); // 'info';
- *
- *     // Verify O(log n) operations
- *     const newHeap = new Heap<number>([5, 3, 7, 1]);
- *
- *     // Add - O(log n)
- *     newHeap.add(2);
- *     console.log(newHeap.size); // 5;
- *
- *     // Poll - O(log n)
- *     const removed = newHeap.poll();
- *     console.log(removed); // 1;
- *
- *     // Peek - O(1)
- *     const top = newHeap.peek();
- *     console.log(top); // 2;
-*/
+   * @example
+   * // Heap for event processing with priority
+   *  interface Event {
+   *       id: number;
+   *       type: 'critical' | 'warning' | 'info';
+   *       timestamp: number;
+   *       message: string;
+   *     }
+   *
+   *     // Custom priority: critical > warning > info
+   *     const priorityMap = { critical: 3, warning: 2, info: 1 };
+   *
+   *     const eventHeap = new Heap<Event>([], {
+   *       comparator: (a: Event, b: Event) => {
+   *         const priorityA = priorityMap[a.type];
+   *         const priorityB = priorityMap[b.type];
+   *         return priorityB - priorityA; // Higher priority first
+   *       }
+   *     });
+   *
+   *     // Add events in random order
+   *     eventHeap.add({ id: 1, type: 'info', timestamp: 100, message: 'User logged in' });
+   *     eventHeap.add({ id: 2, type: 'critical', timestamp: 101, message: 'Server down' });
+   *     eventHeap.add({ id: 3, type: 'warning', timestamp: 102, message: 'High memory' });
+   *     eventHeap.add({ id: 4, type: 'info', timestamp: 103, message: 'Cache cleared' });
+   *     eventHeap.add({ id: 5, type: 'critical', timestamp: 104, message: 'Database error' });
+   *
+   *     console.log(eventHeap.size); // 5;
+   *
+   *     // Process events by priority (critical first)
+   *     const processedOrder: Event[] = [];
+   *     while (eventHeap.size > 0) {
+   *       const event = eventHeap.poll();
+   *       if (event) {
+   *         processedOrder.push(event);
+   *       }
+   *     }
+   *
+   *     // Verify critical events came first
+   *     console.log(processedOrder[0].type); // 'critical';
+   *     console.log(processedOrder[1].type); // 'critical';
+   *     console.log(processedOrder[2].type); // 'warning';
+   *     console.log(processedOrder[3].type); // 'info';
+   *     console.log(processedOrder[4].type); // 'info';
+   *
+   *     // Verify O(log n) operations
+   *     const newHeap = new Heap<number>([5, 3, 7, 1]);
+   *
+   *     // Add - O(log n)
+   *     newHeap.add(2);
+   *     console.log(newHeap.size); // 5;
+   *
+   *     // Poll - O(log n)
+   *     const removed = newHeap.poll();
+   *     console.log(removed); // 1;
+   *
+   *     // Peek - O(1)
+   *     const top = newHeap.peek();
+   *     console.log(top); // 2;
+   */
   peek(): E | undefined {
     return this.elements[0];
   }
@@ -445,13 +445,13 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the heap is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
- * @example
- * // Check if heap is empty
- *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
- *     console.log(heap.isEmpty()); // true;
- *     heap.add(1);
- *     console.log(heap.isEmpty()); // false;
-*/
+   * @example
+   * // Check if heap is empty
+   *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
+   *     console.log(heap.isEmpty()); // true;
+   *     heap.add(1);
+   *     console.log(heap.isEmpty()); // false;
+   */
   isEmpty(): boolean {
     return this.size === 0;
   }
@@ -460,12 +460,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
- * @example
- * // Remove all elements
- *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
- *     heap.clear();
- *     console.log(heap.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all elements
+   *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+   *     heap.clear();
+   *     console.log(heap.isEmpty()); // true;
+   */
   clear(): void {
     this._elements = [];
   }
@@ -475,12 +475,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to search for.
    * @returns True if found.
- * @example
- * // Check element existence
- *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
- *     console.log(heap.has(1)); // true;
- *     console.log(heap.has(99)); // false;
-*/
+   * @example
+   * // Check element existence
+   *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+   *     console.log(heap.has(1)); // true;
+   *     console.log(heap.has(99)); // false;
+   */
   override has(element: E): boolean {
     for (const el of this.elements) if (this._equals(el, element)) return true;
     return false;
@@ -491,12 +491,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to delete.
    * @returns True if an element was removed.
- * @example
- * // Remove specific element
- *  const heap = new Heap<number>([3, 1, 4, 1, 5], { comparator: (a, b) => a - b });
- *     heap.delete(4);
- *     console.log(heap.toArray().includes(4)); // false;
-*/
+   * @example
+   * // Remove specific element
+   *  const heap = new Heap<number>([3, 1, 4, 1, 5], { comparator: (a, b) => a - b });
+   *     heap.delete(4);
+   *     console.log(heap.toArray().includes(4)); // false;
+   */
   delete(element: E): boolean {
     let index = -1;
     for (let i = 0; i < this.elements.length; i++) {
@@ -568,12 +568,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(H)
    * @param [order] - Traversal order: 'PRE' | 'IN' | 'POST'.
    * @returns Array of visited elements.
- * @example
- * // Depth-first traversal
- *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
- *     const result = heap.dfs('IN');
- *     console.log(result.length); // 3;
-*/
+   * @example
+   * // Depth-first traversal
+   *  const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+   *     const result = heap.dfs('IN');
+   *     console.log(result.length); // 3;
+   */
   dfs(order: DFSOrderPattern = 'PRE'): E[] {
     const result: E[] = [];
     const _dfs = (index: number) => {
@@ -616,12 +616,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Return all elements in ascending order by repeatedly polling.
    * @remarks Time O(N log N), Space O(N)
    * @returns Sorted array of elements.
- * @example
- * // Sort elements using heap
- *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
- *     const sorted = heap.sort();
- *     console.log(sorted); // [1, 2, 3, 4, 5];
-*/
+   * @example
+   * // Sort elements using heap
+   *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
+   *     const sorted = heap.sort();
+   *     console.log(sorted); // [1, 2, 3, 4, 5];
+   */
   sort(): E[] {
     const visited: E[] = [];
     const cloned = this._createInstance();
@@ -637,14 +637,14 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this heap.
    * @remarks Time O(N), Space O(N)
    * @returns A new heap with the same elements.
- * @example
- * // Create independent copy
- *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
- *     const copy = heap.clone();
- *     copy.poll();
- *     console.log(heap.size); // 3;
- *     console.log(copy.size); // 2;
-*/
+   * @example
+   * // Create independent copy
+   *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
+   *     const copy = heap.clone();
+   *     copy.poll();
+   *     console.log(heap.size); // 3;
+   *     console.log(copy.size); // 2;
+   */
   clone(): this {
     const next = this._createInstance();
     for (const x of this.elements) next.add(x);
@@ -657,12 +657,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param callback - Predicate (element, index, heap) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with the kept elements.
- * @example
- * // Filter elements
- *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
- *     const evens = heap.filter(x => x % 2 === 0);
- *     console.log(evens.size); // 2;
-*/
+   * @example
+   * // Filter elements
+   *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
+   *     const evens = heap.filter(x => x % 2 === 0);
+   *     console.log(evens.size); // 2;
+   */
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance();
     let i = 0;
@@ -685,12 +685,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
- * @example
- * // Transform elements
- *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
- *     const doubled = heap.map(x => x * 2, { comparator: (a, b) => a - b });
- *     console.log(doubled.peek()); // 2;
-*/
+   * @example
+   * // Transform elements
+   *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+   *     const doubled = heap.map(x => x * 2, { comparator: (a, b) => a - b });
+   *     console.log(doubled.peek()); // 2;
+   */
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options: HeapOptions<EM, RM> & { comparator: Comparator<EM> },

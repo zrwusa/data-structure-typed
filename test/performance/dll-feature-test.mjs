@@ -29,7 +29,7 @@ class MinDLL {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   push(value) {
     const n = new MinNode(value);
     if (!this._head) {
@@ -51,10 +51,15 @@ class WithGettersDLL {
     this.__tail = undefined;
     this._length = 0;
   }
-  
-  get head() { return this.__head; }
-  get tail() { return this.__tail; }
-  
+
+  get head() {
+    return this.__head;
+  }
+
+  get tail() {
+    return this.__tail;
+  }
+
   push(value) {
     const n = new MinNode(value);
     if (!this.head) {
@@ -76,11 +81,11 @@ class WithIsNodeDLL {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   isNode(v) {
     return v instanceof MinNode;
   }
-  
+
   push(elementOrNode) {
     const n = this.isNode(elementOrNode) ? elementOrNode : new MinNode(elementOrNode);
     if (!this._head) {
@@ -102,7 +107,7 @@ class WithDSTNodeDLL {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   push(value) {
     const n = new DoublyLinkedListNode(value);
     if (!this._head) {
@@ -122,30 +127,40 @@ console.log(`N = ${N.toLocaleString()}, ITERATIONS = ${ITERATIONS}\n`);
 
 const results = [];
 
-results.push(benchmark('Minimal (baseline)', () => {
-  const list = new MinDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Minimal (baseline)', () => {
+    const list = new MinDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('With head/tail getters', () => {
-  const list = new WithGettersDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('With head/tail getters', () => {
+    const list = new WithGettersDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('With isNode check', () => {
-  const list = new WithIsNodeDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('With isNode check', () => {
+    const list = new WithIsNodeDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('Using DST Node class', () => {
-  const list = new WithDSTNodeDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Using DST Node class', () => {
+    const list = new WithDSTNodeDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('Real DST DoublyLinkedList', () => {
-  const list = new DoublyLinkedList();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Real DST DoublyLinkedList', () => {
+    const list = new DoublyLinkedList();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
 console.log('| Feature | Avg (ms) | vs Baseline |');
 console.log('|---------|----------|-------------|');

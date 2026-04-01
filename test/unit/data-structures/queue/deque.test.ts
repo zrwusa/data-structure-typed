@@ -1056,7 +1056,7 @@ describe('Deque compact and auto-compacting (#92)', () => {
 describe('Deque type inference (#97)', () => {
   it('should infer element type from toElementFn return type', () => {
     const objArr: Array<{ key: number }> = [{ key: 1 }, { key: 6 }, { key: 7 }, { key: 3 }];
-    const deque = new Deque(objArr, { toElementFn: (item) => item.key });
+    const deque = new Deque(objArr, { toElementFn: item => item.key });
 
     expect(deque.first).toBe(1);
     expect(deque.last).toBe(3);
@@ -1085,7 +1085,7 @@ describe('Deque type inference (#97)', () => {
       { name: 'Bob', score: 87 },
       { name: 'Carol', score: 92 }
     ];
-    const deque = new Deque(data, { toElementFn: (item) => item.name });
+    const deque = new Deque(data, { toElementFn: item => item.name });
 
     expect(deque.first).toBe('Alice');
     expect(deque.last).toBe('Carol');

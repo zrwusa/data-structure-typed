@@ -2,112 +2,112 @@ import { TreeMultiSet } from '../../../../src';
 
 describe('TreeMultiSet', () => {
   describe('Core API (existing)', () => {
-  it('add/count/has: basic counts and size/distinctSize', () => {
-    const ms = new TreeMultiSet<number>();
+    it('add/count/has: basic counts and size/distinctSize', () => {
+      const ms = new TreeMultiSet<number>();
 
-    expect(ms.size).toBe(0);
-    expect(ms.distinctSize).toBe(0);
+      expect(ms.size).toBe(0);
+      expect(ms.distinctSize).toBe(0);
 
-    ms.add(2);
-    ms.add(2);
-    ms.add(1, 3);
+      ms.add(2);
+      ms.add(2);
+      ms.add(1, 3);
 
-    expect(ms.count(2)).toBe(2);
-    expect(ms.count(1)).toBe(3);
-    expect(ms.count(999)).toBe(0);
+      expect(ms.count(2)).toBe(2);
+      expect(ms.count(1)).toBe(3);
+      expect(ms.count(999)).toBe(0);
 
-    expect(ms.has(2)).toBe(true);
-    expect(ms.has(999)).toBe(false);
+      expect(ms.has(2)).toBe(true);
+      expect(ms.has(999)).toBe(false);
 
-    // size is sumCounts
-    expect(ms.size).toBe(5);
-    expect(ms.distinctSize).toBe(2);
-  });
+      // size is sumCounts
+      expect(ms.size).toBe(5);
+      expect(ms.distinctSize).toBe(2);
+    });
 
-  it('delete(): removes one occurrence by default; delete(n) removes n; deleteAll removes all', () => {
-    const ms = new TreeMultiSet<number>();
-    ms.add(10, 3);
+    it('delete(): removes one occurrence by default; delete(n) removes n; deleteAll removes all', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(10, 3);
 
-    expect(ms.delete(10)).toBe(true);
-    expect(ms.count(10)).toBe(2);
-    expect(ms.size).toBe(2);
+      expect(ms.delete(10)).toBe(true);
+      expect(ms.count(10)).toBe(2);
+      expect(ms.size).toBe(2);
 
-    expect(ms.delete(10, 2)).toBe(true);
-    expect(ms.count(10)).toBe(0);
-    expect(ms.has(10)).toBe(false);
-    expect(ms.size).toBe(0);
-    expect(ms.distinctSize).toBe(0);
+      expect(ms.delete(10, 2)).toBe(true);
+      expect(ms.count(10)).toBe(0);
+      expect(ms.has(10)).toBe(false);
+      expect(ms.size).toBe(0);
+      expect(ms.distinctSize).toBe(0);
 
-    ms.add(5, 4);
-    expect(ms.deleteAll(5)).toBe(true);
-    expect(ms.count(5)).toBe(0);
-    expect(ms.size).toBe(0);
-  });
+      ms.add(5, 4);
+      expect(ms.deleteAll(5)).toBe(true);
+      expect(ms.count(5)).toBe(0);
+      expect(ms.size).toBe(0);
+    });
 
-  it('setCount(): sets exact count and updates size/distinctSize', () => {
-    const ms = new TreeMultiSet<number>();
+    it('setCount(): sets exact count and updates size/distinctSize', () => {
+      const ms = new TreeMultiSet<number>();
 
-    expect(ms.setCount(1, 2)).toBe(true);
-    expect(ms.count(1)).toBe(2);
-    expect(ms.size).toBe(2);
-    expect(ms.distinctSize).toBe(1);
+      expect(ms.setCount(1, 2)).toBe(true);
+      expect(ms.count(1)).toBe(2);
+      expect(ms.size).toBe(2);
+      expect(ms.distinctSize).toBe(1);
 
-    // no change
-    expect(ms.setCount(1, 2)).toBe(false);
+      // no change
+      expect(ms.setCount(1, 2)).toBe(false);
 
-    // decrease
-    expect(ms.setCount(1, 1)).toBe(true);
-    expect(ms.size).toBe(1);
+      // decrease
+      expect(ms.setCount(1, 1)).toBe(true);
+      expect(ms.size).toBe(1);
 
-    // set to 0 removes key
-    expect(ms.setCount(1, 0)).toBe(true);
-    expect(ms.has(1)).toBe(false);
-    expect(ms.distinctSize).toBe(0);
-    expect(ms.size).toBe(0);
-  });
+      // set to 0 removes key
+      expect(ms.setCount(1, 0)).toBe(true);
+      expect(ms.has(1)).toBe(false);
+      expect(ms.distinctSize).toBe(0);
+      expect(ms.size).toBe(0);
+    });
 
-  it('[Symbol.iterator] is expanded by default', () => {
-    const ms = new TreeMultiSet<number>();
-    ms.add(2, 2);
-    ms.add(1, 1);
+    it('[Symbol.iterator] is expanded by default', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(2, 2);
+      ms.add(1, 1);
 
-    // expanded iteration, ordered by key
-    expect([...ms]).toEqual([1, 2, 2]);
-  });
+      // expanded iteration, ordered by key
+      expect([...ms]).toEqual([1, 2, 2]);
+    });
 
-  it('entries()/keysDistinct(): distinct views', () => {
-    const ms = new TreeMultiSet<number>();
-    ms.add(2, 2);
-    ms.add(1, 1);
+    it('entries()/keysDistinct(): distinct views', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(2, 2);
+      ms.add(1, 1);
 
-    expect([...ms.keysDistinct()]).toEqual([1, 2]);
-    expect([...ms.entries()]).toEqual([
-      [1, 1],
-      [2, 2]
-    ]);
-  });
+      expect([...ms.keysDistinct()]).toEqual([1, 2]);
+      expect([...ms.entries()]).toEqual([
+        [1, 1],
+        [2, 2]
+      ]);
+    });
 
-  it('toArray()/toDistinctArray()/toEntries()', () => {
-    const ms = new TreeMultiSet<number>();
-    ms.add(2, 2);
-    ms.add(1, 1);
+    it('toArray()/toDistinctArray()/toEntries()', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(2, 2);
+      ms.add(1, 1);
 
-    expect(ms.toArray()).toEqual([1, 2, 2]);
-    expect(ms.toDistinctArray()).toEqual([1, 2]);
-    expect(ms.toEntries()).toEqual([
-      [1, 1],
-      [2, 2]
-    ]);
-  });
+      expect(ms.toArray()).toEqual([1, 2, 2]);
+      expect(ms.toDistinctArray()).toEqual([1, 2]);
+      expect(ms.toEntries()).toEqual([
+        [1, 1],
+        [2, 2]
+      ]);
+    });
 
-  it('count validation: n must be safe integer and >=0', () => {
-    const ms = new TreeMultiSet<number>();
+    it('count validation: n must be safe integer and >=0', () => {
+      const ms = new TreeMultiSet<number>();
 
-    expect(() => ms.add(1, -1 as any)).toThrow(RangeError);
-    expect(() => ms.add(1, 1.2 as any)).toThrow(RangeError);
-    expect(() => ms.setCount(1, -1 as any)).toThrow(RangeError);
-    expect(() => ms.delete(1, -1 as any)).toThrow(RangeError);
-  });
+      expect(() => ms.add(1, -1 as any)).toThrow(RangeError);
+      expect(() => ms.add(1, 1.2 as any)).toThrow(RangeError);
+      expect(() => ms.setCount(1, -1 as any)).toThrow(RangeError);
+      expect(() => ms.delete(1, -1 as any)).toThrow(RangeError);
+    });
   });
 
   describe('clear()', () => {
@@ -274,7 +274,11 @@ describe('TreeMultiSet', () => {
       const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
       const result: Array<[number, number]> = [];
       ms.forEach((key, count) => result.push([key, count]));
-      expect(result).toEqual([[1, 2], [2, 1], [3, 3]]);
+      expect(result).toEqual([
+        [1, 2],
+        [2, 1],
+        [3, 3]
+      ]);
     });
 
     /**
@@ -311,7 +315,7 @@ describe('TreeMultiSet', () => {
       expect(total).toBe(6);
 
       const sum = ms.reduce((acc, key, count) => acc + key * count, 0);
-      expect(sum).toBe(1*2 + 2*1 + 3*3);  // 2 + 2 + 9 = 13
+      expect(sum).toBe(1 * 2 + 2 * 1 + 3 * 3); // 2 + 2 + 9 = 13
     });
 
     /**
@@ -338,13 +342,13 @@ describe('TreeMultiSet', () => {
     it('map(): merges counts when keys collide', () => {
       const ms = new TreeMultiSet([1, 2, 3]);
       const merged = ms.map((key, count) => [key % 2, count]);
-      expect(merged.count(0)).toBe(1);  // from 2
-      expect(merged.count(1)).toBe(2);  // from 1 + 3
+      expect(merged.count(0)).toBe(1); // from 2
+      expect(merged.count(1)).toBe(2); // from 1 + 3
       expect(merged.size).toBe(3);
     });
 
     it('map(): transforms counts too', () => {
-      const ms = new TreeMultiSet([1, 1, 2]);  // { 1: 2, 2: 1 }
+      const ms = new TreeMultiSet([1, 1, 2]); // { 1: 2, 2: 1 }
       const doubled = ms.map((key, count) => [key, count * 2]);
       expect(doubled.count(1)).toBe(4);
       expect(doubled.count(2)).toBe(2);
@@ -353,10 +357,7 @@ describe('TreeMultiSet', () => {
 
     it('map(): with custom comparator for new type', () => {
       const ms = new TreeMultiSet([1, 2, 3]);
-      const mapped = ms.map(
-        (key, count) => [String(key), count],
-        { comparator: (a, b) => a.localeCompare(b) }
-      );
+      const mapped = ms.map((key, count) => [String(key), count], { comparator: (a, b) => a.localeCompare(b) });
       expect(mapped.count('1')).toBe(1);
       expect(mapped.count('2')).toBe(1);
       expect(mapped.count('3')).toBe(1);
@@ -380,7 +381,7 @@ describe('TreeMultiSet', () => {
 
       copy.add(3);
       expect(copy.has(3)).toBe(true);
-      expect(ms.has(3)).toBe(false);  // original unchanged
+      expect(ms.has(3)).toBe(false); // original unchanged
     });
   });
 
@@ -511,26 +512,26 @@ describe('TreeMultiSet', () => {
     });
 
     it('filter() with custom comparator preserves it', () => {
-      const customComparator = (a: number, b: number) => b - a;  // descending
+      const customComparator = (a: number, b: number) => b - a; // descending
       const ms = new TreeMultiSet<number>([3, 1, 2], { comparator: customComparator });
-      expect([...ms.keysDistinct()]).toEqual([3, 2, 1]);  // descending order
+      expect([...ms.keysDistinct()]).toEqual([3, 2, 1]); // descending order
 
       const filtered = ms.filter((k, _c) => k >= 2);
-      expect([...filtered.keysDistinct()]).toEqual([3, 2]);  // still descending
+      expect([...filtered.keysDistinct()]).toEqual([3, 2]); // still descending
     });
 
     it('clone() with custom comparator preserves it', () => {
-      const customComparator = (a: number, b: number) => b - a;  // descending
+      const customComparator = (a: number, b: number) => b - a; // descending
       const ms = new TreeMultiSet<number>([3, 1, 2], { comparator: customComparator });
       const copy = ms.clone();
-      expect([...copy.keysDistinct()]).toEqual([3, 2, 1]);  // still descending
+      expect([...copy.keysDistinct()]).toEqual([3, 2, 1]); // still descending
     });
 
     it('map() with custom comparator on source', () => {
-      const customComparator = (a: number, b: number) => b - a;  // descending
+      const customComparator = (a: number, b: number) => b - a; // descending
       const ms = new TreeMultiSet<number>([3, 1, 2], { comparator: customComparator });
-      const mapped = ms.map((k, c) => [k * 10, c]);  // default comparator for result
-      expect([...mapped.keysDistinct()]).toEqual([10, 20, 30]);  // ascending (default)
+      const mapped = ms.map((k, c) => [k * 10, c]); // default comparator for result
+      expect([...mapped.keysDistinct()]).toEqual([10, 20, 30]); // ascending (default)
     });
 
     it('constructor with iterable initializes correctly', () => {
@@ -574,12 +575,7 @@ describe('TreeMultiSet', () => {
         priority: number;
       }
 
-      const items: Item[] = [
-        { priority: 3 },
-        { priority: 1 },
-        { priority: 2 },
-        { priority: 1 }
-      ];
+      const items: Item[] = [{ priority: 3 }, { priority: 1 }, { priority: 2 }, { priority: 1 }];
 
       const ms = new TreeMultiSet<number, Item>(items, {
         toElementFn: item => item.priority,
@@ -736,7 +732,10 @@ describe('TreeMultiSet', () => {
       const ms = new TreeMultiSet<number>();
       ms.add(1, 2);
       ms.add(3);
-      expect(ms.toEntries()).toEqual([[1, 2], [3, 1]]);
+      expect(ms.toEntries()).toEqual([
+        [1, 2],
+        [3, 1]
+      ]);
     });
 
     it('@example [TreeMultiSet.keysDistinct] Iterate unique keys', () => {
@@ -758,7 +757,10 @@ describe('TreeMultiSet', () => {
       ms.add(2);
       const pairs: [number, number][] = [];
       ms.forEach((k, c) => pairs.push([k, c]));
-      expect(pairs).toEqual([[1, 2], [2, 1]]);
+      expect(pairs).toEqual([
+        [1, 2],
+        [2, 1]
+      ]);
     });
 
     it('@example [TreeMultiSet.filter] Filter', () => {

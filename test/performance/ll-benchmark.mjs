@@ -1,4 +1,4 @@
-import { DoublyLinkedList, SinglyLinkedList } from '../../dist/esm/index.mjs';
+import { DoublyLinkedList } from '../../dist/esm/index.mjs';
 import { LinkList } from 'js-sdsl';
 
 const N = 100_000;
@@ -18,17 +18,61 @@ function bench(fn) {
 console.log(`\n=== DLL Benchmark (${N.toLocaleString()} ops) ===\n`);
 
 console.log('push:');
-console.log(`  DST:     ${bench(() => { const l = new DoublyLinkedList(); for (let i = 0; i < N; i++) l.push(i); })} ms`);
-console.log(`  js-sdsl: ${bench(() => { const l = new LinkList(); for (let i = 0; i < N; i++) l.pushBack(i); })} ms`);
+console.log(
+  `  DST:     ${bench(() => {
+    const l = new DoublyLinkedList();
+    for (let i = 0; i < N; i++) l.push(i);
+  })} ms`
+);
+console.log(
+  `  js-sdsl: ${bench(() => {
+    const l = new LinkList();
+    for (let i = 0; i < N; i++) l.pushBack(i);
+  })} ms`
+);
 
 console.log('unshift:');
-console.log(`  DST:     ${bench(() => { const l = new DoublyLinkedList(); for (let i = 0; i < N; i++) l.unshift(i); })} ms`);
-console.log(`  js-sdsl: ${bench(() => { const l = new LinkList(); for (let i = 0; i < N; i++) l.pushFront(i); })} ms`);
+console.log(
+  `  DST:     ${bench(() => {
+    const l = new DoublyLinkedList();
+    for (let i = 0; i < N; i++) l.unshift(i);
+  })} ms`
+);
+console.log(
+  `  js-sdsl: ${bench(() => {
+    const l = new LinkList();
+    for (let i = 0; i < N; i++) l.pushFront(i);
+  })} ms`
+);
 
 console.log('pop:');
-console.log(`  DST:     ${bench(() => { const l = new DoublyLinkedList(); for (let i = 0; i < N; i++) l.push(i); for (let i = 0; i < N; i++) l.pop(); })} ms`);
-console.log(`  js-sdsl: ${bench(() => { const l = new LinkList(); for (let i = 0; i < N; i++) l.pushBack(i); for (let i = 0; i < N; i++) l.popBack(); })} ms`);
+console.log(
+  `  DST:     ${bench(() => {
+    const l = new DoublyLinkedList();
+    for (let i = 0; i < N; i++) l.push(i);
+    for (let i = 0; i < N; i++) l.pop();
+  })} ms`
+);
+console.log(
+  `  js-sdsl: ${bench(() => {
+    const l = new LinkList();
+    for (let i = 0; i < N; i++) l.pushBack(i);
+    for (let i = 0; i < N; i++) l.popBack();
+  })} ms`
+);
 
 console.log('shift:');
-console.log(`  DST:     ${bench(() => { const l = new DoublyLinkedList(); for (let i = 0; i < N; i++) l.push(i); for (let i = 0; i < N; i++) l.shift(); })} ms`);
-console.log(`  js-sdsl: ${bench(() => { const l = new LinkList(); for (let i = 0; i < N; i++) l.pushBack(i); for (let i = 0; i < N; i++) l.popFront(); })} ms`);
+console.log(
+  `  DST:     ${bench(() => {
+    const l = new DoublyLinkedList();
+    for (let i = 0; i < N; i++) l.push(i);
+    for (let i = 0; i < N; i++) l.shift();
+  })} ms`
+);
+console.log(
+  `  js-sdsl: ${bench(() => {
+    const l = new LinkList();
+    for (let i = 0; i < N; i++) l.pushBack(i);
+    for (let i = 0; i < N; i++) l.popFront();
+  })} ms`
+);

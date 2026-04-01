@@ -44,8 +44,8 @@ describe('classic use', () => {
     const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
 
     expect(bit.get(2)).toBe(30);
-    expect(bit.query(2)).toBe(60);   // 10+20+30
-    expect(bit.query(4)).toBe(150);  // total
+    expect(bit.query(2)).toBe(60); // 10+20+30
+    expect(bit.query(4)).toBe(150); // total
 
     // Increment index 1 by 5
     bit.update(1, 5);
@@ -198,25 +198,25 @@ describe('BinaryIndexedTree lowerBound and upperBound', () => {
   it('lowerBound finds smallest index where prefixSum >= target', () => {
     const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
     // prefix sums: [1, 3, 6, 10, 15]
-    expect(bit.lowerBound(1)).toBe(0);   // prefix[0]=1 >= 1
-    expect(bit.lowerBound(2)).toBe(1);   // prefix[1]=3 >= 2
-    expect(bit.lowerBound(3)).toBe(1);   // prefix[1]=3 >= 3
-    expect(bit.lowerBound(4)).toBe(2);   // prefix[2]=6 >= 4
-    expect(bit.lowerBound(6)).toBe(2);   // prefix[2]=6 >= 6
-    expect(bit.lowerBound(7)).toBe(3);   // prefix[3]=10 >= 7
-    expect(bit.lowerBound(15)).toBe(4);  // prefix[4]=15 >= 15
-    expect(bit.lowerBound(16)).toBe(5);  // beyond total → size
+    expect(bit.lowerBound(1)).toBe(0); // prefix[0]=1 >= 1
+    expect(bit.lowerBound(2)).toBe(1); // prefix[1]=3 >= 2
+    expect(bit.lowerBound(3)).toBe(1); // prefix[1]=3 >= 3
+    expect(bit.lowerBound(4)).toBe(2); // prefix[2]=6 >= 4
+    expect(bit.lowerBound(6)).toBe(2); // prefix[2]=6 >= 6
+    expect(bit.lowerBound(7)).toBe(3); // prefix[3]=10 >= 7
+    expect(bit.lowerBound(15)).toBe(4); // prefix[4]=15 >= 15
+    expect(bit.lowerBound(16)).toBe(5); // beyond total → size
   });
 
   it('upperBound finds smallest index where prefixSum > target', () => {
     const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
     // prefix sums: [1, 3, 6, 10, 15]
-    expect(bit.upperBound(0)).toBe(0);   // prefix[0]=1 > 0
-    expect(bit.upperBound(1)).toBe(1);   // prefix[1]=3 > 1
-    expect(bit.upperBound(3)).toBe(2);   // prefix[2]=6 > 3
-    expect(bit.upperBound(6)).toBe(3);   // prefix[3]=10 > 6
-    expect(bit.upperBound(10)).toBe(4);  // prefix[4]=15 > 10
-    expect(bit.upperBound(15)).toBe(5);  // beyond total → size
+    expect(bit.upperBound(0)).toBe(0); // prefix[0]=1 > 0
+    expect(bit.upperBound(1)).toBe(1); // prefix[1]=3 > 1
+    expect(bit.upperBound(3)).toBe(2); // prefix[2]=6 > 3
+    expect(bit.upperBound(6)).toBe(3); // prefix[3]=10 > 6
+    expect(bit.upperBound(10)).toBe(4); // prefix[4]=15 > 10
+    expect(bit.upperBound(15)).toBe(5); // beyond total → size
   });
 
   it('lowerBound with designated values array', () => {
@@ -291,7 +291,11 @@ describe('BinaryIndexedTree standard interface', () => {
     const bit = new BinaryIndexedTree(arr);
     const pairs: [number, number][] = [];
     bit.forEach((v, i) => pairs.push([i, v]));
-    expect(pairs).toEqual([[0, 10], [1, 20], [2, 30]]);
+    expect(pairs).toEqual([
+      [0, 10],
+      [1, 20],
+      [2, 30]
+    ]);
   });
 
   it('isEmpty works', () => {
@@ -305,14 +309,17 @@ describe('BinaryIndexedTree LeetCode-style usage', () => {
     class NumArray {
       private bit: BinaryIndexedTree;
       private nums: number[];
+
       constructor(nums: number[]) {
         this.nums = [...nums];
         this.bit = new BinaryIndexedTree(nums);
       }
+
       update(index: number, val: number): void {
         this.bit.update(index, val - this.nums[index]);
         this.nums[index] = val;
       }
+
       sumRange(left: number, right: number): number {
         return this.bit.queryRange(left, right);
       }

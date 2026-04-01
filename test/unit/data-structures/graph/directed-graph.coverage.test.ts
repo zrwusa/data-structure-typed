@@ -1,9 +1,8 @@
 import { DirectedEdge, DirectedGraph } from '../../../../src';
 
 describe('DirectedGraph misc coverage', () => {
-
   describe('branch (batch 2)', () => {
-  it('createEdge falls back to weight=1 when weight and defaultEdgeWeight are both undefined', () => {
+    it('createEdge falls back to weight=1 when weight and defaultEdgeWeight are both undefined', () => {
       const g = new DirectedGraph<string, any>();
       const e = g.createEdge('a', 'b');
       expect(e.weight).toBe(1);
@@ -40,7 +39,7 @@ describe('DirectedGraph misc coverage', () => {
   });
 
   describe('branch (batch 3)', () => {
-  it('createEdge uses final fallback weight=1 when defaultEdgeWeight is explicitly undefined', () => {
+    it('createEdge uses final fallback weight=1 when defaultEdgeWeight is explicitly undefined', () => {
       const g = new DirectedGraph<string, any>();
 
       // Force options.defaultEdgeWeight to be undefined so `weight ?? defaultEdgeWeight ?? 1` uses the final `1`.
@@ -64,7 +63,7 @@ describe('DirectedGraph misc coverage', () => {
   });
 
   describe('branch', () => {
-  it('static fromKeys/fromEntries build graphs (and exercises vertexValueInitializer body)', () => {
+    it('static fromKeys/fromEntries build graphs (and exercises vertexValueInitializer body)', () => {
       const g1 = DirectedGraph.fromKeys(['a', 'b']);
       expect(g1.hasVertex('a')).toBe(true);
       // value initializer behavior may vary; key must exist.

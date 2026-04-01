@@ -61,7 +61,7 @@ import { Heap } from '../heap';
  *       comparator: (a, b) => a[0] - b[0]
  *     });
  *
- *     bandwidth.add([1, 'Video call']);     // highest priority
+ *     bandwidth.add([1, 'Video call']); // highest priority
  *     bandwidth.add([3, 'File download']);
  *     bandwidth.add([2, 'Web browsing']);
  *     bandwidth.add([1, 'Voice call']);

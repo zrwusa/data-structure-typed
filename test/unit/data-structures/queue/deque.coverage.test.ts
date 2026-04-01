@@ -1,9 +1,8 @@
 import { Deque } from '../../../../src';
 
 describe('Deque misc coverage', () => {
-
   describe('coverage', () => {
-  it('constructor handles iterable-like length()/size() branches and bucketSize option', () => {
+    it('constructor handles iterable-like length()/size() branches and bucketSize option', () => {
       const arr = [1, 2, 3, 4, 5];
 
       const withLengthFn = {
@@ -175,7 +174,7 @@ describe('Deque misc coverage', () => {
   });
 
   describe('branch (batch 2)', () => {
-  it('unshiftMany covers toElementFn branch (and is executed at all)', () => {
+    it('unshiftMany covers toElementFn branch (and is executed at all)', () => {
       const d = new Deque<number, { v: number }>([], {
         toElementFn: (r: { v: number }) => r.v
       });
@@ -213,7 +212,7 @@ describe('Deque misc coverage', () => {
   });
 
   describe('branch (batch 3)', () => {
-  it('unshiftMany covers else-branch when toElementFn is not provided', () => {
+    it('unshiftMany covers else-branch when toElementFn is not provided', () => {
       const d = new Deque<number>();
       expect(d.unshiftMany([1, 2])).toEqual([true, true]);
       expect(d.toArray()).toEqual([2, 1]);
@@ -221,7 +220,7 @@ describe('Deque misc coverage', () => {
   });
 
   describe('branch', () => {
-  it('unshiftMany() default-arg empty iterable returns []', () => {
+    it('unshiftMany() default-arg empty iterable returns []', () => {
       const d = new Deque<number>();
       expect(d.unshiftMany()).toEqual([]);
     });

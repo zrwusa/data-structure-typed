@@ -16,15 +16,10 @@ const suite = new Benchmark.Suite();
 const { TEN_THOUSAND } = magnitude;
 
 // Test: 10K refill & poll
-suite.add(`${TEN_THOUSAND.toLocaleString()} refill & poll`, function() {
+suite.add(`${TEN_THOUSAND.toLocaleString()} refill & poll`, function () {
   // Generate unique random nodes
   const nodes = Array.from(
-      new Set(
-          Array.from(
-              new Array(TEN_THOUSAND),
-              () => Math.floor(Math.random() * TEN_THOUSAND * 100)
-          )
-      )
+    new Set(Array.from(new Array(TEN_THOUSAND), () => Math.floor(Math.random() * TEN_THOUSAND * 100)))
   );
 
   const maxPQ = new MaxPriorityQueue(nodes);
@@ -33,7 +28,7 @@ suite.add(`${TEN_THOUSAND.toLocaleString()} refill & poll`, function() {
     maxPQ.poll();
   }
 
-  this.val = maxPQ;  // Prevent JIT optimization
+  this.val = maxPQ; // Prevent JIT optimization
 });
 
 export { suite };

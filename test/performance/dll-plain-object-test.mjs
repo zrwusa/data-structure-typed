@@ -6,7 +6,7 @@ const ITERATIONS = 20;
 function benchmark(name, fn) {
   // Warmup
   for (let w = 0; w < 3; w++) fn();
-  
+
   // Measure
   const times = [];
   for (let i = 0; i < ITERATIONS; i++) {
@@ -14,7 +14,7 @@ function benchmark(name, fn) {
     fn();
     times.push(performance.now() - start);
   }
-  
+
   const avg = times.reduce((a, b) => a + b, 0) / times.length;
   return { name, avg };
 }
@@ -27,7 +27,11 @@ class PlainDLL {
     this._sentinel.prev = this._sentinel;
     this._length = 0;
   }
-  
+
+  get length() {
+    return this._length;
+  }
+
   push(value) {
     const tail = this._sentinel.prev;
     const node = { value, prev: tail, next: this._sentinel };
@@ -35,8 +39,6 @@ class PlainDLL {
     this._sentinel.prev = node;
     this._length++;
   }
-  
-  get length() { return this._length; }
 }
 
 // Class-based approach (current DST)
@@ -46,7 +48,11 @@ class NodeDLL {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
+  get length() {
+    return this._length;
+  }
+
   push(value) {
     const newNode = new DLLNode(value);
     if (!this._head) {
@@ -59,8 +65,6 @@ class NodeDLL {
     }
     this._length++;
   }
-  
-  get length() { return this._length; }
 }
 
 class DLLNode {
@@ -92,7 +96,11 @@ class InheritedNodeDLL {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
+  get length() {
+    return this._length;
+  }
+
   push(value) {
     const newNode = new InheritedDLLNode(value);
     if (!this._head) {
@@ -105,8 +113,6 @@ class InheritedNodeDLL {
     }
     this._length++;
   }
-  
-  get length() { return this._length; }
 }
 
 console.log(`\n=== Plain Object vs Class Node Comparison ===`);
@@ -114,20 +120,26 @@ console.log(`N = ${N.toLocaleString()}, ITERATIONS = ${ITERATIONS}\n`);
 
 const results = [];
 
-results.push(benchmark('Plain object (sentinel)', () => {
-  const list = new PlainDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Plain object (sentinel)', () => {
+    const list = new PlainDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('Class node (no inheritance)', () => {
-  const list = new NodeDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Class node (no inheritance)', () => {
+    const list = new NodeDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('Class node (with inheritance)', () => {
-  const list = new InheritedNodeDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Class node (with inheritance)', () => {
+    const list = new InheritedNodeDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
 console.log('| Approach | Avg (ms) |');
 console.log('|----------|----------|');

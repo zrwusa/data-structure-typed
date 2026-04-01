@@ -30,8 +30,14 @@ class GetterNode {
     this.next = undefined;
     this.prev = undefined;
   }
-  get value() { return this._value; }
-  set value(v) { this._value = v; }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(v) {
+    this._value = v;
+  }
 }
 
 // With getter/setter for next/prev too
@@ -41,12 +47,30 @@ class FullGetterNode {
     this._next = undefined;
     this._prev = undefined;
   }
-  get value() { return this._value; }
-  set value(v) { this._value = v; }
-  get next() { return this._next; }
-  set next(v) { this._next = v; }
-  get prev() { return this._prev; }
-  set prev(v) { this._prev = v; }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(v) {
+    this._value = v;
+  }
+
+  get next() {
+    return this._next;
+  }
+
+  set next(v) {
+    this._next = v;
+  }
+
+  get prev() {
+    return this._prev;
+  }
+
+  set prev(v) {
+    this._prev = v;
+  }
 }
 
 // Single inheritance
@@ -70,21 +94,39 @@ class LinkedListNodeLike {
     this._value = value;
     this._next = undefined;
   }
-  get value() { return this._value; }
-  set value(v) { this._value = v; }
-  get next() { return this._next; }
-  set next(v) { this._next = v; }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(v) {
+    this._value = v;
+  }
+
+  get next() {
+    return this._next;
+  }
+
+  set next(v) {
+    this._next = v;
+  }
 }
 
 class DLLNodeLike extends LinkedListNodeLike {
   constructor(value) {
     super(value);
-    this._value = value;  // DST does this redundantly!
-    this._next = undefined;  // DST does this too!
+    this._value = value; // DST does this redundantly!
+    this._next = undefined; // DST does this too!
     this._prev = undefined;
   }
-  get prev() { return this._prev; }
-  set prev(v) { this._prev = v; }
+
+  get prev() {
+    return this._prev;
+  }
+
+  set prev(v) {
+    this._prev = v;
+  }
 }
 
 console.log(`\n=== Node Class Analysis ===`);
@@ -92,35 +134,47 @@ console.log(`Creating ${N.toLocaleString()} nodes, ITERATIONS = ${ITERATIONS}\n`
 
 const results = [];
 
-results.push(benchmark('Plain object properties', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new PlainNode(i));
-}));
+results.push(
+  benchmark('Plain object properties', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new PlainNode(i));
+  })
+);
 
-results.push(benchmark('Value getter/setter', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new GetterNode(i));
-}));
+results.push(
+  benchmark('Value getter/setter', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new GetterNode(i));
+  })
+);
 
-results.push(benchmark('Full getters/setters', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new FullGetterNode(i));
-}));
+results.push(
+  benchmark('Full getters/setters', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new FullGetterNode(i));
+  })
+);
 
-results.push(benchmark('Single inheritance', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new InheritedNode(i));
-}));
+results.push(
+  benchmark('Single inheritance', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new InheritedNode(i));
+  })
+);
 
-results.push(benchmark('DST-like double inherit', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new DLLNodeLike(i));
-}));
+results.push(
+  benchmark('DST-like double inherit', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new DLLNodeLike(i));
+  })
+);
 
-results.push(benchmark('Real DST DoublyLinkedListNode', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new DoublyLinkedListNode(i));
-}));
+results.push(
+  benchmark('Real DST DoublyLinkedListNode', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new DoublyLinkedListNode(i));
+  })
+);
 
 console.log('| Node Type | Avg (ms) | vs Plain |');
 console.log('|-----------|----------|----------|');

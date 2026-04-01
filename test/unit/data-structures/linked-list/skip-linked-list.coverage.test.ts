@@ -68,7 +68,11 @@ describe('SkipList additional branch coverage', () => {
     });
 
     it('bigint comparator works', () => {
-      const sl = new SkipList<bigint, string>([[1n, 'a'], [3n, 'c'], [2n, 'b']]);
+      const sl = new SkipList<bigint, string>([
+        [1n, 'a'],
+        [3n, 'c'],
+        [2n, 'b']
+      ]);
       expect(sl.get(2n)).toBe('b');
       expect([...sl.keys()]).toEqual([1n, 2n, 3n]);
     });
@@ -76,9 +80,16 @@ describe('SkipList additional branch coverage', () => {
 
   describe('filter preserves comparator', () => {
     it('filter with custom comparator', () => {
-      const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']], {
-        comparator: (a, b) => b - a // reverse
-      });
+      const sl = new SkipList<number, string>(
+        [
+          [1, 'a'],
+          [2, 'b'],
+          [3, 'c']
+        ],
+        {
+          comparator: (a, b) => b - a // reverse
+        }
+      );
       const filtered = sl.filter((_v, k) => k > 1);
       expect(filtered.toArray().map(([k]) => k)).toEqual([3, 2]);
     });

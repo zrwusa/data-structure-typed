@@ -1,9 +1,8 @@
 import { AbstractVertex, DirectedGraph, DirectedVertex } from '../../../../src';
 
 describe('AbstractGraph misc coverage', () => {
-
   describe('branch (2)', () => {
-  it('getMinCostBetween(unweighted) returns undefined when either vertex missing', () => {
+    it('getMinCostBetween(unweighted) returns undefined when either vertex missing', () => {
       const g = new DirectedGraph();
       g.addVertex('A');
       expect(g.getMinCostBetween('A', 'MISSING' as any, false)).toBeUndefined();
@@ -42,7 +41,7 @@ describe('AbstractGraph misc coverage', () => {
   });
 
   describe('branch (3)', () => {
-  it('getMinPathBetween(unweighted) returns [] when either vertex missing (covers guard)', () => {
+    it('getMinPathBetween(unweighted) returns [] when either vertex missing (covers guard)', () => {
       const g = new DirectedGraph();
       g.addVertex('A');
       expect(g.getMinPathBetween('A', 'MISSING' as any, false)).toEqual([]);
@@ -106,7 +105,7 @@ describe('AbstractGraph misc coverage', () => {
   });
 
   describe('branch (4)', () => {
-  it('dijkstraWithoutHeap early-stop at dest=src covers getMinDist/genPaths branches and `|| MAX_SAFE_INTEGER` fallback when dist=0', () => {
+    it('dijkstraWithoutHeap early-stop at dest=src covers getMinDist/genPaths branches and `|| MAX_SAFE_INTEGER` fallback when dist=0', () => {
       const g = new DirectedGraph();
       g.addVertex('A');
       g.addVertex('B');
@@ -203,7 +202,7 @@ describe('AbstractGraph misc coverage', () => {
   });
 
   describe('branch (5)', () => {
-  it('_createLike continues when getEndsOfEdge returns undefined (covers !ends continue)', () => {
+    it('_createLike continues when getEndsOfEdge returns undefined (covers !ends continue)', () => {
       const g = new DirectedGraph();
       g.addVertex('A');
       g.addVertex('B');
@@ -253,7 +252,7 @@ describe('AbstractGraph misc coverage', () => {
   });
 
   describe('extra branch via DirectedGraph', () => {
-  it('getVertex(missingKey) returns undefined (covers `|| undefined` branch)', () => {
+    it('getVertex(missingKey) returns undefined (covers `|| undefined` branch)', () => {
       const g = new DirectedGraph();
       expect(g.getVertex('MISSING' as any)).toBeUndefined();
     });

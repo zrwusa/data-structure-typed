@@ -64,7 +64,7 @@ describe('classic use', () => {
       167772160, // 10.0.0.0
       167772416, // 10.0.1.0
       167772672, // 10.0.2.0
-      167773184  // 10.0.4.0
+      167773184 // 10.0.4.0
     ]);
 
     // Check if any blocked IP is in range 10.0.1.0 - 10.0.3.0
@@ -296,9 +296,15 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
 
     const ctx = { mul: 3 };
     expect(
-      s.map(function (this: typeof ctx, v) {
-        return v * this.mul;
-      }, {}, ctx).toArray()
+      s
+        .map(
+          function (this: typeof ctx, v) {
+            return v * this.mul;
+          },
+          {},
+          ctx
+        )
+        .toArray()
     ).toEqual([3, 6, 9]);
 
     expect(s.filter(v => v % 2 === 1).toArray()).toEqual([1, 3]);
@@ -322,35 +328,41 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
   });
 
   test('map/filter/reduce with TreeSet objects stays expressive', () => {
-    const users = new TreeSet([
-      { id: 1, name: 'Alice', age: 24 },
-      { id: 2, name: 'Bob', age: 31 },
-      { id: 3, name: 'Charlie', age: 29 },
-      { id: 4, name: 'David', age: 22 },
-    ], {
-      comparator: (a, b) => a.age - b.age
-    });
+    const users = new TreeSet(
+      [
+        { id: 1, name: 'Alice', age: 24 },
+        { id: 2, name: 'Bob', age: 31 },
+        { id: 3, name: 'Charlie', age: 29 },
+        { id: 4, name: 'David', age: 22 }
+      ],
+      {
+        comparator: (a, b) => a.age - b.age
+      }
+    );
 
     expect(users.toArray()).toEqual([
       { id: 4, name: 'David', age: 22 },
       { id: 1, name: 'Alice', age: 24 },
       { id: 3, name: 'Charlie', age: 29 },
-      { id: 2, name: 'Bob', age: 31 },
+      { id: 2, name: 'Bob', age: 31 }
     ]);
 
     const filtered = users.filter(user => user.age > 26);
     expect(filtered.toArray()).toEqual([
       { id: 3, name: 'Charlie', age: 29 },
-      { id: 2, name: 'Bob', age: 31 },
+      { id: 2, name: 'Bob', age: 31 }
     ]);
 
-    const mapped = filtered.map(user => ({
-      ...user,
-      senior: user.age >= 30
-    }), { comparator: (a, b) => a.age - b.age });
+    const mapped = filtered.map(
+      user => ({
+        ...user,
+        senior: user.age >= 30
+      }),
+      { comparator: (a, b) => a.age - b.age }
+    );
     expect(mapped.toArray()).toEqual([
       { id: 3, name: 'Charlie', age: 29, senior: false },
-      { id: 2, name: 'Bob', age: 31, senior: true },
+      { id: 2, name: 'Bob', age: 31, senior: true }
     ]);
 
     const totalAge = mapped.reduce((sum, user) => sum + user.age, 0);

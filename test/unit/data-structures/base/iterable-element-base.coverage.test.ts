@@ -9,10 +9,6 @@ class TestIterable extends IterableElementBase<number, number> {
     this._arr = [...arr];
   }
 
-  protected *_getIterator(): IterableIterator<number> {
-    yield* this._arr;
-  }
-
   isEmpty(): boolean {
     return this._arr.length === 0;
   }
@@ -43,18 +39,29 @@ class TestIterable extends IterableElementBase<number, number> {
     }
     return new TestIterable(out) as any as this;
   }
+
+  protected *_getIterator(): IterableIterator<number> {
+    yield* this._arr;
+  }
 }
 
 class NumIter extends IterableElementBase<number, number> {
+  constructor(private readonly data: number[]) {
+    super();
+  }
+
   override isEmpty(): boolean {
     throw new Error('Method not implemented.');
   }
+
   override clear(): void {
     throw new Error('Method not implemented.');
   }
+
   override clone(): this {
     throw new Error('Method not implemented.');
   }
+
   override map<EM, RM>(
     _callback: ElementCallback<number, number, EM>,
     _options?: IterableElementBaseOptions<EM, RM> | undefined,
@@ -62,21 +69,21 @@ class NumIter extends IterableElementBase<number, number> {
   ): IterableElementBase<EM, RM> {
     throw new Error('Method not implemented.');
   }
+
   override mapSame(_callback: ElementCallback<number, number, number>, _thisArg?: unknown): this {
     throw new Error('Method not implemented.');
   }
+
   override filter(_predicate: ElementCallback<number, number, boolean>, _thisArg?: unknown): this {
     throw new Error('Method not implemented.');
-  }
-  protected override _getIterator(..._args: unknown[]): IterableIterator<number> {
-    throw new Error('Method not implemented.');
-  }
-  constructor(private readonly data: number[]) {
-    super();
   }
 
   override *[Symbol.iterator](): IterableIterator<number> {
     for (const n of this.data) yield n;
+  }
+
+  protected override _getIterator(..._args: unknown[]): IterableIterator<number> {
+    throw new Error('Method not implemented.');
   }
 }
 

@@ -1,9 +1,8 @@
 import { Matrix } from '../../../../src';
 
 describe('Matrix misc coverage', () => {
-
   describe('branch', () => {
-  it('inverse throws when matrix is singular (pivotRow reaches rows)', () => {
+    it('inverse throws when matrix is singular (pivotRow reaches rows)', () => {
       const m = new Matrix([[0]], { rows: 1, cols: 1 });
       expect(() => m.inverse()).toThrow(/singular/i);
     });
@@ -84,13 +83,19 @@ describe('Matrix misc coverage', () => {
 
   describe('iterator and print', () => {
     it('iterator [Symbol.iterator] returns itself', () => {
-      const m = new Matrix([[1, 2], [3, 4]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const iter = m[Symbol.iterator]();
       expect(iter[Symbol.iterator]()).toBe(iter);
     });
 
     it('print outputs tab-separated rows', () => {
-      const m = new Matrix([[1, 2], [3, 4]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const spy = jest.spyOn(console, 'log').mockImplementation();
       m.print();
       expect(spy).toHaveBeenCalledTimes(2);
@@ -101,7 +106,7 @@ describe('Matrix misc coverage', () => {
   });
 
   describe('inverse pivotElement ?? 1 branch', () => {
-  it('inverse() uses pivotElement fallback 1 when get(i,i) is nullish', () => {
+    it('inverse() uses pivotElement fallback 1 when get(i,i) is nullish', () => {
       const origGet = Matrix.prototype.get;
       try {
         Matrix.prototype.get = function (row: number, col: number): any {

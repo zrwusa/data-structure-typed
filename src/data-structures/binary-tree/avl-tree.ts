@@ -357,13 +357,13 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
- * @example
- * // Set a key-value pair
- *  const avl = new AVLTree<number, string>();
- *     avl.set(1, 'one');
- *     avl.set(2, 'two');
- *     console.log(avl.get(1)); // 'one';
-*/
+   * @example
+   * // Set a key-value pair
+   *  const avl = new AVLTree<number, string>();
+   *     avl.set(1, 'one');
+   *     avl.set(2, 'two');
+   *     console.log(avl.get(1)); // 'one';
+   */
   override set(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
@@ -381,13 +381,13 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
- * @example
- * // Remove nodes and verify structure
- *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
- *     avl.delete(3);
- *     console.log(avl.has(3)); // false;
- *     console.log(avl.size); // 6;
-*/
+   * @example
+   * // Remove nodes and verify structure
+   *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
+   *     avl.delete(3);
+   *     console.log(avl.has(3)); // false;
+   *     console.log(avl.size); // 6;
+   */
   override delete(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
   ): boolean {
@@ -408,15 +408,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
- * @example
- * // Rebalance the tree
- *  const avl = new AVLTree<number>();
- *     // Insert in sorted order (worst case for BST)
- *     for (let i = 1; i <= 7; i++) avl.add(i);
- *     console.log(avl.isAVLBalanced()); // false;
- *     avl.perfectlyBalance();
- *     console.log(avl.isAVLBalanced()); // true;
-*/
+   * @example
+   * // Rebalance the tree
+   *  const avl = new AVLTree<number>();
+   *     // Insert in sorted order (worst case for BST)
+   *     for (let i = 1; i <= 7; i++) avl.add(i);
+   *     console.log(avl.isAVLBalanced()); // false;
+   *     avl.perfectlyBalance();
+   *     console.log(avl.isAVLBalanced()); // true;
+   */
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
     const n = nodes.length;
@@ -453,12 +453,16 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
- * @example
- * // Transform to new tree
- *  const avl = new AVLTree<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const doubled = avl.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
- *     console.log([...doubled.values()]); // [20, 40, 60];
-*/
+   * @example
+   * // Transform to new tree
+   *  const avl = new AVLTree<number, number>([
+   *       [1, 10],
+   *       [2, 20],
+   *       [3, 30]
+   *     ]);
+   *     const doubled = avl.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
+   *     console.log([...doubled.values()]); // [20, 40, 60];
+   */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,

@@ -1,4 +1,4 @@
-import { Heap, FibonacciHeap } from '../../../../src';
+import { FibonacciHeap, Heap } from '../../../../src';
 
 describe('Heap new API coverage', () => {
   describe('pop (primary method)', () => {

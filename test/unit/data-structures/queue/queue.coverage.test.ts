@@ -1,9 +1,8 @@
 import { Queue } from '../../../../src';
 
 describe('Queue misc coverage', () => {
-
   describe('coverage', () => {
-  it('constructor options set autoCompactRatio and push respects maxLen via shift', () => {
+    it('constructor options set autoCompactRatio and push respects maxLen via shift', () => {
       const q = new Queue<number>([], { maxLen: 2, autoCompactRatio: 1 });
       expect(q.autoCompactRatio).toBe(1);
 
@@ -109,19 +108,26 @@ describe('Queue misc coverage', () => {
       expect([...mapped1]).toEqual([2, 3, 4]);
 
       const ctx = { mul: 2 };
-      const mapped2 = q.map(function (v) {
-        // @ts-ignore
-        return v * this.mul;
-      }, undefined, ctx);
+      const mapped2 = q.map(
+        function (v) {
+          // @ts-ignore
+          return v * this.mul;
+        },
+        undefined,
+        ctx
+      );
       expect([...mapped2]).toEqual([2, 4, 6]);
 
       const same1 = q.mapSame(v => v * 10);
       expect([...same1]).toEqual([10, 20, 30]);
 
-      const same2 = q.mapSame(function (v) {
-        // @ts-ignore
-        return v + this.inc;
-      }, { inc: 5 });
+      const same2 = q.mapSame(
+        function (v) {
+          // @ts-ignore
+          return v + this.inc;
+        },
+        { inc: 5 }
+      );
       expect([...same2]).toEqual([6, 7, 8]);
 
       const like = (q as any)._createLike();
@@ -140,7 +146,7 @@ describe('Queue misc coverage', () => {
   });
 
   describe('branch (batch 2)', () => {
-  it('splice(start) hits default deleteCount=0 and can trigger auto-compaction branch', () => {
+    it('splice(start) hits default deleteCount=0 and can trigger auto-compaction branch', () => {
       const q = new Queue<number>();
       q.pushMany([1, 2, 3]);
 

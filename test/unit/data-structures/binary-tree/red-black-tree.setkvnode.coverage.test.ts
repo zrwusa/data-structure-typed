@@ -10,6 +10,7 @@ class RBTBadKeyValue extends RedBlackTree<number, number> {
     return [undefined, undefined];
   }
 }
+
 // --- from setkvnode-uncovered ---
 class RBTBadFixup extends RedBlackTree<number, number> {
   // Simulate an unexpected internal failure so `_setKVNode` hits the defensive `else return undefined`.
@@ -18,6 +19,7 @@ class RBTBadFixup extends RedBlackTree<number, number> {
     (this as any)._setRoot(undefined);
   }
 }
+
 // --- from set-inputs ---
 class RBTWithBadInsert extends RedBlackTree<number, number> {
   // Simulate an internal failure where _insert reports CREATED but does not establish a real root.
@@ -30,9 +32,8 @@ class RBTWithBadInsert extends RedBlackTree<number, number> {
 }
 
 describe('RedBlackTree setkvnode coverage', () => {
-
   describe('_setKVNode parent==hMin/hMax cache maintenance', () => {
-  it('post-insert cache maintenance: parent===hMax && lastCompared>0 updates max cache when header._right is corrupted to an interior node', () => {
+    it('post-insert cache maintenance: parent===hMax && lastCompared>0 updates max cache when header._right is corrupted to an interior node', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15, 1, 20]) t.set(k, k);
 
@@ -100,7 +101,7 @@ describe('RedBlackTree setkvnode coverage', () => {
   });
 
   describe('_setKVNode branch', () => {
-  it('normal search loop takes `current.right ?? NIL` with a real right child (covers binary-expr branch)', () => {
+    it('normal search loop takes `current.right ?? NIL` with a real right child (covers binary-expr branch)', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       // Build a tree where root has a real right child.
       t.set(10, 10);
@@ -143,7 +144,7 @@ describe('RedBlackTree setkvnode coverage', () => {
   });
 
   describe('_setKVNode uncovered-branch', () => {
-  it('covers normal-path current=header.parent ?? NIL when header.parent is undefined (starts at NIL)', () => {
+    it('covers normal-path current=header.parent ?? NIL when header.parent is undefined (starts at NIL)', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
 
       // Force normal path (minN becomes NIL via ??) and start walk from NIL.
@@ -208,7 +209,7 @@ describe('RedBlackTree setkvnode coverage', () => {
   });
 
   describe('set() input/defensive branches', () => {
-  it('returns false for nullish key inputs in key/entry paths', () => {
+    it('returns false for nullish key inputs in key/entry paths', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
 
       expect(t.set(null as any)).toBe(false);
@@ -261,7 +262,7 @@ describe('RedBlackTree setkvnode coverage', () => {
   });
 
   describe('update-branch', () => {
-  it('mapMode: updating existing min/max with undefined value overwrites values (node-index store)', () => {
+    it('mapMode: updating existing min/max with undefined value overwrites values (node-index store)', () => {
       const t = new RedBlackTree<number, string>(); // mapMode default
 
       t.set(10, 'mid');

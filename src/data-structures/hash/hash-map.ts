@@ -81,13 +81,20 @@ import { ERR, raise } from '../../common';
  *     console.log(activeCount); // 2;
  * @example
  * // Aggregate values
- *  const counts = new HashMap<string, number>([['a', 5], ['b', 3], ['c', 8]]);
+ *  const counts = new HashMap<string, number>([
+ *       ['a', 5],
+ *       ['b', 3],
+ *       ['c', 8]
+ *     ]);
  *
  *     const total = counts.reduce((sum, v) => sum + (v ?? 0), 0);
  *     console.log(total); // 16;
  * @example
  * // Iterate over entries
- *  const map = new HashMap<string, number>([['x', 1], ['y', 2]]);
+ *  const map = new HashMap<string, number>([
+ *       ['x', 1],
+ *       ['y', 2]
+ *     ]);
  *     const keys: string[] = [];
  *
  *     map.forEach((v, k) => keys.push(k));
@@ -170,11 +177,11 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Check whether the map is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
- * @example
- * // Check if empty
- *  const map = new HashMap();
- *     console.log(map.isEmpty()); // true;
-*/
+   * @example
+   * // Check if empty
+   *  const map = new HashMap();
+   *     console.log(map.isEmpty()); // true;
+   */
   isEmpty(): boolean {
     return this._size === 0;
   }
@@ -183,12 +190,15 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Remove all entries and reset counters.
    * @remarks Time O(N), Space O(1)
    * @returns void
- * @example
- * // Remove all entries
- *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
- *     map.clear();
- *     console.log(map.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all entries
+   *  const map = new HashMap<string, number>([
+   *       ['a', 1],
+   *       ['b', 2]
+   *     ]);
+   *     map.clear();
+   *     console.log(map.isEmpty()); // true;
+   */
   clear(): void {
     this._store = {};
     this._objMap.clear();
@@ -210,25 +220,25 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
- * @example
- * // basic HashMap creation and set operation
- *  // Create a simple HashMap with key-value pairs
- *     const map = new HashMap<number, string>([
- *       [1, 'one'],
- *       [2, 'two'],
- *       [3, 'three']
- *     ]);
- *
- *     // Verify size
- *     console.log(map.size); // 3;
- *
- *     // Set a new key-value pair
- *     map.set(4, 'four');
- *     console.log(map.size); // 4;
- *
- *     // Verify entries
- *     console.log([...map.entries()]); // length: 4;
-*/
+   * @example
+   * // basic HashMap creation and set operation
+   *  // Create a simple HashMap with key-value pairs
+   *     const map = new HashMap<number, string>([
+   *       [1, 'one'],
+   *       [2, 'two'],
+   *       [3, 'three']
+   *     ]);
+   *
+   *     // Verify size
+   *     console.log(map.size); // 3;
+   *
+   *     // Set a new key-value pair
+   *     map.set(4, 'four');
+   *     console.log(map.size); // 4;
+   *
+   *     // Verify entries
+   *     console.log([...map.entries()]); // length: 4;
+   */
   set(key: K, value: V): this {
     if (this._isObjKey(key)) {
       if (!this.objMap.has(key)) this._size++;
@@ -246,12 +256,16 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(N), Space O(N)
    * @param entryOrRawElements - Iterable of entries or raw elements to insert.
    * @returns Array of per-entry results.
- * @example
- * // Add multiple entries
- *  const map = new HashMap<string, number>();
- *     map.setMany([['a', 1], ['b', 2], ['c', 3]]);
- *     console.log(map.size); // 3;
-*/
+   * @example
+   * // Add multiple entries
+   *  const map = new HashMap<string, number>();
+   *     map.setMany([
+   *       ['a', 1],
+   *       ['b', 2],
+   *       ['c', 3]
+   *     ]);
+   *     console.log(map.size); // 3;
+   */
   setMany(entryOrRawElements: Iterable<R | [K, V]>): boolean[] {
     const results: boolean[] = [];
     for (const rawEle of entryOrRawElements) {
@@ -272,28 +286,28 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
- * @example
- * // HashMap get and has operations
- *  const map = new HashMap<string, number>([
- *       ['apple', 1],
- *       ['banana', 2],
- *       ['cherry', 3]
- *     ]);
- *
- *     // Check if key exists
- *     console.log(map.has('apple')); // true;
- *     console.log(map.has('date')); // false;
- *
- *     // Get value by key
- *     console.log(map.get('banana')); // 2;
- *     console.log(map.get('grape')); // undefined;
- *
- *     // Get all keys and values
- *     const keys = [...map.keys()];
- *     const values = [...map.values()];
- *     console.log(keys); // contains 'apple';
- *     console.log(values); // contains 3;
-*/
+   * @example
+   * // HashMap get and has operations
+   *  const map = new HashMap<string, number>([
+   *       ['apple', 1],
+   *       ['banana', 2],
+   *       ['cherry', 3]
+   *     ]);
+   *
+   *     // Check if key exists
+   *     console.log(map.has('apple')); // true;
+   *     console.log(map.has('date')); // false;
+   *
+   *     // Get value by key
+   *     console.log(map.get('banana')); // 2;
+   *     console.log(map.get('grape')); // undefined;
+   *
+   *     // Get all keys and values
+   *     const keys = [...map.keys()];
+   *     const values = [...map.values()];
+   *     console.log(keys); // contains 'apple';
+   *     console.log(values); // contains 3;
+   */
   override get(key: K): V | undefined {
     if (this._isObjKey(key)) return this.objMap.get(key);
     const strKey = this._getNoObjKey(key);
@@ -305,13 +319,16 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to test.
    * @returns True if present.
- * @example
- * // Check key existence
- *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
- *
- *     console.log(map.has('a')); // true;
- *     console.log(map.has('z')); // false;
-*/
+   * @example
+   * // Check key existence
+   *  const map = new HashMap<string, number>([
+   *       ['a', 1],
+   *       ['b', 2]
+   *     ]);
+   *
+   *     console.log(map.has('a')); // true;
+   *     console.log(map.has('z')); // false;
+   */
   override has(key: K): boolean {
     if (this._isObjKey(key)) return this.objMap.has(key);
     const strKey = this._getNoObjKey(key);
@@ -323,14 +340,18 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
- * @example
- * // Remove entries by key
- *  const map = new HashMap<string, number>([['x', 10], ['y', 20], ['z', 30]]);
- *
- *     console.log(map.delete('y')); // true;
- *     console.log(map.has('y')); // false;
- *     console.log(map.size); // 2;
-*/
+   * @example
+   * // Remove entries by key
+   *  const map = new HashMap<string, number>([
+   *       ['x', 10],
+   *       ['y', 20],
+   *       ['z', 30]
+   *     ]);
+   *
+   *     console.log(map.delete('y')); // true;
+   *     console.log(map.has('y')); // false;
+   *     console.log(map.size); // 2;
+   */
   delete(key: K): boolean {
     if (this._isObjKey(key)) {
       if (this.objMap.has(key)) this._size--;
@@ -362,13 +383,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Deep clone this map, preserving hashing behavior.
    * @remarks Time O(N), Space O(N)
    * @returns A new map with the same content.
- * @example
- * // Create independent copy
- *  const map = new HashMap<string, number>([['a', 1]]);
- *     const copy = map.clone();
- *     copy.set('a', 99);
- *     console.log(map.get('a')); // 1;
-*/
+   * @example
+   * // Create independent copy
+   *  const map = new HashMap<string, number>([['a', 1]]);
+   *     const copy = map.clone();
+   *     copy.set('a', 99);
+   *     console.log(map.get('a')); // 1;
+   */
   clone(): this {
     const opts = { hashFn: this._hashFn, toEntryFn: this._toEntryFn };
     return this._createLike<[K, V], [K, V], [K, V]>(this, opts);
@@ -381,14 +402,17 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
- * @example
- * // Transform all values
- *  const prices = new HashMap<string, number>([['apple', 1], ['banana', 2]]);
- *
- *     const doubled = prices.map(v => (v ?? 0) * 2);
- *     console.log(doubled.get('apple')); // 2;
- *     console.log(doubled.get('banana')); // 4;
-*/
+   * @example
+   * // Transform all values
+   *  const prices = new HashMap<string, number>([
+   *       ['apple', 1],
+   *       ['banana', 2]
+   *     ]);
+   *
+   *     const doubled = prices.map(v => (v ?? 0) * 2);
+   *     console.log(doubled.get('apple')); // 2;
+   *     console.log(doubled.get('banana')); // 4;
+   */
   map<VM>(callbackfn: EntryCallback<K, V, VM>, thisArg?: unknown): HashMap<K, VM> {
     const out = this._createLike<K, VM, [K, VM]>() as unknown as HashMap<K, VM>;
     let index = 0;
@@ -402,32 +426,32 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
- * @example
- * // HashMap iteration and filter operations
- *  const map = new HashMap<number, string>([
- *       [1, 'Alice'],
- *       [2, 'Bob'],
- *       [3, 'Charlie'],
- *       [4, 'Diana'],
- *       [5, 'Eve']
- *     ]);
- *
- *     // Iterate through entries
- *     const entries: [number, string][] = [];
- *     for (const [key, value] of map) {
- *       entries.push([key, value]);
- *     }
- *     console.log(entries); // length: 5;
- *
- *     // Filter operation (for iteration with collection methods)
- *     const filtered = [...map].filter(([key]) => key > 2);
- *     console.log(filtered.length); // 3;
- *
- *     // Map operation
- *     const values = [...map.values()].map(v => v.length);
- *     console.log(values); // contains 3; // 'Bob', 'Eve'
- *     console.log(values); // contains 7;
-*/
+   * @example
+   * // HashMap iteration and filter operations
+   *  const map = new HashMap<number, string>([
+   *       [1, 'Alice'],
+   *       [2, 'Bob'],
+   *       [3, 'Charlie'],
+   *       [4, 'Diana'],
+   *       [5, 'Eve']
+   *     ]);
+   *
+   *     // Iterate through entries
+   *     const entries: [number, string][] = [];
+   *     for (const [key, value] of map) {
+   *       entries.push([key, value]);
+   *     }
+   *     console.log(entries); // length: 5;
+   *
+   *     // Filter operation (for iteration with collection methods)
+   *     const filtered = [...map].filter(([key]) => key > 2);
+   *     console.log(filtered.length); // 3;
+   *
+   *     // Map operation
+   *     const values = [...map.values()].map(v => v.length);
+   *     console.log(values); // contains 3; // 'Bob', 'Eve'
+   *     console.log(values); // contains 7;
+   */
   filter(predicate: EntryCallback<K, V, boolean>, thisArg?: unknown): this {
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;

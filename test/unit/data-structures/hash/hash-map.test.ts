@@ -1104,14 +1104,21 @@ describe('classic uses', () => {
   });
 
   it('@example [HashMap.has] Check key existence', () => {
-    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    const map = new HashMap<string, number>([
+      ['a', 1],
+      ['b', 2]
+    ]);
 
     expect(map.has('a')).toBe(true);
     expect(map.has('z')).toBe(false);
   });
 
   it('@example [HashMap.delete] Remove entries by key', () => {
-    const map = new HashMap<string, number>([['x', 10], ['y', 20], ['z', 30]]);
+    const map = new HashMap<string, number>([
+      ['x', 10],
+      ['y', 20],
+      ['z', 30]
+    ]);
 
     expect(map.delete('y')).toBe(true);
     expect(map.has('y')).toBe(false);
@@ -1119,7 +1126,10 @@ describe('classic uses', () => {
   });
 
   it('@example [HashMap.map] Transform all values', () => {
-    const prices = new HashMap<string, number>([['apple', 1], ['banana', 2]]);
+    const prices = new HashMap<string, number>([
+      ['apple', 1],
+      ['banana', 2]
+    ]);
 
     const doubled = prices.map(v => (v ?? 0) * 2);
     expect(doubled.get('apple')).toBe(2);
@@ -1127,14 +1137,21 @@ describe('classic uses', () => {
   });
 
   it('@example Aggregate values', () => {
-    const counts = new HashMap<string, number>([['a', 5], ['b', 3], ['c', 8]]);
+    const counts = new HashMap<string, number>([
+      ['a', 5],
+      ['b', 3],
+      ['c', 8]
+    ]);
 
     const total = counts.reduce((sum, v) => sum + (v ?? 0), 0);
     expect(total).toBe(16);
   });
 
   it('@example Iterate over entries', () => {
-    const map = new HashMap<string, number>([['x', 1], ['y', 2]]);
+    const map = new HashMap<string, number>([
+      ['x', 1],
+      ['y', 2]
+    ]);
     const keys: string[] = [];
 
     map.forEach((v, k) => keys.push(k));
@@ -1227,30 +1244,48 @@ describe('classic uses', () => {
   });
 
   it('@example [HashMap.entries] Iterate key-value pairs', () => {
-    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    const map = new HashMap<string, number>([
+      ['a', 1],
+      ['b', 2]
+    ]);
     const entries = [...map.entries()];
     expect(entries.length).toBe(2);
   });
 
   it('@example [HashMap.keys] Get all keys', () => {
-    const map = new HashMap<string, number>([['x', 1], ['y', 2]]);
+    const map = new HashMap<string, number>([
+      ['x', 1],
+      ['y', 2]
+    ]);
     expect([...map.keys()].sort()).toEqual(['x', 'y']);
   });
 
   it('@example [HashMap.values] Get all values', () => {
-    const map = new HashMap<string, number>([['a', 10], ['b', 20]]);
+    const map = new HashMap<string, number>([
+      ['a', 10],
+      ['b', 20]
+    ]);
     expect([...map.values()].sort()).toEqual([10, 20]);
   });
 
   it('@example [HashMap.forEach] Execute for each entry', () => {
-    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    const map = new HashMap<string, number>([
+      ['a', 1],
+      ['b', 2]
+    ]);
     let sum = 0;
-    map.forEach(val => { sum += val; });
+    map.forEach(val => {
+      sum += val;
+    });
     expect(sum).toBe(3);
   });
 
   it('@example [HashMap.reduce] Aggregate values', () => {
-    const map = new HashMap<string, number>([['a', 10], ['b', 20], ['c', 30]]);
+    const map = new HashMap<string, number>([
+      ['a', 10],
+      ['b', 20],
+      ['c', 30]
+    ]);
     const total = map.reduce((acc, val) => acc + val, 0);
     expect(total).toBe(60);
   });
@@ -1263,7 +1298,10 @@ describe('classic uses', () => {
   });
 
   it('@example [HashMap.clear] Remove all entries', () => {
-    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    const map = new HashMap<string, number>([
+      ['a', 1],
+      ['b', 2]
+    ]);
     map.clear();
     expect(map.isEmpty()).toBe(true);
   });
@@ -1275,7 +1313,11 @@ describe('classic uses', () => {
 
   it('@example [HashMap.setMany] Add multiple entries', () => {
     const map = new HashMap<string, number>();
-    map.setMany([['a', 1], ['b', 2], ['c', 3]]);
+    map.setMany([
+      ['a', 1],
+      ['b', 2],
+      ['c', 3]
+    ]);
     expect(map.size).toBe(3);
   });
 
@@ -1285,17 +1327,26 @@ describe('classic uses', () => {
   });
 
   it('@example [HashMap.every] Test all entries', () => {
-    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    const map = new HashMap<string, number>([
+      ['a', 1],
+      ['b', 2]
+    ]);
     expect(map.every(v => v > 0)).toBe(true);
   });
 
   it('@example [HashMap.some] Test any entry', () => {
-    const map = new HashMap<string, number>([['a', 1], ['b', 5]]);
+    const map = new HashMap<string, number>([
+      ['a', 1],
+      ['b', 5]
+    ]);
     expect(map.some(v => v > 3)).toBe(true);
   });
 
   it('@example [HashMap.find] Find matching entry', () => {
-    const map = new HashMap<string, number>([['a', 10], ['b', 20]]);
+    const map = new HashMap<string, number>([
+      ['a', 10],
+      ['b', 20]
+    ]);
     const found = map.find(v => v > 15);
     expect(found?.[0]).toBe('b');
     expect(found?.[1]).toBe(20);

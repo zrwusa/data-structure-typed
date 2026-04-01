@@ -388,20 +388,24 @@ function addExamplesToSourceFile(
 
   const existingCommentInner = existingCommentMatch[1];
 
+  // Detect JSDoc indent from existing comment
+  const classIndentMatch = existingCommentInner.match(/^([ \t]+)\*/m);
+  const classJsdocIndent = classIndentMatch ? classIndentMatch[1] : ' ';
+
   const exampleSection =
     examples
       .map(example => {
         const indentedBody = ' ' + example.body;
-        return ` * @example\n * // ${example.name}\n${indentedBody
+        return `${classJsdocIndent}* @example\n${classJsdocIndent}* // ${example.name}\n${indentedBody
           .split('\n')
-          .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
+          .map(line => (line.trim() === '' ? `${classJsdocIndent}*` : `${classJsdocIndent}* ${line}`))
           .join('\n')}`;
       })
       .join('\n') + '\n';
 
   let newInner: string;
   if (existingCommentInner.includes('@example')) {
-    newInner = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
+    newInner = existingCommentInner.replace(/[ \t]*\* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
   } else {
     newInner = existingCommentInner.replace(/\s*$/, '\n') + exampleSection;
   }
@@ -465,10 +469,18 @@ function addExampleToMethod(
   const leadingRegion = sourceContent.slice(memberFullStart, memberStart);
   const jsdocEndInLeading = leadingRegion.lastIndexOf('*/');
 
+  // Detect JSDoc indent from existing " * " content lines inside the JSDoc
+  const jsdocRegion = sourceContent.slice(memberFullStart, memberStart);
+  const lastJsdocStart = jsdocRegion.lastIndexOf('/**');
+  const jsdocContent = lastJsdocStart >= 0 ? jsdocRegion.slice(lastJsdocStart) : jsdocRegion;
+  // Match lines like "   * Something" (content lines, not just "   *")
+  const contentLineMatch = jsdocContent.match(/\n([ \t]+)\* \S/);
+  const jsdocIndent = contentLineMatch ? contentLineMatch[1] : ' ';
+
   const indentedBody = ' ' + example.body;
-  const exampleBlock = ` * @example\n * // ${example.name}\n${indentedBody
+  const exampleBlock = `${jsdocIndent}* @example\n${jsdocIndent}* // ${example.name}\n${indentedBody
     .split('\n')
-    .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
+    .map(line => (line.trim() === '' ? `${jsdocIndent}*` : `${jsdocIndent}* ${line}`))
     .join('\n')}\n`;
 
   if (jsdocEndInLeading !== -1) {
@@ -480,14 +492,23 @@ function addExampleToMethod(
 
     if (existingJsdoc.includes('@example')) {
       // Replace existing @example block(s) with new one
-      const updatedJsdoc = existingJsdoc.replace(/ \* @example[\s\S]*?(?= \* @[a-z]|\s*\*\/)/g, '');
+      const updatedJsdoc = existingJsdoc.replace(/[ \t]*\* @example[\s\S]*?(?=[ \t]*\* @[a-z]|\s*\*\/)/g, '');
       const updatedEnd = updatedJsdoc.lastIndexOf('*/');
-      const newJsdoc = updatedJsdoc.slice(0, updatedEnd) + exampleBlock + updatedJsdoc.slice(updatedEnd);
+      // Ensure closing */ has correct indent
+      const beforeClosing = updatedJsdoc.slice(0, updatedEnd);
+      const closingIndent = beforeClosing.endsWith('\n') ? jsdocIndent : '';
+      const newJsdoc = beforeClosing + exampleBlock + closingIndent + updatedJsdoc.slice(updatedEnd);
       sourceContent = sourceContent.slice(0, absJsdocStart) + newJsdoc + sourceContent.slice(absJsdocEnd);
     } else {
       // Insert before closing */
       const insertPos = memberFullStart + jsdocEndInLeading;
-      sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + sourceContent.slice(insertPos);
+      // Check if */ already has proper indent
+      const beforeClose = sourceContent.slice(Math.max(0, insertPos - 20), insertPos);
+      const lastNewline = beforeClose.lastIndexOf('\n');
+      const existingCloseIndent = lastNewline >= 0 ? beforeClose.slice(lastNewline + 1) : '';
+      const needsIndent = existingCloseIndent.trim() === '';
+      const closePrefix = needsIndent ? jsdocIndent : '';
+      sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + closePrefix + sourceContent.slice(insertPos);
     }
   } else {
     // No JSDoc — create one
@@ -502,6 +523,27 @@ function addExampleToMethod(
   sourceContent = sourceContent.replace(/\n{4,}/g, '\n\n\n');
   // Remove blank lines before * @example inside JSDoc
   sourceContent = sourceContent.replace(/\n\n(\s*\* @example)/g, '\n$1');
+  // Fix closing */ indent: if */ is at column 0 but preceded by indented JSDoc content, add matching indent
+  sourceContent = sourceContent.replace(/\n(\s*\*[^\n]+)\n\*\//g, (match, lastLine) => {
+    const indentMatch = lastLine.match(/^(\s+)\*/);
+    const indent = indentMatch ? indentMatch[1] : '';
+    return `\n${lastLine}\n${indent}*/`;
+  });
+  // Fix @example indent to match surrounding JSDoc lines
+  // Find each JSDoc block and normalize @example indent to match other * lines
+  sourceContent = sourceContent.replace(/\/\*\*[\s\S]*?\*\//g, (block) => {
+    // Find the dominant indent of "* " content lines (not @example lines)
+    const contentLines = block.match(/\n([ \t]+)\* (?!@example)\S/g);
+    if (!contentLines || contentLines.length === 0) return block;
+    const indentMatch = contentLines[0].match(/\n([ \t]+)\*/);
+    if (!indentMatch) return block;
+    const correctIndent = indentMatch[1];
+    // Replace any misindented @example and its body lines within this block
+    return block.replace(/^[ \t]+\* @example/gm, `${correctIndent}* @example`)
+                .replace(/^[ \t]+\* \/\/ /gm, `${correctIndent}* // `)
+                .replace(/^[ \t]+\*  /gm, `${correctIndent}*  `)
+                .replace(/^[ \t]+\*$/gm, `${correctIndent}*`);
+  });
   fs.writeFileSync(sourceFilePath, sourceContent);
   console.log(`  ✅ [method] ${className}.${methodName} ← "${example.name}"`);
   return true;

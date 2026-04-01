@@ -63,12 +63,7 @@ describe('classic use', () => {
     events.set(standup, 'Daily Standup');
 
     // Events are sorted chronologically
-    expect([...events.values()]).toEqual([
-      'Daily Standup',
-      'Team Meeting',
-      'Lunch Break',
-      'Code Review'
-    ]);
+    expect([...events.values()]).toEqual(['Daily Standup', 'Team Meeting', 'Lunch Break', 'Code Review']);
 
     // Next event after 11:00
     const after11 = new Date('2024-01-15T11:00:00Z');
@@ -105,10 +100,7 @@ describe('classic use', () => {
     expect([...highStock.keys()]).toEqual(['Doohickey', 'Widget']);
 
     // Calculate total inventory value
-    const totalValue = inventory.reduce(
-      (sum, p) => sum + (p ? p.price * p.stock : 0),
-      0
-    );
+    const totalValue = inventory.reduce((sum, p) => sum + (p ? p.price * p.stock : 0), 0);
     expect(totalValue).toBeCloseTo(9.99 * 100 + 24.99 * 50 + 4.99 * 200, 2);
   });
 
@@ -267,12 +259,12 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
 
     expect([...m.keys()]).toEqual([1, 2, 3]);
     expect([...m.values()]).toEqual(['a', 'b', 'c']);
-    expect([...m.entries()]).toEqual<([number, string | undefined])[]>([
+    expect([...m.entries()]).toEqual<[number, string | undefined][]>([
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
     ]);
-    expect([...m]).toEqual<([number, string | undefined])[]>([
+    expect([...m]).toEqual<[number, string | undefined][]>([
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
@@ -455,7 +447,7 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     ]);
 
     expect(m.map((v, k) => [k, `${k}:${v ?? 'u'}`] as [number, string]).toArray()).toEqual<
-      ([number, string | undefined])[]
+      [number, string | undefined][]
     >([
       [1, '1:a'],
       [2, '2:b'],
@@ -464,16 +456,22 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
 
     const ctx = { prefix: 'x' };
     expect(
-      m.map(function (this: typeof ctx, v, k) {
-        return [k, `${this.prefix}${k}:${v ?? 'u'}`] as [number, string];
-      }, {}, ctx).toArray()
-    ).toEqual<([number, string | undefined])[]>([
+      m
+        .map(
+          function (this: typeof ctx, v, k) {
+            return [k, `${this.prefix}${k}:${v ?? 'u'}`] as [number, string];
+          },
+          {},
+          ctx
+        )
+        .toArray()
+    ).toEqual<[number, string | undefined][]>([
       [1, 'x1:a'],
       [2, 'x2:b'],
       [3, 'x3:c']
     ]);
 
-    expect(m.filter((v, k) => k >= 2).toArray()).toEqual<([number, string | undefined])[]>([
+    expect(m.filter((v, k) => k >= 2).toArray()).toEqual<[number, string | undefined][]>([
       [2, 'b'],
       [3, 'c']
     ]);
@@ -488,7 +486,7 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect(m.find((v, k) => k >= 2)).toEqual<[number, string | undefined]>([2, 'b']);
     expect(m.find((v, k) => k >= 999)).toBe(undefined);
 
-    expect(m.toArray()).toEqual<([number, string | undefined])[]>([
+    expect(m.toArray()).toEqual<[number, string | undefined][]>([
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
@@ -598,66 +596,111 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     });
 
     it('@example [TreeMap.entries] Iterate key-value pairs', () => {
-      const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
-      expect([...tm.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+      const tm = new TreeMap<number, string>([
+        [3, 'c'],
+        [1, 'a'],
+        [2, 'b']
+      ]);
+      expect([...tm.entries()]).toEqual([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]);
     });
 
     it('@example [TreeMap.keys] Get sorted keys', () => {
-      const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a']]);
+      const tm = new TreeMap<number, string>([
+        [3, 'c'],
+        [1, 'a']
+      ]);
       expect([...tm.keys()]).toEqual([1, 3]);
     });
 
     it('@example [TreeMap.values] Get values in key order', () => {
-      const tm = new TreeMap<number, string>([[2, 'b'], [1, 'a']]);
+      const tm = new TreeMap<number, string>([
+        [2, 'b'],
+        [1, 'a']
+      ]);
       expect([...tm.values()]).toEqual(['a', 'b']);
     });
 
     it('@example [TreeMap.forEach] Execute for each entry', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       const pairs: string[] = [];
       tm.forEach((v, k) => pairs.push(`${k}:${v}`));
       expect(pairs).toEqual(['1:a', '2:b']);
     });
 
     it('@example [TreeMap.every] Test all entries', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       expect(tm.every((v, k) => k > 0)).toBe(true);
     });
 
     it('@example [TreeMap.some] Test any entry', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       expect(tm.some((v, k) => k === 2)).toBe(true);
     });
 
     it('@example [TreeMap.find] Find matching entry', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       expect(tm.find(v => v === 'b')?.[0]).toBe(2);
     });
 
     it('@example [TreeMap.filter] Filter entries', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]);
       const filtered = tm.filter((v, k) => k > 1);
       expect([...filtered.keys()]).toEqual([2, 3]);
     });
 
     it('@example [TreeMap.map] Transform entries', () => {
-      const tm = new TreeMap<number, number>([[1, 10], [2, 20]]);
+      const tm = new TreeMap<number, number>([
+        [1, 10],
+        [2, 20]
+      ]);
       const doubled = tm.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
       expect([...doubled.values()]).toEqual([20, 40]);
     });
 
     it('@example [TreeMap.reduce] Aggregate values', () => {
-      const tm = new TreeMap<number, number>([[1, 10], [2, 20]]);
+      const tm = new TreeMap<number, number>([
+        [1, 10],
+        [2, 20]
+      ]);
       expect(tm.reduce((acc, v) => acc + (v ?? 0), 0)).toBe(30);
     });
 
     it('@example [TreeMap.toArray] Convert to array', () => {
-      const tm = new TreeMap<number, string>([[2, 'b'], [1, 'a']]);
-      expect(tm.toArray()).toEqual([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [2, 'b'],
+        [1, 'a']
+      ]);
+      expect(tm.toArray()).toEqual([
+        [1, 'a'],
+        [2, 'b']
+      ]);
     });
 
     it('@example [TreeMap.clone] Deep clone', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       const copy = tm.clone();
       copy.delete(1);
       expect(tm.has(1)).toBe(true);
@@ -702,7 +745,10 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     });
 
     it('should update existing keys', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       const results = tm.setMany([
         [1, 'updated'],
         [3, 'c']

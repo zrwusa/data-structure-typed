@@ -813,21 +813,33 @@ describe('UndirectedGraph visual output (#113)', () => {
 describe('UndirectedGraph biconnected components and cycle detection (#77)', () => {
   it('hasCycle detects cycle in triangle', () => {
     const g = new UndirectedGraph();
-    g.addVertex('A'); g.addVertex('B'); g.addVertex('C');
-    g.addEdge('A', 'B', 1); g.addEdge('B', 'C', 1); g.addEdge('C', 'A', 1);
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 1);
+    g.addEdge('C', 'A', 1);
     expect(g.hasCycle()).toBe(true);
   });
 
   it('hasCycle returns false for tree (no cycle)', () => {
     const g = new UndirectedGraph();
-    g.addVertex('A'); g.addVertex('B'); g.addVertex('C'); g.addVertex('D');
-    g.addEdge('A', 'B', 1); g.addEdge('A', 'C', 1); g.addEdge('C', 'D', 1);
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addVertex('D');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('A', 'C', 1);
+    g.addEdge('C', 'D', 1);
     expect(g.hasCycle()).toBe(false);
   });
 
   it('hasCycle handles disconnected graph with one cycle', () => {
     const g = new UndirectedGraph();
-    g.addVertex('A'); g.addVertex('B'); g.addVertex('C'); g.addVertex('D');
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addVertex('D');
     g.addEdge('A', 'B', 1); // isolated edge
     g.addEdge('C', 'D', 1); // another isolated edge
     expect(g.hasCycle()).toBe(false);
@@ -848,7 +860,11 @@ describe('UndirectedGraph biconnected components and cycle detection (#77)', () 
     // Component 1: A-B, B-E, E-D, D-A (or similar)
     // Component 2: B-C
     const g = new UndirectedGraph();
-    g.addVertex('A'); g.addVertex('B'); g.addVertex('C'); g.addVertex('D'); g.addVertex('E');
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addVertex('D');
+    g.addVertex('E');
     g.addEdge('A', 'B', 1);
     g.addEdge('A', 'D', 1);
     g.addEdge('D', 'E', 1);
@@ -864,8 +880,12 @@ describe('UndirectedGraph biconnected components and cycle detection (#77)', () 
 
   it('getBiconnectedComponents single triangle = 1 component', () => {
     const g = new UndirectedGraph();
-    g.addVertex('A'); g.addVertex('B'); g.addVertex('C');
-    g.addEdge('A', 'B', 1); g.addEdge('B', 'C', 1); g.addEdge('C', 'A', 1);
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 1);
+    g.addEdge('C', 'A', 1);
 
     const components = g.getBiconnectedComponents();
     expect(components.length).toBe(1);

@@ -1,6 +1,5 @@
 import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 
-
 function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
   const NIL = tree.NIL as any as RedBlackTreeNode<K, V>;
   const root = tree.root as any as RedBlackTreeNode<K, V> | undefined;
@@ -13,12 +12,7 @@ function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
 
   const seen = new Set<RedBlackTreeNode<K, V>>();
 
-  const check = (
-    node: RedBlackTreeNode<K, V>,
-    parent: RedBlackTreeNode<K, V> | undefined,
-    min: any,
-    max: any
-  ) => {
+  const check = (node: RedBlackTreeNode<K, V>, parent: RedBlackTreeNode<K, V> | undefined, min: any, max: any) => {
     if (node === NIL) return;
 
     // Basic structural sanity

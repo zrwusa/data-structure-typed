@@ -737,7 +737,10 @@ describe('classic use', () => {
   });
 
   it('@example [AVLTree.get] Retrieve value by key', () => {
-    const avl = new AVLTree<number, string>([[1, 'one'], [2, 'two']]);
+    const avl = new AVLTree<number, string>([
+      [1, 'one'],
+      [2, 'two']
+    ]);
     expect(avl.get(1)).toBe('one');
   });
 
@@ -748,8 +751,16 @@ describe('classic use', () => {
   });
 
   it('@example [AVLTree.entries] Iterate key-value pairs in order', () => {
-    const avl = new AVLTree<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
-    expect([...avl.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const avl = new AVLTree<number, string>([
+      [3, 'c'],
+      [1, 'a'],
+      [2, 'b']
+    ]);
+    expect([...avl.entries()]).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   it('@example [AVLTree.keys] Get sorted keys', () => {
@@ -758,7 +769,11 @@ describe('classic use', () => {
   });
 
   it('@example [AVLTree.values] Get values in key order', () => {
-    const avl = new AVLTree<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    const avl = new AVLTree<number, string>([
+      [2, 'b'],
+      [1, 'a'],
+      [3, 'c']
+    ]);
     expect([...avl.values()]).toEqual(['a', 'b', 'c']);
   });
 
@@ -780,7 +795,10 @@ describe('classic use', () => {
   });
 
   it('@example [AVLTree.find] Find matching entry', () => {
-    const avl = new AVLTree<number, string>([[1, 'a'], [2, 'b']]);
+    const avl = new AVLTree<number, string>([
+      [1, 'a'],
+      [2, 'b']
+    ]);
     const found = avl.find(v => v === 'b');
     expect(found?.[0]).toBe(2);
   });
@@ -792,13 +810,20 @@ describe('classic use', () => {
   });
 
   it('@example [AVLTree.map] Transform to new tree', () => {
-    const avl = new AVLTree<number, number>([[1, 10], [2, 20]]);
+    const avl = new AVLTree<number, number>([
+      [1, 10],
+      [2, 20]
+    ]);
     const doubled = avl.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
     expect([...doubled.values()]).toEqual([20, 40]);
   });
 
   it('@example [AVLTree.reduce] Aggregate values', () => {
-    const avl = new AVLTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const avl = new AVLTree<number, number>([
+      [1, 10],
+      [2, 20],
+      [3, 30]
+    ]);
     const sum = avl.reduce((acc, v) => acc + (v ?? 0), 0);
     expect(sum).toBe(60);
   });
@@ -902,7 +927,10 @@ describe('classic use', () => {
   });
 
   it('@example [AVLTree.getNode] Get node by key', () => {
-    const avl = new AVLTree<number, string>([[5, 'root'], [3, 'left']]);
+    const avl = new AVLTree<number, string>([
+      [5, 'root'],
+      [3, 'left']
+    ]);
     expect(avl.getNode(3)?.value).toBe('left');
   });
 
@@ -939,7 +967,11 @@ describe('classic use', () => {
 
   it('@example [AVLTree.setMany] Set multiple key-value pairs', () => {
     const avl = new AVLTree<number, string>();
-    avl.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    avl.setMany([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     expect(avl.size).toBe(3);
   });
 });

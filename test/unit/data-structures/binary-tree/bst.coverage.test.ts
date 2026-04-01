@@ -23,7 +23,7 @@ describe('BST coverage: overloads & bound helpers', () => {
   });
 
   it('higher supports iterationType passed as 2nd arg string', () => {
-    expect(bst.higher(10, n => n.key , 'ITERATIVE')).toBe(11);
+    expect(bst.higher(10, n => n.key, 'ITERATIVE')).toBe(11);
     expect(bst.higher(25, n => n.key, 'RECURSIVE')).toBeUndefined();
   });
 

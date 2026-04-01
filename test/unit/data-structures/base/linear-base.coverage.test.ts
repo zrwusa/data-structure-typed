@@ -4,22 +4,6 @@ import type { LinearBaseOptions } from '../../../../src/types';
 
 // --- Helper: array-backed LinearBase (used by "array" tests) ---
 class TestArrayLinear extends LinearBase<number, number> {
-  override isEmpty(): boolean {
-    throw new Error('Method not implemented.');
-  }
-  override map<EM, RM>(
-    _callback: ElementCallback<number, number, EM>,
-    _options?: IterableElementBaseOptions<EM, RM> | undefined,
-    _thisArg?: unknown
-  ): IterableElementBase<EM, RM> {
-    throw new Error('Method not implemented.');
-  }
-  override mapSame(_callback: ElementCallback<number, number, number>, _thisArg?: unknown): this {
-    throw new Error('Method not implemented.');
-  }
-  override filter(_predicate: ElementCallback<number, number, boolean>, _thisArg?: unknown): this {
-    throw new Error('Method not implemented.');
-  }
   private _arr: number[];
 
   constructor(values: number[] = [], options?: LinearBaseOptions<number, number>) {
@@ -29,6 +13,26 @@ class TestArrayLinear extends LinearBase<number, number> {
 
   get length(): number {
     return this._arr.length;
+  }
+
+  override isEmpty(): boolean {
+    throw new Error('Method not implemented.');
+  }
+
+  override map<EM, RM>(
+    _callback: ElementCallback<number, number, EM>,
+    _options?: IterableElementBaseOptions<EM, RM> | undefined,
+    _thisArg?: unknown
+  ): IterableElementBase<EM, RM> {
+    throw new Error('Method not implemented.');
+  }
+
+  override mapSame(_callback: ElementCallback<number, number, number>, _thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+
+  override filter(_predicate: ElementCallback<number, number, boolean>, _thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
   }
 
   clear(): void {
@@ -110,30 +114,45 @@ class TestArrayLinear extends LinearBase<number, number> {
 type R = number;
 
 class ConcatLinear extends LinearBase<number, R> {
+  protected _data: number[];
+
+  constructor(iter: Iterable<number> = []) {
+    super();
+    this._data = Array.from(iter);
+  }
+
+  override get length(): number {
+    return this._data.length;
+  }
+
   override setAt(_index: number, _value: number): boolean {
     throw new Error('Method not implemented.');
   }
+
   override reverse(): this {
     throw new Error('Method not implemented.');
   }
+
   override delete(_elementOrNode: number | LinkedListNode<number> | undefined): boolean {
     throw new Error('Method not implemented.');
   }
+
   override deleteAt(_pos: number): number | undefined {
     throw new Error('Method not implemented.');
   }
+
   override addAt(_index: number, _newElementOrNode: number | LinkedListNode<number>): boolean {
     throw new Error('Method not implemented.');
   }
-  protected override _getReverseIterator(..._args: any[]): IterableIterator<number> {
-    throw new Error('Method not implemented.');
-  }
+
   override isEmpty(): boolean {
     throw new Error('Method not implemented.');
   }
+
   override clear(): void {
     throw new Error('Method not implemented.');
   }
+
   override map<EM, RM>(
     _callback: ElementCallback<number, number, EM>,
     _options?: IterableElementBaseOptions<EM, RM> | undefined,
@@ -141,40 +160,44 @@ class ConcatLinear extends LinearBase<number, R> {
   ): IterableElementBase<EM, RM> {
     throw new Error('Method not implemented.');
   }
+
   override mapSame(_callback: ElementCallback<number, number, number>, _thisArg?: unknown): this {
     throw new Error('Method not implemented.');
   }
+
   override filter(_predicate: ElementCallback<number, number, boolean>, _thisArg?: unknown): this {
     throw new Error('Method not implemented.');
   }
-  protected _data: number[];
-  constructor(iter: Iterable<number> = []) {
-    super();
-    this._data = Array.from(iter);
-  }
-  override get length(): number {
-    return this._data.length;
-  }
-  protected _getIterator(): IterableIterator<number> {
-    return this._data[Symbol.iterator]();
-  }
-  protected _createInstance(): this {
-    return new ConcatLinear() as any;
-  }
+
   override clone(): this {
     return new ConcatLinear(this._data) as any;
   }
+
   override push(element: number): boolean {
     this._data.push(element);
     return true;
   }
+
   override pushMany(elements: Iterable<number>): boolean[] {
     const ans: boolean[] = [];
     for (const e of elements) ans.push(this.push(e));
     return ans;
   }
+
   override at(index: number): number | undefined {
     return this._data[index];
+  }
+
+  protected override _getReverseIterator(..._args: any[]): IterableIterator<number> {
+    throw new Error('Method not implemented.');
+  }
+
+  protected _getIterator(): IterableIterator<number> {
+    return this._data[Symbol.iterator]();
+  }
+
+  protected _createInstance(): this {
+    return new ConcatLinear() as any;
   }
 }
 
@@ -243,18 +266,6 @@ class MoreBranchesArrayLinear extends LinearBase<number, any> {
     this._arr = [];
   }
 
-  protected _createInstance(): this {
-    return new (this.constructor as any)();
-  }
-
-  protected *_getIterator(): IterableIterator<number> {
-    yield* this._arr;
-  }
-
-  protected *_getReverseIterator(): IterableIterator<number> {
-    for (let i = this._arr.length - 1; i >= 0; i--) yield this._arr[i];
-  }
-
   isEmpty(): boolean {
     return false;
   }
@@ -265,7 +276,11 @@ class MoreBranchesArrayLinear extends LinearBase<number, any> {
   }
 
   // @ts-ignore
-  map(_callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, _thisArg: unknown | undefined): MoreBranchesArrayLinear {
+  map(
+    _callback: ElementCallback<number, any, number>,
+    options: IterableElementBaseOptions<number, any> | undefined,
+    _thisArg: unknown | undefined
+  ): MoreBranchesArrayLinear {
     const out = this._createLike([], { ...(options ?? {}) });
     return out;
   }
@@ -273,6 +288,18 @@ class MoreBranchesArrayLinear extends LinearBase<number, any> {
   mapSame(_callback: ElementCallback<number, any, number>, _thisArg: unknown | undefined): this {
     const out = this._createInstance();
     return out;
+  }
+
+  protected _createInstance(): this {
+    return new (this.constructor as any)();
+  }
+
+  protected *_getIterator(): IterableIterator<number> {
+    yield* this._arr;
+  }
+
+  protected *_getReverseIterator(): IterableIterator<number> {
+    for (let i = this._arr.length - 1; i >= 0; i--) yield this._arr[i];
   }
 
   protected _createLike(
@@ -392,20 +419,6 @@ class NodeLinear extends LinearLinkedBase<number, any, LinkedListNode<number>> {
     return true;
   }
 
-  protected _ensurePredicate(
-    elementNodeOrPredicate: number | LinkedListNode<number> | ((node: LinkedListNode<number>) => boolean)
-  ): (node: LinkedListNode<number>) => boolean {
-    if (elementNodeOrPredicate instanceof LinkedListNode) {
-      const target = elementNodeOrPredicate;
-      return (node: LinkedListNode<number>) => node === target;
-    }
-    if (typeof elementNodeOrPredicate === 'function') {
-      return elementNodeOrPredicate as (node: LinkedListNode<number>) => boolean;
-    }
-    const value = elementNodeOrPredicate as number;
-    return (node: LinkedListNode<number>) => node.value === value;
-  }
-
   getNode(
     elementNodeOrPredicate: number | LinkedListNode<number> | ((node: LinkedListNode<number>) => boolean) | undefined
   ): LinkedListNode<number> | undefined {
@@ -482,6 +495,44 @@ class NodeLinear extends LinearLinkedBase<number, any, LinkedListNode<number>> {
     this._len = 0;
   }
 
+  isEmpty(): boolean {
+    return false;
+  }
+
+  filter(_predicate: ElementCallback<number, any, boolean>, _thisArg?: any): this {
+    const out = this._createInstance();
+    return out;
+  }
+
+  // @ts-ignore
+  map(
+    callback: ElementCallback<number, any, number>,
+    options: IterableElementBaseOptions<number, any> | undefined,
+    _thisArg: unknown | undefined
+  ): MoreBranchesArrayLinear {
+    const out = this._createLike([], { ...(options ?? {}) });
+    return out;
+  }
+
+  mapSame(_callback: ElementCallback<number, any, number>, _thisArg: unknown | undefined): this {
+    const out = this._createInstance();
+    return out;
+  }
+
+  protected _ensurePredicate(
+    elementNodeOrPredicate: number | LinkedListNode<number> | ((node: LinkedListNode<number>) => boolean)
+  ): (node: LinkedListNode<number>) => boolean {
+    if (elementNodeOrPredicate instanceof LinkedListNode) {
+      const target = elementNodeOrPredicate;
+      return (node: LinkedListNode<number>) => node === target;
+    }
+    if (typeof elementNodeOrPredicate === 'function') {
+      return elementNodeOrPredicate as (node: LinkedListNode<number>) => boolean;
+    }
+    const value = elementNodeOrPredicate as number;
+    return (node: LinkedListNode<number>) => node.value === value;
+  }
+
   protected _createInstance(): this {
     return new (this.constructor as any)();
   }
@@ -512,26 +563,6 @@ class NodeLinear extends LinearLinkedBase<number, any, LinkedListNode<number>> {
     let cur = this._head;
     while (cur.next && cur.next !== node) cur = cur.next;
     return cur.next === node ? cur : undefined;
-  }
-
-  isEmpty(): boolean {
-    return false;
-  }
-
-  filter(_predicate: ElementCallback<number, any, boolean>, _thisArg?: any): this {
-    const out = this._createInstance();
-    return out;
-  }
-
-  // @ts-ignore
-  map(callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, _thisArg: unknown | undefined): MoreBranchesArrayLinear {
-    const out = this._createLike([], { ...(options ?? {}) });
-    return out;
-  }
-
-  mapSame(_callback: ElementCallback<number, any, number>, _thisArg: unknown | undefined): this {
-    const out = this._createInstance();
-    return out;
   }
 
   protected _createLike(

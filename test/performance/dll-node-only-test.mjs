@@ -15,10 +15,10 @@ function benchmark(name, fn) {
 }
 
 class MinNode {
-  constructor(v) { 
-    this.value = v; 
-    this.next = undefined; 
-    this.prev = undefined; 
+  constructor(v) {
+    this.value = v;
+    this.next = undefined;
+    this.prev = undefined;
   }
 }
 
@@ -40,27 +40,35 @@ console.log(`\n=== Node Creation Only (${N.toLocaleString()} nodes) ===\n`);
 
 const results = [];
 
-results.push(benchmark('Plain object literal', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) {
-    arr.push({ value: i, next: undefined, prev: undefined });
-  }
-}));
+results.push(
+  benchmark('Plain object literal', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) {
+      arr.push({ value: i, next: undefined, prev: undefined });
+    }
+  })
+);
 
-results.push(benchmark('MinNode (no inherit)', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new MinNode(i));
-}));
+results.push(
+  benchmark('MinNode (no inherit)', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new MinNode(i));
+  })
+);
 
-results.push(benchmark('SingleInheritNode', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new SingleInheritNode(i));
-}));
+results.push(
+  benchmark('SingleInheritNode', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new SingleInheritNode(i));
+  })
+);
 
-results.push(benchmark('DST DoublyLinkedListNode', () => {
-  const arr = [];
-  for (let i = 0; i < N; i++) arr.push(new DoublyLinkedListNode(i));
-}));
+results.push(
+  benchmark('DST DoublyLinkedListNode', () => {
+    const arr = [];
+    for (let i = 0; i < N; i++) arr.push(new DoublyLinkedListNode(i));
+  })
+);
 
 console.log('| Node Type | Avg (ms) | vs Plain |');
 console.log('|-----------|----------|----------|');

@@ -1,9 +1,8 @@
 import { BinaryTree } from '../../../../src';
 
 describe('BinaryTree misc coverage', () => {
-
   describe('extra branch', () => {
-  it('isBST(RECURSIVE) evaluates both standard and inverse checks when standard fails (covers isStandardBST || isInverseBST second operand)', () => {
+    it('isBST(RECURSIVE) evaluates both standard and inverse checks when standard fails (covers isStandardBST || isInverseBST second operand)', () => {
       const t = new BinaryTree<number, number>([], { isMapMode: false });
 
       // Manually wire an inverse BST (left > root > right)
@@ -58,7 +57,7 @@ describe('BinaryTree misc coverage', () => {
   });
 
   describe('branch', () => {
-  it('set() BFS loop hits `if (!cur) continue` by monkeypatching Queue.shift to return undefined once', () => {
+    it('set() BFS loop hits `if (!cur) continue` by monkeypatching Queue.shift to return undefined once', () => {
       const t = new BinaryTree<number, number>([], { isMapMode: false });
       t.set(1, 1);
 
@@ -227,7 +226,11 @@ describe('BinaryTree misc coverage', () => {
 
     it('_displayAux: node is undefined and isShowUndefined=true uses "U" leaf rendering (covers U branch)', () => {
       const t = new BinaryTree<number, number>([], { isMapMode: false });
-      const layout = (t as any)._displayAux(undefined, { isShowNull: true, isShowUndefined: true, isShowRedBlackNIL: true });
+      const layout = (t as any)._displayAux(undefined, {
+        isShowNull: true,
+        isShowUndefined: true,
+        isShowRedBlackNIL: true
+      });
       expect(layout[0][0]).toContain('U');
     });
 
@@ -239,7 +242,11 @@ describe('BinaryTree misc coverage', () => {
 
     it('_displayAux: node is null and isShowNull=false returns empty layout', () => {
       const t = new BinaryTree<number, number>([], { isMapMode: false });
-      const layout = (t as any)._displayAux(null, { isShowNull: false, isShowUndefined: true, isShowRedBlackNIL: true });
+      const layout = (t as any)._displayAux(null, {
+        isShowNull: false,
+        isShowUndefined: true,
+        isShowRedBlackNIL: true
+      });
       expect(layout[0][0]).toBe('─');
     });
 

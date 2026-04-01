@@ -29,8 +29,6 @@ describe('TreeMap branch coverage', () => {
       expect(() => tm.set(NaN, 'b')).toThrow(/NaN/); // compare(NaN, 1) → isNaN(a)
     });
 
-
-
     it('comparator throws on invalid Date in comparison', () => {
       const tm = new TreeMap<Date, string>([[new Date('2020-01-01'), 'a']]);
       expect(() => tm.set(new Date('invalid'), 'b')).toThrow(/Date/);
@@ -65,7 +63,11 @@ describe('TreeMap branch coverage', () => {
 
   describe('filter/every/some/find thisArg', () => {
     it('filter with thisArg', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]);
       const ctx = { min: 2 };
       const filtered = tm.filter(function (this: typeof ctx, _v, k) {
         return k >= this.min;
@@ -74,23 +76,36 @@ describe('TreeMap branch coverage', () => {
     });
 
     it('every with thisArg', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       const ctx = { max: 5 };
-      expect(tm.every(function (this: typeof ctx, _v, k) {
-        return k <= this.max;
-      }, ctx)).toBe(true);
+      expect(
+        tm.every(function (this: typeof ctx, _v, k) {
+          return k <= this.max;
+        }, ctx)
+      ).toBe(true);
     });
 
     it('some with thisArg', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       const ctx = { target: 2 };
-      expect(tm.some(function (this: typeof ctx, _v, k) {
-        return k === this.target;
-      }, ctx)).toBe(true);
+      expect(
+        tm.some(function (this: typeof ctx, _v, k) {
+          return k === this.target;
+        }, ctx)
+      ).toBe(true);
     });
 
     it('find with thisArg', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       const ctx = { target: 'b' };
       const found = tm.find(function (this: typeof ctx, v) {
         return v === this.target;
@@ -101,9 +116,17 @@ describe('TreeMap branch coverage', () => {
 
   describe('rangeSearch bounds', () => {
     it('rangeSearch with all options', () => {
-      const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]);
+      const tm = new TreeMap<number, string>([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c'],
+        [4, 'd']
+      ]);
       expect(tm.rangeSearch([2, 3], { lowInclusive: false, highInclusive: false })).toEqual([]);
-      expect(tm.rangeSearch([2, 4], { lowInclusive: false })).toEqual([[3, 'c'], [4, 'd']]);
+      expect(tm.rangeSearch([2, 4], { lowInclusive: false })).toEqual([
+        [3, 'c'],
+        [4, 'd']
+      ]);
     });
   });
 });

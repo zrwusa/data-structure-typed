@@ -895,7 +895,8 @@ describe('BinaryTree - traversal suites', () => {
     const binTree = new BinaryTree<number>();
 
     const arr = [35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55];
-    binTree.clear(); binTree.setMany(arr);
+    binTree.clear();
+    binTree.setMany(arr);
     expect(binTree.bfs(node => node, binTree.root, 'ITERATIVE', true).map(node => (node ? node.key : null))).toEqual([
       35,
       20,
@@ -1386,7 +1387,12 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
     //      2   3
     //     / \   \
     //    4   5   6
-    bt.add(1); bt.add(2); bt.add(3); bt.add(4); bt.add(5); bt.add(6);
+    bt.add(1);
+    bt.add(2);
+    bt.add(3);
+    bt.add(4);
+    bt.add(5);
+    bt.add(6);
     const recursive = bt.leaves(n => n!.key, bt.root, 'RECURSIVE');
     const iterative = bt.leaves(n => n!.key, bt.root, 'ITERATIVE');
     expect(iterative).toEqual(recursive);
@@ -1922,7 +1928,11 @@ describe('Classic usage examples', () => {
   });
 
   it('@example [BinaryTree.get] Retrieve value by key', () => {
-    const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
+    const tree = new BinaryTree<number, string>([
+      [1, 'root'],
+      [2, 'left'],
+      [3, 'right']
+    ]);
     expect(tree.get(2)).toBe('left');
     expect(tree.get(99)).toBeUndefined();
   });
@@ -1952,7 +1962,11 @@ describe('Classic usage examples', () => {
   });
 
   it('@example [BinaryTree.entries] Iterate key-value pairs', () => {
-    const tree = new BinaryTree<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const tree = new BinaryTree<number, string>([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     expect([...tree.entries()].length).toBe(3);
   });
 
@@ -1962,7 +1976,10 @@ describe('Classic usage examples', () => {
   });
 
   it('@example [BinaryTree.values] Get all values', () => {
-    const tree = new BinaryTree<number, string>([[1, 'a'], [2, 'b']]);
+    const tree = new BinaryTree<number, string>([
+      [1, 'a'],
+      [2, 'b']
+    ]);
     expect([...tree.values()]).toContain('a');
   });
 
@@ -1980,13 +1997,20 @@ describe('Classic usage examples', () => {
   });
 
   it('@example [BinaryTree.map] Transform to new tree', () => {
-    const tree = new BinaryTree<number, number>([[1, 10], [2, 20]]);
+    const tree = new BinaryTree<number, number>([
+      [1, 10],
+      [2, 20]
+    ]);
     const mapped = tree.map((v, key) => [key, (v ?? 0) + 1] as [number, number]);
     expect([...mapped.values()]).toContain(11);
   });
 
   it('@example [BinaryTree.reduce] Aggregate values', () => {
-    const tree = new BinaryTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const tree = new BinaryTree<number, number>([
+      [1, 10],
+      [2, 20],
+      [3, 30]
+    ]);
     const sum = tree.reduce((acc, v) => acc + (v ?? 0), 0);
     expect(sum).toBe(60);
   });
@@ -2047,7 +2071,10 @@ describe('Classic usage examples', () => {
   });
 
   it('@example [BinaryTree.getNode] Get node by key', () => {
-    const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'child']]);
+    const tree = new BinaryTree<number, string>([
+      [1, 'root'],
+      [2, 'child']
+    ]);
     expect(tree.getNode(2)?.value).toBe('child');
   });
 
@@ -2068,7 +2095,10 @@ describe('Classic usage examples', () => {
   });
 
   it('@example [BinaryTree.find] Find matching entry', () => {
-    const tree = new BinaryTree<number, string>([[1, 'a'], [2, 'b']]);
+    const tree = new BinaryTree<number, string>([
+      [1, 'a'],
+      [2, 'b']
+    ]);
     const found = tree.find(v => v === 'b');
     expect(found?.[0]).toBe(2);
     expect(found?.[1]).toBe('b');
@@ -2101,7 +2131,11 @@ describe('Classic usage examples', () => {
 
   it('@example [BinaryTree.setMany] Set multiple entries', () => {
     const tree = new BinaryTree<number, string>();
-    tree.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    tree.setMany([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     expect(tree.size).toBe(3);
   });
 });

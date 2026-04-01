@@ -6,7 +6,7 @@ import { magnitude } from '../../../utils/perf.mjs';
 const suite = new Benchmark.Suite();
 const { MILLION, HUNDRED_THOUSAND } = magnitude;
 
-suite.add('1M push', function() {
+suite.add('1M push', function () {
   const deque = new Deque();
   for (let i = 0; i < MILLION; i++) {
     deque.push(i);
@@ -14,7 +14,7 @@ suite.add('1M push', function() {
   this.val = deque;
 });
 
-suite.add('Native JS Array 1M push', function() {
+suite.add('Native JS Array 1M push', function () {
   const array = [];
   for (let i = 0; i < MILLION; i++) {
     array.push(i);
@@ -22,7 +22,7 @@ suite.add('Native JS Array 1M push', function() {
   this.val = array;
 });
 
-suite.add('1M push & pop', function() {
+suite.add('1M push & pop', function () {
   const deque = new Deque();
   for (let i = 0; i < MILLION; i++) {
     deque.push(i);
@@ -33,7 +33,7 @@ suite.add('1M push & pop', function() {
   this.val = deque;
 });
 
-suite.add('Native JS Array 1M push & pop', function() {
+suite.add('Native JS Array 1M push & pop', function () {
   const array = [];
   for (let i = 0; i < MILLION; i++) {
     array.push(i);
@@ -44,7 +44,7 @@ suite.add('Native JS Array 1M push & pop', function() {
   this.val = array;
 });
 
-suite.add('1M push & shift', function() {
+suite.add('1M push & shift', function () {
   const deque = new Deque();
   for (let i = 0; i < MILLION; i++) {
     deque.push(i);
@@ -55,7 +55,7 @@ suite.add('1M push & shift', function() {
   this.val = deque;
 });
 
-suite.add('100K push & shift', function() {
+suite.add('100K push & shift', function () {
   const deque = new Deque();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     deque.push(i);
@@ -66,7 +66,7 @@ suite.add('100K push & shift', function() {
   this.val = deque;
 });
 
-suite.add('Native JS Array 100K push & shift', function() {
+suite.add('Native JS Array 100K push & shift', function () {
   const array = [];
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     array.push(i);
@@ -77,7 +77,7 @@ suite.add('Native JS Array 100K push & shift', function() {
   this.val = array;
 });
 
-suite.add('100K unshift & shift', function() {
+suite.add('100K unshift & shift', function () {
   const deque = new Deque();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     deque.unshift(i);
@@ -88,7 +88,7 @@ suite.add('100K unshift & shift', function() {
   this.val = deque;
 });
 
-suite.add('Native JS Array 100K unshift & shift', function() {
+suite.add('Native JS Array 100K unshift & shift', function () {
   const array = [];
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     array.unshift(i);
@@ -100,7 +100,7 @@ suite.add('Native JS Array 100K unshift & shift', function() {
 });
 
 // js-sdsl Deque comparison
-suite.add('1M push (js-sdsl)', function() {
+suite.add('1M push (js-sdsl)', function () {
   const deque = new SdslDeque();
   for (let i = 0; i < MILLION; i++) {
     deque.pushBack(i);
@@ -108,7 +108,7 @@ suite.add('1M push (js-sdsl)', function() {
   this.val = deque;
 });
 
-suite.add('1M push & pop (js-sdsl)', function() {
+suite.add('1M push & pop (js-sdsl)', function () {
   const deque = new SdslDeque();
   for (let i = 0; i < MILLION; i++) {
     deque.pushBack(i);
@@ -119,7 +119,7 @@ suite.add('1M push & pop (js-sdsl)', function() {
   this.val = deque;
 });
 
-suite.add('100K push & shift (js-sdsl)', function() {
+suite.add('100K push & shift (js-sdsl)', function () {
   const deque = new SdslDeque();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     deque.pushBack(i);
@@ -130,7 +130,7 @@ suite.add('100K push & shift (js-sdsl)', function() {
   this.val = deque;
 });
 
-suite.add('100K unshift & shift (js-sdsl)', function() {
+suite.add('100K unshift & shift (js-sdsl)', function () {
   const deque = new SdslDeque();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     deque.pushFront(i);

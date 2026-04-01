@@ -93,21 +93,42 @@ describe('classic use', () => {
   });
 
   it('@example [Matrix.subtract] Element-wise subtraction', () => {
-    const a = Matrix.from([[5, 6], [7, 8]]);
-    const b = Matrix.from([[1, 2], [3, 4]]);
+    const a = Matrix.from([
+      [5, 6],
+      [7, 8]
+    ]);
+    const b = Matrix.from([
+      [1, 2],
+      [3, 4]
+    ]);
     const result = a.subtract(b);
-    expect(result?.toArray()).toEqual([[4, 4], [4, 4]]);
+    expect(result?.toArray()).toEqual([
+      [4, 4],
+      [4, 4]
+    ]);
   });
 
   it('@example [Matrix.dot] Dot product of two matrices', () => {
-    const a = Matrix.from([[1, 2], [3, 4]]);
-    const b = Matrix.from([[5, 6], [7, 8]]);
+    const a = Matrix.from([
+      [1, 2],
+      [3, 4]
+    ]);
+    const b = Matrix.from([
+      [5, 6],
+      [7, 8]
+    ]);
     const result = a.dot(b);
-    expect(result?.toArray()).toEqual([[19, 22], [43, 50]]);
+    expect(result?.toArray()).toEqual([
+      [19, 22],
+      [43, 50]
+    ]);
   });
 
   it('@example [Matrix.inverse] Compute the inverse of a 2x2 matrix', () => {
-    const m = Matrix.from([[4, 7], [2, 6]]);
+    const m = Matrix.from([
+      [4, 7],
+      [2, 6]
+    ]);
     const inv = m.inverse();
     expect(inv).toBeDefined();
     // A * A^-1 should ≈ Identity
@@ -333,9 +354,7 @@ describe('Matrix', () => {
         [8, 9, 1]
       ]);
 
-      expect(() => matrixA.multiply(matrixB)).toThrow(
-        'Dimensions must be compatible for multiplication'
-      );
+      expect(() => matrixA.multiply(matrixB)).toThrow('Dimensions must be compatible for multiplication');
     });
   });
 
@@ -472,9 +491,7 @@ describe('Matrix', () => {
         [8, 9, 10],
         [18, 19, 110]
       ]);
-      expect(() => matrix1.dot(matrix2)).toThrow(
-        'Dimensions must be compatible for dot product'
-      );
+      expect(() => matrix1.dot(matrix2)).toThrow('Dimensions must be compatible for dot product');
     });
 
     it('should throw an error for incompatible matrices', () => {
@@ -488,15 +505,16 @@ describe('Matrix', () => {
         [9, 10]
       ]);
 
-      expect(() => matrixA.dot(matrixB)).toThrow(
-        'Dimensions must be compatible for dot product'
-      );
+      expect(() => matrixA.dot(matrixB)).toThrow('Dimensions must be compatible for dot product');
     });
   });
 
   describe('standard interface', () => {
     it('size returns [rows, cols]', () => {
-      const m = new Matrix([[1, 2, 3], [4, 5, 6]]);
+      const m = new Matrix([
+        [1, 2, 3],
+        [4, 5, 6]
+      ]);
       expect(m.size).toEqual([2, 3]);
     });
 
@@ -511,54 +529,100 @@ describe('Matrix', () => {
     });
 
     it('toArray returns deep copy', () => {
-      const data = [[1, 2], [3, 4]];
+      const data = [
+        [1, 2],
+        [3, 4]
+      ];
       const m = new Matrix(data);
       const arr = m.toArray();
-      expect(arr).toEqual([[1, 2], [3, 4]]);
+      expect(arr).toEqual([
+        [1, 2],
+        [3, 4]
+      ]);
       arr[0][0] = 999;
       expect(m.get(0, 0)).toBe(1); // original unchanged
     });
 
     it('flatten returns row-major flat array', () => {
-      const m = new Matrix([[1, 2, 3], [4, 5, 6]]);
+      const m = new Matrix([
+        [1, 2, 3],
+        [4, 5, 6]
+      ]);
       expect(m.flatten()).toEqual([1, 2, 3, 4, 5, 6]);
     });
 
     it('Iterable iterates rows', () => {
-      const m = new Matrix([[1, 2], [3, 4], [5, 6]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4],
+        [5, 6]
+      ]);
       const rows = [...m];
-      expect(rows).toEqual([[1, 2], [3, 4], [5, 6]]);
+      expect(rows).toEqual([
+        [1, 2],
+        [3, 4],
+        [5, 6]
+      ]);
     });
 
     it('Iterable rows are independent copies', () => {
-      const m = new Matrix([[1, 2], [3, 4]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const rows = [...m];
       rows[0][0] = 999;
       expect(m.get(0, 0)).toBe(1); // original unchanged
     });
 
     it('forEach visits all elements with row/col', () => {
-      const m = new Matrix([[1, 2], [3, 4]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const visited: [number, number, number][] = [];
       m.forEach((v, r, c) => visited.push([r, c, v]));
-      expect(visited).toEqual([[0, 0, 1], [0, 1, 2], [1, 0, 3], [1, 1, 4]]);
+      expect(visited).toEqual([
+        [0, 0, 1],
+        [0, 1, 2],
+        [1, 0, 3],
+        [1, 1, 4]
+      ]);
     });
 
     it('map transforms elements', () => {
-      const m = new Matrix([[1, 2], [3, 4]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const doubled = m.map(v => v * 2);
-      expect(doubled.data).toEqual([[2, 4], [6, 8]]);
-      expect(m.data).toEqual([[1, 2], [3, 4]]); // original unchanged
+      expect(doubled.data).toEqual([
+        [2, 4],
+        [6, 8]
+      ]);
+      expect(m.data).toEqual([
+        [1, 2],
+        [3, 4]
+      ]); // original unchanged
     });
 
     it('map receives row/col indices', () => {
-      const m = new Matrix([[0, 0], [0, 0]]);
+      const m = new Matrix([
+        [0, 0],
+        [0, 0]
+      ]);
       const withCoords = m.map((_, r, c) => r * 10 + c);
-      expect(withCoords.data).toEqual([[0, 1], [10, 11]]);
+      expect(withCoords.data).toEqual([
+        [0, 1],
+        [10, 11]
+      ]);
     });
 
     it('clone is a deep copy', () => {
-      const m = new Matrix([[1, 2], [3, 4]]);
+      const m = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const copy = m.clone();
       copy.set(0, 0, 99);
       expect(m.get(0, 0)).toBe(1); // original unchanged
@@ -585,14 +649,23 @@ describe('Matrix', () => {
     });
 
     it('identity matrix multiplied with any matrix = original', () => {
-      const a = new Matrix([[1, 2, 3], [4, 5, 6]]);
+      const a = new Matrix([
+        [1, 2, 3],
+        [4, 5, 6]
+      ]);
       const id = Matrix.identity(3);
       const result = a.multiply(id);
-      expect(result?.data).toEqual([[1, 2, 3], [4, 5, 6]]);
+      expect(result?.data).toEqual([
+        [1, 2, 3],
+        [4, 5, 6]
+      ]);
     });
 
     it('from creates matrix from data', () => {
-      const data = [[1, 2], [3, 4]];
+      const data = [
+        [1, 2],
+        [3, 4]
+      ];
       const m = Matrix.from(data);
       expect(m.data).toEqual(data);
       // Should be a copy

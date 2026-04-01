@@ -151,14 +151,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the number of elements currently in the queue.
    * @remarks Time O(1), Space O(1)
    * @returns Current length.
- * @example
- * // Track queue length
- *  const q = new Queue<number>();
- *     console.log(q.length); // 0;
- *     q.push(1);
- *     q.push(2);
- *     console.log(q.length); // 2;
-*/
+   * @example
+   * // Track queue length
+   *  const q = new Queue<number>();
+   *     console.log(q.length); // 0;
+   *     q.push(1);
+   *     q.push(2);
+   *     console.log(q.length); // 2;
+   */
   get length(): number {
     return this.elements.length - this._offset;
   }
@@ -167,12 +167,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element (front) without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Front element or undefined.
- * @example
- * // View the front element
- *  const q = new Queue<string>(['first', 'second', 'third']);
- *     console.log(q.first); // 'first';
- *     console.log(q.length); // 3;
-*/
+   * @example
+   * // View the front element
+   *  const q = new Queue<string>(['first', 'second', 'third']);
+   *     console.log(q.first); // 'first';
+   *     console.log(q.length); // 3;
+   */
   get first(): E | undefined {
     return this.length > 0 ? this.elements[this._offset] : undefined;
   }
@@ -210,25 +210,25 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Check whether the queue is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
- * @example
- * // Queue for...of iteration and isEmpty check
- *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
- *
- *     const elements: string[] = [];
- *     for (const item of queue) {
- *       elements.push(item);
- *     }
- *
- *     // Verify all elements are iterated in order
- *     console.log(elements); // ['A', 'B', 'C', 'D'];
- *
- *     // Process all elements
- *     while (queue.length > 0) {
- *       queue.shift();
- *     }
- *
- *     console.log(queue.length); // 0;
-*/
+   * @example
+   * // Queue for...of iteration and isEmpty check
+   *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
+   *
+   *     const elements: string[] = [];
+   *     for (const item of queue) {
+   *       elements.push(item);
+   *     }
+   *
+   *     // Verify all elements are iterated in order
+   *     console.log(elements); // ['A', 'B', 'C', 'D'];
+   *
+   *     // Process all elements
+   *     while (queue.length > 0) {
+   *       queue.shift();
+   *     }
+   *
+   *     console.log(queue.length); // 0;
+   */
   isEmpty(): boolean {
     return this.length === 0;
   }
@@ -238,17 +238,17 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to enqueue.
    * @returns True on success.
- * @example
- * // basic Queue creation and push operation
- *  // Create a simple Queue with initial values
- *     const queue = new Queue([1, 2, 3, 4, 5]);
- *
- *     // Verify the queue maintains insertion order
- *     console.log([...queue]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(queue.length); // 5;
-*/
+   * @example
+   * // basic Queue creation and push operation
+   *  // Create a simple Queue with initial values
+   *     const queue = new Queue([1, 2, 3, 4, 5]);
+   *
+   *     // Verify the queue maintains insertion order
+   *     console.log([...queue]); // [1, 2, 3, 4, 5];
+   *
+   *     // Check length
+   *     console.log(queue.length); // 5;
+   */
   push(element: E): boolean {
     this.elements.push(element);
     if (this._maxLen > 0 && this.length > this._maxLen) this.shift();
@@ -274,21 +274,21 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Dequeue one element from the front (amortized via offset).
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // Queue shift and peek operations
- *  const queue = new Queue<number>([10, 20, 30, 40]);
- *
- *     // Peek at the front element without removing it
- *     console.log(queue.first); // 10;
- *
- *     // Remove and get the first element (FIFO)
- *     const first = queue.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements and length decreased
- *     console.log([...queue]); // [20, 30, 40];
- *     console.log(queue.length); // 3;
-*/
+   * @example
+   * // Queue shift and peek operations
+   *  const queue = new Queue<number>([10, 20, 30, 40]);
+   *
+   *     // Peek at the front element without removing it
+   *     console.log(queue.first); // 10;
+   *
+   *     // Remove and get the first element (FIFO)
+   *     const first = queue.shift();
+   *     console.log(first); // 10;
+   *
+   *     // Verify remaining elements and length decreased
+   *     console.log([...queue]); // [20, 30, 40];
+   *     console.log(queue.length); // 3;
+   */
   shift(): E | undefined {
     if (this.length === 0) return undefined;
     const first = this.first;
@@ -302,12 +302,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (strict equality via Object.is).
    * @returns True if an element was removed.
- * @example
- * // Remove specific element
- *  const q = new Queue<number>([1, 2, 3, 2]);
- *     q.delete(2);
- *     console.log(q.length); // 3;
-*/
+   * @example
+   * // Remove specific element
+   *  const q = new Queue<number>([1, 2, 3, 2]);
+   *     q.delete(2);
+   *     console.log(q.length); // 3;
+   */
   delete(element: E): boolean {
     for (let i = this._offset; i < this.elements.length; i++) {
       if (Object.is(this.elements[i], element)) {
@@ -323,12 +323,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param index - Zero-based index from the front.
    * @returns Element or undefined.
- * @example
- * // Access element by index
- *  const q = new Queue<string>(['a', 'b', 'c']);
- *     console.log(q.at(0)); // 'a';
- *     console.log(q.at(2)); // 'c';
-*/
+   * @example
+   * // Access element by index
+   *  const q = new Queue<string>(['a', 'b', 'c']);
+   *     console.log(q.at(0)); // 'a';
+   *     console.log(q.at(2)); // 'c';
+   */
   at(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
     return this._elements[this._offset + index];
@@ -404,12 +404,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Remove all elements and reset offset.
    * @remarks Time O(1), Space O(1)
    * @returns void
- * @example
- * // Remove all elements
- *  const q = new Queue<number>([1, 2, 3]);
- *     q.clear();
- *     console.log(q.length); // 0;
-*/
+   * @example
+   * // Remove all elements
+   *  const q = new Queue<number>([1, 2, 3]);
+   *     q.clear();
+   *     console.log(q.length); // 0;
+   */
   clear(): void {
     this._elements = [];
     this._offset = 0;
@@ -419,14 +419,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Compact storage by discarding consumed head elements.
    * @remarks Time O(N), Space O(N)
    * @returns True when compaction performed.
- * @example
- * // Reclaim unused memory
- *  const q = new Queue<number>([1, 2, 3, 4, 5]);
- *     q.shift();
- *     q.shift();
- *     q.compact();
- *     console.log(q.length); // 3;
-*/
+   * @example
+   * // Reclaim unused memory
+   *  const q = new Queue<number>([1, 2, 3, 4, 5]);
+   *     q.shift();
+   *     q.shift();
+   *     q.compact();
+   *     console.log(q.length); // 3;
+   */
   compact(): boolean {
     this._elements = this.elements.slice(this._offset);
     this._offset = 0;
@@ -457,14 +457,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Deep clone this queue and its parameters.
    * @remarks Time O(N), Space O(N)
    * @returns A new queue with the same content and options.
- * @example
- * // Create independent copy
- *  const q = new Queue<number>([1, 2, 3]);
- *     const copy = q.clone();
- *     copy.shift();
- *     console.log(q.length); // 3;
- *     console.log(copy.length); // 2;
-*/
+   * @example
+   * // Create independent copy
+   *  const q = new Queue<number>([1, 2, 3]);
+   *     const copy = q.clone();
+   *     copy.shift();
+   *     console.log(q.length); // 3;
+   *     console.log(copy.length); // 2;
+   */
   clone(): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setAutoCompactRatio(this._autoCompactRatio);
@@ -478,12 +478,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param predicate - Predicate (element, index, queue) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new queue with kept elements.
- * @example
- * // Filter elements
- *  const q = new Queue<number>([1, 2, 3, 4, 5]);
- *     const evens = q.filter(x => x % 2 === 0);
- *     console.log(evens.length); // 2;
-*/
+   * @example
+   * // Filter elements
+   *  const q = new Queue<number>([1, 2, 3, 4, 5]);
+   *     const evens = q.filter(x => x % 2 === 0);
+   *     console.log(evens.length); // 2;
+   */
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setAutoCompactRatio(this._autoCompactRatio);
@@ -504,12 +504,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options for the output queue (e.g., toElementFn, maxLen, autoCompactRatio).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Queue with mapped elements.
- * @example
- * // Transform elements
- *  const q = new Queue<number>([1, 2, 3]);
- *     const doubled = q.map(x => x * 2);
- *     console.log(doubled.toArray()); // [2, 4, 6];
-*/
+   * @example
+   * // Transform elements
+   *  const q = new Queue<number>([1, 2, 3]);
+   *     const doubled = q.map(x => x * 2);
+   *     console.log(doubled.toArray()); // [2, 4, 6];
+   */
   map<EM, RM>(callback: ElementCallback<E, R, EM>, options?: QueueOptions<EM, RM>, thisArg?: unknown): Queue<EM, RM> {
     const out = new (this.constructor as new (
       elements?: Iterable<EM> | Iterable<RM>,

@@ -17,12 +17,7 @@ export async function withMutedConsole<T>(fn: () => T | Promise<T>): Promise<T> 
   }
 }
 
-export function withPatched<T extends object, K extends keyof T, R>(
-  obj: T,
-  key: K,
-  value: T[K],
-  fn: () => R
-): R {
+export function withPatched<T extends object, K extends keyof T, R>(obj: T, key: K, value: T[K], fn: () => R): R {
   const original = obj[key];
   (obj as any)[key] = value;
   try {

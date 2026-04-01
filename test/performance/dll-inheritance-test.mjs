@@ -29,7 +29,7 @@ class DLL0 {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   push(value) {
     const n = new DLLNode0(value);
     if (!this._head) {
@@ -58,7 +58,7 @@ class DLL1 extends Base1 {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   push(value) {
     const n = new DLLNode0(value);
     if (!this._head) {
@@ -94,7 +94,7 @@ class DLL2 extends Base2b {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   push(value) {
     const n = new DLLNode0(value);
     if (!this._head) {
@@ -136,7 +136,7 @@ class DLL3 extends Base3c {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
   push(value) {
     const n = new DLLNode0(value);
     if (!this._head) {
@@ -156,25 +156,33 @@ console.log(`N = ${N.toLocaleString()}, ITERATIONS = ${ITERATIONS}\n`);
 
 const results = [];
 
-results.push(benchmark('No inheritance', () => {
-  const list = new DLL0();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('No inheritance', () => {
+    const list = new DLL0();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('1 level inheritance', () => {
-  const list = new DLL1();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('1 level inheritance', () => {
+    const list = new DLL1();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('2 levels inheritance', () => {
-  const list = new DLL2();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('2 levels inheritance', () => {
+    const list = new DLL2();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('3 levels inheritance', () => {
-  const list = new DLL3();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('3 levels inheritance', () => {
+    const list = new DLL3();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
 console.log('| Inheritance Level | Avg (ms) | vs No inherit |');
 console.log('|-------------------|----------|---------------|');

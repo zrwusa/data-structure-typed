@@ -77,19 +77,19 @@ export class SegmentTree<E = number> implements Iterable<E> {
 
   /**
    * Create a min segment tree.
- * @example
- * // Temperature monitoring with range queries
- *  // Hourly temperatures for a day (24 readings)
- *     const temps = [18, 17, 16, 15, 16, 18, 21, 24, 27, 29, 31, 32, 33, 32, 31, 29, 27, 25, 23, 21, 20, 19, 18, 17];
- *     const tree = SegmentTree.sum(temps);
- *
- *     // Average temperature during work hours (9-17)
- *     const workSum = tree.query(9, 17);
- *     console.log(workSum / 9); // toBeCloseTo;
- *
- *     // Sum of morning temps (6-11)
- *     console.log(tree.query(6, 11)); // 164;
-*/
+   * @example
+   * // Temperature monitoring with range queries
+   *  // Hourly temperatures for a day (24 readings)
+   *     const temps = [18, 17, 16, 15, 16, 18, 21, 24, 27, 29, 31, 32, 33, 32, 31, 29, 27, 25, 23, 21, 20, 19, 18, 17];
+   *     const tree = SegmentTree.sum(temps);
+   *
+   *     // Average temperature during work hours (9-17)
+   *     const workSum = tree.query(9, 17);
+   *     console.log(workSum / 9); // toBeCloseTo;
+   *
+   *     // Sum of morning temps (6-11)
+   *     console.log(tree.query(6, 11)); // 164;
+   */
   static min(elements: number[]): SegmentTree<number> {
     return new SegmentTree<number>(elements, {
       merger: (a, b) => Math.min(a, b),
@@ -117,24 +117,24 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Point update: set element at index to value.
    * Time: O(log n)
- * @example
- * // Dynamic range sum with updates
- *  // Monthly revenue data (in thousands)
- *     const revenue = [120, 95, 140, 110, 85, 130, 150, 100, 160, 125, 90, 175];
- *     const tree = SegmentTree.sum(revenue);
- *
- *     // Q1 revenue (Jan-Mar)
- *     console.log(tree.query(0, 2)); // 355;
- *
- *     // Update March revenue from 140 to 200
- *     tree.update(2, 200);
- *
- *     // Q1 revenue after update
- *     console.log(tree.query(0, 2)); // 415;
- *
- *     // H1 revenue (Jan-Jun)
- *     console.log(tree.query(0, 5)); // 740;
-*/
+   * @example
+   * // Dynamic range sum with updates
+   *  // Monthly revenue data (in thousands)
+   *     const revenue = [120, 95, 140, 110, 85, 130, 150, 100, 160, 125, 90, 175];
+   *     const tree = SegmentTree.sum(revenue);
+   *
+   *     // Q1 revenue (Jan-Mar)
+   *     console.log(tree.query(0, 2)); // 355;
+   *
+   *     // Update March revenue from 140 to 200
+   *     tree.update(2, 200);
+   *
+   *     // Q1 revenue after update
+   *     console.log(tree.query(0, 2)); // 415;
+   *
+   *     // H1 revenue (Jan-Jun)
+   *     console.log(tree.query(0, 5)); // 740;
+   */
   update(index: number, value: E): void {
     if (index < 0 || index >= this._n) return;
     let pos = this._treeSize + index;
@@ -150,19 +150,19 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Range query: returns merger result over [start, end] (inclusive).
    * Time: O(log n)
- * @example
- * // Range sum query on an array
- *  const tree = SegmentTree.sum([1, 3, 5, 7, 9, 11]);
- *
- *     // Query sum of range [1, 3] → 3 + 5 + 7 = 15
- *     console.log(tree.query(1, 3)); // 15;
- *
- *     // Query entire range
- *     console.log(tree.query(0, 5)); // 36;
- *
- *     // Query single element
- *     console.log(tree.query(2, 2)); // 5;
-*/
+   * @example
+   * // Range sum query on an array
+   *  const tree = SegmentTree.sum([1, 3, 5, 7, 9, 11]);
+   *
+   *     // Query sum of range [1, 3] → 3 + 5 + 7 = 15
+   *     console.log(tree.query(1, 3)); // 15;
+   *
+   *     // Query entire range
+   *     console.log(tree.query(0, 5)); // 36;
+   *
+   *     // Query single element
+   *     console.log(tree.query(2, 2)); // 5;
+   */
   query(start: number, end: number): E {
     if (start < 0) start = 0;
     if (end >= this._n) end = this._n - 1;
@@ -191,12 +191,12 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Get element at index.
    * Time: O(1)
- * @example
- * // Point access on segment tree
- *  const st = SegmentTree.sum([10, 20, 30, 40]);
- *     console.log(st.get(0)); // 10;
- *     console.log(st.get(2)); // 30;
-*/
+   * @example
+   * // Point access on segment tree
+   *  const st = SegmentTree.sum([10, 20, 30, 40]);
+   *     console.log(st.get(0)); // 10;
+   *     console.log(st.get(2)); // 30;
+   */
   get(index: number): E {
     if (index < 0 || index >= this._n) return this._identity;
     return this._tree[this._treeSize + index];
@@ -207,15 +207,15 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns left-1 if predicate(identity) is false.
    * Returns n-1 if predicate holds for the entire range [left, n-1].
    * Time: O(log n)
- * @example
- * // Find rightmost position where predicate holds
- *  // Prefix sums: find the rightmost index where prefix sum < 10
- *     const st = SegmentTree.sum([3, 1, 4, 1, 5]);
- *     // maxRight(0, sum => sum < 10) — prefix [3,4,8,9,14]
- *     // sum < 10 holds through index 3 (prefix=9), fails at 4 (prefix=14)
- *     const result = st.maxRight(0, sum => sum < 10);
- *     console.log(result); // 3;
-*/
+   * @example
+   * // Find rightmost position where predicate holds
+   *  // Prefix sums: find the rightmost index where prefix sum < 10
+   *     const st = SegmentTree.sum([3, 1, 4, 1, 5]);
+   *     // maxRight(0, sum => sum < 10) — prefix [3,4,8,9,14]
+   *     // sum < 10 holds through index 3 (prefix=9), fails at 4 (prefix=14)
+   *     const result = st.maxRight(0, sum => sum < 10);
+   *     console.log(result); // 3;
+   */
   maxRight(left: number, predicate: (segValue: E) => boolean): number {
     if (left >= this._n) return this._n - 1;
     let acc = this._identity;
@@ -258,14 +258,14 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns right+1 if predicate(identity) is false.
    * Returns 0 if predicate holds for the entire range [0, right].
    * Time: O(log n)
- * @example
- * // Find leftmost position where predicate holds
- *  const st = SegmentTree.sum([3, 1, 4, 1, 5]);
- *     // minLeft(5, sum => sum < 7) — suffix sums from right
- *     // From right: [5]=5 < 7, [1,5]=6 < 7, [4,1,5]=10 ≥ 7
- *     const result = st.minLeft(5, sum => sum < 7);
- *     console.log(result); // 3;
-*/
+   * @example
+   * // Find leftmost position where predicate holds
+   *  const st = SegmentTree.sum([3, 1, 4, 1, 5]);
+   *     // minLeft(5, sum => sum < 7) — suffix sums from right
+   *     // From right: [5]=5 < 7, [1,5]=6 < 7, [4,1,5]=10 ≥ 7
+   *     const result = st.minLeft(5, sum => sum < 7);
+   *     console.log(result); // 3;
+   */
   minLeft(right: number, predicate: (segValue: E) => boolean): number {
     if (right < 0) return 0;
     if (right >= this._n) right = this._n - 1;

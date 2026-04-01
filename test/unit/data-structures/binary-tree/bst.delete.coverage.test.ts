@@ -1,9 +1,8 @@
 import { BST, Range } from '../../../../src';
 
 describe('BST delete coverage', () => {
-
   describe('_deleteByKey', () => {
-  it('returns false when key not found', () => {
+    it('returns false when key not found', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15]) t.set(k, k);
 
@@ -72,7 +71,7 @@ describe('BST delete coverage', () => {
   });
 
   describe('deleteWhere', () => {
-  it('deleteWhere(predicate) uses default args (onlyOne/startNode/iterationType)', () => {
+    it('deleteWhere(predicate) uses default args (onlyOne/startNode/iterationType)', () => {
       const bst = new BST<number, number>();
       for (const k of [4, 2, 6, 1, 3, 5, 7]) bst.set(k, k);
 

@@ -1,4 +1,4 @@
-import { Queue, Deque } from '../../../../src';
+import { Deque, Queue } from '../../../../src';
 
 describe('Queue new methods coverage', () => {
   describe('peek', () => {

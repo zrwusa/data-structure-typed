@@ -159,11 +159,11 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of stored elements.
    * @remarks Time O(1), Space O(1)
    * @returns Current size.
- * @example
- * // Get number of elements
- *  const stack = new Stack<number>([1, 2, 3]);
- *     console.log(stack.size); // 3;
-*/
+   * @example
+   * // Get number of elements
+   *  const stack = new Stack<number>([1, 2, 3]);
+   *     console.log(stack.size); // 3;
+   */
   get size(): number {
     return this.elements.length;
   }
@@ -190,13 +190,13 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the stack is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
- * @example
- * // Check if stack has elements
- *  const stack = new Stack<number>();
- *     console.log(stack.isEmpty()); // true;
- *     stack.push(1);
- *     console.log(stack.isEmpty()); // false;
-*/
+   * @example
+   * // Check if stack has elements
+   *  const stack = new Stack<number>();
+   *     console.log(stack.isEmpty()); // true;
+   *     stack.push(1);
+   *     console.log(stack.isEmpty()); // false;
+   */
   isEmpty(): boolean {
     return this.elements.length === 0;
   }
@@ -205,12 +205,12 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
- * @example
- * // View the top element without removing it
- *  const stack = new Stack<string>(['a', 'b', 'c']);
- *     console.log(stack.peek()); // 'c';
- *     console.log(stack.size); // 3;
-*/
+   * @example
+   * // View the top element without removing it
+   *  const stack = new Stack<string>(['a', 'b', 'c']);
+   *     console.log(stack.peek()); // 'c';
+   *     console.log(stack.size); // 3;
+   */
   peek(): E | undefined {
     return this.isEmpty() ? undefined : this.elements[this.elements.length - 1];
   }
@@ -220,21 +220,21 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
- * @example
- * // basic Stack creation and push operation
- *  // Create a simple Stack with initial values
- *     const stack = new Stack([1, 2, 3, 4, 5]);
- *
- *     // Verify the stack maintains insertion order (LIFO will be shown in pop)
- *     console.log([...stack]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(stack.size); // 5;
- *
- *     // Push a new element to the top
- *     stack.push(6);
- *     console.log(stack.size); // 6;
-*/
+   * @example
+   * // basic Stack creation and push operation
+   *  // Create a simple Stack with initial values
+   *     const stack = new Stack([1, 2, 3, 4, 5]);
+   *
+   *     // Verify the stack maintains insertion order (LIFO will be shown in pop)
+   *     console.log([...stack]); // [1, 2, 3, 4, 5];
+   *
+   *     // Check length
+   *     console.log(stack.size); // 5;
+   *
+   *     // Push a new element to the top
+   *     stack.push(6);
+   *     console.log(stack.size); // 6;
+   */
   push(element: E): boolean {
     this.elements.push(element);
     return true;
@@ -244,25 +244,25 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // Stack pop operation (LIFO - Last In First Out)
- *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
- *
- *     // Peek at the top element without removing
- *     const top = stack.peek();
- *     console.log(top); // 50;
- *
- *     // Pop removes from the top (LIFO order)
- *     const popped = stack.pop();
- *     console.log(popped); // 50;
- *
- *     // Next pop gets the previous element
- *     const next = stack.pop();
- *     console.log(next); // 40;
- *
- *     // Verify length decreased
- *     console.log(stack.size); // 3;
-*/
+   * @example
+   * // Stack pop operation (LIFO - Last In First Out)
+   *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
+   *
+   *     // Peek at the top element without removing
+   *     const top = stack.peek();
+   *     console.log(top); // 50;
+   *
+   *     // Pop removes from the top (LIFO order)
+   *     const popped = stack.pop();
+   *     console.log(popped); // 50;
+   *
+   *     // Next pop gets the previous element
+   *     const next = stack.pop();
+   *     console.log(next); // 40;
+   *
+   *     // Verify length decreased
+   *     console.log(stack.size); // 3;
+   */
   pop(): E | undefined {
     return this.isEmpty() ? undefined : this.elements.pop();
   }
@@ -287,12 +287,12 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (using the configured equality).
    * @returns True if an element was removed.
- * @example
- * // Remove element
- *  const stack = new Stack<number>([1, 2, 3]);
- *     stack.delete(2);
- *     console.log(stack.toArray()); // [1, 3];
-*/
+   * @example
+   * // Remove element
+   *  const stack = new Stack<number>([1, 2, 3]);
+   *     stack.delete(2);
+   *     console.log(stack.toArray()); // [1, 3];
+   */
   delete(element: E): boolean {
     const idx = this._indexOfByEquals(element);
     return this.deleteAt(idx) !== undefined;
@@ -330,12 +330,12 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements and reset storage.
    * @remarks Time O(1), Space O(1)
    * @returns void
- * @example
- * // Remove all elements
- *  const stack = new Stack<number>([1, 2, 3]);
- *     stack.clear();
- *     console.log(stack.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all elements
+   *  const stack = new Stack<number>([1, 2, 3]);
+   *     stack.clear();
+   *     console.log(stack.isEmpty()); // true;
+   */
   clear(): void {
     this._elements = [];
   }
@@ -344,14 +344,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this stack.
    * @remarks Time O(N), Space O(N)
    * @returns A new stack with the same content.
- * @example
- * // Create independent copy
- *  const stack = new Stack<number>([1, 2, 3]);
- *     const copy = stack.clone();
- *     copy.pop();
- *     console.log(stack.size); // 3;
- *     console.log(copy.size); // 2;
-*/
+   * @example
+   * // Create independent copy
+   *  const stack = new Stack<number>([1, 2, 3]);
+   *     const copy = stack.clone();
+   *     copy.pop();
+   *     console.log(stack.size); // 3;
+   *     console.log(copy.size); // 2;
+   */
   clone(): this {
     const out = this._createInstance({ toElementFn: this.toElementFn });
     for (const v of this) out.push(v);
@@ -364,12 +364,12 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param predicate - Predicate (value, index, stack) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new stack with kept values.
- * @example
- * // Filter elements
- *  const stack = new Stack<number>([1, 2, 3, 4, 5]);
- *     const evens = stack.filter(x => x % 2 === 0);
- *     console.log(evens.toArray()); // [2, 4];
-*/
+   * @example
+   * // Filter elements
+   *  const stack = new Stack<number>([1, 2, 3, 4, 5]);
+   *     const evens = stack.filter(x => x % 2 === 0);
+   *     console.log(evens.toArray()); // [2, 4];
+   */
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn });
     let index = 0;
@@ -406,12 +406,12 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options for the output stack (e.g., toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Stack with mapped elements.
- * @example
- * // Transform elements
- *  const stack = new Stack<number>([1, 2, 3]);
- *     const doubled = stack.map(x => x * 2);
- *     console.log(doubled.toArray()); // [2, 4, 6];
-*/
+   * @example
+   * // Transform elements
+   *  const stack = new Stack<number>([1, 2, 3]);
+   *     const doubled = stack.map(x => x * 2);
+   *     console.log(doubled.toArray()); // [2, 4, 6];
+   */
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options?: IterableElementBaseOptions<EM, RM>,

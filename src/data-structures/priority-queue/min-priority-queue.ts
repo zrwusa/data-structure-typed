@@ -18,10 +18,10 @@ import { PriorityQueue } from './priority-queue';
  * // Shortest job first scheduling
  *  const jobs = new MinPriorityQueue<number>();
  *
- *     jobs.add(8);  // 8 seconds
- *     jobs.add(2);  // 2 seconds
- *     jobs.add(5);  // 5 seconds
- *     jobs.add(1);  // 1 second
+ *     jobs.add(8); // 8 seconds
+ *     jobs.add(2); // 2 seconds
+ *     jobs.add(5); // 5 seconds
+ *     jobs.add(1); // 1 second
  *
  *     // Shortest job first
  *     console.log(jobs.poll()); // 1;
@@ -48,12 +48,7 @@ import { PriorityQueue } from './priority-queue';
  *     while (timeline.size > 0) {
  *       order.push(timeline.poll()!.action);
  *     }
- *     console.log(order); // [
- *  //      'Request received',
- *  //      'Cache hit',
- *  //      'Processing done',
- *  //      'Timeout'
- *  //    ];
+ *     console.log(order); // ['Request received', 'Cache hit', 'Processing done', 'Timeout'];
  * @example
  * // Huffman coding frequency selection
  *  // Character frequencies for Huffman tree building
@@ -69,7 +64,7 @@ import { PriorityQueue } from './priority-queue';
  *     // Always pick two lowest frequencies
  *     const first = freq.poll()!;
  *     const second = freq.poll()!;
- *     console.log(first[1]); // 'd';  // freq 2
+ *     console.log(first[1]); // 'd'; // freq 2
  *     console.log(second[1]); // 'a'; // freq 5
  *
  *     // Combined node goes back

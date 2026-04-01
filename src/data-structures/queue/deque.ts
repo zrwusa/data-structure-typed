@@ -237,21 +237,21 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   /**
    * Deque peek at both ends
- * @example
- * // Deque peek at both ends
- *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
- *
- *     // Get first element without removing
- *     const first = deque.at(0);
- *     console.log(first); // 10;
- *
- *     // Get last element without removing
- *     const last = deque.at(deque.length - 1);
- *     console.log(last); // 50;
- *
- *     // Length unchanged
- *     console.log(deque.length); // 5;
-*/
+   * @example
+   * // Deque peek at both ends
+   *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
+   *
+   *     // Get first element without removing
+   *     const first = deque.at(0);
+   *     console.log(first); // 10;
+   *
+   *     // Get last element without removing
+   *     const last = deque.at(deque.length - 1);
+   *     console.log(last); // 50;
+   *
+   *     // Length unchanged
+   *     console.log(deque.length); // 5;
+   */
   get first(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketFirst][this._firstInBucket];
@@ -261,12 +261,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the last element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
- * @example
- * // Peek at the back element
- *  const dq = new Deque<string>(['a', 'b', 'c']);
- *     console.log(dq.last); // 'c';
- *     console.log(dq.first); // 'a';
-*/
+   * @example
+   * // Peek at the back element
+   *  const dq = new Deque<string>(['a', 'b', 'c']);
+   *     console.log(dq.last); // 'c';
+   *     console.log(dq.first); // 'a';
+   */
   get last(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];
@@ -326,25 +326,25 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to append.
    * @returns True when appended.
- * @example
- * // basic Deque creation and push/pop operations
- *  // Create a simple Deque with initial values
- *     const deque = new Deque([1, 2, 3, 4, 5]);
- *
- *     // Verify the deque maintains insertion order
- *     console.log([...deque]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(deque.length); // 5;
- *
- *     // Push to the end
- *     deque.push(6);
- *     console.log(deque.length); // 6;
- *
- *     // Pop from the end
- *     const last = deque.pop();
- *     console.log(last); // 6;
-*/
+   * @example
+   * // basic Deque creation and push/pop operations
+   *  // Create a simple Deque with initial values
+   *     const deque = new Deque([1, 2, 3, 4, 5]);
+   *
+   *     // Verify the deque maintains insertion order
+   *     console.log([...deque]); // [1, 2, 3, 4, 5];
+   *
+   *     // Check length
+   *     console.log(deque.length); // 5;
+   *
+   *     // Push to the end
+   *     deque.push(6);
+   *     console.log(deque.length); // 6;
+   *
+   *     // Pop from the end
+   *     const last = deque.pop();
+   *     console.log(last); // 6;
+   */
   push(element: E): boolean {
     if (this._length) {
       if (this._lastInBucket < this._bucketSize - 1) {
@@ -368,12 +368,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the last element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // Remove from the back
- *  const dq = new Deque<number>([1, 2, 3]);
- *     console.log(dq.pop()); // 3;
- *     console.log(dq.length); // 2;
-*/
+   * @example
+   * // Remove from the back
+   *  const dq = new Deque<number>([1, 2, 3]);
+   *     console.log(dq.pop()); // 3;
+   *     console.log(dq.length); // 2;
+   */
   pop(): E | undefined {
     if (this._length === 0) return;
     const element = this._buckets[this._bucketLast][this._lastInBucket];
@@ -397,12 +397,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the first element.
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
- * @example
- * // Remove from the front
- *  const dq = new Deque<number>([1, 2, 3]);
- *     console.log(dq.shift()); // 1;
- *     console.log(dq.length); // 2;
-*/
+   * @example
+   * // Remove from the front
+   *  const dq = new Deque<number>([1, 2, 3]);
+   *     console.log(dq.shift()); // 1;
+   *     console.log(dq.length); // 2;
+   */
   shift(): E | undefined {
     if (this._length === 0) return;
     const element = this._buckets[this._bucketFirst][this._firstInBucket];
@@ -427,22 +427,22 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to prepend.
    * @returns True when prepended.
- * @example
- * // Deque shift and unshift operations
- *  const deque = new Deque<number>([20, 30, 40]);
- *
- *     // Unshift adds to the front
- *     deque.unshift(10);
- *     console.log([...deque]); // [10, 20, 30, 40];
- *
- *     // Shift removes from the front (O(1) complexity!)
- *     const first = deque.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements
- *     console.log([...deque]); // [20, 30, 40];
- *     console.log(deque.length); // 3;
-*/
+   * @example
+   * // Deque shift and unshift operations
+   *  const deque = new Deque<number>([20, 30, 40]);
+   *
+   *     // Unshift adds to the front
+   *     deque.unshift(10);
+   *     console.log([...deque]); // [10, 20, 30, 40];
+   *
+   *     // Shift removes from the front (O(1) complexity!)
+   *     const first = deque.shift();
+   *     console.log(first); // 10;
+   *
+   *     // Verify remaining elements
+   *     console.log([...deque]); // [20, 30, 40];
+   *     console.log(deque.length); // 3;
+   */
   unshift(element: E): boolean {
     if (this._length) {
       if (this._firstInBucket > 0) {
@@ -502,11 +502,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Check whether the deque is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
- * @example
- * // Check if empty
- *  const dq = new Deque();
- *     console.log(dq.isEmpty()); // true;
-*/
+   * @example
+   * // Check if empty
+   *  const dq = new Deque();
+   *     console.log(dq.isEmpty()); // true;
+   */
   isEmpty(): boolean {
     return this._length === 0;
   }
@@ -515,12 +515,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove all elements and reset structure.
    * @remarks Time O(1), Space O(1)
    * @returns void
- * @example
- * // Remove all elements
- *  const dq = new Deque<number>([1, 2, 3]);
- *     dq.clear();
- *     console.log(dq.length); // 0;
-*/
+   * @example
+   * // Remove all elements
+   *  const dq = new Deque<number>([1, 2, 3]);
+   *     dq.clear();
+   *     console.log(dq.length); // 0;
+   */
   clear(): void {
     this._buckets = [new Array(this._bucketSize)];
     this._bucketCount = 1;
@@ -533,12 +533,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param pos - Zero-based position from the front.
    * @returns Element or undefined.
- * @example
- * // Access by index
- *  const dq = new Deque<string>(['a', 'b', 'c']);
- *     console.log(dq.at(0)); // 'a';
- *     console.log(dq.at(2)); // 'c';
-*/
+   * @example
+   * // Access by index
+   *  const dq = new Deque<string>(['a', 'b', 'c']);
+   *     console.log(dq.at(0)); // 'a';
+   *     console.log(dq.at(2)); // 'c';
+   */
   at(pos: number): E | undefined {
     if (pos < 0 || pos >= this._length) return undefined;
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
@@ -708,12 +708,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (using the configured equality).
    * @returns True if an element was removed.
- * @example
- * // Remove element
- *  const dq = new Deque<number>([1, 2, 3]);
- *     dq.delete(2);
- *     console.log(dq.length); // 2;
-*/
+   * @example
+   * // Remove element
+   *  const dq = new Deque<number>([1, 2, 3]);
+   *     dq.delete(2);
+   *     console.log(dq.length); // 2;
+   */
   delete(element: E): boolean {
     const size = this._length;
     if (size === 0) return false;
@@ -787,12 +787,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
    * @param predicate - Function called with (value, index, deque).
    * @returns Matching value or undefined.
- * @example
- * // Find last matching value
- *  const d = new Deque([1, 2, 3, 4, 5]);
- *     console.log(d.findLast(v => v > 2)); // 5;
- *     console.log(d.findLast(v => v % 2 === 0)); // 4;
-*/
+   * @example
+   * // Find last matching value
+   *  const d = new Deque([1, 2, 3, 4, 5]);
+   *     console.log(d.findLast(v => v > 2)); // 5;
+   *     console.log(d.findLast(v => v % 2 === 0)); // 4;
+   */
   findLast(predicate: (value: E, index: number, deque: this) => boolean): E | undefined {
     for (let i = this.length - 1; i >= 0; i--) {
       const val = this.at(i)!;
@@ -806,12 +806,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
    * @param predicate - Function called with (value, index, deque).
    * @returns Matching index, or -1 if not found.
- * @example
- * // Find last matching index
- *  const d = new Deque([10, 20, 30, 20, 10]);
- *     console.log(d.findLastIndex(v => v === 20)); // 3;
- *     console.log(d.findLastIndex(v => v === 10)); // 4;
-*/
+   * @example
+   * // Find last matching index
+   *  const d = new Deque([10, 20, 30, 20, 10]);
+   *     console.log(d.findLastIndex(v => v === 20)); // 3;
+   *     console.log(d.findLastIndex(v => v === 10)); // 4;
+   */
   findLastIndex(predicate: (value: E, index: number, deque: this) => boolean): number {
     for (let i = this.length - 1; i >= 0; i--) {
       if (predicate(this.at(i)!, i, this)) return i;
@@ -821,25 +821,25 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   /**
    * Deque for...of iteration and reverse
- * @example
- * // Deque for...of iteration and reverse
- *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
- *
- *     // Iterate forward
- *     const forward: string[] = [];
- *     for (const item of deque) {
- *       forward.push(item);
- *     }
- *     console.log(forward); // ['A', 'B', 'C', 'D'];
- *
- *     // Reverse the deque
- *     deque.reverse();
- *     const backward: string[] = [];
- *     for (const item of deque) {
- *       backward.push(item);
- *     }
- *     console.log(backward); // ['D', 'C', 'B', 'A'];
-*/
+   * @example
+   * // Deque for...of iteration and reverse
+   *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
+   *
+   *     // Iterate forward
+   *     const forward: string[] = [];
+   *     for (const item of deque) {
+   *       forward.push(item);
+   *     }
+   *     console.log(forward); // ['A', 'B', 'C', 'D'];
+   *
+   *     // Reverse the deque
+   *     deque.reverse();
+   *     const backward: string[] = [];
+   *     for (const item of deque) {
+   *       backward.push(item);
+   *     }
+   *     console.log(backward); // ['D', 'C', 'B', 'A'];
+   */
   reverse(): this {
     this._buckets.reverse().forEach(function (bucket) {
       bucket.reverse();
@@ -883,14 +883,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Compact the deque by removing unused buckets.
    * @remarks Time O(N), Space O(1)
    * @returns True if compaction was performed (bucket count reduced).
- * @example
- * // Reclaim memory
- *  const dq = new Deque<number>([1, 2, 3, 4, 5]);
- *     dq.shift();
- *     dq.shift();
- *     dq.compact();
- *     console.log(dq.length); // 3;
-*/
+   * @example
+   * // Reclaim memory
+   *  const dq = new Deque<number>([1, 2, 3, 4, 5]);
+   *     dq.shift();
+   *     dq.shift();
+   *     dq.compact();
+   *     console.log(dq.length); // 3;
+   */
   compact(): boolean {
     const before = this._bucketCount;
     this.shrinkToFit();
@@ -923,14 +923,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Deep clone this deque, preserving options.
    * @remarks Time O(N), Space O(N)
    * @returns A new deque with the same content and options.
- * @example
- * // Create independent copy
- *  const dq = new Deque<number>([1, 2, 3]);
- *     const copy = dq.clone();
- *     copy.pop();
- *     console.log(dq.length); // 3;
- *     console.log(copy.length); // 2;
-*/
+   * @example
+   * // Create independent copy
+   *  const dq = new Deque<number>([1, 2, 3]);
+   *     const copy = dq.clone();
+   *     copy.pop();
+   *     console.log(dq.length); // 3;
+   *     console.log(copy.length); // 2;
+   */
   clone(): this {
     return this._createLike<E, R>(this, {
       bucketSize: this.bucketSize,
@@ -945,12 +945,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param predicate - Predicate (value, index, deque) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new deque with kept elements.
- * @example
- * // Filter elements
- *  const dq = new Deque<number>([1, 2, 3, 4]);
- *     const result = dq.filter(x => x > 2);
- *     console.log(result.length); // 2;
-*/
+   * @example
+   * // Filter elements
+   *  const dq = new Deque<number>([1, 2, 3, 4]);
+   *     const result = dq.filter(x => x > 2);
+   *     console.log(result.length); // 2;
+   */
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setBucketSize(this._bucketSize);
@@ -989,12 +989,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options for the output deque (e.g., bucketSize, toElementFn, maxLen).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Deque with mapped elements.
- * @example
- * // Transform elements
- *  const dq = new Deque<number>([1, 2, 3]);
- *     const result = dq.map(x => x * 10);
- *     console.log(result.toArray()); // [10, 20, 30];
-*/
+   * @example
+   * // Transform elements
+   *  const dq = new Deque<number>([1, 2, 3]);
+   *     const result = dq.map(x => x * 10);
+   *     console.log(result.toArray()); // [10, 20, 30];
+   */
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options?: IterableElementBaseOptions<EM, RM>,

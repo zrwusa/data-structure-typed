@@ -271,22 +271,22 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(L)
    * @param word - Word to insert.
    * @returns True if the word was newly added.
- * @example
- * // basic Trie creation and add words
- *  // Create a simple Trie with initial words
- *     const trie = new Trie(['apple', 'app', 'apply']);
- *
- *     // Verify size
- *     console.log(trie.size); // 3;
- *
- *     // Check if words exist
- *     console.log(trie.has('apple')); // true;
- *     console.log(trie.has('app')); // true;
- *
- *     // Add a new word
- *     trie.add('application');
- *     console.log(trie.size); // 4;
-*/
+   * @example
+   * // basic Trie creation and add words
+   *  // Create a simple Trie with initial words
+   *     const trie = new Trie(['apple', 'app', 'apply']);
+   *
+   *     // Verify size
+   *     console.log(trie.size); // 3;
+   *
+   *     // Check if words exist
+   *     console.log(trie.has('apple')); // true;
+   *     console.log(trie.has('app')); // true;
+   *
+   *     // Add a new word
+   *     trie.add('application');
+   *     console.log(trie.size); // 4;
+   */
   add(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
@@ -312,14 +312,14 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(ΣL), Space O(ΣL)
    * @param words - Iterable of strings (or raw records if toElementFn is provided).
    * @returns Array of per-word 'added' flags.
- * @example
- * // Add multiple words
- *  const trie = new Trie();
- *     trie.addMany(['cat', 'car', 'card']);
- *     console.log(trie.has('cat')); // true;
- *     console.log(trie.has('car')); // true;
- *     console.log(trie.size); // 3;
-*/
+   * @example
+   * // Add multiple words
+   *  const trie = new Trie();
+   *     trie.addMany(['cat', 'car', 'card']);
+   *     console.log(trie.has('cat')); // true;
+   *     console.log(trie.has('car')); // true;
+   *     console.log(trie.size); // 3;
+   */
   addMany(words: Iterable<string> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const word of words) {
@@ -337,14 +337,14 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to search for.
    * @returns True if present.
- * @example
- * // Check if a word exists
- *  const dict = new Trie(['apple', 'app', 'application']);
- *
- *     console.log(dict.has('app')); // true;
- *     console.log(dict.has('apple')); // true;
- *     console.log(dict.has('ap')); // false;
-*/
+   * @example
+   * // Check if a word exists
+   *  const dict = new Trie(['apple', 'app', 'application']);
+   *
+   *     console.log(dict.has('app')); // true;
+   *     console.log(dict.has('apple')); // true;
+   *     console.log(dict.has('ap')); // false;
+   */
   override has(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
@@ -360,13 +360,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Check whether the trie is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
- * @example
- * // Check if empty
- *  const trie = new Trie();
- *     console.log(trie.isEmpty()); // true;
- *     trie.add('word');
- *     console.log(trie.isEmpty()); // false;
-*/
+   * @example
+   * // Check if empty
+   *  const trie = new Trie();
+   *     console.log(trie.isEmpty()); // true;
+   *     trie.add('word');
+   *     console.log(trie.isEmpty()); // false;
+   */
   isEmpty(): boolean {
     return this._size === 0;
   }
@@ -375,12 +375,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Remove all words and reset to a fresh root.
    * @remarks Time O(1), Space O(1)
    * @returns void
- * @example
- * // Remove all words
- *  const trie = new Trie(['a', 'b', 'c']);
- *     trie.clear();
- *     console.log(trie.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all words
+   *  const trie = new Trie(['a', 'b', 'c']);
+   *     trie.clear();
+   *     console.log(trie.isEmpty()); // true;
+   */
   clear(): void {
     this._size = 0;
     this._root = new TrieNode('');
@@ -391,24 +391,24 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to delete.
    * @returns True if a word was removed.
- * @example
- * // Trie delete and iteration
- *  const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
- *
- *     // Delete a word
- *     trie.delete('card');
- *     console.log(trie.has('card')); // false;
- *
- *     // Word with same prefix still exists
- *     console.log(trie.has('care')); // true;
- *
- *     // Size decreased
- *     console.log(trie.size); // 5;
- *
- *     // Iterate through all words
- *     const allWords = [...trie];
- *     console.log(allWords.length); // 5;
-*/
+   * @example
+   * // Trie delete and iteration
+   *  const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
+   *
+   *     // Delete a word
+   *     trie.delete('card');
+   *     console.log(trie.has('card')); // false;
+   *
+   *     // Word with same prefix still exists
+   *     console.log(trie.has('care')); // true;
+   *
+   *     // Size decreased
+   *     console.log(trie.size); // 5;
+   *
+   *     // Iterate through all words
+   *     const allWords = [...trie];
+   *     console.log(allWords.length); // 5;
+   */
   delete(word: string): boolean {
     word = this._caseProcess(word);
     let isDeleted = false;
@@ -491,14 +491,14 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param input - String to test as prefix.
    * @returns True if input matches a path from root.
- * @example
- * // Check if a prefix exists
- *  const trie = new Trie(['hello', 'help', 'world']);
- *
- *     console.log(trie.hasPrefix('hel')); // true;
- *     console.log(trie.hasPrefix('wor')); // true;
- *     console.log(trie.hasPrefix('xyz')); // false;
-*/
+   * @example
+   * // Check if a prefix exists
+   *  const trie = new Trie(['hello', 'help', 'world']);
+   *
+   *     console.log(trie.hasPrefix('hel')); // true;
+   *     console.log(trie.hasPrefix('wor')); // true;
+   *     console.log(trie.hasPrefix('xyz')); // false;
+   */
   hasPrefix(input: string): boolean {
     input = this._caseProcess(input);
     let cur = this.root;
@@ -534,12 +534,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Return the longest common prefix among all words.
    * @remarks Time O(H), Space O(1)
    * @returns The longest common prefix string.
- * @example
- * // Find shared prefix
- *  const trie = new Trie(['flower', 'flow', 'flight']);
- *
- *     console.log(trie.getLongestCommonPrefix()); // 'fl';
-*/
+   * @example
+   * // Find shared prefix
+   *  const trie = new Trie(['flower', 'flow', 'flight']);
+   *
+   *     console.log(trie.getLongestCommonPrefix()); // 'fl';
+   */
   getLongestCommonPrefix(): string {
     let commonPre = '';
     const dfs = (cur: TrieNode) => {
@@ -559,18 +559,18 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
    * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
    * @returns Array of collected words (at most max).
- * @example
- * // Trie getWords and prefix search
- *  const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
- *
- *     // Get all words with prefix 'app'
- *     const appWords = trie.getWords('app');
- *     console.log(appWords); // contains 'app';
- *     console.log(appWords); // contains 'apple';
- *     console.log(appWords); // contains 'apply';
- *     console.log(appWords); // contains 'application';
- *     expect(appWords).not.toContain('apricot');
-*/
+   * @example
+   * // Trie getWords and prefix search
+   *  const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
+   *
+   *     // Get all words with prefix 'app'
+   *     const appWords = trie.getWords('app');
+   *     console.log(appWords); // contains 'app';
+   *     console.log(appWords); // contains 'apple';
+   *     console.log(appWords); // contains 'apply';
+   *     console.log(appWords); // contains 'application';
+   *     expect(appWords).not.toContain('apricot');
+   */
   getWords(prefix = '', max = Number.MAX_SAFE_INTEGER, isAllWhenEmptyPrefix = false): string[] {
     prefix = this._caseProcess(prefix);
     const words: string[] = [];
@@ -605,13 +605,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Deep clone this trie by iterating and inserting all words.
    * @remarks Time O(ΣL), Space O(ΣL)
    * @returns A new trie with the same words and options.
- * @example
- * // Create independent copy
- *  const trie = new Trie(['hello', 'world']);
- *     const copy = trie.clone();
- *     copy.delete('hello');
- *     console.log(trie.has('hello')); // true;
-*/
+   * @example
+   * // Create independent copy
+   *  const trie = new Trie(['hello', 'world']);
+   *     const copy = trie.clone();
+   *     copy.delete('hello');
+   *     console.log(trie.has('hello')); // true;
+   */
   clone(): this {
     const next = this._createInstance();
     for (const x of this) next.add(x);
@@ -624,12 +624,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param predicate - Predicate (word, index, trie) → boolean to keep word.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new trie containing words that satisfy the predicate.
- * @example
- * // Filter words
- *  const trie = new Trie(['cat', 'car', 'dog', 'card']);
- *     const result = trie.filter(w => w.startsWith('ca'));
- *     console.log(result.size); // 3;
-*/
+   * @example
+   * // Filter words
+   *  const trie = new Trie(['cat', 'car', 'dog', 'card']);
+   *     const result = trie.filter(w => w.startsWith('ca'));
+   *     console.log(result.size); // 3;
+   */
   filter(predicate: ElementCallback<string, R, boolean>, thisArg?: unknown): this {
     const results = this._createInstance();
     let index = 0;
@@ -644,12 +644,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
 
   /**
    * Transform words
- * @example
- * // Transform words
- *  const trie = new Trie(['hello', 'world']);
- *     const upper = trie.map(w => w.toUpperCase());
- *     console.log(upper.has('HELLO')); // true;
-*/
+   * @example
+   * // Transform words
+   *  const trie = new Trie(['hello', 'world']);
+   *     const upper = trie.map(w => w.toUpperCase());
+   *     console.log(upper.has('HELLO')); // true;
+   */
   map<RM>(callback: ElementCallback<string, R, string>, options?: TrieOptions<RM>, thisArg?: unknown): Trie<RM>;
 
   /**

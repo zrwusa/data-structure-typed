@@ -1,9 +1,8 @@
 import { HashMap, LinkedHashMap } from '../../../../src';
 
 describe('HashMap misc coverage', () => {
-
   describe('/ Linkedbranch', () => {
-  it('HashMap.setHashFn returns early when same fn is passed (covers _hashFn===fn branch)', () => {
+    it('HashMap.setHashFn returns early when same fn is passed (covers _hashFn===fn branch)', () => {
       const m = new HashMap<any, any>();
       const fn = (m as any)._hashFn;
       expect(m.setHashFn(fn)).toBe(m);
@@ -75,7 +74,10 @@ describe('HashMap misc coverage', () => {
 
   describe('IterableEntryBase inherited methods', () => {
     it('hasValue returns true/false', () => {
-      const hm = new HashMap<number, string>([[1, 'a'], [2, 'b']]);
+      const hm = new HashMap<number, string>([
+        [1, 'a'],
+        [2, 'b']
+      ]);
       expect(hm.hasValue('a')).toBe(true);
       expect(hm.hasValue('z')).toBe(false);
     });
@@ -138,7 +140,11 @@ describe('HashMap misc coverage', () => {
   describe('LinkedHashMap begin iterator', () => {
     it('iterates multiple entries via begin()', () => {
       const { LinkedHashMap: LHM } = require('../../../../src');
-      const lhm = new (LHM as any)([[1, 'a'], [2, 'b'], [3, 'c']]);
+      const lhm = new (LHM as any)([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]);
       const entries: [number, string][] = [];
       for (const entry of lhm.begin()) {
         entries.push(entry as [number, string]);

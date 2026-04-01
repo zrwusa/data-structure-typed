@@ -954,7 +954,11 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
 
   it('clone produces identical key-value pairs', () => {
     const rbt = new RedBlackTree<number, string>();
-    rbt.set([5, 'e']); rbt.set([3, 'c']); rbt.set([7, 'g']); rbt.set([1, 'a']); rbt.set([9, 'i']);
+    rbt.set([5, 'e']);
+    rbt.set([3, 'c']);
+    rbt.set([7, 'g']);
+    rbt.set([1, 'a']);
+    rbt.set([9, 'i']);
 
     const cloned = rbt.clone();
     expect(cloned.size).toBe(rbt.size);
@@ -987,7 +991,11 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.get] Retrieve value by key', () => {
-    const rbt = new RedBlackTree<number, string>([[5, 'five'], [3, 'three'], [7, 'seven']]);
+    const rbt = new RedBlackTree<number, string>([
+      [5, 'five'],
+      [3, 'three'],
+      [7, 'seven']
+    ]);
     expect(rbt.get(3)).toBe('three');
     expect(rbt.get(99)).toBeUndefined();
   });
@@ -1025,8 +1033,16 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.entries] Iterate key-value pairs', () => {
-    const rbt = new RedBlackTree<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
-    expect([...rbt.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const rbt = new RedBlackTree<number, string>([
+      [3, 'c'],
+      [1, 'a'],
+      [2, 'b']
+    ]);
+    expect([...rbt.entries()]).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   it('@example [RedBlackTree.keys] Get sorted keys', () => {
@@ -1035,7 +1051,11 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.values] Get values in key order', () => {
-    const rbt = new RedBlackTree<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    const rbt = new RedBlackTree<number, string>([
+      [2, 'b'],
+      [1, 'a'],
+      [3, 'c']
+    ]);
     expect([...rbt.values()]).toEqual(['a', 'b', 'c']);
   });
 
@@ -1053,13 +1073,20 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.map] Transform to new tree', () => {
-    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
+    const rbt = new RedBlackTree<number, number>([
+      [1, 10],
+      [2, 20]
+    ]);
     const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
     expect([...doubled.values()]).toEqual([20, 40]);
   });
 
   it('@example [RedBlackTree.reduce] Aggregate values', () => {
-    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const rbt = new RedBlackTree<number, number>([
+      [1, 10],
+      [2, 20],
+      [3, 30]
+    ]);
     const sum = rbt.reduce((acc, v) => acc + (v ?? 0), 0);
     expect(sum).toBe(60);
   });
@@ -1075,7 +1102,10 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.find] Find matching entry', () => {
-    const rbt = new RedBlackTree<number, string>([[1, 'a'], [2, 'b']]);
+    const rbt = new RedBlackTree<number, string>([
+      [1, 'a'],
+      [2, 'b']
+    ]);
     const found = rbt.find(v => v === 'b');
     expect(found?.[0]).toBe(2);
   });
@@ -1162,7 +1192,10 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.getNode] Get node by key', () => {
-    const rbt = new RedBlackTree<number, string>([[5, 'root'], [3, 'left']]);
+    const rbt = new RedBlackTree<number, string>([
+      [5, 'root'],
+      [3, 'left']
+    ]);
     expect(rbt.getNode(3)?.value).toBe('left');
   });
 
@@ -1182,13 +1215,20 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
     const rbt = new RedBlackTree<number>([5, 3, 7, 1, 9]);
     const levels = rbt.listLevels(node => node.key);
     expect(levels.length).toBeGreaterThan(0);
-    const allKeys = levels.flat().filter(k => !isNaN(k)).sort((a, b) => a - b);
+    const allKeys = levels
+      .flat()
+      .filter(k => !isNaN(k))
+      .sort((a, b) => a - b);
     expect(allKeys).toEqual([1, 3, 5, 7, 9]);
   });
 
   it('@example [RedBlackTree.setMany] Set multiple entries', () => {
     const rbt = new RedBlackTree<number, string>();
-    rbt.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    rbt.setMany([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     expect(rbt.size).toBe(3);
   });
 
@@ -1209,7 +1249,10 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.get] Retrieve value by key', () => {
-    const rbt = new RedBlackTree<number, string>([[1, 'one'], [2, 'two']]);
+    const rbt = new RedBlackTree<number, string>([
+      [1, 'one'],
+      [2, 'two']
+    ]);
     expect(rbt.get(1)).toBe('one');
   });
 
@@ -1220,8 +1263,16 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.entries] Iterate key-value pairs in order', () => {
-    const rbt = new RedBlackTree<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
-    expect([...rbt.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const rbt = new RedBlackTree<number, string>([
+      [3, 'c'],
+      [1, 'a'],
+      [2, 'b']
+    ]);
+    expect([...rbt.entries()]).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   it('@example [RedBlackTree.keys] Get sorted keys', () => {
@@ -1230,7 +1281,11 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.values] Get values in key order', () => {
-    const rbt = new RedBlackTree<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    const rbt = new RedBlackTree<number, string>([
+      [2, 'b'],
+      [1, 'a'],
+      [3, 'c']
+    ]);
     expect([...rbt.values()]).toEqual(['a', 'b', 'c']);
   });
 
@@ -1252,7 +1307,10 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.find] Find matching entry', () => {
-    const rbt = new RedBlackTree<number, string>([[1, 'a'], [2, 'b']]);
+    const rbt = new RedBlackTree<number, string>([
+      [1, 'a'],
+      [2, 'b']
+    ]);
     const found = rbt.find(v => v === 'b');
     expect(found?.[0]).toBe(2);
   });
@@ -1264,13 +1322,20 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.map] Transform to new tree', () => {
-    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
+    const rbt = new RedBlackTree<number, number>([
+      [1, 10],
+      [2, 20]
+    ]);
     const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
     expect([...doubled.values()]).toEqual([20, 40]);
   });
 
   it('@example [RedBlackTree.reduce] Aggregate values', () => {
-    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const rbt = new RedBlackTree<number, number>([
+      [1, 10],
+      [2, 20],
+      [3, 30]
+    ]);
     const sum = rbt.reduce((acc, v) => acc + (v ?? 0), 0);
     expect(sum).toBe(60);
   });
@@ -1375,7 +1440,10 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
   });
 
   it('@example [RedBlackTree.getNode] Get node by key', () => {
-    const rbt = new RedBlackTree<number, string>([[5, 'root'], [3, 'left']]);
+    const rbt = new RedBlackTree<number, string>([
+      [5, 'root'],
+      [3, 'left']
+    ]);
     expect(rbt.getNode(3)?.value).toBe('left');
   });
 
@@ -1396,7 +1464,10 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
     const levels = rbt.listLevels(n => n.key);
     expect(levels.length).toBeGreaterThan(0);
     // Filter out NIL sentinels (NaN keys)
-    const allKeys = levels.flat().filter(k => !isNaN(k)).sort((a, b) => a - b);
+    const allKeys = levels
+      .flat()
+      .filter(k => !isNaN(k))
+      .sort((a, b) => a - b);
     expect(allKeys).toEqual([1, 3, 4, 5, 7]);
   });
 
@@ -1414,7 +1485,11 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
 
   it('@example [RedBlackTree.setMany] Set multiple key-value pairs', () => {
     const rbt = new RedBlackTree<number, string>();
-    rbt.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    rbt.setMany([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     expect(rbt.size).toBe(3);
   });
 });

@@ -3,7 +3,7 @@ import { TreeSet } from '../../../../src';
 describe('TreeSet.deleteWhere coverage', () => {
   it('should delete keys matching predicate', () => {
     const set = new TreeSet<number>([1, 2, 3, 4, 5]);
-    const result = set.deleteWhere((key) => key > 3);
+    const result = set.deleteWhere(key => key > 3);
     expect(result).toBe(true);
     expect(set.has(4)).toBe(false);
     expect(set.has(5)).toBe(false);

@@ -10,7 +10,7 @@ const { HUNDRED_THOUSAND } = magnitude;
 // Benchmark.js will call the test function many times, so a global list would grow and
 // slow down over time, distorting results.
 
-suite.add('100k push', function() {
+suite.add('100k push', function () {
   const list = new DoublyLinkedList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.push(i);
@@ -18,7 +18,7 @@ suite.add('100k push', function() {
   this.val = list;
 });
 
-suite.add('Native JS Array 100k push', function() {
+suite.add('Native JS Array 100k push', function () {
   const arr = [];
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     arr.push(i);
@@ -26,7 +26,7 @@ suite.add('Native JS Array 100k push', function() {
   this.val = arr;
 });
 
-suite.add('100k unshift', function() {
+suite.add('100k unshift', function () {
   const list = new DoublyLinkedList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.unshift(i);
@@ -34,7 +34,7 @@ suite.add('100k unshift', function() {
   this.val = list;
 });
 
-suite.add('Native JS Array 100k unshift', function() {
+suite.add('Native JS Array 100k unshift', function () {
   const arr = [];
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     arr.unshift(i);
@@ -42,7 +42,7 @@ suite.add('Native JS Array 100k unshift', function() {
   this.val = arr;
 });
 
-suite.add('100k unshift & shift', function() {
+suite.add('100k unshift & shift', function () {
   const list = new DoublyLinkedList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.unshift(i);
@@ -53,7 +53,7 @@ suite.add('100k unshift & shift', function() {
   this.val = list;
 });
 
-suite.add('Native JS Array 100k unshift & shift', function() {
+suite.add('Native JS Array 100k unshift & shift', function () {
   const arr = [];
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     arr.unshift(i);
@@ -64,7 +64,7 @@ suite.add('Native JS Array 100k unshift & shift', function() {
   this.val = arr;
 });
 
-suite.add('100k addAt(mid)', function() {
+suite.add('100k addAt(mid)', function () {
   const list = new DoublyLinkedList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.push(i);
@@ -80,7 +80,7 @@ suite.add('100k addAt(mid)', function() {
 
 // Cursor-based insertion: comparable to C++ std::list::insert(it, value)
 // (known position insertion without paying index-to-node lookup each time)
-suite.add('100k addBefore (cursor)', function() {
+suite.add('100k addBefore (cursor)', function () {
   const list = new DoublyLinkedList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.push(i);
@@ -95,7 +95,7 @@ suite.add('100k addBefore (cursor)', function() {
 });
 
 // js-sdsl LinkList comparison
-suite.add('100k push (js-sdsl)', function() {
+suite.add('100k push (js-sdsl)', function () {
   const list = new SdslLinkList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.pushBack(i);
@@ -103,7 +103,7 @@ suite.add('100k push (js-sdsl)', function() {
   this.val = list;
 });
 
-suite.add('100k unshift (js-sdsl)', function() {
+suite.add('100k unshift (js-sdsl)', function () {
   const list = new SdslLinkList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.pushFront(i);
@@ -111,7 +111,7 @@ suite.add('100k unshift (js-sdsl)', function() {
   this.val = list;
 });
 
-suite.add('100k unshift & shift (js-sdsl)', function() {
+suite.add('100k unshift & shift (js-sdsl)', function () {
   const list = new SdslLinkList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.pushFront(i);

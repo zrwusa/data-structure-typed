@@ -1,4 +1,4 @@
-import { Queue, Deque, DoublyLinkedList, SinglyLinkedList, Stack, Heap } from '../../../../src';
+import { Deque, DoublyLinkedList, Heap, Queue, SinglyLinkedList, Stack } from '../../../../src';
 
 describe('Array-compatible API: includes, entries, keys', () => {
   describe('includes (alias for has)', () => {
@@ -47,12 +47,19 @@ describe('Array-compatible API: includes, entries, keys', () => {
   describe('entries', () => {
     it('@example [Queue.entries] Get [index, value] pairs', () => {
       const q = new Queue(['a', 'b', 'c']);
-      expect([...q.entries()]).toEqual([[0, 'a'], [1, 'b'], [2, 'c']]);
+      expect([...q.entries()]).toEqual([
+        [0, 'a'],
+        [1, 'b'],
+        [2, 'c']
+      ]);
     });
 
     it('Stack returns [index, value] pairs', () => {
       const s = new Stack([10, 20]);
-      expect([...s.entries()]).toEqual([[0, 10], [1, 20]]);
+      expect([...s.entries()]).toEqual([
+        [0, 10],
+        [1, 20]
+      ]);
     });
 
     it('empty container', () => {
@@ -96,7 +103,10 @@ describe('Deque findLast / findLastIndex', () => {
   it('findLast passes correct index', () => {
     const d = new Deque([10, 20, 30]);
     const indices: number[] = [];
-    d.findLast((_v, i) => { indices.push(i); return false; });
+    d.findLast((_v, i) => {
+      indices.push(i);
+      return false;
+    });
     expect(indices).toEqual([2, 1, 0]);
   });
 
@@ -134,7 +144,10 @@ describe('DoublyLinkedList findLastIndex', () => {
   it('passes correct index (tail to head)', () => {
     const ll = new DoublyLinkedList([10, 20, 30]);
     const indices: number[] = [];
-    ll.findLastIndex((_v, i) => { indices.push(i); return false; });
+    ll.findLastIndex((_v, i) => {
+      indices.push(i);
+      return false;
+    });
     expect(indices).toEqual([2, 1, 0]);
   });
 });

@@ -8,7 +8,7 @@ describe('TreeMap.deleteWhere coverage', () => {
       [3, 'c'],
       [4, 'd']
     ]);
-    const result = map.deleteWhere((key) => key % 2 === 0);
+    const result = map.deleteWhere(key => key % 2 === 0);
     expect(result).toBe(true);
     expect(map.has(2)).toBe(false);
     expect(map.has(4)).toBe(false);
@@ -18,7 +18,10 @@ describe('TreeMap.deleteWhere coverage', () => {
   });
 
   it('should return false when no entries match', () => {
-    const map = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
+    const map = new TreeMap<number, string>([
+      [1, 'a'],
+      [2, 'b']
+    ]);
     const result = map.deleteWhere(() => false);
     expect(result).toBe(false);
     expect(map.size).toBe(2);
@@ -30,7 +33,10 @@ describe('TreeMap.deleteWhere coverage', () => {
   });
 
   it('should pass correct arguments to predicate', () => {
-    const map = new TreeMap<number, string>([[10, 'x'], [20, 'y']]);
+    const map = new TreeMap<number, string>([
+      [10, 'x'],
+      [20, 'y']
+    ]);
     const calls: [number, string | undefined, number][] = [];
     map.deleteWhere((key, value, index) => {
       calls.push([key, value, index]);

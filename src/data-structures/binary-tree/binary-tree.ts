@@ -597,15 +597,15 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param keyNodeOrEntry - The key, node, or entry to add.
    * @returns True if the addition was successful, false otherwise.
- * @example
- * // Add a single node
- *  const tree = new BinaryTree<number>();
- *     tree.add(1);
- *     tree.add(2);
- *     tree.add(3);
- *     console.log(tree.size); // 3;
- *     console.log(tree.has(1)); // true;
-*/
+   * @example
+   * // Add a single node
+   *  const tree = new BinaryTree<number>();
+   *     tree.add(1);
+   *     tree.add(2);
+   *     tree.add(3);
+   *     console.log(tree.size); // 3;
+   *     console.log(tree.has(1)); // true;
+   */
   add(keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined): boolean {
     return this.set(keyNodeOrEntry);
   }
@@ -617,30 +617,30 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param keyNodeOrEntry - The key, node, or entry to set or update.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
- * @example
- * // basic BinaryTree creation and insertion
- *  // Create a BinaryTree with entries
- *     const entries: [number, string][] = [
- *       [6, 'six'],
- *       [1, 'one'],
- *       [2, 'two'],
- *       [7, 'seven'],
- *       [5, 'five'],
- *       [3, 'three'],
- *       [4, 'four'],
- *       [9, 'nine'],
- *       [8, 'eight']
- *     ];
- *
- *     const tree = new BinaryTree(entries);
- *
- *     // Verify size
- *     console.log(tree.size); // 9;
- *
- *     // Add new element
- *     tree.set(10, 'ten');
- *     console.log(tree.size); // 10;
-*/
+   * @example
+   * // basic BinaryTree creation and insertion
+   *  // Create a BinaryTree with entries
+   *     const entries: [number, string][] = [
+   *       [6, 'six'],
+   *       [1, 'one'],
+   *       [2, 'two'],
+   *       [7, 'seven'],
+   *       [5, 'five'],
+   *       [3, 'three'],
+   *       [4, 'four'],
+   *       [9, 'nine'],
+   *       [8, 'eight']
+   *     ];
+   *
+   *     const tree = new BinaryTree(entries);
+   *
+   *     // Verify size
+   *     console.log(tree.size); // 9;
+   *
+   *     // Add new element
+   *     tree.set(10, 'ten');
+   *     console.log(tree.size); // 10;
+   */
   set(
     keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
@@ -702,12 +702,12 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param keysNodesEntriesOrRaws - An iterable of items to set.
    * @returns An array of booleans indicating the success of each individual `set` operation.
- * @example
- * // Bulk add
- *  const tree = new BinaryTree<number>();
- *     tree.addMany([1, 2, 3, 4, 5]);
- *     console.log(tree.size); // 5;
-*/
+   * @example
+   * // Bulk add
+   *  const tree = new BinaryTree<number>();
+   *     tree.addMany([1, 2, 3, 4, 5]);
+   *     console.log(tree.size); // 5;
+   */
   addMany(
     keysNodesEntriesOrRaws: Iterable<
       K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
@@ -723,12 +723,16 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param keysNodesEntriesOrRaws - An iterable of items to set or update.
    * @param [values] - An optional parallel iterable of values.
    * @returns An array of booleans indicating the success of each individual `set` operation.
- * @example
- * // Set multiple entries
- *  const tree = new BinaryTree<number, string>();
- *     tree.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
- *     console.log(tree.size); // 3;
-*/
+   * @example
+   * // Set multiple entries
+   *  const tree = new BinaryTree<number, string>();
+   *     tree.setMany([
+   *       [1, 'a'],
+   *       [2, 'b'],
+   *       [3, 'c']
+   *     ]);
+   *     console.log(tree.size); // 3;
+   */
   setMany(
     keysNodesEntriesOrRaws: Iterable<
       K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
@@ -763,13 +767,13 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(N * M), same as `setMany`, where N is the size of `anotherTree` and M is the size of this tree. Space O(M) (from `set`).
    *
    * @param anotherTree - The tree to merge.
- * @example
- * // Combine trees
- *  const t1 = new BinaryTree<number>([1, 2]);
- *     const t2 = new BinaryTree<number>([3, 4]);
- *     t1.merge(t2);
- *     console.log(t1.size); // 4;
-*/
+   * @example
+   * // Combine trees
+   *  const t1 = new BinaryTree<number>([1, 2]);
+   *     const t2 = new BinaryTree<number>([3, 4]);
+   *     t1.merge(t2);
+   *     console.log(t1.size); // 4;
+   */
   merge(anotherTree: BinaryTree<K, V, R>) {
     this.setMany(anotherTree, []);
   }
@@ -780,13 +784,13 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param keyNodeEntryRawOrPredicate - The node to delete.
    * @returns True if the node was found and deleted, false otherwise.
- * @example
- * // Remove a node
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     tree.delete(3);
- *     console.log(tree.has(3)); // false;
- *     console.log(tree.size); // 4;
-*/
+   * @example
+   * // Remove a node
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     tree.delete(3);
+   *     console.log(tree.has(3)); // false;
+   *     console.log(tree.size); // 4;
+   */
   delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
   ): boolean {
@@ -795,12 +799,12 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Search by predicate
- * @example
- * // Search by predicate
- *  const tree = new BinaryTree<number>([5, 3, 7, 1, 9]);
- *     const found = tree.search(n => n!.key > 5, true);
- *     console.log(found.length); // >= 1;
-*/
+   * @example
+   * // Search by predicate
+   *  const tree = new BinaryTree<number>([5, 3, 7, 1, 9]);
+   *     const found = tree.search(n => n!.key > 5, true);
+   *     console.log(found.length); // >= 1;
+   */
   search(
     keyNodeEntryOrPredicate:
       | K
@@ -899,12 +903,12 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns An array of matching nodes.
- * @example
- * // Get nodes by condition
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     const nodes = tree.getNodes(node => node.key > 3);
- *     console.log(nodes.length); // 2;
-*/
+   * @example
+   * // Get nodes by condition
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     const nodes = tree.getNodes(node => node.key > 3);
+   *     console.log(nodes.length); // 2;
+   */
   getNodes(
     keyNodeEntryOrPredicate:
       | K
@@ -941,11 +945,14 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The first matching node, or undefined if not found.
- * @example
- * // Get node by key
- *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'child']]);
- *     console.log(tree.getNode(2)?.value); // 'child';
-*/
+   * @example
+   * // Get node by key
+   *  const tree = new BinaryTree<number, string>([
+   *       [1, 'root'],
+   *       [2, 'child']
+   *     ]);
+   *     console.log(tree.getNode(2)?.value); // 'child';
+   */
   getNode(
     keyNodeEntryOrPredicate:
       | K
@@ -975,12 +982,16 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start searching from (if not in Map mode).
    * @param [iterationType=this.iterationType] - The traversal method (if not in Map mode).
    * @returns The associated value, or undefined.
- * @example
- * // Retrieve value by key
- *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
- *     console.log(tree.get(2)); // 'left';
- *     console.log(tree.get(99)); // undefined;
-*/
+   * @example
+   * // Retrieve value by key
+   *  const tree = new BinaryTree<number, string>([
+   *       [1, 'root'],
+   *       [2, 'left'],
+   *       [3, 'right']
+   *     ]);
+   *     console.log(tree.get(2)); // 'left';
+   *     console.log(tree.get(99)); // undefined;
+   */
   override get(
     keyNodeEntryOrPredicate: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
@@ -1002,35 +1013,35 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode] - The node to start the search from.
    * @param [iterationType] - The traversal method.
    * @returns True if a matching node exists, false otherwise.
- * @example
- * // BinaryTree get and has operations
- *  const tree = new BinaryTree(
- *       [
- *         [5, 'five'],
- *         [3, 'three'],
- *         [7, 'seven'],
- *         [1, 'one'],
- *         [4, 'four'],
- *         [6, 'six'],
- *         [8, 'eight']
- *       ],
- *       { isMapMode: false }
- *     );
- *
- *     // Check if key exists
- *     console.log(tree.has(5)); // true;
- *     console.log(tree.has(10)); // false;
- *
- *     // Get value by key
- *     console.log(tree.get(3)); // 'three';
- *     console.log(tree.get(7)); // 'seven';
- *     console.log(tree.get(100)); // undefined;
- *
- *     // Get node structure
- *     const node = tree.getNode(5);
- *     console.log(node?.key); // 5;
- *     console.log(node?.value); // 'five';
-*/
+   * @example
+   * // BinaryTree get and has operations
+   *  const tree = new BinaryTree(
+   *       [
+   *         [5, 'five'],
+   *         [3, 'three'],
+   *         [7, 'seven'],
+   *         [1, 'one'],
+   *         [4, 'four'],
+   *         [6, 'six'],
+   *         [8, 'eight']
+   *       ],
+   *       { isMapMode: false }
+   *     );
+   *
+   *     // Check if key exists
+   *     console.log(tree.has(5)); // true;
+   *     console.log(tree.has(10)); // false;
+   *
+   *     // Get value by key
+   *     console.log(tree.get(3)); // 'three';
+   *     console.log(tree.get(7)); // 'seven';
+   *     console.log(tree.get(100)); // undefined;
+   *
+   *     // Get node structure
+   *     const node = tree.getNode(5);
+   *     console.log(node?.key); // 5;
+   *     console.log(node?.value); // 'five';
+   */
   override has(
     keyNodeEntryOrPredicate?:
       | K
@@ -1067,12 +1078,12 @@ export class BinaryTree<K = any, V = any, R = any>
   /**
    * Clears the tree of all nodes and values.
    * @remarks Time O(N) if in Map mode (due to `_store.clear()`), O(1) otherwise. Space O(1)
- * @example
- * // Remove all nodes
- *  const tree = new BinaryTree<number>([1, 2, 3]);
- *     tree.clear();
- *     console.log(tree.isEmpty()); // true;
-*/
+   * @example
+   * // Remove all nodes
+   *  const tree = new BinaryTree<number>([1, 2, 3]);
+   *     tree.clear();
+   *     console.log(tree.isEmpty()); // true;
+   */
   clear() {
     this._clearNodes();
     if (this._isMapMode) this._clearValues();
@@ -1083,10 +1094,10 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(1), Space O(1)
    *
    * @returns True if the tree has no nodes, false otherwise.
- * @example
- * // Check empty
- *  console.log(new BinaryTree().isEmpty()); // true;
-*/
+   * @example
+   * // Check empty
+   *  console.log(new BinaryTree().isEmpty()); // true;
+   */
   isEmpty(): boolean {
     return this._size === 0;
   }
@@ -1111,12 +1122,12 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start checking from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns True if it's a valid BST, false otherwise.
- * @example
- * // Check BST property
- *  const tree = new BinaryTree<number>([1, 2, 3]);
- *     // BinaryTree doesn't guarantee BST order
- *     console.log(typeof tree.isBST()); // 'boolean';
-*/
+   * @example
+   * // Check BST property
+   *  const tree = new BinaryTree<number>([1, 2, 3]);
+   *     // BinaryTree doesn't guarantee BST order
+   *     console.log(typeof tree.isBST()); // 'boolean';
+   */
   isBST(
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
     iterationType: IterationType = this.iterationType
@@ -1167,12 +1178,12 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param dist - The node to find the depth of.
    * @param [startNode=this._root] - The node to measure depth from (defaults to root).
    * @returns The depth (0 if `dist` is `startNode`).
- * @example
- * // Get depth of a node
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     const node = tree.getNode(4);
- *     console.log(tree.getDepth(node!)); // 2;
-*/
+   * @example
+   * // Get depth of a node
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     const node = tree.getNode(4);
+   *     console.log(tree.getDepth(node!)); // 2;
+   */
   getDepth(
     dist: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root
@@ -1197,11 +1208,11 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start measuring from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The height ( -1 for an empty tree, 0 for a single-node tree).
- * @example
- * // Get tree height
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     console.log(tree.getHeight()); // 2;
-*/
+   * @example
+   * // Get tree height
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     console.log(tree.getHeight()); // 2;
+   */
   getHeight(
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
     iterationType: IterationType = this.iterationType
@@ -1468,12 +1479,12 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Depth-first search traversal
- * @example
- * // Depth-first search traversal
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     const inOrder = tree.dfs(node => node.key, 'IN');
- *     console.log(inOrder); // [4, 2, 5, 1, 3];
-*/
+   * @example
+   * // Depth-first search traversal
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     const inOrder = tree.dfs(node => node.key, 'IN');
+   *     console.log(inOrder); // [4, 2, 5, 1, 3];
+   */
   dfs(): (K | undefined)[];
 
   dfs<C extends NodeCallback<BinaryTreeNode<K, V>>>(
@@ -1521,34 +1532,34 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * BinaryTree level-order traversal
- * @example
- * // BinaryTree level-order traversal
- *  const tree = new BinaryTree([
- *       [1, 'one'],
- *       [2, 'two'],
- *       [3, 'three'],
- *       [4, 'four'],
- *       [5, 'five'],
- *       [6, 'six'],
- *       [7, 'seven']
- *     ]);
- *
- *     // Binary tree maintains level-order insertion
- *     // Complete binary tree structure
- *     console.log(tree.size); // 7;
- *
- *     // Verify all keys are present
- *     console.log(tree.has(1)); // true;
- *     console.log(tree.has(4)); // true;
- *     console.log(tree.has(7)); // true;
- *
- *     // Iterate through tree
- *     const keys: number[] = [];
- *     for (const [key] of tree) {
- *       keys.push(key);
- *     }
- *     console.log(keys.length); // 7;
-*/
+   * @example
+   * // BinaryTree level-order traversal
+   *  const tree = new BinaryTree([
+   *       [1, 'one'],
+   *       [2, 'two'],
+   *       [3, 'three'],
+   *       [4, 'four'],
+   *       [5, 'five'],
+   *       [6, 'six'],
+   *       [7, 'seven']
+   *     ]);
+   *
+   *     // Binary tree maintains level-order insertion
+   *     // Complete binary tree structure
+   *     console.log(tree.size); // 7;
+   *
+   *     // Verify all keys are present
+   *     console.log(tree.has(1)); // true;
+   *     console.log(tree.has(4)); // true;
+   *     console.log(tree.has(7)); // true;
+   *
+   *     // Iterate through tree
+   *     const keys: number[] = [];
+   *     for (const [key] of tree) {
+   *       keys.push(key);
+   *     }
+   *     console.log(keys.length); // 7;
+   */
   bfs(): (K | undefined)[];
 
   bfs<C extends NodeCallback<BinaryTreeNode<K, V>>>(
@@ -1635,12 +1646,12 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Get leaf nodes
- * @example
- * // Get leaf nodes
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     const leafKeys = tree.leaves(node => node.key);
- *     console.log(leafKeys.length); // > 0;
-*/
+   * @example
+   * // Get leaf nodes
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     const leafKeys = tree.leaves(node => node.key);
+   *     console.log(leafKeys.length); // > 0;
+   */
   leaves(): (K | undefined)[];
 
   leaves<C extends NodeCallback<BinaryTreeNode<K, V>>>(
@@ -1703,13 +1714,13 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Level-order grouping
- * @example
- * // Level-order grouping
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     const levels = tree.listLevels(node => node.key);
- *     console.log(levels[0]); // [1];
- *     console.log(levels[1].sort()); // [2, 3];
-*/
+   * @example
+   * // Level-order grouping
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+   *     const levels = tree.listLevels(node => node.key);
+   *     console.log(levels[0]); // [1];
+   *     console.log(levels[1].sort()); // [2, 3];
+   */
   listLevels(): (K | undefined)[][];
 
   listLevels<C extends NodeCallback<BinaryTreeNode<K, V>>>(
@@ -1789,12 +1800,12 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Morris traversal (O(1) space)
- * @example
- * // Morris traversal (O(1) space)
- *  const tree = new BinaryTree<number>([1, 2, 3]);
- *     const result = tree.morris(node => node.key, 'IN');
- *     console.log(result.length); // 3;
-*/
+   * @example
+   * // Morris traversal (O(1) space)
+   *  const tree = new BinaryTree<number>([1, 2, 3]);
+   *     const result = tree.morris(node => node.key, 'IN');
+   *     console.log(result.length); // 3;
+   */
   morris(): (K | undefined)[];
 
   morris<C extends NodeCallback<BinaryTreeNode<K, V>>>(
@@ -1918,13 +1929,13 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(N * M), where N is the number of nodes and M is the tree size during insertion (due to `bfs` + `set`, and `set` is O(M)). Space O(N) for the new tree and the BFS queue.
    *
    * @returns A new, cloned instance of the tree.
- * @example
- * // Deep copy
- *  const tree = new BinaryTree<number>([1, 2, 3]);
- *     const copy = tree.clone();
- *     copy.delete(1);
- *     console.log(tree.has(1)); // true;
-*/
+   * @example
+   * // Deep copy
+   *  const tree = new BinaryTree<number>([1, 2, 3]);
+   *     const copy = tree.clone();
+   *     copy.delete(1);
+   *     console.log(tree.has(1)); // true;
+   */
   clone(): this {
     const out = this._createInstance<K, V, R>();
     this._clone(out);
@@ -1938,12 +1949,12 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param predicate - A function to test each [key, value] pair.
    * @param [thisArg] - `this` context for the predicate.
    * @returns A new, filtered tree.
- * @example
- * // Filter nodes by condition
- *  const tree = new BinaryTree<number>([1, 2, 3, 4]);
- *     const result = tree.filter((_, key) => key > 2);
- *     console.log(result.size); // 2;
-*/
+   * @example
+   * // Filter nodes by condition
+   *  const tree = new BinaryTree<number>([1, 2, 3, 4]);
+   *     const result = tree.filter((_, key) => key > 2);
+   *     console.log(result.size); // 2;
+   */
   filter(predicate: EntryCallback<K, V | undefined, boolean>, thisArg?: unknown): this {
     const out = this._createInstance<K, V, R>();
     let i = 0;
@@ -1962,12 +1973,15 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [options] - Options for the new tree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped tree.
- * @example
- * // Transform to new tree
- *  const tree = new BinaryTree<number, number>([[1, 10], [2, 20]]);
- *     const mapped = tree.map((v, key) => [key, (v ?? 0) + 1] as [number, number]);
- *     console.log([...mapped.values()]); // contains 11;
-*/
+   * @example
+   * // Transform to new tree
+   *  const tree = new BinaryTree<number, number>([
+   *       [1, 10],
+   *       [2, 20]
+   *     ]);
+   *     const mapped = tree.map((v, key) => [key, (v ?? 0) + 1] as [number, number]);
+   *     console.log([...mapped.values()]); // contains 11;
+   */
   map<MK = K, MV = V, MR = any>(
     cb: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
@@ -2019,11 +2033,11 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param [options] - Options to control the output.
    * @param [startNode=this._root] - The node to start printing from.
- * @example
- * // Display tree
- *  const tree = new BinaryTree<number>([1, 2, 3]);
- *     expect(() => tree.print()).not.toThrow();
-*/
+   * @example
+   * // Display tree
+   *  const tree = new BinaryTree<number>([1, 2, 3]);
+   *     expect(() => tree.print()).not.toThrow();
+   */
   override print(
     options?: BinaryTreePrintOptions,
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root

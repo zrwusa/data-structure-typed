@@ -1,25 +1,14 @@
-import {
-  AVLTree,
-  BST,
-  RedBlackTree,
-  TreeMap,
-  TreeMultiMap,
-  TreeMultiSet,
-  TreeSet
-} from '../../../../src';
+import { AVLTree, BST, RedBlackTree, TreeMap, TreeMultiMap, TreeMultiSet, TreeSet } from '../../../../src';
 
 describe('Order Statistic Tree', () => {
   // ─── select ───────────────────────────────────────────
 
   describe('getByRank', () => {
     it('@example [RedBlackTree.select] Select element by position in tree order', () => {
-      const tree = new RedBlackTree<number>(
-        [50, 30, 70, 20, 40, 60, 80],
-        { enableOrderStatistic: true }
-      );
-      expect(tree.getByRank(0)).toBe(20);  // smallest
-      expect(tree.getByRank(3)).toBe(50);  // median
-      expect(tree.getByRank(6)).toBe(80);  // largest
+      const tree = new RedBlackTree<number>([50, 30, 70, 20, 40, 60, 80], { enableOrderStatistic: true });
+      expect(tree.getByRank(0)).toBe(20); // smallest
+      expect(tree.getByRank(3)).toBe(50); // median
+      expect(tree.getByRank(6)).toBe(80); // largest
     });
 
     it('should return undefined for out-of-bounds k', () => {
@@ -36,7 +25,11 @@ describe('Order Statistic Tree', () => {
 
     it('should work with callback', () => {
       const tree = new RedBlackTree<number, string>(
-        [[10, 'a'], [20, 'b'], [30, 'c']],
+        [
+          [10, 'a'],
+          [20, 'b'],
+          [30, 'c']
+        ],
         { enableOrderStatistic: true }
       );
       const node = tree.getByRank(1, n => n);
@@ -46,7 +39,11 @@ describe('Order Statistic Tree', () => {
 
     it('should work with callback returning entry', () => {
       const tree = new RedBlackTree<number, string>(
-        [[10, 'a'], [20, 'b'], [30, 'c']],
+        [
+          [10, 'a'],
+          [20, 'b'],
+          [30, 'c']
+        ],
         { enableOrderStatistic: true }
       );
       const entry = tree.getByRank(2, n => [n.key, n.value]);
@@ -60,18 +57,12 @@ describe('Order Statistic Tree', () => {
     });
 
     it('should support IterationType RECURSIVE', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
       expect(tree.getByRank(2, n => n.key, 'RECURSIVE')).toBe(30);
     });
 
     it('should support IterationType ITERATIVE', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
       expect(tree.getByRank(2, n => n.key, 'ITERATIVE')).toBe(30);
     });
   });
@@ -80,24 +71,18 @@ describe('Order Statistic Tree', () => {
 
   describe('getRank', () => {
     it('@example [RedBlackTree.rank] Get the rank of a key in tree order', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50],
-        { enableOrderStatistic: true }
-      );
-      expect(tree.getRank(10)).toBe(0);  // smallest → rank 0
-      expect(tree.getRank(30)).toBe(2);  // 2 elements less than 30
-      expect(tree.getRank(50)).toBe(4);  // largest → rank 4
-      expect(tree.getRank(25)).toBe(2);  // non-existing: insertion position
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
+      expect(tree.getRank(10)).toBe(0); // smallest → rank 0
+      expect(tree.getRank(30)).toBe(2); // 2 elements less than 30
+      expect(tree.getRank(50)).toBe(4); // largest → rank 4
+      expect(tree.getRank(25)).toBe(2); // non-existing: insertion position
     });
 
     it('should return insertion position for non-existing keys', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50],
-        { enableOrderStatistic: true }
-      );
-      expect(tree.getRank(5)).toBe(0);   // before all
-      expect(tree.getRank(15)).toBe(1);  // between 10 and 20
-      expect(tree.getRank(25)).toBe(2);  // between 20 and 30
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
+      expect(tree.getRank(5)).toBe(0); // before all
+      expect(tree.getRank(15)).toBe(1); // between 10 and 20
+      expect(tree.getRank(25)).toBe(2); // between 20 and 30
       expect(tree.getRank(100)).toBe(5); // after all
     });
 
@@ -113,10 +98,7 @@ describe('Order Statistic Tree', () => {
     });
 
     it('should support IterationType', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30], { enableOrderStatistic: true });
       expect(tree.getRank(20, 'RECURSIVE')).toBe(1);
       expect(tree.getRank(20, 'ITERATIVE')).toBe(1);
     });
@@ -126,29 +108,20 @@ describe('Order Statistic Tree', () => {
 
   describe('rangeByRank', () => {
     it('@example [RedBlackTree.rangeByRank] Get elements by position range in tree order', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50, 60, 70],
-        { enableOrderStatistic: true }
-      );
-      expect(tree.rangeByRank(0, 2)).toEqual([10, 20, 30]);   // first 3
-      expect(tree.rangeByRank(2, 4)).toEqual([30, 40, 50]);   // middle 3
-      expect(tree.rangeByRank(5, 6)).toEqual([60, 70]);        // last 2
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50, 60, 70], { enableOrderStatistic: true });
+      expect(tree.rangeByRank(0, 2)).toEqual([10, 20, 30]); // first 3
+      expect(tree.rangeByRank(2, 4)).toEqual([30, 40, 50]); // middle 3
+      expect(tree.rangeByRank(5, 6)).toEqual([60, 70]); // last 2
     });
 
     it('should clamp out-of-bounds range', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30], { enableOrderStatistic: true });
       expect(tree.rangeByRank(-5, 1)).toEqual([10, 20]);
       expect(tree.rangeByRank(0, 100)).toEqual([10, 20, 30]);
     });
 
     it('should return empty array for invalid range', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30], { enableOrderStatistic: true });
       expect(tree.rangeByRank(5, 3)).toEqual([]);
     });
 
@@ -159,18 +132,22 @@ describe('Order Statistic Tree', () => {
 
     it('should work with callback', () => {
       const tree = new RedBlackTree<number, string>(
-        [[10, 'a'], [20, 'b'], [30, 'c']],
+        [
+          [10, 'a'],
+          [20, 'b'],
+          [30, 'c']
+        ],
         { enableOrderStatistic: true }
       );
       const entries = tree.rangeByRank(0, 1, n => [n.key, n.value]);
-      expect(entries).toEqual([[10, 'a'], [20, 'b']]);
+      expect(entries).toEqual([
+        [10, 'a'],
+        [20, 'b']
+      ]);
     });
 
     it('@example [RedBlackTree.rangeByRank] Pagination by position in tree order', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50, 60, 70, 80, 90],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50, 60, 70, 80, 90], { enableOrderStatistic: true });
       const pageSize = 3;
 
       // Page 1
@@ -182,10 +159,7 @@ describe('Order Statistic Tree', () => {
     });
 
     it('should support IterationType', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
       expect(tree.rangeByRank(1, 3, n => n.key, 'RECURSIVE')).toEqual([20, 30, 40]);
       expect(tree.rangeByRank(1, 3, n => n.key, 'ITERATIVE')).toEqual([20, 30, 40]);
     });
@@ -203,10 +177,7 @@ describe('Order Statistic Tree', () => {
     });
 
     it('rank(getByRank(k)) === k for all valid k', () => {
-      const tree = new RedBlackTree<number>(
-        [15, 25, 35, 45, 55, 65, 75],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([15, 25, 35, 45, 55, 65, 75], { enableOrderStatistic: true });
       for (let k = 0; k < tree.size; k++) {
         expect(tree.getRank(tree.getByRank(k)!)).toBe(k);
       }
@@ -253,10 +224,7 @@ describe('Order Statistic Tree', () => {
     });
 
     it('select/rank remain consistent after deletions', () => {
-      const tree = new RedBlackTree<number>(
-        [10, 20, 30, 40, 50],
-        { enableOrderStatistic: true }
-      );
+      const tree = new RedBlackTree<number>([10, 20, 30, 40, 50], { enableOrderStatistic: true });
 
       tree.delete(30);
       // Remaining: [10, 20, 40, 50]
@@ -308,7 +276,11 @@ describe('Order Statistic Tree', () => {
   describe('TreeMap', () => {
     it('@example [TreeMap.select] Select entry by position in TreeMap', () => {
       const map = new TreeMap<string, number>(
-        [['alice', 95], ['bob', 87], ['charlie', 92]],
+        [
+          ['alice', 95],
+          ['bob', 87],
+          ['charlie', 92]
+        ],
         { enableOrderStatistic: true }
       );
       expect(map.getByRank(0)).toEqual(['alice', 95]);
@@ -319,23 +291,34 @@ describe('Order Statistic Tree', () => {
 
     it('should support rank', () => {
       const map = new TreeMap<string, number>(
-        [['alice', 95], ['bob', 87], ['charlie', 92]],
+        [
+          ['alice', 95],
+          ['bob', 87],
+          ['charlie', 92]
+        ],
         { enableOrderStatistic: true }
       );
       expect(map.getRank('alice')).toBe(0);
       expect(map.getRank('bob')).toBe(1);
       expect(map.getRank('charlie')).toBe(2);
-      expect(map.getRank('aaa')).toBe(0);  // before alice
-      expect(map.getRank('bbb')).toBe(1);  // between alice and bob
+      expect(map.getRank('aaa')).toBe(0); // before alice
+      expect(map.getRank('bbb')).toBe(1); // between alice and bob
     });
 
     it('rangeByRank should return entries [key, value]', () => {
       const map = new TreeMap<string, number>(
-        [['alice', 95], ['bob', 87], ['charlie', 92]],
+        [
+          ['alice', 95],
+          ['bob', 87],
+          ['charlie', 92]
+        ],
         { enableOrderStatistic: true }
       );
       const result = map.rangeByRank(0, 1);
-      expect(result).toEqual([['alice', 95], ['bob', 87]]);
+      expect(result).toEqual([
+        ['alice', 95],
+        ['bob', 87]
+      ]);
     });
   });
 
@@ -356,7 +339,12 @@ describe('Order Statistic Tree', () => {
   describe('TreeMultiMap', () => {
     it('should support select/rank with duplicates', () => {
       const tree = new TreeMultiMap<number, string>(
-        [[10, 'a'], [20, 'b'], [20, 'c'], [30, 'd']],
+        [
+          [10, 'a'],
+          [20, 'b'],
+          [20, 'c'],
+          [30, 'd']
+        ],
         { enableOrderStatistic: true }
       );
       // select returns [key, values[]]
@@ -371,10 +359,19 @@ describe('Order Statistic Tree', () => {
 
     it('rangeByRank should return entries [key, values[]]', () => {
       const tree = new TreeMultiMap<number, string>();
-      tree.setMany([[10, ['a']], [10, ['b']], [20, ['c']], [30, ['d']]]);
+      tree.setMany([
+        [10, ['a']],
+        [10, ['b']],
+        [20, ['c']],
+        [30, ['d']]
+      ]);
       // enableOrderStatistic not set — need to create with option
       const tree2 = new TreeMultiMap<number, string>(
-        [[10, 'a'], [20, 'b'], [30, 'c']],
+        [
+          [10, 'a'],
+          [20, 'b'],
+          [30, 'c']
+        ],
         { enableOrderStatistic: true }
       );
       const result = tree2.rangeByRank(0, 1);
@@ -423,8 +420,6 @@ describe('Order Statistic Tree', () => {
       expect((tree.root as any)?._count).toBe(1);
     });
   });
-
-
 
   // ─── Stress test ──────────────────────────────────────
 
@@ -500,7 +495,14 @@ describe('Order Statistic Tree — coverage supplement', () => {
   });
 
   it('rank with entry input', () => {
-    const tree = new RedBlackTree<number, string>([[10, 'a'], [20, 'b'], [30, 'c']], { enableOrderStatistic: true });
+    const tree = new RedBlackTree<number, string>(
+      [
+        [10, 'a'],
+        [20, 'b'],
+        [30, 'c']
+      ],
+      { enableOrderStatistic: true }
+    );
     expect(tree.getRank([20, 'b'])).toBe(1);
   });
 

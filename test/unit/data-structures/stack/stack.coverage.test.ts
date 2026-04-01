@@ -75,13 +75,16 @@ describe('Stack coverage', () => {
     }, ctx2);
     expect([...mappedSame2]).toEqual([3, 6, 9]);
 
-
     // map with thisArg branch
     const ctx = { inc: 10 };
-    const mapped = s.map(function (v) {
-      // @ts-ignore
-      return v + this.inc;
-    }, undefined, ctx);
+    const mapped = s.map(
+      function (v) {
+        // @ts-ignore
+        return v + this.inc;
+      },
+      undefined,
+      ctx
+    );
     expect([...mapped]).toEqual([11, 12, 13]);
 
     // map with undefined thisArg branch

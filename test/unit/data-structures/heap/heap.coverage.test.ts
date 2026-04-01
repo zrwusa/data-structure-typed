@@ -1,9 +1,8 @@
 import { FibonacciHeap, Heap } from '../../../../src';
 
 describe('Heap misc coverage', () => {
-
   describe('/ Fibonaccimisc branch', () => {
-  it('Heap.deleteBy covers not-found, idx=0 poll, idx=last pop, idx=middle splice paths', () => {
+    it('Heap.deleteBy covers not-found, idx=0 poll, idx=last pop, idx=middle splice paths', () => {
       const h = new Heap<number>();
       h.add(3);
       h.add(1);
@@ -112,7 +111,7 @@ describe('Heap misc coverage', () => {
   });
 
   describe('branch', () => {
-  it('Heap.map with options undefined hits (options ?? {}) path and throws for missing comparator', () => {
+    it('Heap.map with options undefined hits (options ?? {}) path and throws for missing comparator', () => {
       const h = new Heap<number>();
       h.add(1);
       expect(() => (h as any).map((x: number) => x, undefined)).toThrow(/Comparator is required/i);

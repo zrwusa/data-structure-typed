@@ -67,12 +67,7 @@ import { ERR, raise } from '../../common';
  *     while (cpuQueue.size > 0) {
  *       order.push(cpuQueue.poll()![1]);
  *     }
- *     console.log(order); // [
- *  //      'User interaction',
- *  //      'System process',
- *  //      'Network sync',
- *  //      'Background task'
- *  //    ];
+ *     console.log(order); // ['User interaction', 'System process', 'Network sync', 'Background task'];
  */
 export class MaxPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
   /**

@@ -16,14 +16,16 @@ describe('Trie additional branch coverage (batch 2)', () => {
     t.add('a');
 
     const ctx = { suf: 'x' };
-    const mapped = t.map(function (this: any, w: string) {
-      return w + this.suf;
-    }, undefined as any, ctx);
+    const mapped = t.map(
+      function (this: any, w: string) {
+        return w + this.suf;
+      },
+      undefined as any,
+      ctx
+    );
     expect((mapped as any).has('ax')).toBe(true);
 
-    expect(() =>
-      t.map(() => 123 as any)
-    ).toThrow(/must return string/i);
+    expect(() => t.map(() => 123 as any)).toThrow(/must return string/i);
   });
 
   it('mapSame covers both ternary arms and _spawnLike/_createLike default-arg branches', () => {

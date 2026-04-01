@@ -1,9 +1,8 @@
 import { BST, Range } from '../../../../src';
 
 describe('BST search coverage', () => {
-
   describe('search() fast-path', () => {
-  it('search(node) uses node.key extraction branch and returns callback result', () => {
+    it('search(node) uses node.key extraction branch and returns callback result', () => {
       const t = new BST<number, string>([], { isMapMode: false });
       t.set(10, 'a');
       t.set(5, 'b');
@@ -32,7 +31,7 @@ describe('BST search coverage', () => {
   });
 
   describe('range/pruning', () => {
-  it('getNodes(range) covers includeLow/includeHigh pruning branches', () => {
+    it('getNodes(range) covers includeLow/includeHigh pruning branches', () => {
       const bst = new BST<number, number>();
       for (const k of [10, 5, 15, 3, 7, 12, 18]) bst.set(k, k);
 
@@ -68,19 +67,19 @@ describe('BST search coverage', () => {
     });
 
     it('rangeSearch with Range instance', () => {
-    const bst = new BST<number, number>([5, 7, 10, 12, 15].map(k => [k, k]));
-    const r = new Range(7, 12);
-    expect(bst.rangeSearch(r)).toEqual([7, 10, 12]);
-  });
+      const bst = new BST<number, number>([5, 7, 10, 12, 15].map(k => [k, k]));
+      const r = new Range(7, 12);
+      expect(bst.rangeSearch(r)).toEqual([7, 10, 12]);
+    });
 
-  it('rangeSearch overload [low, high] is accepted', () => {
+    it('rangeSearch overload [low, high] is accepted', () => {
       const bst = new BST<number, number>([10, 5, 15, 3, 7, 12, 18]);
       expect(bst.rangeSearch([7, 12])).toEqual([7, 10, 12]);
     });
   });
 
   describe('getNode() extra', () => {
-  it('treats runtime Range input by forwarding to getNodes and returning first result', () => {
+    it('treats runtime Range input by forwarding to getNodes and returning first result', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15, 3, 7, 12, 18]) t.set(k, k);
 

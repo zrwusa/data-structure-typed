@@ -163,7 +163,7 @@ describe('Overall BinaryTree Test', () => {
     expect(tmm.size).toBe(7);
     expect(tmm.has(9)).toBe(true);
     expect(tmm.has(7)).toBe(false);
-    
+
     const clonedTMM = tmm.clone();
     expect(clonedTMM.size).toBe(7);
     expect(clonedTMM.has(9)).toBe(true);

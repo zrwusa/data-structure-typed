@@ -20,21 +20,21 @@ const { HUNDRED_THOUSAND } = magnitude;
 const randomWords = getRandomWords(HUNDRED_THOUSAND, false);
 
 // Test 1: 100K add (push)
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, function() {
-    const trie = new Trie();
-    for (let i = 0; i < randomWords.length; i++) {
-        trie.add(randomWords[i]);
-    }
-    this.val = trie;  // Prevent JIT optimization
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, function () {
+  const trie = new Trie();
+  for (let i = 0; i < randomWords.length; i++) {
+    trie.add(randomWords[i]);
+  }
+  this.val = trie; // Prevent JIT optimization
 });
 
 // Pre-built trie for getWords test
 const preBuiltTrie = new Trie(randomWords);
 
 // Test 2: getWords on 100K trie (single call, returns all words)
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} getWords`, function() {
-    const result = preBuiltTrie.getWords('', Number.MAX_SAFE_INTEGER, true);
-    this.val = result;  // Prevent JIT optimization
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} getWords`, function () {
+  const result = preBuiltTrie.getWords('', Number.MAX_SAFE_INTEGER, true);
+  this.val = result; // Prevent JIT optimization
 });
 
 export { suite };

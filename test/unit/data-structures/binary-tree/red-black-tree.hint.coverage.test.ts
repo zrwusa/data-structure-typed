@@ -11,9 +11,8 @@ class RBTWithBadCreate extends RedBlackTree<number, number> {
 }
 
 describe('RedBlackTree hint coverage', () => {
-
   describe('hint/update', () => {
-  it('mapMode update fast-path keeps size and node reference stable', () => {
+    it('mapMode update fast-path keeps size and node reference stable', () => {
       const t = new RedBlackTree<number, string>([], { isMapMode: true });
       t.set(1, 'a');
       const n1 = t.getNode(1);
@@ -72,7 +71,7 @@ describe('RedBlackTree hint coverage', () => {
   });
 
   describe('hint cache maintenance compare-update branches', () => {
-  it('direct attach left: updates min cache via compare(newKey,hMin.key) < 0 when hMin is real', () => {
+    it('direct attach left: updates min cache via compare(newKey,hMin.key) < 0 when hMin is real', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       for (const k of [50, 10, 100, 60]) t.set(k, k);
       const hint = t.getNode(60)!;
@@ -145,7 +144,7 @@ describe('RedBlackTree hint coverage', () => {
   });
 
   describe('setWithHintNode cache-maintenance no-update branches', () => {
-  it('direct attach does not update min/max caches when inserting within existing extremes', () => {
+    it('direct attach does not update min/max caches when inserting within existing extremes', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       // Establish extremes.
       for (const k of [50, 1, 100]) t.set(k, k);
@@ -188,7 +187,7 @@ describe('RedBlackTree hint coverage', () => {
   });
 
   describe('hint cache maintenance with nullish/NIL header caches', () => {
-  it('direct attach left/right: when header caches are NIL, hMin/hMax short-circuit branches initialize caches', () => {
+    it('direct attach left/right: when header caches are NIL, hMin/hMax short-circuit branches initialize caches', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
       t.set(10, 10);
       const hint = t.getNode(10)!;
@@ -248,7 +247,7 @@ describe('RedBlackTree hint coverage', () => {
   });
 
   describe('setWithHintNode mapMode defined-value branches', () => {
-  it('direct attach left/right with defined values uses store.set branches', () => {
+    it('direct attach left/right with defined values uses store.set branches', () => {
       const t = new RedBlackTree<number, number>(); // mapMode default
       t.set(10, 10);
       const h10 = t.getNode(10)!;
@@ -282,7 +281,7 @@ describe('RedBlackTree hint coverage', () => {
   });
 
   describe('setWithHintNode mapMode undefined-value branches', () => {
-  it('direct attach left/right with undefined value stores nodes (node-index store)', () => {
+    it('direct attach left/right with undefined value stores nodes (node-index store)', () => {
       const t = new RedBlackTree<number, number>(); // mapMode default
       t.set(10, 10);
       const h10 = t.getNode(10)!;
@@ -324,7 +323,7 @@ describe('RedBlackTree hint coverage', () => {
   });
 
   describe('setWithHintNode more branch', () => {
-  it('covers c0===0 update (set mode + mapMode undefined/value)', () => {
+    it('covers c0===0 update (set mode + mapMode undefined/value)', () => {
       // set mode
       const s = new RedBlackTree<number, number>([], { isMapMode: false });
       s.set(10, 1);

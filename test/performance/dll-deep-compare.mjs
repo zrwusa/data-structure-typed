@@ -30,7 +30,11 @@ class MinimalDLL {
     this._tail = undefined;
     this._length = 0;
   }
-  
+
+  get length() {
+    return this._length;
+  }
+
   push(value) {
     const newNode = new MinimalDLLNode(value);
     if (!this._head) {
@@ -43,8 +47,6 @@ class MinimalDLL {
     }
     this._length++;
   }
-  
-  get length() { return this._length; }
 }
 
 // DST-like with instanceof check
@@ -63,11 +65,13 @@ class DSTLikeDLL {
     this._length = 0;
     this._maxLen = 0;
   }
-  
+
+  get length() {
+    return this._length;
+  }
+
   push(elementOrNode) {
-    const newNode = elementOrNode instanceof DSTLikeDLLNode 
-      ? elementOrNode 
-      : new DSTLikeDLLNode(elementOrNode);
+    const newNode = elementOrNode instanceof DSTLikeDLLNode ? elementOrNode : new DSTLikeDLLNode(elementOrNode);
     if (!this._head) {
       this._head = newNode;
       this._tail = newNode;
@@ -79,15 +83,13 @@ class DSTLikeDLL {
     this._length++;
     if (this._maxLen > 0 && this._length > this._maxLen) this.shift();
   }
-  
+
   shift() {
     if (!this._head) return;
     this._head = this._head.next;
     if (this._head) this._head.prev = undefined;
     this._length--;
   }
-  
-  get length() { return this._length; }
 }
 
 console.log(`\n=== Deep DST Analysis ===`);
@@ -95,25 +97,33 @@ console.log(`N = ${N.toLocaleString()}, ITERATIONS = ${ITERATIONS}\n`);
 
 const results = [];
 
-results.push(benchmark('js-sdsl LinkList', () => {
-  const list = new LinkList();
-  for (let i = 0; i < N; i++) list.pushBack(i);
-}));
+results.push(
+  benchmark('js-sdsl LinkList', () => {
+    const list = new LinkList();
+    for (let i = 0; i < N; i++) list.pushBack(i);
+  })
+);
 
-results.push(benchmark('Minimal DLL (baseline)', () => {
-  const list = new MinimalDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Minimal DLL (baseline)', () => {
+    const list = new MinimalDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('DST-like (instanceof+maxLen)', () => {
-  const list = new DSTLikeDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('DST-like (instanceof+maxLen)', () => {
+    const list = new DSTLikeDLL();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
-results.push(benchmark('Real DST DoublyLinkedList', () => {
-  const list = new DoublyLinkedList();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
+results.push(
+  benchmark('Real DST DoublyLinkedList', () => {
+    const list = new DoublyLinkedList();
+    for (let i = 0; i < N; i++) list.push(i);
+  })
+);
 
 console.log('| Implementation | Avg (ms) | vs js-sdsl |');
 console.log('|----------------|----------|------------|');

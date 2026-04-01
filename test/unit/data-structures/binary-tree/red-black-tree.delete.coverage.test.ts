@@ -26,9 +26,8 @@ function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
 }
 
 describe('RedBlackTree delete coverage', () => {
-
   describe('delete-fixup', () => {
-  it('CLRS-style delete sequence exercises multiple fixup branches', () => {
+    it('CLRS-style delete sequence exercises multiple fixup branches', () => {
       // Classic CLRS insertion set.
       const t = new RedBlackTree<number, number>();
       for (const k of [7, 3, 18, 10, 22, 8, 11, 26]) t.set(k, k);
@@ -64,7 +63,7 @@ describe('RedBlackTree delete coverage', () => {
   });
 
   describe('delete() successor/transplant branch', () => {
-  it('covers successor.parent === nodeToDelete with real replacementNode (sets replacement.parent = successor)', () => {
+    it('covers successor.parent === nodeToDelete with real replacementNode (sets replacement.parent = successor)', () => {
       const t = new RedBlackTree<number, number>([], { isMapMode: false });
 
       // Build:
@@ -243,13 +242,16 @@ describe('RedBlackTree delete coverage', () => {
       // Use multiple specific sequences known to trigger both fixup directions
       const sequences = [
         // Sequence 1: insert ascending, delete middle-out
-        { insert: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], delete: [8,4,12,2,6,10,14,1,3,5,7] },
+        { insert: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], delete: [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7] },
         // Sequence 2: insert descending, delete from left
-        { insert: [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1], delete: [1,2,3,4,5,6,7,8,9,10] },
+        { insert: [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], delete: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
         // Sequence 3: insert random-like, delete ascending
-        { insert: [8,4,12,2,6,10,14,1,3,5,7,9,11,13,15], delete: [1,2,3,4,5,6,7,8,9,10,11,12] },
+        {
+          insert: [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15],
+          delete: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        },
         // Sequence 4: designed for right-child black node fixup
-        { insert: [20,10,30,5,15,25,35,2,7,13,17,23,27,33,37], delete: [37,35,33,30,27,25,23,20] },
+        { insert: [20, 10, 30, 5, 15, 25, 35, 2, 7, 13, 17, 23, 27, 33, 37], delete: [37, 35, 33, 30, 27, 25, 23, 20] }
       ];
 
       for (const seq of sequences) {

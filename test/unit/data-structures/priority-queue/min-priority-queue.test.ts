@@ -4,10 +4,10 @@ describe('classic use', () => {
   it('@example Shortest job first scheduling', () => {
     const jobs = new MinPriorityQueue<number>();
 
-    jobs.add(8);  // 8 seconds
-    jobs.add(2);  // 2 seconds
-    jobs.add(5);  // 5 seconds
-    jobs.add(1);  // 1 second
+    jobs.add(8); // 8 seconds
+    jobs.add(2); // 2 seconds
+    jobs.add(5); // 5 seconds
+    jobs.add(1); // 1 second
 
     // Shortest job first
     expect(jobs.poll()).toBe(1);
@@ -35,12 +35,7 @@ describe('classic use', () => {
     while (timeline.size > 0) {
       order.push(timeline.poll()!.action);
     }
-    expect(order).toEqual([
-      'Request received',
-      'Cache hit',
-      'Processing done',
-      'Timeout'
-    ]);
+    expect(order).toEqual(['Request received', 'Cache hit', 'Processing done', 'Timeout']);
   });
 
   it('@example Huffman coding frequency selection', () => {
@@ -57,7 +52,7 @@ describe('classic use', () => {
     // Always pick two lowest frequencies
     const first = freq.poll()!;
     const second = freq.poll()!;
-    expect(first[1]).toBe('d');  // freq 2
+    expect(first[1]).toBe('d'); // freq 2
     expect(second[1]).toBe('a'); // freq 5
 
     // Combined node goes back

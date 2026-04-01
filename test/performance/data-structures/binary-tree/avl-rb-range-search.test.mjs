@@ -37,15 +37,15 @@ for (let i = 0; i < MILLION; i++) {
 }
 
 // Test 1: AVL Tree 100K rangeSearch [69900, 70000]
-suite.add(`AVL Tree ${HUNDRED_THOUSAND.toLocaleString()} rangeSearch`, function() {
+suite.add(`AVL Tree ${HUNDRED_THOUSAND.toLocaleString()} rangeSearch`, function () {
   const result = avlTree.rangeSearch([69900, 70000]);
-  this.val = result;  // Prevent JIT optimization
+  this.val = result; // Prevent JIT optimization
 });
 
 // Test 2: Red-Black Tree 1M rangeSearch [69900, 70000]
-suite.add(`Red-Black Tree ${MILLION.toLocaleString()} rangeSearch`, function() {
+suite.add(`Red-Black Tree ${MILLION.toLocaleString()} rangeSearch`, function () {
   const result = rbTree.rangeSearch([69900, 70000]);
-  this.val = result;  // Prevent JIT optimization
+  this.val = result; // Prevent JIT optimization
 });
 
 export { suite };

@@ -106,7 +106,7 @@ describe('SegmentTree sum', () => {
   it('should clamp out-of-range queries', () => {
     const tree = SegmentTree.sum([1, 2, 3]);
     expect(tree.query(-5, 10)).toBe(6); // clamped to [0, 2]
-    expect(tree.query(5, 10)).toBe(0);  // start > end after clamp → identity
+    expect(tree.query(5, 10)).toBe(0); // start > end after clamp → identity
   });
 
   it('should ignore out-of-range updates', () => {
@@ -161,7 +161,7 @@ describe('SegmentTree custom merger', () => {
       identity: 1
     });
     expect(tree.query(0, 3)).toBe(120); // 2*3*4*5
-    expect(tree.query(1, 2)).toBe(12);  // 3*4
+    expect(tree.query(1, 2)).toBe(12); // 3*4
   });
 });
 
@@ -210,7 +210,11 @@ describe('SegmentTree standard interface', () => {
     const tree = SegmentTree.sum([1, 2, 3]);
     const pairs: [number, number][] = [];
     tree.forEach((v, i) => pairs.push([i, v]));
-    expect(pairs).toEqual([[0, 1], [1, 2], [2, 3]]);
+    expect(pairs).toEqual([
+      [0, 1],
+      [1, 2],
+      [2, 3]
+    ]);
   });
 });
 

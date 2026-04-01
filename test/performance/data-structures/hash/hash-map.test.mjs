@@ -6,7 +6,7 @@ import { magnitude } from '../../../utils/perf.mjs';
 const suite = new Benchmark.Suite();
 const { MILLION } = magnitude;
 
-suite.add('1M set', function() {
+suite.add('1M set', function () {
   const hm = new HashMap();
   for (let i = 0; i < MILLION; i++) {
     hm.set(i, i);
@@ -14,7 +14,7 @@ suite.add('1M set', function() {
   this.val = hm;
 });
 
-suite.add('1M set (js-sdsl)', function() {
+suite.add('1M set (js-sdsl)', function () {
   const hm = new SdslHashMap();
   for (let i = 0; i < MILLION; i++) {
     hm.setElement(i, i);
@@ -22,7 +22,7 @@ suite.add('1M set (js-sdsl)', function() {
   this.val = hm;
 });
 
-suite.add('Native JS Map 1M set', function() {
+suite.add('Native JS Map 1M set', function () {
   const hm = new Map();
   for (let i = 0; i < MILLION; i++) {
     hm.set(i, i);
@@ -30,7 +30,7 @@ suite.add('Native JS Map 1M set', function() {
   this.val = hm;
 });
 
-suite.add('Native JS Set 1M add', function() {
+suite.add('Native JS Set 1M add', function () {
   const hs = new Set();
   for (let i = 0; i < MILLION; i++) {
     hs.add(i);
@@ -38,7 +38,7 @@ suite.add('Native JS Set 1M add', function() {
   this.val = hs;
 });
 
-suite.add('1M add HashSet (js-sdsl)', function() {
+suite.add('1M add HashSet (js-sdsl)', function () {
   const hs = new SdslHashSet();
   for (let i = 0; i < MILLION; i++) {
     hs.insert(i);
@@ -46,7 +46,7 @@ suite.add('1M add HashSet (js-sdsl)', function() {
   this.val = hs;
 });
 
-suite.add('1M set & get', function() {
+suite.add('1M set & get', function () {
   const hm = new HashMap();
   for (let i = 0; i < MILLION; i++) {
     hm.set(i, i);
@@ -60,7 +60,7 @@ suite.add('1M set & get', function() {
   this.val = count;
 });
 
-suite.add('1M set & get (js-sdsl)', function() {
+suite.add('1M set & get (js-sdsl)', function () {
   const hm = new SdslHashMap();
   for (let i = 0; i < MILLION; i++) {
     hm.setElement(i, i);
@@ -74,7 +74,7 @@ suite.add('1M set & get (js-sdsl)', function() {
   this.val = count;
 });
 
-suite.add('Native JS Map 1M set & get', function() {
+suite.add('Native JS Map 1M set & get', function () {
   const hm = new Map();
   for (let i = 0; i < MILLION; i++) {
     hm.set(i, i);
@@ -88,7 +88,7 @@ suite.add('Native JS Map 1M set & get', function() {
   this.val = count;
 });
 
-suite.add('Native JS Set 1M add & has', function() {
+suite.add('Native JS Set 1M add & has', function () {
   const hs = new Set();
   for (let i = 0; i < MILLION; i++) {
     hs.add(i);
@@ -102,7 +102,7 @@ suite.add('Native JS Set 1M add & has', function() {
   this.val = count;
 });
 
-suite.add('1M add & has HashSet (js-sdsl)', function() {
+suite.add('1M add & has HashSet (js-sdsl)', function () {
   const hs = new SdslHashSet();
   for (let i = 0; i < MILLION; i++) {
     hs.insert(i);
@@ -116,7 +116,7 @@ suite.add('1M add & has HashSet (js-sdsl)', function() {
   this.val = count;
 });
 
-suite.add('1M ObjKey set & get', function() {
+suite.add('1M ObjKey set & get', function () {
   const hm = new HashMap();
   const objKeys = [];
   for (let i = 0; i < MILLION; i++) {
@@ -133,7 +133,7 @@ suite.add('1M ObjKey set & get', function() {
   this.val = count;
 });
 
-suite.add('1M ObjKey set & get (js-sdsl)', function() {
+suite.add('1M ObjKey set & get (js-sdsl)', function () {
   const hm = new SdslHashMap();
   const objKeys = [];
   for (let i = 0; i < MILLION; i++) {
@@ -150,7 +150,7 @@ suite.add('1M ObjKey set & get (js-sdsl)', function() {
   this.val = count;
 });
 
-suite.add('Native JS Map 1M ObjKey set & get', function() {
+suite.add('Native JS Map 1M ObjKey set & get', function () {
   const hm = new Map();
   const objs = [];
   for (let i = 0; i < MILLION; i++) {
@@ -167,7 +167,7 @@ suite.add('Native JS Map 1M ObjKey set & get', function() {
   this.val = count;
 });
 
-suite.add('Native JS Set 1M ObjKey add & has', function() {
+suite.add('Native JS Set 1M ObjKey add & has', function () {
   const hs = new Set();
   const objs = [];
   for (let i = 0; i < MILLION; i++) {

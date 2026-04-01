@@ -3416,7 +3416,11 @@ describe('classic use', () => {
   });
 
   it('@example [BST.get] Retrieve values by key', () => {
-    const bst = new BST<number, string>([[5, 'five'], [3, 'three'], [7, 'seven']]);
+    const bst = new BST<number, string>([
+      [5, 'five'],
+      [3, 'three'],
+      [7, 'seven']
+    ]);
     expect(bst.get(3)).toBe('three');
     expect(bst.get(99)).toBeUndefined();
   });
@@ -3465,9 +3469,17 @@ describe('classic use', () => {
   });
 
   it('@example [BST.entries] Iterate over key-value pairs', () => {
-    const bst = new BST<number, string>([[3, 'c'], [1, 'a'], [5, 'e']]);
+    const bst = new BST<number, string>([
+      [3, 'c'],
+      [1, 'a'],
+      [5, 'e']
+    ]);
     const pairs = [...bst.entries()];
-    expect(pairs).toEqual([[1, 'a'], [3, 'c'], [5, 'e']]);
+    expect(pairs).toEqual([
+      [1, 'a'],
+      [3, 'c'],
+      [5, 'e']
+    ]);
   });
 
   it('@example [BST.keys] Iterate over keys in sorted order', () => {
@@ -3476,7 +3488,11 @@ describe('classic use', () => {
   });
 
   it('@example [BST.values] Iterate over values in key order', () => {
-    const bst = new BST<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    const bst = new BST<number, string>([
+      [2, 'b'],
+      [1, 'a'],
+      [3, 'c']
+    ]);
     expect([...bst.values()]).toEqual(['a', 'b', 'c']);
   });
 
@@ -3494,13 +3510,21 @@ describe('classic use', () => {
   });
 
   it('@example [BST.map] Transform to new tree', () => {
-    const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const bst = new BST<number, number>([
+      [1, 10],
+      [2, 20],
+      [3, 30]
+    ]);
     const doubled = bst.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
     expect([...doubled.values()]).toEqual([20, 40, 60]);
   });
 
   it('@example [BST.reduce] Aggregate all values', () => {
-    const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const bst = new BST<number, number>([
+      [1, 10],
+      [2, 20],
+      [3, 30]
+    ]);
     const sum = bst.reduce((acc, value) => acc + (value ?? 0), 0);
     expect(sum).toBe(60);
   });
@@ -3540,14 +3564,23 @@ describe('classic use', () => {
   });
 
   it('@example [BST.getNode] Get node object by key', () => {
-    const bst = new BST<number, string>([[5, 'root'], [3, 'left'], [7, 'right']]);
+    const bst = new BST<number, string>([
+      [5, 'root'],
+      [3, 'left'],
+      [7, 'right']
+    ]);
     const node = bst.getNode(3);
     expect(node?.key).toBe(3);
     expect(node?.value).toBe('left');
   });
 
   it('@example [BST.search] Search nodes by predicate', () => {
-    const bst = new BST<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]);
+    const bst = new BST<number, string>([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c'],
+      [4, 'd']
+    ]);
     const found = bst.search(node => node.key > 2, true);
     expect(found.length).toBeGreaterThanOrEqual(1);
   });
@@ -3610,7 +3643,11 @@ describe('classic use', () => {
   });
 
   it('@example [BST.find] Find matching entry', () => {
-    const bst = new BST<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const bst = new BST<number, string>([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     const found = bst.find(v => v === 'b');
     expect(found?.[0]).toBe(2);
     expect(found?.[1]).toBe('b');
@@ -3627,7 +3664,11 @@ describe('classic use', () => {
 
   it('@example [BST.setMany] Set multiple key-value pairs', () => {
     const bst = new BST<number, string>();
-    bst.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    bst.setMany([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
     expect(bst.size).toBe(3);
     expect(bst.get(2)).toBe('b');
   });

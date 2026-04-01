@@ -1,9 +1,8 @@
 import { BST, BSTNode, Range } from '../../../../src';
 
 describe('BST misc coverage', () => {
-
   describe('misc branch', () => {
-  it('getNode(range) returns undefined when getNodes(range) is empty (covers ?? fallback)', () => {
+    it('getNode(range) returns undefined when getNodes(range) is empty (covers ?? fallback)', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15]) t.set(k, k);
 
@@ -31,7 +30,11 @@ describe('BST misc coverage', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       for (const k of [10, 5, 15]) t.set(k, k);
 
-      const out = t.lower((n: any) => n.key === 999, (n: any) => n.key, 'ITERATIVE' as any);
+      const out = t.lower(
+        (n: any) => n.key === 999,
+        (n: any) => n.key,
+        'ITERATIVE' as any
+      );
       expect(out).toBeUndefined();
     });
 
@@ -101,7 +104,7 @@ describe('BST misc coverage', () => {
   });
 
   describe('coverage', () => {
-  it('BSTNode.familyPosition covers MAL_NODE branch', () => {
+    it('BSTNode.familyPosition covers MAL_NODE branch', () => {
       const root = new BSTNode<number, number>(10);
       const mal = new BSTNode<number, number>(5);
       mal.parent = root;
@@ -139,7 +142,7 @@ describe('BST misc coverage', () => {
   });
 
   describe('BSTNode familyPosition', () => {
-  it('covers ISOLATED/ROOT/LEFT/RIGHT/ROOT_LEFT/ROOT_RIGHT and MAL_NODE', () => {
+    it('covers ISOLATED/ROOT/LEFT/RIGHT/ROOT_LEFT/ROOT_RIGHT and MAL_NODE', () => {
       const isolated = new BSTNode<number, number>(1);
       expect(isolated.familyPosition).toBe('ISOLATED');
 
@@ -167,7 +170,7 @@ describe('BST misc coverage', () => {
   });
 
   describe('branch (batch 2)', () => {
-  it('search(): forces pruning key-branches by toggling _isPredicate (covers shouldVisitLeft/Right key-path guards)', () => {
+    it('search(): forces pruning key-branches by toggling _isPredicate (covers shouldVisitLeft/Right key-path guards)', () => {
       const t = new BST<number, number>([], { isMapMode: false });
       t.set(10, 10);
 
@@ -268,11 +271,17 @@ describe('BST misc coverage', () => {
 
         // Access protected helpers via any and force ITERATIVE.
         // With pop monkeypatch, these may return undefined due to early-break; we only care about executing the branch.
-        expect(() => (t as any)._floorByPredicate((n: BSTNode<number, number>) => n.key <= 2, 'ITERATIVE')).not.toThrow();
+        expect(() =>
+          (t as any)._floorByPredicate((n: BSTNode<number, number>) => n.key <= 2, 'ITERATIVE')
+        ).not.toThrow();
         did = false;
-        expect(() => (t as any)._lowerByPredicate((n: BSTNode<number, number>) => n.key < 2, 'ITERATIVE')).not.toThrow();
+        expect(() =>
+          (t as any)._lowerByPredicate((n: BSTNode<number, number>) => n.key < 2, 'ITERATIVE')
+        ).not.toThrow();
         did = false;
-        expect(() => (t as any)._boundByPredicate((n: BSTNode<number, number>) => n.key >= 2, true, 'ITERATIVE')).not.toThrow();
+        expect(() =>
+          (t as any)._boundByPredicate((n: BSTNode<number, number>) => n.key >= 2, true, 'ITERATIVE')
+        ).not.toThrow();
       } finally {
         Array.prototype.pop = origPop;
       }
@@ -299,7 +308,7 @@ describe('BST misc coverage', () => {
   });
 
   describe('reachable branch (batch 3)', () => {
-  it('search(): entry with nullish key does not set targetKey (covers entry[0] nullish guard)', () => {
+    it('search(): entry with nullish key does not set targetKey (covers entry[0] nullish guard)', () => {
       const t = new BST<number, number>();
       t.set(1, 1);
 
@@ -343,7 +352,7 @@ describe('BST misc coverage', () => {
   });
 
   describe('reachable branch (batch 4)', () => {
-  it('search(): entry with defined key sets targetKey (covers entry[0] non-nullish branch)', () => {
+    it('search(): entry with defined key sets targetKey (covers entry[0] non-nullish branch)', () => {
       const t = new BST<number, number>();
       t.setMany([
         [1, 1],
@@ -378,7 +387,7 @@ describe('BST misc coverage', () => {
   });
 
   describe('reachable branch (batch 5)', () => {
-  it('search(): forces shouldVisitRight key-pruning branch + covers && chain short-circuit variants', () => {
+    it('search(): forces shouldVisitRight key-pruning branch + covers && chain short-circuit variants', () => {
       const t = new BST<number, number>();
       t.setMany([
         [10, 10],

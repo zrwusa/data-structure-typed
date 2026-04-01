@@ -1,11 +1,4 @@
-import {
-  RedBlackTree,
-  TreeMap,
-  TreeSet,
-  Heap,
-  Matrix,
-  BinaryIndexedTree
-} from '../../../src';
+import { BinaryIndexedTree, Heap, Matrix, RedBlackTree, TreeMap, TreeSet } from '../../../src';
 
 describe('Centralized Error Handling (raise)', () => {
   describe('data integrity errors always throw', () => {
@@ -37,7 +30,10 @@ describe('Centralized Error Handling (raise)', () => {
     });
 
     it('Matrix: dimension mismatch throws Error', () => {
-      const a = new Matrix([[1, 2], [3, 4]]);
+      const a = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const b = new Matrix([[1, 2, 3]]);
       expect(() => a.add(b)).toThrow(/dimension/i);
     });
@@ -62,7 +58,10 @@ describe('Centralized Error Handling (raise)', () => {
     });
 
     it('operation errors use Error', () => {
-      const a = new Matrix([[1, 2], [3, 4]]);
+      const a = new Matrix([
+        [1, 2],
+        [3, 4]
+      ]);
       const b = new Matrix([[1, 2, 3]]);
       expect(() => a.add(b)).toThrow(Error);
     });

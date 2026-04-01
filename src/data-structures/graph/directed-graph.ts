@@ -221,15 +221,15 @@ export class DirectedGraph<
    * @param destOrKey - Destination vertex or key.
    * @returns Edge instance or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
- * @example
- * // Get edge between vertices
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addEdge('A', 'B', 5);
- *     const edge = g.getEdge('A', 'B');
- *     console.log(edge?.weight); // 5;
-*/
+   * @example
+   * // Get edge between vertices
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addEdge('A', 'B', 5);
+   *     const edge = g.getEdge('A', 'B');
+   *     console.log(edge?.weight); // 5;
+   */
   getEdge(srcOrKey: VO | VertexKey | undefined, destOrKey: VO | VertexKey | undefined): EO | undefined {
     let edgeMap: EO[] = [];
     if (srcOrKey !== undefined && destOrKey !== undefined) {
@@ -276,32 +276,32 @@ export class DirectedGraph<
    * @param destVertexKey - Optional destination vertex/key when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
- * @example
- * // DirectedGraph deleteEdge and vertex operations
- *  const graph = new DirectedGraph<string>();
- *
- *     // Build a small graph
- *     graph.addVertex('X');
- *     graph.addVertex('Y');
- *     graph.addVertex('Z');
- *     graph.addEdge('X', 'Y', 1);
- *     graph.addEdge('Y', 'Z', 2);
- *
- *     // Delete an edge
- *     graph.deleteEdgeSrcToDest('X', 'Y');
- *     console.log(graph.hasEdge('X', 'Y')); // false;
- *
- *     // Edge in other direction should not exist
- *     console.log(graph.hasEdge('Y', 'X')); // false;
- *
- *     // Other edges should remain
- *     console.log(graph.hasEdge('Y', 'Z')); // true;
- *
- *     // Delete a vertex
- *     graph.deleteVertex('Y');
- *     console.log(graph.hasVertex('Y')); // false;
- *     console.log(graph.size); // 2;
-*/
+   * @example
+   * // DirectedGraph deleteEdge and vertex operations
+   *  const graph = new DirectedGraph<string>();
+   *
+   *     // Build a small graph
+   *     graph.addVertex('X');
+   *     graph.addVertex('Y');
+   *     graph.addVertex('Z');
+   *     graph.addEdge('X', 'Y', 1);
+   *     graph.addEdge('Y', 'Z', 2);
+   *
+   *     // Delete an edge
+   *     graph.deleteEdgeSrcToDest('X', 'Y');
+   *     console.log(graph.hasEdge('X', 'Y')); // false;
+   *
+   *     // Edge in other direction should not exist
+   *     console.log(graph.hasEdge('Y', 'X')); // false;
+   *
+   *     // Other edges should remain
+   *     console.log(graph.hasEdge('Y', 'Z')); // true;
+   *
+   *     // Delete a vertex
+   *     graph.deleteVertex('Y');
+   *     console.log(graph.hasVertex('Y')); // false;
+   *     console.log(graph.size); // 2;
+   */
   deleteEdge(edgeOrSrcVertexKey: EO | VertexKey, destVertexKey?: VertexKey): EO | undefined {
     let removed: EO | undefined = undefined;
     let src: VO | undefined, dest: VO | undefined;
@@ -331,16 +331,16 @@ export class DirectedGraph<
 
   /**
    * Remove a vertex
- * @example
- * // Remove a vertex
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addEdge('A', 'B');
- *     g.deleteVertex('A');
- *     console.log(g.hasVertex('A')); // false;
- *     console.log(g.hasEdge('A', 'B')); // false;
-*/
+   * @example
+   * // Remove a vertex
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addEdge('A', 'B');
+   *     g.deleteVertex('A');
+   *     console.log(g.hasVertex('A')); // false;
+   *     console.log(g.hasEdge('A', 'B')); // false;
+   */
   deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     let vertexKey: VertexKey;
     let vertex: VO | undefined;
@@ -384,16 +384,16 @@ export class DirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns Array of incoming edges.
    * @remarks Time O(deg_in), Space O(deg_in)
- * @example
- * // Get incoming edges
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addVertex('C');
- *     g.addEdge('A', 'C');
- *     g.addEdge('B', 'C');
- *     console.log(g.incomingEdgesOf('C').length); // 2;
-*/
+   * @example
+   * // Get incoming edges
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addVertex('C');
+   *     g.addEdge('A', 'C');
+   *     g.addEdge('B', 'C');
+   *     console.log(g.incomingEdgesOf('C').length); // 2;
+   */
   incomingEdgesOf(vertexOrKey: VO | VertexKey): EO[] {
     const target = this._getVertex(vertexOrKey);
     if (target) {
@@ -407,16 +407,16 @@ export class DirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns Array of outgoing edges.
    * @remarks Time O(deg_out), Space O(deg_out)
- * @example
- * // Get outgoing edges
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addVertex('C');
- *     g.addEdge('A', 'B');
- *     g.addEdge('A', 'C');
- *     console.log(g.outgoingEdgesOf('A').length); // 2;
-*/
+   * @example
+   * // Get outgoing edges
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addVertex('C');
+   *     g.addEdge('A', 'B');
+   *     g.addEdge('A', 'C');
+   *     console.log(g.outgoingEdgesOf('A').length); // 2;
+   */
   outgoingEdgesOf(vertexOrKey: VO | VertexKey): EO[] {
     const target = this._getVertex(vertexOrKey);
     if (target) {
@@ -499,29 +499,29 @@ export class DirectedGraph<
    * @param propertyName - `'key'` to map to keys; `'vertex'` to keep instances.
    * @returns Array of keys/vertices, or `undefined` when cycle is found.
    * @remarks Time O(V + E), Space O(V)
- * @example
- * // DirectedGraph topologicalSort for task scheduling
- *  const graph = new DirectedGraph<string>();
- *
- *     // Build a DAG (Directed Acyclic Graph) for task dependencies
- *     graph.addVertex('Design');
- *     graph.addVertex('Implement');
- *     graph.addVertex('Test');
- *     graph.addVertex('Deploy');
- *
- *     // Add dependency edges
- *     graph.addEdge('Design', 'Implement', 1); // Design must come before Implement
- *     graph.addEdge('Implement', 'Test', 1); // Implement must come before Test
- *     graph.addEdge('Test', 'Deploy', 1); // Test must come before Deploy
- *
- *     // Topological sort gives valid execution order
- *     const executionOrder = graph.topologicalSort();
- *     console.log(executionOrder); // defined;
- *     console.log(executionOrder); // ['Design', 'Implement', 'Test', 'Deploy'];
- *
- *     // All vertices should be included
- *     console.log(executionOrder?.length); // 4;
-*/
+   * @example
+   * // DirectedGraph topologicalSort for task scheduling
+   *  const graph = new DirectedGraph<string>();
+   *
+   *     // Build a DAG (Directed Acyclic Graph) for task dependencies
+   *     graph.addVertex('Design');
+   *     graph.addVertex('Implement');
+   *     graph.addVertex('Test');
+   *     graph.addVertex('Deploy');
+   *
+   *     // Add dependency edges
+   *     graph.addEdge('Design', 'Implement', 1); // Design must come before Implement
+   *     graph.addEdge('Implement', 'Test', 1); // Implement must come before Test
+   *     graph.addEdge('Test', 'Deploy', 1); // Test must come before Deploy
+   *
+   *     // Topological sort gives valid execution order
+   *     const executionOrder = graph.topologicalSort();
+   *     console.log(executionOrder); // defined;
+   *     console.log(executionOrder); // ['Design', 'Implement', 'Test', 'Deploy'];
+   *
+   *     // All vertices should be included
+   *     console.log(executionOrder?.length); // 4;
+   */
   topologicalSort(propertyName?: 'vertex' | 'key'): Array<VO | VertexKey> | undefined {
     propertyName = propertyName ?? 'key';
     const statusMap: Map<VO | VertexKey, TopologicalStatus> = new Map<VO | VertexKey, TopologicalStatus>();
@@ -556,14 +556,14 @@ export class DirectedGraph<
 
   /**
    * Get all edges
- * @example
- * // Get all edges
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addEdge('A', 'B', 3);
- *     console.log(g.edgeSet().length); // 1;
-*/
+   * @example
+   * // Get all edges
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addEdge('A', 'B', 3);
+   *     console.log(g.edgeSet().length); // 1;
+   */
   edgeSet(): EO[] {
     let edgeMap: EO[] = [];
     this._outEdgeMap.forEach(outEdges => {
@@ -574,17 +574,17 @@ export class DirectedGraph<
 
   /**
    * Get outgoing neighbors
- * @example
- * // Get outgoing neighbors
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addVertex('C');
- *     g.addEdge('A', 'B');
- *     g.addEdge('A', 'C');
- *     const neighbors = g.getNeighbors('A');
- *     console.log(neighbors.map(v => v.key).sort()); // ['B', 'C'];
-*/
+   * @example
+   * // Get outgoing neighbors
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addVertex('C');
+   *     g.addEdge('A', 'B');
+   *     g.addEdge('A', 'C');
+   *     const neighbors = g.getNeighbors('A');
+   *     console.log(neighbors.map(v => v.key).sort()); // ['B', 'C'];
+   */
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
     const neighbors: VO[] = [];
     const vertex = this._getVertex(vertexOrKey);
@@ -650,20 +650,20 @@ export class DirectedGraph<
    * Tarjan's algorithm for strongly connected components.
    * @returns `{ dfnMap, lowMap, SCCs }`.
    * @remarks Time O(V + E), Space O(V + E)
- * @example
- * // Find strongly connected components
- *  const g = new DirectedGraph();
- *     g.addVertex('A');
- *     g.addVertex('B');
- *     g.addVertex('C');
- *     g.addEdge('A', 'B');
- *     g.addEdge('B', 'C');
- *     g.addEdge('C', 'A');
- *     const { SCCs } = g.tarjan();
- *     // A→B→C→A forms one SCC with 3 members
- *     const sccArrays = [...SCCs.values()];
- *     console.log(sccArrays.some(scc => scc.length === 3)); // true;
-*/
+   * @example
+   * // Find strongly connected components
+   *  const g = new DirectedGraph();
+   *     g.addVertex('A');
+   *     g.addVertex('B');
+   *     g.addVertex('C');
+   *     g.addEdge('A', 'B');
+   *     g.addEdge('B', 'C');
+   *     g.addEdge('C', 'A');
+   *     const { SCCs } = g.tarjan();
+   *     // A→B→C→A forms one SCC with 3 members
+   *     const sccArrays = [...SCCs.values()];
+   *     console.log(sccArrays.some(scc => scc.length === 3)); // true;
+   */
   tarjan(): { dfnMap: Map<VO, number>; lowMap: Map<VO, number>; SCCs: Map<number, VO[]> } {
     const dfnMap = new Map<VO, number>();
     const lowMap = new Map<VO, number>();
@@ -727,18 +727,18 @@ export class DirectedGraph<
    * Strongly connected components computed by `tarjan()`.
    * @returns Map from SCC id to vertices.
    * @remarks Time O(#SCC + V), Space O(V)
- * @example
- * // Get strongly connected components
- *  const g = new DirectedGraph();
- *     g.addVertex(1);
- *     g.addVertex(2);
- *     g.addVertex(3);
- *     g.addEdge(1, 2);
- *     g.addEdge(2, 3);
- *     g.addEdge(3, 1);
- *     const sccs = g.getSCCs(); // Map<number, VO[]>
- *     console.log(sccs.size); // >= 1;
-*/
+   * @example
+   * // Get strongly connected components
+   *  const g = new DirectedGraph();
+   *     g.addVertex(1);
+   *     g.addVertex(2);
+   *     g.addVertex(3);
+   *     g.addEdge(1, 2);
+   *     g.addEdge(2, 3);
+   *     g.addEdge(3, 1);
+   *     const sccs = g.getSCCs(); // Map<number, VO[]>
+   *     console.log(sccs.size); // >= 1;
+   */
   getSCCs(): Map<number, VO[]> {
     return this.tarjan().SCCs;
   }
