@@ -23,7 +23,6 @@ export interface TreeMapOptions<K, V, R = [K, V]> {
    */
   toEntryFn?: (rawElement: R) => [K, V];
 }
-
 export type TreeMapRangeOptions = {
   lowInclusive?: boolean;
   highInclusive?: boolean;

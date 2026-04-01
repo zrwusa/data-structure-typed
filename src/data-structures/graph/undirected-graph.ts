@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { GraphOptions, VertexKey } from '../../types';
 import { IGraph } from '../../interfaces';
 import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
@@ -16,10 +15,8 @@ export class UndirectedVertex<V = any> extends AbstractVertex<V> {
     super(key, value);
   }
 }
-
 export class UndirectedEdge<E = number> extends AbstractEdge<E> {
   endpoints: [VertexKey, VertexKey];
-
   constructor(v1: VertexKey, v2: VertexKey, weight?: number, value?: E) {
     super(weight, value);
     this.endpoints = [v1, v2];
@@ -153,13 +150,10 @@ export class UndirectedGraph<
     super(options);
     this._edgeMap = new Map<VO, EO[]>();
   }
-
   protected _edgeMap: Map<VO, EO[]>;
-
   get edgeMap(): Map<VO, EO[]> {
     return this._edgeMap;
   }
-
   set edgeMap(v: Map<VO, EO[]>) {
     this._edgeMap = v;
   }
@@ -226,65 +220,25 @@ export class UndirectedGraph<
    * @param v2 - The other vertex or key.
    * @returns Edge instance or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get edge between vertices
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
  *     g.addVertex('B');
  *     g.addEdge('A', 'B', 7);
  *     console.log(g.getEdge('A', 'B')?.weight); // 7;
-   */
+*/
   getEdge(v1: VO | VertexKey | undefined, v2: VO | VertexKey | undefined): EO | undefined {
     let edgeMap: EO[] | undefined = [];
-
     if (v1 !== undefined && v2 !== undefined) {
       const vertex1: VO | undefined = this._getVertex(v1);
       const vertex2: VO | undefined = this._getVertex(v2);
-
       if (vertex1 && vertex2) {
         edgeMap = this._edgeMap.get(vertex1)?.filter(e => e.endpoints.includes(vertex2.key));
       }
     }
-
     return edgeMap ? edgeMap[0] || undefined : undefined;
   }
 
@@ -298,11 +252,9 @@ export class UndirectedGraph<
   deleteEdgeBetween(v1: VO | VertexKey, v2: VO | VertexKey): EO | undefined {
     const vertex1: VO | undefined = this._getVertex(v1);
     const vertex2: VO | undefined = this._getVertex(v2);
-
     if (!vertex1 || !vertex2) {
       return undefined;
     }
-
     const v1Edges = this._edgeMap.get(vertex1);
     let removed: EO | undefined = undefined;
     if (v1Edges) {
@@ -321,49 +273,9 @@ export class UndirectedGraph<
    * @param otherSideVertexKey - Required second endpoint when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // UndirectedGraph deleteEdge and vertex operations
  *  const graph = new UndirectedGraph<string>();
  *
@@ -390,7 +302,7 @@ export class UndirectedGraph<
  *     graph.deleteVertex('Y');
  *     console.log(graph.hasVertex('Y')); // false;
  *     console.log(graph.size); // 2;
-   */
+*/
   deleteEdge(edgeOrOneSideVertexKey: EO | VertexKey, otherSideVertexKey?: VertexKey): EO | undefined {
     let oneSide: VO | undefined, otherSide: VO | undefined;
     if (this.isVertexKey(edgeOrOneSideVertexKey)) {
@@ -404,7 +316,6 @@ export class UndirectedGraph<
       oneSide = this._getVertex(edgeOrOneSideVertexKey.endpoints[0]);
       otherSide = this._getVertex(edgeOrOneSideVertexKey.endpoints[1]);
     }
-
     if (oneSide && otherSide) {
       return this.deleteEdgeBetween(oneSide, otherSide);
     } else {
@@ -417,46 +328,9 @@ export class UndirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns `true` if removed; otherwise `false`.
    * @remarks Time O(deg), Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove vertex and edges
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
@@ -464,7 +338,7 @@ export class UndirectedGraph<
  *     g.addEdge('A', 'B');
  *     g.deleteVertex('A');
  *     console.log(g.hasVertex('A')); // false;
-   */
+*/
   deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     let vertexKey: VertexKey;
     let vertex: VO | undefined;
@@ -483,7 +357,6 @@ export class UndirectedGraph<
      * @remarks Time O(deg), Space O(deg)
      */
     const neighbors = this.getNeighbors(vertexOrKey);
-
     if (vertex) {
       neighbors.forEach(neighbor => {
         const neighborEdges = this._edgeMap.get(neighbor);
@@ -496,7 +369,6 @@ export class UndirectedGraph<
       });
       this._edgeMap.delete(vertex);
     }
-
     return this._vertexMap.delete(vertexKey);
   }
 
@@ -534,53 +406,16 @@ export class UndirectedGraph<
    * Unique set of undirected edges across endpoints.
    * @returns Array of edges.
    * @remarks Time O(E), Space O(E)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get all edges
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
  *     g.addVertex('B');
  *     g.addEdge('A', 'B');
  *     console.log(g.edgeSet().length); // 1;
-   */
+*/
   edgeSet(): EO[] {
     const edgeSet: Set<EO> = new Set();
     this._edgeMap.forEach(edgeMap => {
@@ -593,49 +428,9 @@ export class UndirectedGraph<
 
     /**
    * UndirectedGraph connectivity and neighbors
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // UndirectedGraph connectivity and neighbors
  *  const graph = new UndirectedGraph<string>();
  *
@@ -667,7 +462,7 @@ export class UndirectedGraph<
  *     const bobFriends = graph.getNeighbors('Bob');
  *     console.log(bobFriends[0].key); // 'Alice'; // Alice -> Bob -> Alice ✓
  *     console.log(bobFriends[1].key); // 'Diana';
-   */
+*/
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
     const neighbors: VO[] = [];
     const vertex = this._getVertex(vertexOrKey);
@@ -732,46 +527,9 @@ export class UndirectedGraph<
    * Tarjan-based bridge and articulation point detection.
    * @returns `{ dfnMap, lowMap, bridges, cutVertices }`.
    * @remarks Time O(V + E), Space O(V + E)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find articulation points and bridges
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
@@ -781,29 +539,24 @@ export class UndirectedGraph<
  *     g.addEdge('B', 'C');
  *     const result = g.tarjan();
  *     console.log(result); // defined;
-   */
+*/
   tarjan(): { dfnMap: Map<VO, number>; lowMap: Map<VO, number>; bridges: EO[]; cutVertices: VO[] } {
     const dfnMap = new Map<VO, number>();
     const lowMap = new Map<VO, number>();
     const bridges: EO[] = [];
     const cutVertices: VO[] = [];
-
     let time = 0;
-
     const dfs = (vertex: VO, parent: VO | undefined) => {
       dfnMap.set(vertex, time);
       lowMap.set(vertex, time);
       time++;
-
       const neighbors = this.getNeighbors(vertex);
       let childCount = 0;
-
       for (const neighbor of neighbors) {
         if (!dfnMap.has(neighbor)) {
           childCount++;
           dfs(neighbor, vertex);
           lowMap.set(vertex, Math.min(lowMap.get(vertex)!, lowMap.get(neighbor)!));
-
           if (lowMap.get(neighbor)! > dfnMap.get(vertex)!) {
             // Found a bridge
             const edge = this.getEdge(vertex, neighbor);
@@ -811,7 +564,6 @@ export class UndirectedGraph<
               bridges.push(edge);
             }
           }
-
           if (parent !== undefined && lowMap.get(neighbor)! >= dfnMap.get(vertex)!) {
             // Found an articulation point
             cutVertices.push(vertex);
@@ -820,19 +572,16 @@ export class UndirectedGraph<
           lowMap.set(vertex, Math.min(lowMap.get(vertex)!, dfnMap.get(neighbor)!));
         }
       }
-
       if (parent === undefined && childCount > 1) {
         // Special case for root in DFS tree
         cutVertices.push(vertex);
       }
     };
-
     for (const vertex of this.vertexMap.values()) {
       if (!dfnMap.has(vertex)) {
         dfs(vertex, undefined);
       }
     }
-
     return {
       dfnMap,
       lowMap,
@@ -853,25 +602,20 @@ export class UndirectedGraph<
     const edgeStack: EO[] = [];
     const components: EO[][] = [];
     let time = 0;
-
     const dfs = (vertex: VO, parent: VO | undefined) => {
       dfn.set(vertex, time);
       low.set(vertex, time);
       time++;
-
       const neighbors = this.getNeighbors(vertex);
       let childCount = 0;
-
       for (const neighbor of neighbors) {
         const edge = this.getEdge(vertex, neighbor);
         if (!edge) continue;
-
         if (!dfn.has(neighbor)) {
           childCount++;
           edgeStack.push(edge);
           dfs(neighbor, vertex);
           low.set(vertex, Math.min(low.get(vertex)!, low.get(neighbor)!));
-
           // Articulation point found — pop edges to form a component
           if (
             (parent === undefined && childCount > 1) ||
@@ -892,7 +636,6 @@ export class UndirectedGraph<
         }
       }
     };
-
     for (const vertex of this.vertexMap.values()) {
       if (!dfn.has(vertex)) {
         dfs(vertex, undefined);
@@ -903,7 +646,6 @@ export class UndirectedGraph<
         }
       }
     }
-
     return components;
   }
 
@@ -912,46 +654,9 @@ export class UndirectedGraph<
    * Uses DFS with parent tracking.
    * @returns `true` if a cycle exists, `false` otherwise.
    * @remarks Time O(V + E), Space O(V)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Detect cycle
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
@@ -962,10 +667,9 @@ export class UndirectedGraph<
  *     console.log(g.hasCycle()); // false;
  *     g.addEdge('C', 'A');
  *     console.log(g.hasCycle()); // true;
-   */
+*/
   hasCycle(): boolean {
     const visited = new Set<VO>();
-
     const dfs = (vertex: VO, parent: VO | undefined): boolean => {
       visited.add(vertex);
       for (const neighbor of this.getNeighbors(vertex)) {
@@ -977,7 +681,6 @@ export class UndirectedGraph<
       }
       return false;
     };
-
     for (const vertex of this.vertexMap.values()) {
       if (!visited.has(vertex)) {
         if (dfs(vertex, undefined)) return true;
@@ -990,46 +693,9 @@ export class UndirectedGraph<
    * Get bridges discovered by `tarjan()`.
    * @returns Array of edges that are bridges.
    * @remarks Time O(B), Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find bridge edges
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
@@ -1039,7 +705,7 @@ export class UndirectedGraph<
  *     g.addEdge('B', 'C');
  *     const bridges = g.getBridges();
  *     console.log(bridges.length); // 2;
-   */
+*/
   getBridges() {
     return this.tarjan().bridges;
   }
@@ -1048,46 +714,9 @@ export class UndirectedGraph<
    * Get articulation points discovered by `tarjan()`.
    * @returns Array of cut vertices.
    * @remarks Time O(C), Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find articulation points
  *  const g = new UndirectedGraph();
  *     g.addVertex('A');
@@ -1098,7 +727,7 @@ export class UndirectedGraph<
  *     const cuts = g.getCutVertices();
  *     console.log(cuts.length); // 1;
  *     console.log(cuts[0].key); // 'B';
-   */
+*/
   getCutVertices() {
     return this.tarjan().cutVertices;
   }

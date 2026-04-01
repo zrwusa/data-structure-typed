@@ -5,9 +5,9 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import { BST } from './bst';
 import type {
+
   AVLTreeOptions,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
@@ -41,7 +41,6 @@ export class AVLTreeNode<K = any, V = any> {
     this.key = key;
     this.value = value;
   }
-
   _left?: AVLTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -66,7 +65,6 @@ export class AVLTreeNode<K = any, V = any> {
     }
     this._left = v;
   }
-
   _right?: AVLTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -91,7 +89,6 @@ export class AVLTreeNode<K = any, V = any> {
     }
     this._right = v;
   }
-
   _height: number = 0;
 
   /**
@@ -113,7 +110,6 @@ export class AVLTreeNode<K = any, V = any> {
   set height(value: number) {
     this._height = value;
   }
-
   _color: RBTNColor = 'BLACK';
 
   /**
@@ -126,12 +122,10 @@ export class AVLTreeNode<K = any, V = any> {
   get color(): RBTNColor {
     return this._color;
   }
-
   /* istanbul ignore next -- inherited field, not used by AVLTree */
   set color(value: RBTNColor) {
     this._color = value;
   }
-
   _count: number = 1;
 
   /**
@@ -144,7 +138,6 @@ export class AVLTreeNode<K = any, V = any> {
   get count(): number {
     return this._count;
   }
-
   /* istanbul ignore next -- inherited field, not used by AVLTree */
   set count(value: number) {
     this._count = value;
@@ -160,13 +153,11 @@ export class AVLTreeNode<K = any, V = any> {
     if (!this.parent) {
       return this.left || this.right ? 'ROOT' : 'ISOLATED';
     }
-
     if (this.parent.left === this) {
       return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
     } else if (this.parent.right === this) {
       return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
     }
-
     /* istanbul ignore next -- defensive: unreachable if tree structure is correct */
     return 'MAL_NODE';
   }
@@ -309,6 +300,7 @@ export class AVLTreeNode<K = any, V = any> {
  *  //    ];
  */
 export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
+
   /**
    * Creates an instance of AVLTree.
    * @remarks Time O(N log N) (from `setMany` with balanced set). Space O(N).
@@ -359,173 +351,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Set a key-value pair
  *  const avl = new AVLTree<number, string>();
  *     avl.set(1, 'one');
  *     avl.set(2, 'two');
  *     console.log(avl.get(1)); // 'one';
-   */
+*/
   override set(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
@@ -543,139 +377,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove nodes and verify structure
  *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
  *     avl.delete(3);
  *     console.log(avl.has(3)); // false;
  *     console.log(avl.size); // 6;
-   */
+*/
   override delete(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
   ): boolean {
@@ -696,81 +406,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Rebalance the tree
  *  const avl = new AVLTree<number>();
  *     // Insert in sorted order (worst case for BST)
@@ -778,14 +416,12 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
  *     console.log(avl.isAVLBalanced()); // false;
  *     avl.perfectlyBalance();
  *     console.log(avl.isAVLBalanced()); // true;
-   */
+*/
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
     const n = nodes.length;
     if (n === 0) return false;
-
     this._clearNodes();
-
     // Build balanced tree from sorted array
     const build = (l: number, r: number, parent?: AVLTreeNode<K, V>): AVLTreeNode<K, V> | undefined => {
       if (l > r) return undefined;
@@ -794,14 +430,12 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
       root.left = build(l, m - 1, root);
       root.right = build(m + 1, r, root);
       root.parent = parent;
-
       // Update height during the build
       const lh = root.left ? (root.left as AVLTreeNode<K, V>).height : -1;
       const rh = root.right ? (root.right as AVLTreeNode<K, V>).height : -1;
       root.height = Math.max(lh, rh) + 1;
       return root;
     };
-
     const newRoot = build(0, n - 1, undefined);
     this._setRoot(newRoot);
     this._size = n;
@@ -819,134 +453,20 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform to new tree
  *  const avl = new AVLTree<number, number>([[1, 10], [2, 20], [3, 30]]);
  *     const doubled = avl.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
  *     console.log([...doubled.values()]); // [20, 40, 60];
-   */
+*/
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): AVLTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
-
     let index = 0;
     // Iterates in-order
     for (const [key, value] of this) {
@@ -1006,25 +526,20 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
   ): AVLTreeNode<K, V> | undefined {
     const srcNodeEnsured = this.ensureNode(srcNode);
     const destNodeEnsured = this.ensureNode(destNode);
-
     if (srcNodeEnsured && destNodeEnsured) {
       const { key, value, height } = destNodeEnsured;
       const tempNode = this.createNode(key, value);
-
       if (tempNode) {
         tempNode.height = height;
-
         // Copy src to dest
         destNodeEnsured.key = srcNodeEnsured.key;
         if (!this._isMapMode) destNodeEnsured.value = srcNodeEnsured.value;
         destNodeEnsured.height = srcNodeEnsured.height;
-
         // Copy temp (original dest) to src
         srcNodeEnsured.key = tempNode.key;
         if (!this._isMapMode) srcNodeEnsured.value = tempNode.value;
         srcNodeEnsured.height = tempNode.height;
       }
-
       return destNodeEnsured;
     }
     /* istanbul ignore next -- defensive: srcNode/destNode are always valid when called internally */
@@ -1070,7 +585,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
       B.right.parent = A;
     }
     if (B) B.parent = parentOfA;
-
     // Update parent's child pointer
     if (A === this.root) {
       if (B) this._setRoot(B);
@@ -1081,7 +595,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
         if (parentOfA) parentOfA.right = B;
       }
     }
-
     // Perform rotation
     if (B) {
       A.left = B.right;
@@ -1108,7 +621,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
     }
     if (A && C !== null) A.parent = C;
     if (B && C !== null) B.parent = C;
-
     if (C) {
       if (C.left) {
         if (B !== null) C.left.parent = B;
@@ -1118,7 +630,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
       }
       C.parent = parentOfA;
     }
-
     // Update parent's child pointer
     if (A === this.root) {
       if (C) this._setRoot(C);
@@ -1131,7 +642,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
         }
       }
     }
-
     // Perform rotation
     if (C) {
       A.left = C.right;
@@ -1139,7 +649,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
       C.left = B;
       C.right = A;
     }
-
     this._updateHeight(A);
     if (B) this._updateHeight(B);
     if (C) this._updateHeight(C);
@@ -1164,7 +673,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
       }
       B.parent = parentOfA;
     }
-
     // Update parent's child pointer
     if (A === this.root) {
       if (B) this._setRoot(B);
@@ -1177,7 +685,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
         }
       }
     }
-
     // Perform rotation
     if (B) {
       A.right = B.left;
@@ -1202,10 +709,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
     if (B) {
       C = B.left; // The "middle" node
     }
-
     if (C !== null) A.parent = C;
     if (B && C !== null) B.parent = C;
-
     if (C) {
       if (C.left) {
         C.left.parent = A;
@@ -1215,7 +720,6 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
       }
       C.parent = parentOfA;
     }
-
     // Update parent's child pointer
     if (A === this.root) {
       if (C) this._setRoot(C);
@@ -1228,13 +732,11 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
         }
       }
     }
-
     // Perform rotation
     if (C) A.right = C.left;
     if (B && C) B.left = C.right;
     if (C) C.left = A;
     if (C) C.right = B;
-
     this._updateHeight(A);
     if (B) this._updateHeight(B);
     if (C) this._updateHeight(C);
@@ -1253,14 +755,12 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
     // Get the path from the node to the root.
     node = this.ensureNode(node);
     const path = this.getPathToRoot(node, node => node, false);
-
     // Iterate up the path (from node to root)
     for (let i = 0; i < path.length; i++) {
       const A = path[i];
       if (A) {
         this._updateHeight(A);
         this._updateCount(A);
-
         // Check the balance factor
         switch (this._balanceFactor(A)) {
           case -2: // Left-heavy

@@ -1,5 +1,4 @@
 export type VertexKey = string | number;
-
 export type DijkstraResult<V> =
   | {
       distMap: Map<V, number>;
@@ -11,7 +10,6 @@ export type DijkstraResult<V> =
       minPath: V[];
     }
   | undefined;
-
 export type GraphOptions<V = any> = {
   vertexValueInitializer?: (key: VertexKey) => V;
   defaultEdgeWeight?: number;

@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
  */
-
 import type { PriorityQueueOptions } from '../../types';
 import { Heap } from '../heap';
 

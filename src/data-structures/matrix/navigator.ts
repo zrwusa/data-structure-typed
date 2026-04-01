@@ -116,7 +116,6 @@ export class Navigator<T = number> {
         this._cur[1]--;
         break;
     }
-
     const [i, j] = this._cur;
     this._matrix[i][j] = this._VISITED;
     if (this.onMove) this.onMove(this._cur);

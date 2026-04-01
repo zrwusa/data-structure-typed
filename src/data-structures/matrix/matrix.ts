@@ -95,6 +95,7 @@ import { ERR, raise } from '../../common';
  *     console.log(m.get(5, 5)); // undefined;
  */
 export class Matrix {
+
   /**
    * The constructor function initializes a matrix object with the provided data and options, or with
    * default values if no options are provided.
@@ -116,7 +117,6 @@ export class Matrix {
       this._rows = data.length;
       this._cols = data[0]?.length ?? 0;
     }
-
     if (data.length > 0) {
       this._data = data;
     } else {
@@ -126,7 +126,6 @@ export class Matrix {
       }
     }
   }
-
   protected _rows: number = 0;
 
   /**
@@ -136,7 +135,6 @@ export class Matrix {
   get rows(): number {
     return this._rows;
   }
-
   protected _cols: number = 0;
 
   /**
@@ -146,7 +144,6 @@ export class Matrix {
   get cols(): number {
     return this._cols;
   }
-
   protected _data: number[][];
 
   /**
@@ -189,49 +186,9 @@ export class Matrix {
    * retrieve from the data array.
    * @returns The `get` function returns a number if the provided row and column indices are valid.
    * Otherwise, it returns `undefined`.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get and set individual cells
  *  const m = new Matrix([
  *       [0, 0, 0],
@@ -247,7 +204,7 @@ export class Matrix {
  *
  *     // Out of bounds returns undefined
  *     console.log(m.get(5, 5)); // undefined;
-   */
+*/
   get(row: number, col: number): number | undefined {
     if (this.isValidIndex(row, col)) {
       return this.data[row][col];
@@ -265,56 +222,16 @@ export class Matrix {
    * @returns a boolean value. It returns true if the index (row, col) is valid and the value is
    * successfully set in the data array. It returns false if the index is invalid and the value is not
    * set.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Modify individual cells
  *  const m = Matrix.zeros(2, 2);
  *     console.log(m.set(0, 0, 5)); // true;
  *     console.log(m.set(1, 1, 10)); // true;
  *     console.log(m.get(0, 0)); // 5;
  *     console.log(m.get(1, 1)); // 10;
-   */
+*/
   set(row: number, col: number, value: number): boolean {
     if (this.isValidIndex(row, col)) {
       this.data[row][col] = value;
@@ -338,49 +255,9 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns The `add` method returns a new `Matrix` object that represents the result of adding the
    * current matrix with the provided `matrix` parameter.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Basic matrix arithmetic
  *  const a = new Matrix([
  *       [1, 2],
@@ -402,12 +279,11 @@ export class Matrix {
  *  //      [4, 4],
  *  //      [4, 4]
  *  //    ];
-   */
+*/
   add(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
       raise(Error, ERR.matrixDimensionMismatch('addition'));
     }
-
     const resultData: number[][] = [];
     for (let i = 0; i < this.rows; i++) {
       resultData[i] = [];
@@ -419,7 +295,6 @@ export class Matrix {
         }
       }
     }
-
     return new Matrix(resultData, {
       rows: this.rows,
       cols: this.cols,
@@ -435,60 +310,19 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class. It
    * represents the matrix that you want to subtract from the current matrix.
    * @returns a new Matrix object with the result of the subtraction operation.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Element-wise subtraction
  *  const a = Matrix.from([[5, 6], [7, 8]]);
  *     const b = Matrix.from([[1, 2], [3, 4]]);
  *     const result = a.subtract(b);
  *     console.log(result?.toArray()); // [[4, 4], [4, 4]];
-   */
+*/
   subtract(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
       raise(Error, ERR.matrixDimensionMismatch('subtraction'));
     }
-
     const resultData: number[][] = [];
     for (let i = 0; i < this.rows; i++) {
       resultData[i] = [];
@@ -500,7 +334,6 @@ export class Matrix {
         }
       }
     }
-
     return new Matrix(resultData, {
       rows: this.rows,
       cols: this.cols,
@@ -515,49 +348,9 @@ export class Matrix {
    * as a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Matrix multiplication for transformations
  *  // 2x3 matrix * 3x2 matrix = 2x2 matrix
  *     const a = new Matrix([
@@ -579,12 +372,11 @@ export class Matrix {
  *  //      [58, 64],
  *  //      [139, 154]
  *  //    ];
-   */
+*/
   multiply(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {
       raise(Error, ERR.matrixDimensionMismatch('multiplication (A.cols must equal B.rows)'));
     }
-
     const resultData: number[][] = [];
     for (let i = 0; i < this.rows; i++) {
       resultData[i] = [];
@@ -603,7 +395,6 @@ export class Matrix {
         if (sum !== undefined) resultData[i][j] = sum;
       }
     }
-
     return new Matrix(resultData, {
       rows: this.rows,
       cols: matrix.cols,
@@ -617,49 +408,9 @@ export class Matrix {
    * The transpose function takes a matrix and returns a new matrix that is the transpose of the
    * original matrix.
    * @returns The transpose() function returns a new Matrix object with the transposed data.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Matrix transpose (square matrix)
  *  const m = new Matrix([
  *       [1, 2, 3],
@@ -678,14 +429,12 @@ export class Matrix {
  *
  *     // Transpose of transpose = original
  *     console.log(transposed.transpose().data); // m.data;
-   */
+*/
   transpose(): Matrix {
     if (this.data.some(row => row.length !== this.cols)) {
       raise(Error, ERR.matrixNotRectangular());
     }
-
     const resultData: number[][] = [];
-
     for (let j = 0; j < this.cols; j++) {
       resultData[j] = [];
       for (let i = 0; i < this.rows; i++) {
@@ -693,7 +442,6 @@ export class Matrix {
         if (trans !== undefined) resultData[j][i] = trans;
       }
     }
-
     return new Matrix(resultData, {
       rows: this.cols,
       cols: this.rows,
@@ -706,49 +454,9 @@ export class Matrix {
   /**
    * The `inverse` function calculates the inverse of a square matrix using Gaussian elimination.
    * @returns a Matrix object, which represents the inverse of the original matrix.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Compute the inverse of a 2x2 matrix
  *  const m = Matrix.from([[4, 7], [2, 6]]);
  *     const inv = m.inverse();
@@ -759,13 +467,12 @@ export class Matrix {
  *     console.log(product?.get(0, 1)); // toBeCloseTo;
  *     console.log(product?.get(1, 0)); // toBeCloseTo;
  *     console.log(product?.get(1, 1)); // toBeCloseTo;
-   */
+*/
   inverse(): Matrix | undefined {
     // Check if the matrix is square
     if (this.rows !== this.cols) {
       raise(Error, ERR.matrixNotSquare());
     }
-
     // Create an augmented matrix [this | I]
     const augmentedMatrixData: number[][] = [];
     for (let i = 0; i < this.rows; i++) {
@@ -774,7 +481,6 @@ export class Matrix {
         augmentedMatrixData[i][this.cols + j] = i === j ? 1 : 0; // Append the identity matrix
       }
     }
-
     const augmentedMatrix = new Matrix(augmentedMatrixData, {
       rows: this.rows,
       cols: this.cols * 2,
@@ -782,7 +488,6 @@ export class Matrix {
       subtractFn: this.subtractFn,
       multiplyFn: this.multiplyFn
     });
-
     // Apply Gaussian elimination to transform the left half into the identity matrix
     for (let i = 0; i < this.rows; i++) {
       // Find pivot
@@ -790,42 +495,33 @@ export class Matrix {
       while (pivotRow < this.rows && augmentedMatrix.get(pivotRow, i) === 0) {
         pivotRow++;
       }
-
       if (pivotRow === this.rows) {
         // Matrix is singular, and its inverse does not exist
         raise(Error, ERR.matrixSingular());
       }
-
       // Swap rows to make the pivot the current row
       augmentedMatrix._swapRows(i, pivotRow);
-
       // Scale the pivot row to make the pivot element 1
       const pivotElement = augmentedMatrix.get(i, i) ?? 1;
-
       if (pivotElement === 0) {
         // Handle division by zero
         raise(Error, ERR.matrixSingular());
       }
-
       augmentedMatrix._scaleRow(i, 1 / pivotElement);
-
       // Eliminate other rows to make elements in the current column zero
       for (let j = 0; j < this.rows; j++) {
         if (j !== i) {
           let factor = augmentedMatrix.get(j, i);
           if (factor === undefined) factor = 0;
-
           augmentedMatrix._addScaledRow(j, i, -factor);
         }
       }
     }
-
     // Extract the right half of the augmented matrix as the inverse
     const inverseData: number[][] = [];
     for (let i = 0; i < this.rows; i++) {
       inverseData[i] = augmentedMatrix.data[i].slice(this.cols);
     }
-
     return new Matrix(inverseData, {
       rows: this.rows,
       cols: this.cols,
@@ -839,60 +535,19 @@ export class Matrix {
    * The dot function calculates the dot product of two matrices and returns a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Dot product of two matrices
  *  const a = Matrix.from([[1, 2], [3, 4]]);
  *     const b = Matrix.from([[5, 6], [7, 8]]);
  *     const result = a.dot(b);
  *     console.log(result?.toArray()); // [[19, 22], [43, 50]];
-   */
+*/
   dot(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {
       raise(Error, ERR.matrixDimensionMismatch('dot product (A.cols must equal B.rows)'));
     }
-
     const resultData: number[][] = [];
     for (let i = 0; i < this.rows; i++) {
       resultData[i] = [];
@@ -911,7 +566,6 @@ export class Matrix {
         if (sum !== undefined) resultData[i][j] = sum;
       }
     }
-
     return new Matrix(resultData, {
       rows: this.rows,
       cols: matrix.cols,
@@ -951,7 +605,6 @@ export class Matrix {
       }
     );
   }
-
   // ─── Standard interface ─────────────────────────────────────
 
   /**
@@ -960,7 +613,6 @@ export class Matrix {
   get size(): [number, number] {
     return [this._rows, this._cols];
   }
-
   isEmpty(): boolean {
     return this._rows === 0 || this._cols === 0;
   }
@@ -1032,13 +684,11 @@ export class Matrix {
       multiplyFn: this.multiplyFn
     });
   }
-
   print(): void {
     for (const row of this._data) {
       console.log(row.join('\t'));
     }
   }
-
   // ─── Factory methods ────────────────────────────────────────
 
   /**
@@ -1078,16 +728,13 @@ export class Matrix {
   static from(data: number[][]): Matrix {
     return new Matrix(data.map(row => [...row]));
   }
-
   protected _addFn(a: number | undefined, b: number): number | undefined {
     if (a === undefined) return b;
     return a + b;
   }
-
   protected _subtractFn(a: number, b: number) {
     return a - b;
   }
-
   protected _multiplyFn(a: number, b: number) {
     return a * b;
   }

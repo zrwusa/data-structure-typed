@@ -13,6 +13,7 @@ import { raise } from '../../common';
  * and offers array-like helpers with predictable time/space complexity.
  */
 export abstract class IterableElementBase<E, R> implements Iterable<E> {
+
   /**
    * Create a new iterable base.
    *
@@ -162,7 +163,6 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
    */
   find<S extends E>(predicate: ElementCallback<E, R, S>, thisArg?: unknown): S | undefined;
   find(predicate: ElementCallback<E, R, unknown>, thisArg?: unknown): E | undefined;
-
   // Implementation signature
   find(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): E | undefined {
     let index = 0;
@@ -222,7 +222,6 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
       yield index++;
     }
   }
-
   reduce(callbackfn: ReduceElementCallback<E, R>): E;
   reduce(callbackfn: ReduceElementCallback<E, R>, initialValue: E): E;
   reduce<U>(callbackfn: ReduceElementCallback<E, R, U>, initialValue: U): U;
@@ -252,7 +251,6 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
     let index = 0;
     const iter = this[Symbol.iterator]();
     let acc: U;
-
     if (arguments.length >= 2) {
       acc = initialValue as U;
     } else {
@@ -261,7 +259,6 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
       acc = first.value as unknown as U;
       index = 1;
     }
-
     for (const value of iter as unknown as Iterable<E>) {
       acc = callbackfn(acc, value, index++, this);
     }

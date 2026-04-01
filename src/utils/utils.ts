@@ -34,7 +34,6 @@ export const arrayRemove = function <T>(array: T[], predicate: (item: T, index: 
   let i = -1,
     len = array ? array.length : 0;
   const result = [];
-
   while (++i < len) {
     const value = array[i];
     if (predicate(value, i, array)) {
@@ -43,7 +42,6 @@ export const arrayRemove = function <T>(array: T[], predicate: (item: T, index: 
       len--;
     }
   }
-
   return result;
 };
 
@@ -190,7 +188,6 @@ function tryObjectToPrimitive(obj: object): ComparablePrimitive | null {
 export function isComparable(value: unknown, isForceObjectComparable = false): value is Comparable {
   if (value === null || value === undefined) return false;
   if (isPrimitiveComparable(value)) return true;
-
   if (typeof value !== 'object') return false;
   if (value instanceof Date) return true;
   // if (value instanceof Date) return !Number.isNaN(value.getTime());
@@ -303,12 +300,10 @@ export function makeTrampoline<Args extends any[], Result>(
  */
 export async function asyncTrampoline<T>(initial: Trampoline<T> | Promise<Trampoline<T>>): Promise<T> {
   let current = await initial; // Wait for the initial step to resolve if it's a Promise
-
   // Keep executing thunks until we reach a non-thunk (final) value
   while (isTrampolineThunk(current)) {
     current = await current.fn(); // Execute the thunk function (may be async)
   }
-
   // Once the final value is reached, return it
   return current;
 }

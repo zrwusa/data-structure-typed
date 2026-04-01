@@ -1,4 +1,5 @@
 export class TreeNode<V = any> {
+
   /**
    * The constructor function initializes a TreeNode object with a key, optional value, and optional
    * children.
@@ -14,7 +15,6 @@ export class TreeNode<V = any> {
     this._value = value || undefined;
     if (children) this._children = children;
   }
-
   protected _key: string;
 
   /**
@@ -33,7 +33,6 @@ export class TreeNode<V = any> {
   set key(value: string) {
     this._key = value;
   }
-
   protected _value?: V | undefined;
 
   /**
@@ -52,7 +51,6 @@ export class TreeNode<V = any> {
   set value(value: V | undefined) {
     this._value = value;
   }
-
   protected _children?: TreeNode<V>[] | undefined;
 
   /**

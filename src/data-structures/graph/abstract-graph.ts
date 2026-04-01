@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { DijkstraResult, EntryCallback, GraphOptions, VertexKey } from '../../types';
 import { uuidV4 } from '../../utils';
 import { ERR, raise } from '../../common';
@@ -17,25 +16,20 @@ import { Queue } from '../queue';
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;
   value: V | undefined;
-
   protected constructor(key: VertexKey, value?: V) {
     this.key = key;
     this.value = value;
   }
 }
-
 export abstract class AbstractEdge<E = any> {
   value: E | undefined;
   weight: number;
-
   protected constructor(weight?: number, value?: E) {
     this.weight = weight !== undefined ? weight : 1;
     this.value = value;
     this._hashCode = uuidV4();
   }
-
   protected _hashCode: string;
-
   get hashCode(): string {
     return this._hashCode;
   }
@@ -69,23 +63,17 @@ export abstract class AbstractGraph<
     const graph = (options as { graph?: GraphOptions<V> })?.graph;
     this._options = { defaultEdgeWeight: 1, ...(graph ?? {}) };
   }
-
   protected _options: GraphOptions<V> = { defaultEdgeWeight: 1 };
-
   get options(): Readonly<GraphOptions<V>> {
     return this._options;
   }
-
   protected _vertexMap: Map<VertexKey, VO> = new Map<VertexKey, VO>();
-
   get vertexMap(): Map<VertexKey, VO> {
     return this._vertexMap;
   }
-
   set vertexMap(v: Map<VertexKey, VO>) {
     this._vertexMap = v;
   }
-
   get size(): number {
     return this._vertexMap.size;
   }
@@ -185,9 +173,7 @@ export abstract class AbstractGraph<
   hasVertex(vertexOrKey: VO | VertexKey): boolean {
     return this._vertexMap.has(this._getVertexKey(vertexOrKey));
   }
-
   addVertex(vertex: VO): boolean;
-
   addVertex(key: VertexKey, value?: V): boolean;
 
   /**
@@ -250,9 +236,7 @@ export abstract class AbstractGraph<
     const edge = this.getEdge(v1, v2);
     return !!edge;
   }
-
   addEdge(edge: EO): boolean;
-
   addEdge(src: VO | VertexKey, dest: VO | VertexKey, weight?: number, value?: E): boolean;
 
   /**
@@ -310,22 +294,17 @@ export abstract class AbstractGraph<
     const paths: VO[][] = [];
     const vertex1 = this._getVertex(v1);
     const vertex2 = this._getVertex(v2);
-
     if (!(vertex1 && vertex2)) {
       return [];
     }
-
     const stack: { vertex: VO; path: VO[] }[] = [];
     stack.push({ vertex: vertex1, path: [vertex1] });
-
     while (stack.length > 0) {
       const { vertex, path } = stack.pop()!;
-
       if (vertex === vertex2) {
         paths.push(path);
         if (paths.length >= limit) return paths;
       }
-
       const neighbors = this.getNeighbors(vertex);
       for (const neighbor of neighbors) {
         if (!path.includes(neighbor)) {
@@ -361,7 +340,6 @@ export abstract class AbstractGraph<
    */
   getMinCostBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean): number | undefined {
     if (isWeight === undefined) isWeight = false;
-
     if (isWeight) {
       const allPaths = this.getAllPathsBetween(v1, v2);
       let min = Number.MAX_SAFE_INTEGER;
@@ -375,7 +353,6 @@ export abstract class AbstractGraph<
       if (!(vertex1 && vertex2)) {
         return undefined;
       }
-
       const visited: Map<VO, boolean> = new Map();
       const queue = new Queue<VO>([vertex1]);
       visited.set(vertex1, true);
@@ -386,7 +363,6 @@ export abstract class AbstractGraph<
           if (cur === vertex2) {
             return cost;
           }
-
           if (cur !== undefined) {
             const neighbors = this.getNeighbors(cur);
             for (const neighbor of neighbors) {
@@ -414,7 +390,6 @@ export abstract class AbstractGraph<
    */
   getMinPathBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean, isDFS = false): VO[] | undefined {
     if (isWeight === undefined) isWeight = false;
-
     if (isWeight) {
       if (isDFS) {
         const allPaths = this.getAllPathsBetween(v1, v2, 10000);
@@ -431,6 +406,7 @@ export abstract class AbstractGraph<
         }
         return allPaths[minIndex] || undefined;
       } else {
+
         /**
          * Dijkstra (binary-heap) shortest paths for non-negative weights.
          * @param src - Source vertex or key.
@@ -447,14 +423,12 @@ export abstract class AbstractGraph<
       const vertex1 = this._getVertex(v1);
       const vertex2 = this._getVertex(v2);
       if (!(vertex1 && vertex2)) return [];
-
       const dfs = (cur: VO, dest: VO, visiting: Set<VO>, path: VO[]) => {
         visiting.add(cur);
         if (cur === dest) {
           minPath = [vertex1, ...path];
           return;
         }
-
         const neighbors = this.getNeighbors(cur);
         for (const neighbor of neighbors) {
           if (!visiting.has(neighbor)) {
@@ -463,10 +437,8 @@ export abstract class AbstractGraph<
             path.pop();
           }
         }
-
         visiting.delete(cur);
       };
-
       dfs(vertex1, vertex2, new Set<VO>(), []);
       return minPath;
     }
@@ -491,26 +463,21 @@ export abstract class AbstractGraph<
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
     const paths: VO[][] = [];
-
     const vertexMap = this._vertexMap;
     const distMap: Map<VO, number> = new Map();
     const seen: Set<VO> = new Set();
     const preMap: Map<VO, VO | undefined> = new Map();
     const srcVertex = this._getVertex(src);
-
     const destVertex = dest ? this._getVertex(dest) : undefined;
-
     if (!srcVertex) {
       return undefined;
     }
-
     for (const vertex of vertexMap) {
       const vertexOrKey = vertex[1];
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Number.MAX_SAFE_INTEGER);
     }
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, undefined);
-
     const getMinOfNoSeen = () => {
       let min = Number.MAX_SAFE_INTEGER;
       let minV: VO | undefined = undefined;
@@ -524,11 +491,9 @@ export abstract class AbstractGraph<
       }
       return minV;
     };
-
     const getPaths = (minV: VO | undefined) => {
       for (const vertex of vertexMap) {
         const vertexOrKey = vertex[1];
-
         if (vertexOrKey instanceof AbstractVertex) {
           const path: VO[] = [vertexOrKey];
           let parent = preMap.get(vertexOrKey);
@@ -542,7 +507,6 @@ export abstract class AbstractGraph<
         }
       }
     };
-
     for (let i = 1; i < vertexMap.size; i++) {
       const cur = getMinOfNoSeen();
       if (cur) {
@@ -563,7 +527,6 @@ export abstract class AbstractGraph<
             if (edge) {
               const curFromMap = distMap.get(cur);
               const neighborFromMap = distMap.get(neighbor);
-
               if (curFromMap !== undefined && neighborFromMap !== undefined) {
                 if (edge.weight + curFromMap < neighborFromMap) {
                   distMap.set(neighbor, edge.weight + curFromMap);
@@ -575,7 +538,6 @@ export abstract class AbstractGraph<
         }
       }
     }
-
     if (getMinDist)
       distMap.forEach((d, v) => {
         if (v !== srcVertex) {
@@ -585,12 +547,9 @@ export abstract class AbstractGraph<
           }
         }
       });
-
     if (genPaths) getPaths(minDest);
-
     return { distMap, preMap, seen, paths, minDist, minPath };
   }
-
   dijkstra(
     src: VO | VertexKey,
     dest: VO | VertexKey | undefined = undefined,
@@ -605,23 +564,17 @@ export abstract class AbstractGraph<
     const distMap: Map<VO, number> = new Map();
     const seen: Set<VO> = new Set();
     const preMap: Map<VO, VO | undefined> = new Map();
-
     const srcVertex = this._getVertex(src);
     const destVertex = dest ? this._getVertex(dest) : undefined;
-
     if (!srcVertex) return undefined;
-
     for (const vertex of vertexMap) {
       const vertexOrKey = vertex[1];
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Number.MAX_SAFE_INTEGER);
     }
-
     const heap = new Heap<{ key: number; value: VO }>([], { comparator: (a, b) => a.key - b.key });
     heap.add({ key: 0, value: srcVertex });
-
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, undefined);
-
     const getPaths = (minV: VO | undefined) => {
       for (const vertex of vertexMap) {
         const vertexOrKey = vertex[1];
@@ -638,7 +591,6 @@ export abstract class AbstractGraph<
         }
       }
     };
-
     while (heap.size > 0) {
       const curHeapNode = heap.poll();
       const dist = curHeapNode?.key;
@@ -674,7 +626,6 @@ export abstract class AbstractGraph<
         }
       }
     }
-
     if (getMinDist) {
       distMap.forEach((d, v) => {
         if (v !== srcVertex) {
@@ -685,11 +636,9 @@ export abstract class AbstractGraph<
         }
       });
     }
-
     if (genPaths) {
       getPaths(minDest);
     }
-
     return { distMap, preMap, seen, paths, minDist, minPath };
   }
 
@@ -705,29 +654,23 @@ export abstract class AbstractGraph<
   bellmanFord(src: VO | VertexKey, scanNegativeCycle?: boolean, getMin?: boolean, genPath?: boolean) {
     if (getMin === undefined) getMin = false;
     if (genPath === undefined) genPath = false;
-
     const srcVertex = this._getVertex(src);
     const paths: VO[][] = [];
     const distMap: Map<VO, number> = new Map();
     const preMap: Map<VO, VO> = new Map();
     let min = Number.MAX_SAFE_INTEGER;
     let minPath: VO[] = [];
-
     let hasNegativeCycle: boolean | undefined;
     if (scanNegativeCycle) hasNegativeCycle = false;
     if (!srcVertex) return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
-
     const vertexMap = this._vertexMap;
     const numOfVertices = vertexMap.size;
     const edgeMap = this.edgeSet();
     const numOfEdges = edgeMap.length;
-
     this._vertexMap.forEach(vertex => {
       distMap.set(vertex, Number.MAX_SAFE_INTEGER);
     });
-
     distMap.set(srcVertex, 0);
-
     for (let i = 1; i < numOfVertices; ++i) {
       for (let j = 0; j < numOfEdges; ++j) {
         const ends = this.getEndsOfEdge(edgeMap[j]);
@@ -745,7 +688,6 @@ export abstract class AbstractGraph<
         }
       }
     }
-
     let minDest: VO | undefined = undefined;
     if (getMin) {
       distMap.forEach((d, v) => {
@@ -757,7 +699,6 @@ export abstract class AbstractGraph<
         }
       });
     }
-
     if (genPath) {
       for (const vertex of vertexMap) {
         const vertexOrKey = vertex[1];
@@ -774,7 +715,6 @@ export abstract class AbstractGraph<
         }
       }
     }
-
     for (let j = 0; j < numOfEdges; ++j) {
       const ends = this.getEndsOfEdge(edgeMap[j]);
       if (ends) {
@@ -786,7 +726,6 @@ export abstract class AbstractGraph<
         }
       }
     }
-
     return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
   }
 
@@ -798,10 +737,8 @@ export abstract class AbstractGraph<
   floydWarshall(): { costs: number[][]; predecessor: (VO | undefined)[][] } {
     const idAndVertices = [...this._vertexMap];
     const n = idAndVertices.length;
-
     const costs: number[][] = [];
     const predecessor: (VO | undefined)[][] = [];
-
     for (let i = 0; i < n; i++) {
       costs[i] = [];
       predecessor[i] = [];
@@ -809,13 +746,11 @@ export abstract class AbstractGraph<
         predecessor[i][j] = undefined;
       }
     }
-
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
         costs[i][j] = this.getEdge(idAndVertices[i][1], idAndVertices[j][1])?.weight || Number.MAX_SAFE_INTEGER;
       }
     }
-
     for (let k = 0; k < n; k++) {
       for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
@@ -838,7 +773,6 @@ export abstract class AbstractGraph<
   getCycles(isInclude2Cycle: boolean = false): VertexKey[][] {
     const cycles: VertexKey[][] = [];
     const visited: Set<VO> = new Set();
-
     const dfs = (vertex: VO, currentPath: VertexKey[], visited: Set<VO>) => {
       if (visited.has(vertex)) {
         if (
@@ -849,27 +783,20 @@ export abstract class AbstractGraph<
         }
         return;
       }
-
       visited.add(vertex);
       currentPath.push(vertex.key);
-
       for (const neighbor of this.getNeighbors(vertex)) {
         if (neighbor) dfs(neighbor, currentPath, visited);
       }
-
       visited.delete(vertex);
       currentPath.pop();
     };
-
     for (const vertex of this.vertexMap.values()) {
       dfs(vertex, [], visited);
     }
-
     const uniqueCycles = new Map<string, VertexKey[]>();
-
     for (const cycle of cycles) {
       const sorted = [...cycle].sort().toString();
-
       if (uniqueCycles.has(sorted)) continue;
       else {
         uniqueCycles.set(sorted, cycle);
@@ -924,7 +851,6 @@ export abstract class AbstractGraph<
     }
     return filtered;
   }
-
   map<T>(callback: EntryCallback<VertexKey, V | undefined, T>, thisArg?: unknown): T[] {
     const mapped: T[] = [];
     let index = 0;
@@ -947,7 +873,6 @@ export abstract class AbstractGraph<
   clone(): this {
     return this._createLike(undefined, this._snapshotOptions());
   }
-
   // ===== Same-species factory & cloning helpers =====
 
   /**
@@ -1110,9 +1035,7 @@ export abstract class AbstractGraph<
     const vertices = [...this._vertexMap.values()];
     const vertexCount = vertices.length;
     const edgeCount = this.edgeSet().length;
-
     const lines: string[] = [`Graph (${vertexCount} vertices, ${edgeCount} edges):`];
-
     for (const vertex of vertices) {
       const neighbors = this.getNeighbors(vertex);
       if (neighbors.length === 0) {
@@ -1128,7 +1051,6 @@ export abstract class AbstractGraph<
         lines.push(`  ${vertex.key} ${this._edgeConnector} ${edgeStrs.join(', ')}`);
       }
     }
-
     return lines.join('\n');
   }
 
@@ -1146,14 +1068,11 @@ export abstract class AbstractGraph<
     const isDirected = this._edgeConnector === '->';
     const graphType = isDirected ? 'digraph' : 'graph';
     const edgeOp = isDirected ? '->' : '--';
-
     const lines: string[] = [`${graphType} ${name} {`];
-
     // Add all vertices (ensures isolated vertices appear)
     for (const vertex of this._vertexMap.values()) {
       lines.push(`  "${vertex.key}";`);
     }
-
     // Add edges
     const visited = new Set<string>();
     for (const vertex of this._vertexMap.values()) {
@@ -1163,7 +1082,6 @@ export abstract class AbstractGraph<
           : [vertex.key, neighbor.key].sort().join('--');
         if (visited.has(edgeId)) continue;
         visited.add(edgeId);
-
         const edge = this.getEdge(vertex, neighbor);
         const label = edge && showWeight && edge.weight !== undefined && edge.weight !== 1
           ? ` [label="${edge.weight}"]`
@@ -1171,7 +1089,6 @@ export abstract class AbstractGraph<
         lines.push(`  "${vertex.key}" ${edgeOp} "${neighbor.key}"${label};`);
       }
     }
-
     lines.push('}');
     return lines.join('\n');
   }

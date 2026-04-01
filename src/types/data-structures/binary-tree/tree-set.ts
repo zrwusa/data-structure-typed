@@ -22,7 +22,6 @@ export interface TreeSetOptions<K, R = K> {
    */
   toElementFn?: (rawElement: R) => K;
 }
-
 export type TreeSetRangeOptions = {
   lowInclusive?: boolean;
   highInclusive?: boolean;

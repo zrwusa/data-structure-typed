@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { GraphOptions, TopologicalStatus, VertexKey } from '../../types';
 import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
 import { IGraph } from '../../interfaces';
@@ -16,11 +15,9 @@ export class DirectedVertex<V = any> extends AbstractVertex<V> {
     super(key, value);
   }
 }
-
 export class DirectedEdge<E = any> extends AbstractEdge<E> {
   src: VertexKey;
   dest: VertexKey;
-
   constructor(src: VertexKey, dest: VertexKey, weight?: number, value?: E) {
     super(weight, value);
     this.src = src;
@@ -132,27 +129,20 @@ export class DirectedGraph<
   constructor(options?: Partial<GraphOptions<V>>) {
     super(options);
   }
-
   protected override get _edgeConnector(): string {
     return '->';
   }
-
   protected _outEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
-
   get outEdgeMap(): Map<VO, EO[]> {
     return this._outEdgeMap;
   }
-
   set outEdgeMap(v: Map<VO, EO[]>) {
     this._outEdgeMap = v;
   }
-
   protected _inEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
-
   get inEdgeMap(): Map<VO, EO[]> {
     return this._inEdgeMap;
   }
-
   set inEdgeMap(v: Map<VO, EO[]>) {
     this._inEdgeMap = v;
   }
@@ -217,46 +207,9 @@ export class DirectedGraph<
    * @param destOrKey - Destination vertex or key.
    * @returns Edge instance or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get edge between vertices
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
@@ -264,14 +217,12 @@ export class DirectedGraph<
  *     g.addEdge('A', 'B', 5);
  *     const edge = g.getEdge('A', 'B');
  *     console.log(edge?.weight); // 5;
-   */
+*/
   getEdge(srcOrKey: VO | VertexKey | undefined, destOrKey: VO | VertexKey | undefined): EO | undefined {
     let edgeMap: EO[] = [];
-
     if (srcOrKey !== undefined && destOrKey !== undefined) {
       const src: VO | undefined = this._getVertex(srcOrKey);
       const dest: VO | undefined = this._getVertex(destOrKey);
-
       if (src && dest) {
         const srcOutEdges = this._outEdgeMap.get(src);
         if (srcOutEdges) {
@@ -279,7 +230,6 @@ export class DirectedGraph<
         }
       }
     }
-
     return edgeMap[0] || undefined;
   }
 
@@ -297,12 +247,10 @@ export class DirectedGraph<
     if (!src || !dest) {
       return undefined;
     }
-
     const srcOutEdges = this._outEdgeMap.get(src);
     if (srcOutEdges) {
       arrayRemove<EO>(srcOutEdges, (edge: EO) => edge.dest === dest.key);
     }
-
     const destInEdges = this._inEdgeMap.get(dest);
     if (destInEdges) {
       removed = arrayRemove<EO>(destInEdges, (edge: EO) => edge.src === src.key)[0] || undefined;
@@ -316,49 +264,9 @@ export class DirectedGraph<
    * @param destVertexKey - Optional destination vertex/key when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // DirectedGraph deleteEdge and vertex operations
  *  const graph = new DirectedGraph<string>();
  *
@@ -383,7 +291,7 @@ export class DirectedGraph<
  *     graph.deleteVertex('Y');
  *     console.log(graph.hasVertex('Y')); // false;
  *     console.log(graph.size); // 2;
-   */
+*/
   deleteEdge(edgeOrSrcVertexKey: EO | VertexKey, destVertexKey?: VertexKey): EO | undefined {
     let removed: EO | undefined = undefined;
     let src: VO | undefined, dest: VO | undefined;
@@ -398,64 +306,24 @@ export class DirectedGraph<
       src = this._getVertex(edgeOrSrcVertexKey.src);
       dest = this._getVertex(edgeOrSrcVertexKey.dest);
     }
-
     if (src && dest) {
       const srcOutEdges = this._outEdgeMap.get(src);
       if (srcOutEdges && srcOutEdges.length > 0) {
         arrayRemove(srcOutEdges, (edge: EO) => edge.src === src!.key && edge.dest === dest?.key);
       }
-
       const destInEdges = this._inEdgeMap.get(dest);
       if (destInEdges && destInEdges.length > 0) {
         removed = arrayRemove(destInEdges, (edge: EO) => edge.src === src!.key && edge.dest === dest!.key)[0];
       }
     }
-
     return removed;
   }
 
     /**
    * Remove a vertex
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove a vertex
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
@@ -464,7 +332,7 @@ export class DirectedGraph<
  *     g.deleteVertex('A');
  *     console.log(g.hasVertex('A')); // false;
  *     console.log(g.hasEdge('A', 'B')); // false;
-   */
+*/
   deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     let vertexKey: VertexKey;
     let vertex: VO | undefined;
@@ -475,8 +343,8 @@ export class DirectedGraph<
       vertex = vertexOrKey;
       vertexKey = this._getVertexKey(vertexOrKey);
     }
-
     if (vertex) {
+
       /**
        * One-step neighbors following outgoing edges.
        * @param vertexOrKey - Vertex or key.
@@ -490,21 +358,16 @@ export class DirectedGraph<
       this._outEdgeMap.delete(vertex);
       this._inEdgeMap.delete(vertex);
     }
-
     return this._vertexMap.delete(vertexKey);
   }
-
   deleteEdgesBetween(v1: VertexKey | VO, v2: VertexKey | VO): EO[] {
     const removed: EO[] = [];
-
     if (v1 && v2) {
       const v1ToV2 = this.deleteEdgeSrcToDest(v1, v2);
       const v2ToV1 = this.deleteEdgeSrcToDest(v2, v1);
-
       if (v1ToV2) removed.push(v1ToV2);
       if (v2ToV1) removed.push(v2ToV1);
     }
-
     return removed;
   }
 
@@ -513,46 +376,9 @@ export class DirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns Array of incoming edges.
    * @remarks Time O(deg_in), Space O(deg_in)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get incoming edges
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
@@ -561,7 +387,7 @@ export class DirectedGraph<
  *     g.addEdge('A', 'C');
  *     g.addEdge('B', 'C');
  *     console.log(g.incomingEdgesOf('C').length); // 2;
-   */
+*/
   incomingEdgesOf(vertexOrKey: VO | VertexKey): EO[] {
     const target = this._getVertex(vertexOrKey);
     if (target) {
@@ -575,46 +401,9 @@ export class DirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns Array of outgoing edges.
    * @remarks Time O(deg_out), Space O(deg_out)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get outgoing edges
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
@@ -623,7 +412,7 @@ export class DirectedGraph<
  *     g.addEdge('A', 'B');
  *     g.addEdge('A', 'C');
  *     console.log(g.outgoingEdgesOf('A').length); // 2;
-   */
+*/
   outgoingEdgesOf(vertexOrKey: VO | VertexKey): EO[] {
     const target = this._getVertex(vertexOrKey);
     if (target) {
@@ -639,6 +428,7 @@ export class DirectedGraph<
    * @remarks Time O(1) avg, Space O(1)
    */
   degreeOf(vertexOrKey: VertexKey | VO): number {
+
     /**
      * In-degree of a vertex.
      * @param vertexOrKey - Vertex or key.
@@ -653,11 +443,9 @@ export class DirectedGraph<
      */
     return this.outDegreeOf(vertexOrKey) + this.inDegreeOf(vertexOrKey);
   }
-
   inDegreeOf(vertexOrKey: VertexKey | VO): number {
     return this.incomingEdgesOf(vertexOrKey).length;
   }
-
   outDegreeOf(vertexOrKey: VertexKey | VO): number {
     return this.outgoingEdgesOf(vertexOrKey).length;
   }
@@ -671,11 +459,9 @@ export class DirectedGraph<
   edgesOf(vertexOrKey: VertexKey | VO): EO[] {
     return [...this.outgoingEdgesOf(vertexOrKey), ...this.incomingEdgesOf(vertexOrKey)];
   }
-
   getEdgeSrc(e: EO): VO | undefined {
     return this._getVertex(e.src);
   }
-
   getEdgeDest(e: EO): VO | undefined {
     return this._getVertex(e.dest);
   }
@@ -706,49 +492,9 @@ export class DirectedGraph<
    * @param propertyName - `'key'` to map to keys; `'vertex'` to keep instances.
    * @returns Array of keys/vertices, or `undefined` when cycle is found.
    * @remarks Time O(V + E), Space O(V)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // DirectedGraph topologicalSort for task scheduling
  *  const graph = new DirectedGraph<string>();
  *
@@ -770,15 +516,13 @@ export class DirectedGraph<
  *
  *     // All vertices should be included
  *     console.log(executionOrder?.length); // 4;
-   */
+*/
   topologicalSort(propertyName?: 'vertex' | 'key'): Array<VO | VertexKey> | undefined {
     propertyName = propertyName ?? 'key';
-
     const statusMap: Map<VO | VertexKey, TopologicalStatus> = new Map<VO | VertexKey, TopologicalStatus>();
     for (const entry of this.vertexMap) {
       statusMap.set(entry[1], 0);
     }
-
     let sorted: (VO | VertexKey)[] = [];
     let hasCycle = false;
     const dfs = (cur: VO | VertexKey) => {
@@ -795,68 +539,28 @@ export class DirectedGraph<
       statusMap.set(cur, 2);
       sorted.push(cur);
     };
-
     for (const entry of this.vertexMap) {
       if (statusMap.get(entry[1]) === 0) {
         dfs(entry[1]);
       }
     }
-
     if (hasCycle) return undefined;
-
     if (propertyName === 'key') sorted = sorted.map(vertex => (vertex instanceof DirectedVertex ? vertex.key : vertex));
     return sorted.reverse();
   }
 
     /**
    * Get all edges
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get all edges
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
  *     g.addVertex('B');
  *     g.addEdge('A', 'B', 3);
  *     console.log(g.edgeSet().length); // 1;
-   */
+*/
   edgeSet(): EO[] {
     let edgeMap: EO[] = [];
     this._outEdgeMap.forEach(outEdges => {
@@ -867,47 +571,9 @@ export class DirectedGraph<
 
     /**
    * Get outgoing neighbors
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get outgoing neighbors
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
@@ -917,7 +583,7 @@ export class DirectedGraph<
  *     g.addEdge('A', 'C');
  *     const neighbors = g.getNeighbors('A');
  *     console.log(neighbors.map(v => v.key).sort()); // ['B', 'C'];
-   */
+*/
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
     const neighbors: VO[] = [];
     const vertex = this._getVertex(vertexOrKey);
@@ -925,7 +591,6 @@ export class DirectedGraph<
       const outEdges = this.outgoingEdgesOf(vertex);
       for (const outEdge of outEdges) {
         const neighbor = this._getVertex(outEdge.dest);
-
         if (neighbor) {
           neighbors.push(neighbor);
         }
@@ -984,46 +649,9 @@ export class DirectedGraph<
    * Tarjan's algorithm for strongly connected components.
    * @returns `{ dfnMap, lowMap, SCCs }`.
    * @remarks Time O(V + E), Space O(V + E)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find strongly connected components
  *  const g = new DirectedGraph();
  *     g.addVertex('A');
@@ -1036,25 +664,20 @@ export class DirectedGraph<
  *     // A→B→C→A forms one SCC with 3 members
  *     const sccArrays = [...SCCs.values()];
  *     console.log(sccArrays.some(scc => scc.length === 3)); // true;
-   */
+*/
   tarjan(): { dfnMap: Map<VO, number>; lowMap: Map<VO, number>; SCCs: Map<number, VO[]> } {
     const dfnMap = new Map<VO, number>();
     const lowMap = new Map<VO, number>();
     const SCCs = new Map<number, VO[]>();
-
     let time = 0;
-
     const stack: VO[] = [];
     const inStack: Set<VO> = new Set();
-
     const dfs = (vertex: VO) => {
       dfnMap.set(vertex, time);
       lowMap.set(vertex, time);
       time++;
-
       stack.push(vertex);
       inStack.add(vertex);
-
       const neighbors = this.getNeighbors(vertex);
       for (const neighbor of neighbors) {
         if (!dfnMap.has(neighbor)) {
@@ -1064,27 +687,22 @@ export class DirectedGraph<
           lowMap.set(vertex, Math.min(lowMap.get(vertex)!, dfnMap.get(neighbor)!));
         }
       }
-
       if (dfnMap.get(vertex) === lowMap.get(vertex)) {
         const SCC: VO[] = [];
         let poppedVertex: VO | undefined;
-
         do {
           poppedVertex = stack.pop();
           inStack.delete(poppedVertex!);
           SCC.push(poppedVertex!);
         } while (poppedVertex !== vertex);
-
         SCCs.set(SCCs.size, SCC);
       }
     };
-
     for (const vertex of this.vertexMap.values()) {
       if (!dfnMap.has(vertex)) {
         dfs(vertex);
       }
     }
-
     return { dfnMap, lowMap, SCCs };
   }
 
@@ -1110,46 +728,9 @@ export class DirectedGraph<
    * Strongly connected components computed by `tarjan()`.
    * @returns Map from SCC id to vertices.
    * @remarks Time O(#SCC + V), Space O(V)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get strongly connected components
  *  const g = new DirectedGraph();
  *     g.addVertex(1);
@@ -1160,7 +741,7 @@ export class DirectedGraph<
  *     g.addEdge(3, 1);
  *     const sccs = g.getSCCs(); // Map<number, VO[]>
  *     console.log(sccs.size); // >= 1;
-   */
+*/
   getSCCs(): Map<number, VO[]> {
     return this.tarjan().SCCs;
   }
@@ -1175,10 +756,8 @@ export class DirectedGraph<
     if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
       return false;
     }
-
     const srcVertex = this._getVertex(edge.src);
     const destVertex = this._getVertex(edge.dest);
-
     if (srcVertex && destVertex) {
       const srcOutEdges = this._outEdgeMap.get(srcVertex);
       if (srcOutEdges) {
@@ -1186,7 +765,6 @@ export class DirectedGraph<
       } else {
         this._outEdgeMap.set(srcVertex, [edge]);
       }
-
       const destInEdges = this._inEdgeMap.get(destVertex);
       if (destInEdges) {
         destInEdges.push(edge);

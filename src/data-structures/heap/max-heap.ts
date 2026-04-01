@@ -71,6 +71,7 @@ import { ERR, raise } from '../../common';
  *     console.log(scores.peek()); // 88;
  */
 export class MaxHeap<E = any, R = any> extends Heap<E, R> {
+
   /**
    * Create a max-heap. For objects, supply a custom comparator.
    * @param elements Optional initial elements.

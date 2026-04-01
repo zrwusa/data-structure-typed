@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type {
+
   BSTNOptKeyOrNode,
   BSTOptions,
   BTNRep,
@@ -49,7 +49,6 @@ export class BSTNode<K = any, V = any> {
     this.key = key;
     this.value = value;
   }
-
   _left?: BSTNode<K, V> | null | undefined = undefined;
 
   /**
@@ -72,7 +71,6 @@ export class BSTNode<K = any, V = any> {
     if (v) v.parent = this;
     this._left = v;
   }
-
   _right?: BSTNode<K, V> | null | undefined = undefined;
 
   /**
@@ -95,7 +93,6 @@ export class BSTNode<K = any, V = any> {
     if (v) v.parent = this;
     this._right = v;
   }
-
   _height: number = 0;
 
   /**
@@ -119,7 +116,6 @@ export class BSTNode<K = any, V = any> {
   set height(value: number) {
     this._height = value;
   }
-
   _color: RBTNColor = 'BLACK';
 
   /**
@@ -143,7 +139,6 @@ export class BSTNode<K = any, V = any> {
   set color(value: RBTNColor) {
     this._color = value;
   }
-
   _count: number = 1;
 
   /**
@@ -178,13 +173,11 @@ export class BSTNode<K = any, V = any> {
     if (!this.parent) {
       return this.left || this.right ? 'ROOT' : 'ISOLATED';
     }
-
     if (this.parent.left === this) {
       return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
     } else if (this.parent.right === this) {
       return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
     }
-
     return 'MAL_NODE';
   }
 }
@@ -324,6 +317,7 @@ export class BSTNode<K = any, V = any> {
  *     console.log(findLCA(20, 30)); // 25;
  */
 export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implements IBinaryTree<K, V, R> {
+
   /**
    * Creates an instance of BST.
    * @remarks Time O(N log N) or O(N^2) depending on `isBalanceAdd` in `addMany` and input order. Space O(N).
@@ -336,7 +330,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     options?: BSTOptions<K, V, R>
   ) {
     super([], options);
-
     if (options) {
       // Use the 'in' operator to check if the field is present
       if ('comparator' in options && options.comparator !== undefined) {
@@ -350,12 +343,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     } else {
       this._comparator = this._createDefaultComparator();
     }
-
     if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);
   }
-
   protected override _root?: BSTNode<K, V> = undefined;
-
   protected _enableOrderStatistic: boolean = false;
 
   /**
@@ -370,7 +360,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
   /**
    * The comparator function used to determine the order of keys in the tree.
-
    * @remarks Time O(1) Space O(1)
    */
   protected readonly _comparator: Comparator<K>;
@@ -438,98 +427,15 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * Depth-first search traversal
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Depth-first traversal
  *  const bst = new BST<number>([5, 3, 7, 1, 4]);
  *     const inOrder = bst.dfs(node => node.key, 'IN');
  *     console.log(inOrder); // [1, 3, 4, 5, 7];
-   */
+*/
   override dfs(): (K | undefined)[];
-
   override dfs<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
     pattern?: DFSOrderPattern,
@@ -562,88 +468,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * BinaryTree level-order traversal
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Breadth-first traversal
  *  const bst = new BST<number>([5, 3, 7]);
  *     const result = bst.bfs(node => node.key);
  *     console.log(result.length); // 3;
-   */
+*/
   override bfs(): (K | undefined)[];
   override bfs<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
@@ -671,86 +503,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * Level-order grouping
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Level-order grouping
  *  const bst = new BST<number>([5, 3, 7, 1, 4]);
  *     const levels = bst.listLevels(node => node.key);
@@ -758,9 +513,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
  *     console.log(levels[0].length); // 1; // root level has 1 node
  *     const allKeys = levels.flat().sort((a, b) => a - b);
  *     console.log(allKeys); // [1, 3, 4, 5, 7];
-   */
+*/
   override listLevels(): (K | undefined)[][];
-
   override listLevels<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
     startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -793,94 +547,15 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The first matching node, or undefined if not found.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get node object by key
  *  const bst = new BST<number, string>([[5, 'root'], [3, 'left'], [7, 'right']]);
  *     const node = bst.getNode(3);
  *     console.log(node?.key); // 3;
  *     console.log(node?.value); // 'left';
-   */
+*/
   override getNode(
     keyNodeEntryOrPredicate:
       | K
@@ -895,12 +570,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     // Fast-path: key lookup should not allocate arrays or build predicate closures.
     // (This is a hot path for get/has in Node Mode.)
     if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) return undefined;
-
     // If a predicate is provided, defer to the full search logic.
     if (this._isPredicate(keyNodeEntryOrPredicate)) {
       return this.getNodes(keyNodeEntryOrPredicate, true, startNode, iterationType)[0] ?? undefined;
     }
-
     // NOTE: Range<K> is not part of this overload, but callers may still pass it at runtime.
     // Let search handle it.
     if (keyNodeEntryOrPredicate instanceof Range) {
@@ -913,7 +586,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         )[0] ?? undefined
       );
     }
-
     let targetKey: K | undefined;
     if (this.isNode(keyNodeEntryOrPredicate)) {
       targetKey = keyNodeEntryOrPredicate.key;
@@ -924,10 +596,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     } else {
       targetKey = keyNodeEntryOrPredicate;
     }
-
     const start = this.ensureNode(startNode);
     if (!start) return undefined;
-
     const NIL = this._NIL as unknown as BSTNode<K, V> | null | undefined;
     let cur: BSTNode<K, V> | null | undefined = start;
     const cmpFn = this._comparator;
@@ -936,93 +606,19 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (c === 0) return cur;
       cur = c < 0 ? cur._left : cur._right;
     }
-
     return undefined;
   }
 
-
     /**
    * Search nodes by predicate
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Search nodes by predicate
  *  const bst = new BST<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]);
  *     const found = bst.search(node => node.key > 2, true);
  *     console.log(found.length); // >= 1;
-   */
+*/
   override search(
     keyNodeEntryOrPredicate:
       | K
@@ -1034,7 +630,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       | Range<K>,
     onlyOne?: boolean
   ): (K | undefined)[];
-
   override search<C extends NodeCallback<BSTNode<K, V>>>(
     keyNodeEntryOrPredicate:
       | K
@@ -1082,12 +677,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     if (keyNodeEntryOrPredicate === null) return [];
     startNode = this.ensureNode(startNode);
     if (!startNode) return [];
-
     // Fast-path: key lookup (unique keys) using a tight BST walk (no allocations).
     // This is the hot path for get/has/search by key.
     const isRange = this.isRange(keyNodeEntryOrPredicate);
     const isPred = !isRange && this._isPredicate(keyNodeEntryOrPredicate);
-
     if (!isRange && !isPred) {
       let targetKey: K | undefined;
       if (this.isNode(keyNodeEntryOrPredicate)) {
@@ -1099,11 +692,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         targetKey = keyNodeEntryOrPredicate;
       }
       if (targetKey === undefined) return [];
-
       const NIL = this._NIL as unknown as BSTNode<K, V> | null | undefined;
       const cmpFn = this._comparator;
       let cur: BSTNode<K, V> | null | undefined = startNode;
-
       // Loop intentionally avoids getters and extra type checks.
       while (cur && cur !== NIL) {
         const c = cmpFn(targetKey, cur.key);
@@ -1112,7 +703,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       return [];
     }
-
     let predicate: NodePredicate<BSTNode<K, V>>;
     if (isRange) {
       predicate = node => {
@@ -1123,7 +713,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     } else {
       predicate = this._ensurePredicate(keyNodeEntryOrPredicate);
     }
-
     // Optimization: Pruning logic
     const shouldVisitLeft = (cur: BSTNode<K, V> | null | undefined) => {
       /* istanbul ignore next -- defensive: cur is always defined when called from iteration */ if (!cur) return false;
@@ -1142,7 +731,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       return true; // Predicate search: must visit all
     };
-
     const shouldVisitRight = (cur: BSTNode<K, V> | null | undefined) => {
       /* istanbul ignore next -- defensive */ if (!cur) return false;
       if (!this.isRealNode(cur.right)) return false;
@@ -1160,7 +748,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       return true; // Predicate search: must visit all
     };
-
     return super._dfs(
       callback,
       'IN', // In-order is efficient for range/key search
@@ -1177,55 +764,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * Find all keys in a range
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find all keys in a range
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
  *     console.log(bst.rangeSearch([15, 35])); // [20, 30];
-   */
+*/
   rangeSearch(range: Range<K> | [K, K]): (K | undefined)[];
-
   rangeSearch<C extends NodeCallback<BSTNode<K, V>>>(
     range: Range<K> | [K, K],
     callback: C,
@@ -1253,7 +799,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     const searchRange: Range<K> = range instanceof Range ? range : new Range(range[0], range[1]);
     return this.search(searchRange, false, callback, startNode, iterationType);
   }
-
   // ─── Order-Statistic Methods ───────────────────────────
 
   /**
@@ -1286,7 +831,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C> | undefined;
-
   getByRank<C extends NodeCallback<BSTNode<K, V>>>(
     k: number,
     callback: C = this._DEFAULT_NODE_CALLBACK as C,
@@ -1296,10 +840,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       raise(Error, ERR.orderStatisticNotEnabled('getByRank'));
     }
     if (k < 0 || k >= this._size) return undefined;
-
     let actualCallback: C | undefined = undefined;
     let actualIterationType: IterationType = this.iterationType;
-
     if (typeof callback === 'string') {
       actualIterationType = callback;
     } else if (callback) {
@@ -1308,11 +850,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         actualIterationType = iterationType;
       }
     }
-
     const node = actualIterationType === 'RECURSIVE'
       ? this._getByRankRecursive(this._root, k)
       : this._getByRankIterative(this._root, k);
-
     if (!node) return undefined;
     return actualCallback ? actualCallback(node) : node.key;
   }
@@ -1353,7 +893,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       | NodePredicate<BSTNode<K, V>>,
     iterationType: IterationType
   ): number;
-
   getRank(
     keyNodeEntryOrPredicate:
       | K
@@ -1368,10 +907,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       raise(Error, ERR.orderStatisticNotEnabled('getRank'));
     }
     if (!this._root || this._size === 0) return -1;
-
     let actualIterationType: IterationType = this.iterationType;
     if (iterationType) actualIterationType = iterationType;
-
     // Resolve key from input
     let key: K | undefined;
     if (typeof keyNodeEntryOrPredicate === 'function') {
@@ -1389,9 +926,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     } else {
       key = keyNodeEntryOrPredicate as K;
     }
-
     if (key === undefined) return -1;
-
     return actualIterationType === 'RECURSIVE'
       ? this._getRankRecursive(this._root, key)
       : this._getRankIterative(this._root, key);
@@ -1423,7 +958,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>[];
-
   rangeByRank<C extends NodeCallback<BSTNode<K, V>>>(
     start: number,
     end: number,
@@ -1434,15 +968,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       raise(Error, ERR.orderStatisticNotEnabled('rangeByRank'));
     }
     if (this._size === 0) return [];
-
     // Clamp
     const lo = Math.max(0, start);
     const hi = Math.min(this._size - 1, end);
     if (lo > hi) return [];
-
     let actualCallback: C | undefined = undefined;
     let actualIterationType: IterationType = this.iterationType;
-
     if (typeof callback === 'string') {
       actualIterationType = callback;
     } else if (callback) {
@@ -1451,21 +982,16 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         actualIterationType = iterationType;
       }
     }
-
     const results: (K | undefined | ReturnType<C>)[] = [];
     const count = hi - lo + 1;
-
     // Find the lo-th node, then in-order traverse count nodes
     const startNode = actualIterationType === 'RECURSIVE'
       ? this._getByRankRecursive(this._root, lo)
       : this._getByRankIterative(this._root, lo);
-
     if (!startNode) return [];
-
     // In-order traversal from startNode collecting count elements
     let collected = 0;
     const cb = actualCallback ?? this._DEFAULT_NODE_CALLBACK as C;
-
     // Use higher() to iterate — it's already O(log n) amortized per step
     let current: BSTNode<K, V> | undefined = startNode;
     while (current && collected < count) {
@@ -1476,7 +1002,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         current = this._next(current);
       }
     }
-
     return results as (K | undefined)[] | ReturnType<C>[];
   }
 
@@ -1487,138 +1012,21 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Set a key-value pair
  *  const bst = new BST<number, string>();
  *     bst.set(1, 'one');
  *     bst.set(2, 'two');
  *     console.log(bst.get(1)); // 'one';
-   */
+*/
   override set(
     keyNodeOrEntry: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
     const [newNode] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (newNode === undefined) return false;
-
     if (this._root === undefined) {
       this._setRoot(newNode);
       if (this._isMapMode && this.isRealNode(newNode)) this._store.set(newNode.key, newNode);
@@ -1626,7 +1034,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       this._updateCount(newNode);
       return true;
     }
-
     let current = this._root;
     while (current !== undefined) {
       if (this._compare(current.key, newNode.key) === 0) {
@@ -1671,86 +1078,15 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [isBalanceAdd=true] - If true, builds a balanced tree from the items.
    * @param [iterationType=this.iterationType] - The traversal method for balanced set (recursive or iterative).
    * @returns An array of booleans indicating the success of each individual `set` operation.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Set multiple key-value pairs
  *  const bst = new BST<number, string>();
  *     bst.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
  *     console.log(bst.size); // 3;
  *     console.log(bst.get(2)); // 'b';
-   */
+*/
   override setMany(
     keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, BSTNode<K, V>>>,
     values?: Iterable<V | undefined>,
@@ -1759,7 +1095,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): boolean[] {
     const inserted: boolean[] = [];
     const valuesIterator: Iterator<V | undefined> | undefined = values?.[Symbol.iterator]();
-
     if (!isBalanceAdd) {
       // Standard O(N*H) insertion
       for (let kve of keysNodesEntriesOrRaws) {
@@ -1769,19 +1104,16 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       return inserted;
     }
-
     // Balanced O(N log N) insertion
     const realBTNExemplars: {
       key: R | K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined;
       value: V | undefined;
       orgIndex: number;
     }[] = [];
-
     let i = 0;
     for (const kve of keysNodesEntriesOrRaws) {
       realBTNExemplars.push({ key: kve, value: valuesIterator?.next().value, orgIndex: i++ });
     }
-
     // Sort items by key
     const sorted = realBTNExemplars.sort(({ key: a }, { key: b }) => {
       let keyA: K | undefined | null, keyB: K | undefined | null;
@@ -1789,16 +1121,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       else if (this.isEntry(a)) keyA = a[0];
       else if (this.isRealNode(a)) keyA = a.key;
       else keyA = a as K;
-
       if (this.isRaw(b)) keyB = this._toEntryFn!(b)[0];
       else if (this.isEntry(b)) keyB = b[0];
       else if (this.isRealNode(b)) keyB = b.key;
       else keyB = b as K;
-
       if (keyA != null && keyB != null) return this._compare(keyA, keyB);
       return 0;
     });
-
     // Recursive balanced build
     const _dfs = (arr: typeof realBTNExemplars) => {
       if (arr.length === 0) return;
@@ -1813,7 +1142,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       _dfs(arr.slice(0, mid));
       _dfs(arr.slice(mid + 1));
     };
-
     // Iterative balanced build
     const _iterate = () => {
       const n = sorted.length;
@@ -1836,10 +1164,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         stack.push([l, m - 1]);
       }
     };
-
     if (iterationType === 'RECURSIVE') _dfs(sorted);
     else _iterate();
-
     return inserted;
   }
 
@@ -1848,55 +1174,15 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.ceiling.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find the least key ≥ target
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
  *     console.log(bst.ceiling(25)); // 30;
  *     console.log(bst.ceiling(30)); // 30;
  *     console.log(bst.ceiling(55)); // undefined;
-   */
+*/
   ceiling(
     keyNodeEntryOrPredicate:
       | K
@@ -1923,7 +1209,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
-
   ceiling<C extends NodeCallback<BSTNode<K, V>>>(
     keyNodeEntryOrPredicate:
       | K
@@ -1937,7 +1222,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): K | undefined | ReturnType<C> {
     let actualCallback: C | undefined = undefined;
     let actualIterationType: IterationType = this.iterationType;
-
     if (typeof callback === 'string') {
       actualIterationType = callback;
     } else if (callback) {
@@ -1946,13 +1230,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         actualIterationType = iterationType;
       }
     }
-
     const node = this._bound(keyNodeEntryOrPredicate, true, actualIterationType);
-
     if (!actualCallback) {
       return node?.key;
     }
-
     return node ? actualCallback(node) : undefined;
   }
 
@@ -1961,54 +1242,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.higher.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find the least key strictly > target
  *  const bst = new BST<number>([10, 20, 30, 40]);
  *     console.log(bst.higher(20)); // 30;
  *     console.log(bst.higher(40)); // undefined;
-   */
+*/
   higher(
     keyNodeEntryOrPredicate:
       | K
@@ -2035,7 +1276,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
-
   higher<C extends NodeCallback<BSTNode<K, V>>>(
     keyNodeEntryOrPredicate:
       | K
@@ -2049,7 +1289,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): K | undefined | ReturnType<C> {
     let actualCallback: C | undefined = undefined;
     let actualIterationType: IterationType = this.iterationType;
-
     if (typeof callback === 'string') {
       actualIterationType = callback;
     } else if (callback) {
@@ -2058,13 +1297,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         actualIterationType = iterationType;
       }
     }
-
     const node = this._bound(keyNodeEntryOrPredicate, false, actualIterationType);
-
     if (!actualCallback) {
       return node?.key;
     }
-
     return node ? actualCallback(node) : undefined;
   }
 
@@ -2073,55 +1309,15 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.floor.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find the greatest key ≤ target
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
  *     console.log(bst.floor(25)); // 20;
  *     console.log(bst.floor(10)); // 10;
  *     console.log(bst.floor(5)); // undefined;
-   */
+*/
   floor(
     keyNodeEntryOrPredicate:
       | K
@@ -2148,7 +1344,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
-
   floor<C extends NodeCallback<BSTNode<K, V>>>(
     keyNodeEntryOrPredicate:
       | K
@@ -2166,10 +1361,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       return undefined;
     }
-
     let actualCallback: C | undefined = undefined;
     let actualIterationType: IterationType = this.iterationType;
-
     if (typeof callback === 'string') {
       actualIterationType = callback;
     } else if (callback) {
@@ -2178,17 +1371,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         actualIterationType = iterationType;
       }
     }
-
     if (this._isPredicate(keyNodeEntryOrPredicate)) {
       const node = this._floorByPredicate(keyNodeEntryOrPredicate, actualIterationType);
-
       if (!actualCallback) {
         return node?.key;
       }
-
       return node ? actualCallback(node) : undefined;
     }
-
     let targetKey: K | undefined;
     if (this.isNode(keyNodeEntryOrPredicate)) {
       targetKey = keyNodeEntryOrPredicate.key;
@@ -2204,18 +1393,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     } else {
       targetKey = keyNodeEntryOrPredicate;
     }
-
     if (targetKey !== undefined) {
       const node = this._floorByKey(targetKey, actualIterationType);
-
       /* istanbul ignore next */
       if (!actualCallback) {
         return node?.key;
       }
-
       return node ? actualCallback(node) : undefined;
     }
-
     /* istanbul ignore next -- targetKey is always defined if we reach here (null/undefined caught above) */
     if (typeof callback === 'string' || !callback) {
       return undefined;
@@ -2229,54 +1414,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.lower.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Find the greatest key strictly < target
  *  const bst = new BST<number>([10, 20, 30, 40]);
  *     console.log(bst.lower(30)); // 20;
  *     console.log(bst.lower(10)); // undefined;
-   */
+*/
   lower(
     keyNodeEntryOrPredicate:
       | K
@@ -2303,7 +1448,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
-
   lower<C extends NodeCallback<BSTNode<K, V>>>(
     keyNodeEntryOrPredicate:
       | K
@@ -2322,10 +1466,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       /* istanbul ignore next */
       return undefined;
     }
-
     let actualCallback: C | undefined = undefined;
     let actualIterationType: IterationType = this.iterationType;
-
     if (typeof callback === 'string') {
       actualIterationType = callback;
     } else if (callback) {
@@ -2334,17 +1476,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         actualIterationType = iterationType;
       }
     }
-
     if (this._isPredicate(keyNodeEntryOrPredicate)) {
       const node = this._lowerByPredicate(keyNodeEntryOrPredicate, actualIterationType);
-
       if (!actualCallback) {
         return node?.key;
       }
-
       return node ? actualCallback(node) : undefined;
     }
-
     let targetKey: K | undefined;
     if (this.isNode(keyNodeEntryOrPredicate)) {
       targetKey = keyNodeEntryOrPredicate.key;
@@ -2361,17 +1499,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     } else {
       targetKey = keyNodeEntryOrPredicate;
     }
-
     if (targetKey !== undefined) {
       const node = this._lowerByKey(targetKey, actualIterationType);
-
       if (!actualCallback) {
         return node?.key;
       }
-
       return node ? actualCallback(node) : undefined;
     }
-
     /* istanbul ignore next -- targetKey is always defined if we reach here (null/undefined caught above) */
     if (typeof callback === 'string' || !callback) {
       return undefined;
@@ -2379,9 +1513,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     /* istanbul ignore next */
     return undefined;
   }
-
   lesserOrGreaterTraverse(): (K | undefined)[];
-
   lesserOrGreaterTraverse<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
     lesserOrGreater?: number,
@@ -2409,14 +1541,11 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     const targetNodeEnsured = this.ensureNode(targetNode);
     const ans: ReturnType<NodeCallback<BSTNode<K, V>>>[] = [];
     if (!this._root || !targetNodeEnsured) return ans;
-
     const targetKey = targetNodeEnsured.key;
-
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: BSTNode<K, V>) => {
         const compared = this._compare(cur.key, targetKey);
         if (Math.sign(compared) == lesserOrGreater) ans.push(callback(cur));
-
         if (this.isRealNode(cur.left)) dfs(cur.left);
         if (this.isRealNode(cur.right)) dfs(cur.right);
       };
@@ -2443,47 +1572,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Rebalance the tree
  *  const bst = new BST<number>();
  *     // Insert in sorted order (worst case for BST)
@@ -2491,13 +1582,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
  *     console.log(bst.isAVLBalanced()); // false;
  *     bst.perfectlyBalance();
  *     console.log(bst.isAVLBalanced()); // true;
-   */
+*/
   perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
     const n = nodes.length;
     this._clearNodes();
     if (n === 0) return false;
-
     // Build balanced tree from sorted array
     const build = (l: number, r: number, parent?: BSTNode<K, V>): BSTNode<K, V> | undefined => {
       if (l > r) return undefined;
@@ -2510,7 +1600,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       root.parent = parent;
       return root;
     };
-
     const newRoot = build(0, n - 1, undefined);
     this._setRoot(newRoot);
     this._size = n;
@@ -2523,55 +1612,16 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    *
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns True if the tree is AVL balanced, false otherwise.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Check if tree is height-balanced
  *  const bst = new BST<number>([3, 1, 5, 2, 4]);
  *     console.log(bst.isAVLBalanced()); // true;
-   */
+*/
   isAVLBalanced(iterationType: IterationType = this.iterationType): boolean {
     if (!this._root) return true;
     let balanced = true;
-
     if (iterationType === 'RECURSIVE') {
       // Recursive height check
       const _height = (cur: BSTNode<K, V> | null | undefined): number => {
@@ -2588,7 +1638,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       let node: OptNode<BSTNode<K, V>> = this._root,
         last: OptNode<BSTNode<K, V>> = undefined;
       const depths: Map<BSTNode<K, V>, number> = new Map();
-
       while (stack.length > 0 || node) {
         if (node) {
           stack.push(node);
@@ -2624,93 +1673,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [options] - Options for the new BST.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped BST.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform to new tree
  *  const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
  *     const doubled = bst.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
  *     console.log([...doubled.values()]); // [20, 40, 60];
-   */
+*/
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BSTOptions<MK, MV, MR>>,
@@ -2775,12 +1745,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     iterationType: IterationType = this.iterationType
   ): boolean {
     const toDelete = this.search(keyNodeEntryOrPredicate, onlyOne, node => node, startNode, iterationType);
-
     let deleted = false;
     for (const node of toDelete) {
       if (this.delete(node)) deleted = true;
     }
-
     return deleted;
   }
 
@@ -2797,7 +1765,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         if (a < b) return -1;
         return 0;
       }
-
       /* istanbul ignore next -- Date objects satisfy isComparable(), so this branch is unreachable via default comparator */
       // Date keys: compare by getTime()
       if (a instanceof Date && b instanceof Date) {
@@ -2806,12 +1773,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         if (Number.isNaN(ta) || Number.isNaN(tb)) raise(TypeError, ERR.invalidDate('BST'));
         return ta > tb ? 1 : ta < tb ? -1 : 0;
       }
-
       // If keys are objects and no comparator is provided, throw an error
       if (typeof a === 'object' || typeof b === 'object') {
         raise(TypeError, ERR.comparatorRequired('BST'));
       }
-
       // Default: keys are equal (fallback case)
       return 0;
     };
@@ -2832,9 +1797,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       // Recursive binary search implementation
       const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
         if (!this.isRealNode(cur)) return undefined;
-
         const cmp = this.comparator(cur.key!, key);
-
         if (cmp <= 0) {
           // Current node satisfies the floor condition (cur.key <= target).
           // Try to find a larger candidate in the right subtree.
@@ -2845,16 +1808,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           return dfs(cur.left);
         }
       };
-
       return dfs(this.root);
     } else {
       // Iterative binary search implementation
       let current: BSTNode<K, V> | undefined = this.root;
       let result: BSTNode<K, V> | undefined = undefined;
-
       while (this.isRealNode(current)) {
         const cmp = this.comparator(current.key!, key);
-
         if (cmp <= 0) {
           // Current node is a candidate. Save it and try right subtree for a larger key.
           result = current;
@@ -2864,7 +1824,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           current = current.left ?? undefined;
         }
       }
-
       return result;
     }
   }
@@ -2887,22 +1846,17 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     if (iterationType === 'RECURSIVE') {
       // Recursive in-order traversal
       let result: BSTNode<K, V> | undefined = undefined;
-
       const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
         if (!this.isRealNode(cur)) return;
-
         // In-order: process left subtree first
         if (this.isRealNode(cur.left)) dfs(cur.left);
-
         // Check current node
         if (predicate(cur)) {
           result = cur;
         }
-
         // Process right subtree
         if (this.isRealNode(cur.right)) dfs(cur.right);
       };
-
       dfs(this.root);
       return result;
     } else {
@@ -2910,7 +1864,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       const stack: (BSTNode<K, V> | null | undefined)[] = [];
       let current: BSTNode<K, V> | null | undefined = this.root;
       let result: BSTNode<K, V> | undefined = undefined;
-
       while (stack.length > 0 || this.isRealNode(current)) {
         if (this.isRealNode(current)) {
           // Go to the leftmost node
@@ -2920,17 +1873,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           // Pop from stack and process
           const node = stack.pop();
           if (!this.isRealNode(node)) break;
-
           // Check if current node satisfies predicate
           if (predicate(node)) {
             result = node;
           }
-
           // Visit right subtree
           current = node.right;
         }
       }
-
       return result;
     }
   }
@@ -2950,9 +1900,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       // Recursive binary search implementation
       const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
         if (!this.isRealNode(cur)) return undefined;
-
         const cmp = this.comparator(cur.key!, key);
-
         if (cmp < 0) {
           // Current node satisfies the lower condition (cur.key < target).
           // Try to find a larger candidate in the right subtree.
@@ -2963,16 +1911,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           return dfs(cur.left);
         }
       };
-
       return dfs(this.root);
     } else {
       // Iterative binary search implementation
       let current: BSTNode<K, V> | undefined = this.root;
       let result: BSTNode<K, V> | undefined = undefined;
-
       while (this.isRealNode(current)) {
         const cmp = this.comparator(current.key!, key);
-
         if (cmp < 0) {
           // Current node is a candidate. Save it and try right subtree for a larger key.
           result = current;
@@ -2982,7 +1927,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           current = current.left ?? undefined;
         }
       }
-
       return result;
     }
   }
@@ -3005,22 +1949,17 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     if (iterationType === 'RECURSIVE') {
       // Recursive in-order traversal
       let result: BSTNode<K, V> | undefined = undefined;
-
       const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
         if (!this.isRealNode(cur)) return;
-
         // In-order: process left subtree first
         if (this.isRealNode(cur.left)) dfs(cur.left);
-
         // Check current node
         if (predicate(cur)) {
           result = cur;
         }
-
         // Process right subtree
         if (this.isRealNode(cur.right)) dfs(cur.right);
       };
-
       dfs(this.root);
       return result;
     } else {
@@ -3028,7 +1967,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       const stack: (BSTNode<K, V> | null | undefined)[] = [];
       let current: BSTNode<K, V> | null | undefined = this.root;
       let result: BSTNode<K, V> | undefined = undefined;
-
       while (stack.length > 0 || this.isRealNode(current)) {
         if (this.isRealNode(current)) {
           // Go to the leftmost node
@@ -3038,17 +1976,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           // Pop from stack and process
           const node = stack.pop();
           if (!this.isRealNode(node)) break;
-
           // Check if current node satisfies predicate
           if (predicate(node)) {
             result = node;
           }
-
           // Visit right subtree
           current = node.right;
         }
       }
-
       return result;
     }
   }
@@ -3076,15 +2011,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
       return undefined;
     }
-
     // Check if input is a predicate function first
     if (this._isPredicate(keyNodeEntryOrPredicate)) {
       return this._boundByPredicate(keyNodeEntryOrPredicate, iterationType);
     }
-
     // Resolve input to a comparable key
     let targetKey: K | undefined;
-
     if (this.isNode(keyNodeEntryOrPredicate)) {
       // Input is a BSTNode - extract its key
       targetKey = keyNodeEntryOrPredicate.key;
@@ -3099,12 +2031,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       // Input is a raw key
       targetKey = keyNodeEntryOrPredicate;
     }
-
     // Execute key-based search with binary search optimization
     if (targetKey !== undefined) {
       return this._boundByKey(targetKey, isLower, iterationType);
     }
-
     /* istanbul ignore next -- defensive: targetKey is always defined if predicate path was skipped */
     return undefined;
   }
@@ -3124,10 +2054,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       // Recursive binary search implementation
       const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
         if (!this.isRealNode(cur)) return undefined;
-
         const cmp = this.comparator(cur.key!, key);
         const condition = isLower ? cmp >= 0 : cmp > 0;
-
         if (condition) {
           // Current node satisfies the bound condition.
           // Try to find a closer (smaller key) candidate in the left subtree.
@@ -3139,17 +2067,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           return dfs(cur.right);
         }
       };
-
       return dfs(this.root);
     } else {
       // Iterative binary search implementation
       let current: BSTNode<K, V> | undefined = this.root;
       let result: BSTNode<K, V> | undefined = undefined;
-
       while (this.isRealNode(current)) {
         const cmp = this.comparator(current.key!, key);
         const condition = isLower ? cmp >= 0 : cmp > 0;
-
         if (condition) {
           // Current node is a candidate. Save it and try left subtree for a closer match.
           result = current;
@@ -3159,7 +2084,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           current = current.right ?? undefined;
         }
       }
-
       return result;
     }
   }
@@ -3181,29 +2105,23 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     if (iterationType === 'RECURSIVE') {
       // Recursive in-order traversal
       let result: BSTNode<K, V> | undefined = undefined;
-
       const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
         if (result || !this.isRealNode(cur)) return;
-
         // In-order: process left subtree first
         if (this.isRealNode(cur.left)) dfs(cur.left);
-
         // Check current node
         if (!result && predicate(cur)) {
           result = cur;
         }
-
         // Process right subtree
         if (!result && this.isRealNode(cur.right)) dfs(cur.right);
       };
-
       dfs(this.root);
       return result;
     } else {
       // Iterative in-order traversal using explicit stack
       const stack: (BSTNode<K, V> | null | undefined)[] = [];
       let current: BSTNode<K, V> | null | undefined = this.root;
-
       while (stack.length > 0 || this.isRealNode(current)) {
         if (this.isRealNode(current)) {
           // Go to the leftmost node
@@ -3213,17 +2131,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
           // Pop from stack and process
           const node = stack.pop();
           if (!this.isRealNode(node)) break;
-
           // Check if current node satisfies predicate
           if (predicate(node)) {
             return node;
           }
-
           // Visit right subtree
           current = node.right;
         }
       }
-
       return undefined;
     }
   }
@@ -3424,7 +2339,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     }
     return parent;
   }
-
   protected override _setRoot(v: OptNode<BSTNode<K, V>>) {
     if (v) v.parent = undefined;
     this._root = v;
@@ -3451,7 +2365,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   protected _deleteByKey(key: K): boolean {
     let node = this._root as BSTNode<K, V> | undefined;
-
     // 1. Find the node
     while (node) {
       const cmp = this._compare(node.key, key);
@@ -3459,7 +2372,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       node = cmp > 0 ? (node.left as BSTNode<K, V> | undefined) : (node.right as BSTNode<K, V> | undefined);
     }
     if (!node) return false; // Not found
-
     // Helper to replace node `u` with node `v`
     const transplant = (u: BSTNode<K, V> | undefined, v: BSTNode<K, V> | undefined) => {
       const p = u?.parent as BSTNode<K, V> | undefined;
@@ -3472,14 +2384,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       if (v) v.parent = p;
     };
-
     // Helper to find the minimum node in a subtree
     const minNode = (x: BSTNode<K, V> | undefined): BSTNode<K, V> | undefined => {
       if (!x) return undefined;
       while (x.left !== undefined && x.left !== null) x = x.left as BSTNode<K, V>;
       return x;
     };
-
     // 2. Perform deletion
     let countUpdateStart: BSTNode<K, V> | undefined;
     if (node.left === undefined) {
@@ -3505,7 +2415,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       succ.left = node.left as BSTNode<K, V> | undefined;
       if (succ.left) (succ.left as BSTNode<K, V>).parent = succ;
     }
-
     this._updateCountAlongPath(countUpdateStart);
     this._size = Math.max(0, this._size - 1);
     return true;

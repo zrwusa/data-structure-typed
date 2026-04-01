@@ -7,6 +7,7 @@ import { IterableElementBase } from './iterable-element-base';
  * @remarks Time O(1), Space O(1)
  */
 export class LinkedListNode<E = any> {
+
   /**
    * Initialize a node.
    * @param value - Element value.
@@ -16,7 +17,6 @@ export class LinkedListNode<E = any> {
     this._value = value;
     this._next = undefined;
   }
-
   protected _value: E;
 
   /**
@@ -36,7 +36,6 @@ export class LinkedListNode<E = any> {
   set value(value: E) {
     this._value = value;
   }
-
   protected _next: LinkedListNode<E> | undefined;
 
   /**
@@ -70,6 +69,7 @@ export abstract class LinearBase<
   R = any,
   NODE extends LinkedListNode<E> = LinkedListNode<E>
 > extends IterableElementBase<E, R> {
+
   /**
    * Construct a linear container with runtime options.
    * @param options - `{ maxLen?, ... }` bounds/behavior options.
@@ -89,7 +89,6 @@ export abstract class LinearBase<
    * @remarks Time O(1), Space O(1)
    */
   abstract get length(): number;
-
   protected _maxLen: number = -1;
 
   /**
@@ -112,12 +111,10 @@ export abstract class LinearBase<
     if (this.length === 0) return -1;
     if (fromIndex < 0) fromIndex = this.length + fromIndex;
     if (fromIndex < 0) fromIndex = 0;
-
     for (let i = fromIndex; i < this.length; i++) {
       const element = this.at(i);
       if (element === searchElement) return i;
     }
-
     return -1;
   }
 
@@ -132,12 +129,10 @@ export abstract class LinearBase<
     if (this.length === 0) return -1;
     if (fromIndex >= this.length) fromIndex = this.length - 1;
     if (fromIndex < 0) fromIndex = this.length + fromIndex;
-
     for (let i = fromIndex; i >= 0; i--) {
       const element = this.at(i);
       if (element === searchElement) return i;
     }
-
     return -1;
   }
 
@@ -164,7 +159,6 @@ export abstract class LinearBase<
    */
   concat(...items: (E | this)[]): this {
     const newList = this.clone();
-
     for (const item of items) {
       if (item instanceof LinearBase) {
         newList.pushMany(item);
@@ -172,7 +166,6 @@ export abstract class LinearBase<
         newList.push(item);
       }
     }
-
     return newList;
   }
 
@@ -200,22 +193,18 @@ export abstract class LinearBase<
    */
   splice(start: number, deleteCount: number = 0, ...items: E[]): this {
     const removedList = this._createInstance();
-
     start = start < 0 ? this.length + start : start;
     start = Math.max(0, Math.min(start, this.length));
     deleteCount = Math.max(0, Math.min(deleteCount, this.length - start));
-
     for (let i = 0; i < deleteCount; i++) {
       const removed = this.deleteAt(start);
       if (removed !== undefined) {
         removedList.push(removed);
       }
     }
-
     for (let i = 0; i < items.length; i++) {
       this.addAt(start + i, items[i]);
     }
-
     return removedList;
   }
 
@@ -241,9 +230,7 @@ export abstract class LinearBase<
     }
     return array;
   }
-
   reduceRight(callbackfn: ReduceLinearCallback<E>): E;
-
   reduceRight(callbackfn: ReduceLinearCallback<E>, initialValue: E): E;
 
   /**
@@ -254,7 +241,6 @@ export abstract class LinearBase<
    * @remarks Time O(n), Space O(1)
    */
   reduceRight<U>(callbackfn: ReduceLinearCallback<E, U>, initialValue: U): U;
-
   reduceRight<U>(callbackfn: ReduceLinearCallback<E, U>, initialValue?: U): U {
     let accumulator = initialValue ?? (0 as U);
     for (let i = this.length - 1; i >= 0; i--) {
@@ -273,7 +259,6 @@ export abstract class LinearBase<
   slice(start: number = 0, end: number = this.length): this {
     start = start < 0 ? this.length + start : start;
     end = end < 0 ? this.length + end : end;
-
     const newList = this._createInstance();
     for (let i = start; i < end; i++) {
       newList.push(this.at(i)!);
@@ -292,15 +277,12 @@ export abstract class LinearBase<
   fill(value: E, start = 0, end = this.length): this {
     start = start < 0 ? this.length + start : start;
     end = end < 0 ? this.length + end : end;
-
     if (start < 0) start = 0;
     if (end > this.length) end = this.length;
     if (start >= end) return this;
-
     for (let i = start; i < end; i++) {
       this.setAt(i, value);
     }
-
     return this;
   }
 
@@ -433,19 +415,16 @@ export abstract class LinearLinkedBase<
   override indexOf(searchElement: E, fromIndex: number = 0): number {
     const iterator = this._getIterator();
     let current = iterator.next();
-
     let index = 0;
     while (index < fromIndex) {
       current = iterator.next();
       index++;
     }
-
     while (!current.done) {
       if (current.value === searchElement) return index;
       current = iterator.next();
       index++;
     }
-
     return -1;
   }
 
@@ -459,19 +438,16 @@ export abstract class LinearLinkedBase<
   override lastIndexOf(searchElement: E, fromIndex: number = this.length - 1): number {
     const iterator = this._getReverseIterator();
     let current = iterator.next();
-
     let index = this.length - 1;
     while (index > fromIndex) {
       current = iterator.next();
       index--;
     }
-
     while (!current.done) {
       if (current.value === searchElement) return index;
       current = iterator.next();
       index--;
     }
-
     return -1;
   }
 
@@ -483,7 +459,6 @@ export abstract class LinearLinkedBase<
    */
   override concat(...items: (E | LinearBase<E, R>)[]): this {
     const newList = this.clone();
-
     for (const item of items) {
       if (item instanceof LinearBase) {
         newList.pushMany(item);
@@ -491,7 +466,6 @@ export abstract class LinearLinkedBase<
         newList.push(item);
       }
     }
-
     return newList;
   }
 
@@ -505,7 +479,6 @@ export abstract class LinearLinkedBase<
   override slice(start: number = 0, end: number = this.length): this {
     start = start < 0 ? this.length + start : start;
     end = end < 0 ? this.length + end : end;
-
     const newList = this._createInstance();
     const iterator = this._getIterator();
     let current = iterator.next();
@@ -518,7 +491,6 @@ export abstract class LinearLinkedBase<
       newList.push(current.value);
       current = iterator.next();
     }
-
     return newList;
   }
 
@@ -532,15 +504,12 @@ export abstract class LinearLinkedBase<
    */
   override splice(start: number, deleteCount: number = 0, ...items: E[]): this {
     const removedList = this._createInstance();
-
     start = start < 0 ? this.length + start : start;
     start = Math.max(0, Math.min(start, this.length));
     deleteCount = Math.max(0, deleteCount);
-
     let currentIndex = 0;
     let currentNode: NODE | undefined = undefined;
     let previousNode: NODE | undefined = undefined;
-
     const iterator = this._getNodeIterator();
     for (const node of iterator) {
       if (currentIndex === start) {
@@ -550,14 +519,12 @@ export abstract class LinearLinkedBase<
       previousNode = node;
       currentIndex++;
     }
-
     for (let i = 0; i < deleteCount && currentNode; i++) {
       removedList.push(currentNode.value);
       const nextNode = currentNode.next;
       this.delete(currentNode);
       currentNode = nextNode as NODE;
     }
-
     for (let i = 0; i < items.length; i++) {
       if (previousNode) {
         this.addAfter(previousNode, items[i]);
@@ -567,12 +534,9 @@ export abstract class LinearLinkedBase<
         previousNode = this._getNodeIterator().next().value;
       }
     }
-
     return removedList;
   }
-
   override reduceRight(callbackfn: ReduceLinearCallback<E>): E;
-
   override reduceRight(callbackfn: ReduceLinearCallback<E>, initialValue: E): E;
 
   /**
@@ -583,7 +547,6 @@ export abstract class LinearLinkedBase<
    * @remarks Time O(n), Space O(1)
    */
   override reduceRight<U>(callbackfn: ReduceLinearCallback<E, U>, initialValue: U): U;
-
   override reduceRight<U>(callbackfn: ReduceLinearCallback<E, U>, initialValue?: U): U {
     let accumulator = initialValue ?? (0 as U);
     let index = this.length - 1;

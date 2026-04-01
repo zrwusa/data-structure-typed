@@ -84,6 +84,7 @@ import { Heap } from './heap';
  *     console.log(upperHalf.peek()); // 5;
  */
 export class MinHeap<E = any, R = any> extends Heap<E, R> {
+
   /**
    * Create a min-heap.
    * @param elements Optional initial elements.

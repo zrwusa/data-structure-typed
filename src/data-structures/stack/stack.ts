@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { ElementCallback, IterableElementBaseOptions, StackOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
@@ -142,12 +141,10 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options such as toElementFn and equality function.
    * @returns New Stack instance.
    */
-
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: StackOptions<E, R>) {
     super(options);
     this.pushMany(elements);
   }
-
   protected _elements: E[] = [];
 
   /**
@@ -155,7 +152,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Internal elements array.
    */
-
   get elements(): E[] {
     return this._elements;
   }
@@ -164,52 +160,13 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of stored elements.
    * @remarks Time O(1), Space O(1)
    * @returns Current size.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get number of elements
  *  const stack = new Stack<number>([1, 2, 3]);
  *     console.log(stack.size); // 3;
-   */
-
+*/
   get size(): number {
     return this.elements.length;
   }
@@ -224,7 +181,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns A new Stack populated from the array.
    */
-
   static fromArray<E, R = any>(
     this: new (elements?: Iterable<E> | Iterable<R>, options?: StackOptions<E, R>) => any,
     elements: E[],
@@ -237,56 +193,15 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the stack is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Check if stack has elements
  *  const stack = new Stack<number>();
  *     console.log(stack.isEmpty()); // true;
  *     stack.push(1);
  *     console.log(stack.isEmpty()); // false;
-   */
-
+*/
   isEmpty(): boolean {
     return this.elements.length === 0;
   }
@@ -295,55 +210,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // View the top element without removing it
  *  const stack = new Stack<string>(['a', 'b', 'c']);
  *     console.log(stack.peek()); // 'c';
  *     console.log(stack.size); // 3;
-   */
-
+*/
   peek(): E | undefined {
     return this.isEmpty() ? undefined : this.elements[this.elements.length - 1];
   }
@@ -353,49 +227,9 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // basic Stack creation and push operation
  *  // Create a simple Stack with initial values
  *     const stack = new Stack([1, 2, 3, 4, 5]);
@@ -409,8 +243,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
  *     // Push a new element to the top
  *     stack.push(6);
  *     console.log(stack.size); // 6;
-   */
-
+*/
   push(element: E): boolean {
     this.elements.push(element);
     return true;
@@ -420,49 +253,9 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Stack pop operation (LIFO - Last In First Out)
  *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
  *
@@ -480,8 +273,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
  *
  *     // Verify length decreased
  *     console.log(stack.size); // 3;
-   */
-
+*/
   pop(): E | undefined {
     return this.isEmpty() ? undefined : this.elements.pop();
   }
@@ -492,7 +284,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param elements - Iterable of elements (or raw records if toElementFn is set).
    * @returns Array of per-element success flags.
    */
-
   pushMany(elements: Iterable<E> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -507,52 +298,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (using the configured equality).
    * @returns True if an element was removed.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove element
  *  const stack = new Stack<number>([1, 2, 3]);
  *     stack.delete(2);
  *     console.log(stack.toArray()); // [1, 3];
-   */
-
+*/
   delete(element: E): boolean {
     const idx = this._indexOfByEquals(element);
     return this.deleteAt(idx) !== undefined;
@@ -564,7 +317,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param index - Zero-based index from the bottom.
    * @returns The removed element, or undefined if the index is out of range.
    */
-
   deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this.elements.length) return undefined;
     const spliced = this.elements.splice(index, 1);
@@ -577,7 +329,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param predicate - Function (value, index, stack) → boolean to decide deletion.
    * @returns True if a match was removed.
    */
-
   deleteWhere(predicate: (value: E, index: number, stack: this) => boolean): boolean {
     for (let i = 0; i < this.elements.length; i++) {
       if (predicate(this.elements[i], i, this)) {
@@ -592,53 +343,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements and reset storage.
    * @remarks Time O(1), Space O(1)
    * @returns void
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove all elements
  *  const stack = new Stack<number>([1, 2, 3]);
  *     stack.clear();
  *     console.log(stack.isEmpty()); // true;
-   */
-
+*/
   clear(): void {
     this._elements = [];
   }
@@ -647,55 +359,16 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this stack.
    * @remarks Time O(N), Space O(N)
    * @returns A new stack with the same content.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Create independent copy
  *  const stack = new Stack<number>([1, 2, 3]);
  *     const copy = stack.clone();
  *     copy.pop();
  *     console.log(stack.size); // 3;
  *     console.log(copy.size); // 2;
-   */
-
+*/
   clone(): this {
     const out = this._createInstance({ toElementFn: this.toElementFn });
     for (const v of this) out.push(v);
@@ -708,53 +381,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param predicate - Predicate (value, index, stack) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new stack with kept values.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Filter elements
  *  const stack = new Stack<number>([1, 2, 3, 4, 5]);
  *     const evens = stack.filter(x => x % 2 === 0);
  *     console.log(evens.toArray()); // [2, 4];
-   */
-
+*/
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn });
     let index = 0;
@@ -772,7 +406,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new stack with mapped values.
    */
-
   mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn });
     let index = 0;
@@ -792,52 +425,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options for the output stack (e.g., toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Stack with mapped elements.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform elements
  *  const stack = new Stack<number>([1, 2, 3]);
  *     const doubled = stack.map(x => x * 2);
  *     console.log(doubled.toArray()); // [2, 4, 6];
-   */
-
+*/
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options?: IterableElementBaseOptions<EM, RM>,
@@ -858,7 +453,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param equals - Equality predicate (a, b) → boolean.
    * @returns This stack.
    */
-
   setEquality(equals: (a: E, b: E) => boolean): this {
     this._equals = equals;
     return this;
@@ -870,7 +464,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param target - Element to search for.
    * @returns Index or -1 if not found.
    */
-
   protected _indexOfByEquals(target: E): number {
     for (let i = 0; i < this.elements.length; i++) if (this._equals(this.elements[i], target)) return i;
     return -1;
@@ -882,7 +475,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns An empty like-kind stack instance.
    */
-
   protected _createInstance(options?: StackOptions<E, R>): this {
     const Ctor = this.constructor as new (elements?: Iterable<E> | Iterable<R>, options?: StackOptions<E, R>) => this;
     return new Ctor([], options);
@@ -897,7 +489,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns A like-kind Stack instance.
    */
-
   protected _createLike<T = E, RR = R>(
     elements: Iterable<T> | Iterable<RR> = [],
     options?: StackOptions<T, RR>
@@ -914,7 +505,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of elements.
    */
-
   protected *_getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.elements.length; i++) yield this.elements[i];
   }

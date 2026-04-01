@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type {
+
   BTNRep,
   CRUD,
   EntryCallback,
@@ -31,13 +31,11 @@ export class RedBlackTreeNode<K = any, V = any> {
    * @param [value] - Node value (unused in map mode trees).
    * @param color - Node color.
    */
-
   constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
     this.key = key;
     this.value = value;
     this.color = color;
   }
-
   _left?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -45,7 +43,6 @@ export class RedBlackTreeNode<K = any, V = any> {
    * @remarks Time O(1), Space O(1)
    * @returns Left child node, or null/undefined.
    */
-
   get left(): RedBlackTreeNode<K, V> | null | undefined {
     return this._left;
   }
@@ -56,14 +53,12 @@ export class RedBlackTreeNode<K = any, V = any> {
    * @param v - New left node, or null/undefined.
    * @returns void
    */
-
   set left(v: RedBlackTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
-
   _right?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
   /**
@@ -71,7 +66,6 @@ export class RedBlackTreeNode<K = any, V = any> {
    * @remarks Time O(1), Space O(1)
    * @returns Right child node, or null/undefined.
    */
-
   get right(): RedBlackTreeNode<K, V> | null | undefined {
     return this._right;
   }
@@ -82,14 +76,12 @@ export class RedBlackTreeNode<K = any, V = any> {
    * @param v - New right node, or null/undefined.
    * @returns void
    */
-
   set right(v: RedBlackTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._right = v;
   }
-
   _height: number = 0;
 
   /**
@@ -102,12 +94,10 @@ export class RedBlackTreeNode<K = any, V = any> {
   get height(): number {
     return this._height;
   }
-
   /* istanbul ignore next -- covered by AVLTree tests (subclass uses height) */
   set height(value: number) {
     this._height = value;
   }
-
   _color: RBTNColor = 'BLACK';
 
   /**
@@ -129,7 +119,6 @@ export class RedBlackTreeNode<K = any, V = any> {
   set color(value: RBTNColor) {
     this._color = value;
   }
-
   _count: number = 1;
 
   /**
@@ -153,13 +142,11 @@ export class RedBlackTreeNode<K = any, V = any> {
     if (!this.parent) {
       return this.left || this.right ? 'ROOT' : 'ISOLATED';
     }
-
     if (this.parent.left === this) {
       return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
     } else if (this.parent.right === this) {
       return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
     }
-
     /* istanbul ignore next -- defensive: unreachable if tree structure is correct */
     return 'MAL_NODE';
   }
@@ -250,7 +237,6 @@ export class RedBlackTreeNode<K = any, V = any> {
  *     console.log(stocksInRange.some((s: any) => s.symbol === 'META')); // true;
  *     console.log(stocksInRange.some((s: any) => s.symbol === 'MSFT')); // true;
  */
-
 export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   constructor(
     keysNodesEntriesOrRaws: Iterable<
@@ -258,23 +244,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     > = [],
     options?: RedBlackTreeOptions<K, V, R>
   ) {
-
     super([], options);
-
     this._root = this.NIL;
-
     // Not part of the actual tree; used only as an internal cache hub.
     this._header = new RedBlackTreeNode<K, V>(undefined as K, undefined, 'BLACK');
     this._header.parent = this.NIL;
     // Avoid using accessors here: they would set NIL.parent and can corrupt sentinel invariants.
     this._header._left = this.NIL;
     this._header._right = this.NIL;
-
     if (keysNodesEntriesOrRaws) {
       this.setMany(keysNodesEntriesOrRaws);
     }
   }
-
   protected override _root: RedBlackTreeNode<K, V> | undefined;
 
   /**
@@ -324,7 +305,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @param keyNodeOrEntry - See parameter type for details.
    * @returns True if the value is a RedBlackTreeNode.
    */
-
   override isNode(
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
   ): keyNodeOrEntry is RedBlackTreeNode<K, V> {
@@ -334,171 +314,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Remove all nodes, clear the key→value store (if in map mode) and internal caches.
    * @remarks Time O(n), Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove all entries
  *  const rbt = new RedBlackTree<number>([1, 2, 3]);
  *     rbt.clear();
  *     console.log(rbt.isEmpty()); // true;
-   */
+*/
   override clear() {
     super.clear();
     this._root = this.NIL;
@@ -506,7 +329,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     this._setMinCache(undefined);
     this._setMaxCache(undefined);
   }
-
 
   /**
    * (Internal) Find a node by key using a tight BST walk (no allocations).
@@ -517,7 +339,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   protected _findNodeByKey(key: K): RedBlackTreeNode<K, V> | undefined {
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
-
     let cur = (this._header.parent) ?? NIL;
     while (cur !== NIL) {
       const c = cmp(key, cur.key);
@@ -633,7 +454,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   protected _setKVNode(key: K, nextValue?: V): { node: RedBlackTreeNode<K, V>; created: boolean } | undefined {
     const NIL = this.NIL;
     const comparator = this._comparator;
-
     // Read via header to avoid undefined checks (header uses NIL when empty).
     const header = this._header;
     const minN = header._left ?? NIL;
@@ -657,7 +477,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         if (header._right  === NIL) this._setMaxCache(newNode);
         return { node: newNode, created: true };
       }
-
       // Only touch max when key is not less than min.
       if (cMin > 0) {
         const maxN = header._right ?? NIL;
@@ -680,7 +499,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         }
       }
     }
-
     // Normal path: single-pass search + insert/update (avoid double-walking the tree).
     const cmp = comparator;
     const isMapMode = this._isMapMode;
@@ -688,7 +506,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     let current = this._header.parent ?? NIL;
     let parent: RedBlackTreeNode<K, V> | undefined;
     let lastCompared = 0;
-
     while (current !== NIL) {
       parent = current;
       lastCompared = cmp(key, current.key);
@@ -701,12 +518,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         return { node: current, created: false };
       }
     }
-
     // Insert new.
     const newNode = this.createNode(key, nextValue);
     // createNode always returns a real node in RedBlackTree.
     newNode.parent = parent;
-
     if (!parent) {
       this._setRoot(newNode);
     } else if (lastCompared < 0) {
@@ -714,23 +529,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     } else {
       parent.right = newNode;
     }
-
     newNode.left = NIL;
     newNode.right = NIL;
     newNode.color = 'RED';
-
     this._updateCountAlongPath(newNode);
     this._insertFixup(newNode);
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
     else return undefined;
-
     if (isMapMode) store.set(newNode.key, newNode);
     this._size++;
-
     // Maintain min/max caches on insertion (header.left/right are canonical).
     const hMin = this._header._left ?? NIL;
     const hMax = this._header._right ?? NIL;
-
     // Fast-path: empty tree or attaching directly to an extreme.
     if (hMin === NIL || hMax === NIL) {
       this._setMinCache(newNode);
@@ -743,7 +553,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (cmp(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
       if (cmp(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
     }
-
     return { node: newNode, created: true };
   }
 
@@ -766,7 +575,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         return true;
       }
     }
-
     return this._setKVNode(key, nextValue) !== undefined;
   }
 
@@ -785,7 +593,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (!hint || !this.isRealNode(hint)) {
       return this._setKVNode(key, value)?.node;
     }
-
     const cmp = this._compare.bind(this);
     const c0 = cmp(key, hint.key);
     if (c0 === 0) {
@@ -793,7 +600,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (this._isMapMode) this._store.set(key, hint);
       return hint;
     }
-
     if (c0 < 0) {
       // Ultra-fast path: direct attach if the target slot is empty.
       if (!this.isRealNode(hint.left)) {
@@ -810,12 +616,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
         return newNode;
       }
-
       const pred = this._predecessorOf(hint);
       if (pred && cmp(pred.key, key) >= 0) {
         return this._setKVNode(key, value)?.node;
       }
-
       // Try attach as right of pred.
       if (pred && !this.isRealNode(pred.right)) {
         const newNode = this.createNode(key, value);
@@ -831,11 +635,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
         return newNode;
       }
-
       /* istanbul ignore next -- structurally unreachable: predecessor never has a right child (it's the max of left subtree) */
       return this._setKVNode(key, value)?.node;
     }
-
     // c0 > 0
     // Ultra-fast path: direct attach if the target slot is empty.
     if (!this.isRealNode(hint.right)) {
@@ -852,12 +654,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
       return newNode;
     }
-
     const succ = this._successorOf(hint);
     if (succ && cmp(succ.key, key) <= 0) {
       return this._setKVNode(key, value)?.node;
     }
-
     if (succ && !this.isRealNode(succ.left)) {
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
@@ -872,7 +672,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
       return newNode;
     }
-
     /* istanbul ignore next -- structurally unreachable: successor never has a left child (it's the min of right subtree) */
     return this._setKVNode(key, value)?.node;
   }
@@ -893,167 +692,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - updates via a single-pass search (no double walk)
    *
    * @remarks Time O(log n) average, Space O(1)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
  *     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
@@ -1070,7 +711,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
  *
  *     // Check size
  *     console.log(tree.size); // 5;
-   */
+*/
   override set(
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
@@ -1078,24 +719,19 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     // Common path: tree.set(key, value) or tree.set([key, value]).
     if (!this.isNode(keyNodeOrEntry)) {
       if (keyNodeOrEntry === null || keyNodeOrEntry === undefined) return false;
-
       if (this.isEntry(keyNodeOrEntry)) {
         const key = keyNodeOrEntry[0];
         if (key === null || key === undefined) return false;
         const nextValue = value ?? keyNodeOrEntry[1];
         return this._setKV(key, nextValue);
       }
-
       // key-only
       return this._setKV(keyNodeOrEntry, value);
     }
-
     // Node insertion path (advanced usage)
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (!this.isRealNode(newNode)) return false;
-
     const insertStatus = this._insert(newNode);
-
     if (insertStatus === 'CREATED') {
       if (this.isRealNode(this._root)) {
         this._root.color = 'BLACK';
@@ -1131,198 +767,33 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove and rebalance
  *  const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
  *     rbt.delete(5);
  *     console.log(rbt.has(5)); // false;
  *     console.log(rbt.size); // 4;
-   */
+*/
   override delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>
   ): boolean {
     if (keyNodeEntryRawOrPredicate === null) return false;
-
     let nodeToDelete: OptNode<RedBlackTreeNode<K, V>>;
     if (this._isPredicate(keyNodeEntryRawOrPredicate)) nodeToDelete = this.getNode(keyNodeEntryRawOrPredicate);
     else nodeToDelete = this.isRealNode(keyNodeEntryRawOrPredicate) ? keyNodeEntryRawOrPredicate : this.getNode(keyNodeEntryRawOrPredicate);
-
     if (!nodeToDelete) {
       return false;
     }
-
     // Track min/max cache updates before structural modifications.
     const willDeleteMin = nodeToDelete === this._minNode;
     const willDeleteMax = nodeToDelete === this._maxNode;
     const nextMin = willDeleteMin ? this._successorOf(nodeToDelete) : undefined;
     const nextMax = willDeleteMax ? this._predecessorOf(nodeToDelete) : undefined;
-
     let originalColor = nodeToDelete.color;
     const NIL = this.NIL;
     let replacementNode: RedBlackTreeNode<K, V> = NIL;
-
     if (!this.isRealNode(nodeToDelete.left)) {
       // No real left child → replace with right (may be NIL)
       replacementNode = nodeToDelete.right ?? NIL;
@@ -1337,7 +808,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (successor) {
         originalColor = successor.color;
         replacementNode = successor.right ?? NIL;
-
         if (successor.parent === nodeToDelete) {
           // Even if replacementNode is NIL, set its parent for fixup
           replacementNode.parent = successor;
@@ -1348,7 +818,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
             successor.right.parent = successor;
           }
         }
-
         this._transplant(nodeToDelete, successor);
         successor.left = nodeToDelete.left;
         if (successor.left) {
@@ -1359,10 +828,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     }
     if (this._isMapMode) this._store.delete(nodeToDelete.key);
     this._size--;
-
     // Update order-statistic counts from replacement up to root
     this._updateCountAlongPath(replacementNode?.parent as RedBlackTreeNode<K, V> | undefined ?? replacementNode);
-
     // Update min/max caches.
     if (this._size <= 0) {
       this._setMinCache(undefined);
@@ -1378,11 +845,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._setMaxCache(this.isRealNode(this._root) ? this.getRightMost(n => n, this._root) : undefined);
       }
     }
-
     if (originalColor === 'BLACK') {
       this._deleteFixup(replacementNode);
     }
-
     return true;
   }
 
@@ -1401,130 +866,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
    * sorted bulk insert, which naturally produces a balanced RBT.
    * @remarks Time O(N), Space O(N)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Rebalance tree
  *  const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
  *     rbt.perfectlyBalance();
  *     console.log(rbt.isAVLBalanced()); // true;
-   */
+*/
   override perfectlyBalance(_iterationType?: IterationType): boolean {
     // Extract sorted entries, clear, re-insert — RBT self-balances on insert
     const entries: [K, V | undefined][] = [];
@@ -1541,178 +890,20 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     /**
    * Transform to new tree
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform to new tree
  *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
  *     const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
  *     console.log([...doubled.values()]); // [20, 40];
-   */
+*/
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): RedBlackTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
-
     let index = 0;
     for (const [key, value] of this) {
       out.set(callback.call(thisArg, value, key, index++, this));
@@ -1773,7 +964,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     newNode: RedBlackTreeNode<K, V>
   ): RedBlackTreeNode<K, V> {
     newNode.color = oldNode.color;
-
     return super._replaceNode(oldNode, newNode);
   }
 
@@ -1786,11 +976,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   protected _insert(node: RedBlackTreeNode<K, V>): CRUD {
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
-
     let current = this._header.parent ?? NIL;
     let parent: RedBlackTreeNode<K, V> | undefined;
     let lastCompared = 0;
-
     while (current !== NIL) {
       parent = current;
       lastCompared = cmp(node.key, current.key);
@@ -1803,9 +991,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         return 'UPDATED';
       }
     }
-
     node.parent = parent;
-
     if (!parent) {
       this._setRoot(node);
     } else if (lastCompared < 0) {
@@ -1813,14 +999,11 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     } else {
       parent.right = node;
     }
-
     node.left = NIL;
     node.right = NIL;
     node.color = 'RED';
-
     // Update counts along insertion path before fixup
     this._updateCountAlongPath(node);
-
     this._insertFixup(node);
     return 'CREATED';
   }
@@ -1840,7 +1023,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     } else {
       u.parent.right = v;
     }
-
     if (v) {
       v.parent = u.parent;
     }
@@ -1855,14 +1037,11 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   protected _insertFixup(z: RedBlackTreeNode<K, V> | undefined): void {
     const leftRotate = this._leftRotate.bind(this);
     const rightRotate = this._rightRotate.bind(this);
-
     while (z) {
       const p = z.parent;
       if (!p || p.color !== 'RED') break;
-
       const gp = p.parent;
       if (!gp) break;
-
       if (p === gp.left) {
         const y = gp.right;
         if (y?.color === 'RED') {
@@ -1872,12 +1051,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           z = gp;
           continue;
         }
-
         if (z === p.right) {
           z = p;
           leftRotate(z);
         }
-
         const p2 = z?.parent;
         const gp2 = p2?.parent;
         if (p2 && gp2) {
@@ -1894,12 +1071,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           z = gp;
           continue;
         }
-
         if (z === p.left) {
           z = p;
           rightRotate(z);
         }
-
         const p2 = z?.parent;
         const gp2 = p2?.parent;
         if (p2 && gp2) {
@@ -1908,10 +1083,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           leftRotate(gp2);
         }
       }
-
       break;
     }
-
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
 
@@ -1926,17 +1099,13 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     // `node` is the child that replaced the deleted node (may be NIL sentinel).
     // If RED → just recolor BLACK (trivial fix). If BLACK → double-black repair.
     if (!node) return;
-
     const NIL = this.NIL;
     let current: RedBlackTreeNode<K, V> = node;
-
     while (current !== this.root && current.color === 'BLACK') {
       const parent: RedBlackTreeNode<K, V> | undefined = current.parent;
       if (!parent) break;
-
       const nodeIsLeft = current === parent.left;
       let sibling = nodeIsLeft ? parent.right : parent.left;
-
       // Case 1: sibling is RED → rotate to get a BLACK sibling
       if (sibling && sibling.color === 'RED') {
         sibling.color = 'BLACK';
@@ -1949,12 +1118,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           sibling = parent.left;
         }
       }
-
       const sibLeft = sibling?.left;
       const sibRight = sibling?.right;
       const sibLeftBlack = !sibLeft || sibLeft === NIL || sibLeft.color === 'BLACK';
       const sibRightBlack = !sibRight || sibRight === NIL || sibRight.color === 'BLACK';
-
       if (sibLeftBlack && sibRightBlack) {
         // Case 2: sibling's children are both BLACK → recolor sibling RED, move up
         if (sibling) sibling.color = 'RED';
@@ -1990,7 +1157,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         current = this.root!;
       }
     }
-
     current.color = 'BLACK';
   }
 
@@ -2004,16 +1170,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (!x || !x.right) {
       return;
     }
-
     const y = x.right;
     x.right = y.left;
-
     if (y.left && y.left !== this.NIL) {
       y.left.parent = x;
     }
-
     y.parent = x.parent;
-
     if (!x.parent) {
       this._setRoot(y);
     } else if (x === x.parent.left) {
@@ -2021,10 +1183,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     } else {
       x.parent.right = y;
     }
-
     y.left = x;
     x.parent = y;
-
     // Update counts: x first (now child), then y (now parent)
     this._updateCount(x);
     this._updateCount(y);
@@ -2040,16 +1200,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (!y || !y.left) {
       return;
     }
-
     const x = y.left;
     y.left = x.right;
-
     if (x.right && x.right !== this.NIL) {
       x.right.parent = y;
     }
-
     x.parent = y.parent;
-
     if (!y.parent) {
       this._setRoot(x);
     } else if (y === y.parent.left) {
@@ -2057,10 +1213,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     } else {
       y.parent.right = x;
     }
-
     x.right = y;
     y.parent = x;
-
     // Update counts: y first (now child), then x (now parent)
     this._updateCount(y);
     this._updateCount(x);

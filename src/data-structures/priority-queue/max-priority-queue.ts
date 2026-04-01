@@ -75,6 +75,7 @@ import { ERR, raise } from '../../common';
  *  //    ];
  */
 export class MaxPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
+
   /**
    * Creates a max-priority queue.
    * @param elements Optional initial elements to insert.

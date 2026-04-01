@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { ElementCallback, SinglyLinkedListOptions } from '../../types';
 import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
 
@@ -15,19 +14,18 @@ import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
  * @template E
  */
 export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
+
   /**
    * Create a list node.
    * @remarks Time O(1), Space O(1)
    * @param value - Element value to store.
    * @returns New node instance.
    */
-
   constructor(value: E) {
     super(value);
     this._value = value;
     this._next = undefined;
   }
-
   protected override _next: SinglyLinkedListNode<E> | undefined;
 
   /**
@@ -35,7 +33,6 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
    * @remarks Time O(1), Space O(1)
    * @returns Next node or undefined.
    */
-
   override get next(): SinglyLinkedListNode<E> | undefined {
     return this._next;
   }
@@ -46,7 +43,6 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
    * @param value - Next node or undefined.
    * @returns void
    */
-
   override set next(value: SinglyLinkedListNode<E> | undefined) {
     this._next = value;
   }
@@ -201,7 +197,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options such as maxLen and toElementFn.
    * @returns New SinglyLinkedList instance.
    */
-
   constructor(
     elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>> = [],
     options?: SinglyLinkedListOptions<E, R>
@@ -209,7 +204,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
     super(options);
     this.pushMany(elements);
   }
-
   protected _head: SinglyLinkedListNode<E> | undefined;
 
   /**
@@ -217,11 +211,9 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @returns Head node or undefined.
    */
-
   get head(): SinglyLinkedListNode<E> | undefined {
     return this._head;
   }
-
   protected _tail: SinglyLinkedListNode<E> | undefined;
 
   /**
@@ -229,11 +221,9 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @returns Tail node or undefined.
    */
-
   get tail(): SinglyLinkedListNode<E> | undefined {
     return this._tail;
   }
-
   protected _length = 0;
 
   /**
@@ -241,7 +231,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @returns Current length.
    */
-
   get length(): number {
     return this._length;
   }
@@ -251,7 +240,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @returns First element or undefined.
    */
-
   get first(): E | undefined {
     return this.head?.value;
   }
@@ -261,7 +249,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
    */
-
   get last(): E | undefined {
     return this.tail?.value;
   }
@@ -277,7 +264,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options forwarded to the constructor.
    * @returns A new list populated with the iterable's elements.
    */
-
   static from<E, R = any, S extends SinglyLinkedList<E, R> = SinglyLinkedList<E, R>>(
     this: new (
       elements?: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>,
@@ -296,49 +282,9 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to append.
    * @returns True when appended.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // basic SinglyLinkedList creation and push operation
  *  // Create a simple SinglyLinkedList with initial values
  *     const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
@@ -353,8 +299,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
  *     list.push(6);
  *     console.log(list.length); // 6;
  *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
-   */
-
+*/
   push(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -372,49 +317,9 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // SinglyLinkedList pop and shift operations
  *  const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
  *
@@ -429,8 +334,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
  *     // Verify remaining elements
  *     console.log([...list]); // [20, 30, 40];
  *     console.log(list.length); // 3;
-   */
-
+*/
   pop(): E | undefined {
     if (!this.head) return undefined;
     if (this.head === this.tail) {
@@ -453,55 +357,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the head element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove from the front
  *  const list = new SinglyLinkedList<number>([10, 20, 30]);
  *     console.log(list.shift()); // 10;
  *     console.log(list.length); // 2;
-   */
-
+*/
   shift(): E | undefined {
     if (!this.head) return undefined;
     const removed = this.head;
@@ -516,49 +379,9 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // SinglyLinkedList unshift and forward traversal
  *  const list = new SinglyLinkedList<number>([20, 30, 40]);
  *
@@ -578,8 +401,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
  *     console.log(elements); // [10, 20, 30, 40];
  *
  *     console.log(list.length); // 4;
-   */
-
+*/
   unshift(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -598,7 +420,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elements - Iterable of elements or nodes (or raw records if toElementFn is provided).
    * @returns Array of per-element success flags.
    */
-
   pushMany(elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -614,7 +435,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elements - Iterable of elements or nodes (or raw records if toElementFn is provided).
    * @returns Array of per-element success flags.
    */
-
   unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -630,7 +450,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elementNodeOrPredicate - Element, node, or node predicate to match.
    * @returns Matched value or undefined.
    */
-
   search(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ): E | undefined {
@@ -648,56 +467,15 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Access element by index
  *  const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
  *     console.log(list.at(0)); // 'a';
  *     console.log(list.at(2)); // 'c';
  *     console.log(list.at(3)); // 'd';
-   */
-
+*/
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
@@ -711,7 +489,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elementNodeOrPredicate - Element, node, or predicate.
    * @returns True if the value is a SinglyLinkedListNode.
    */
-
   isNode(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ): elementNodeOrPredicate is SinglyLinkedListNode<E> {
@@ -723,51 +500,13 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Node or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Get node at index
  *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
  *     console.log(list.getNodeAt(1)?.value); // 'b';
-   */
-
+*/
   getNodeAt(index: number): SinglyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
@@ -780,52 +519,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove by index
  *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
  *     list.deleteAt(1);
  *     console.log(list.toArray()); // ['a', 'c'];
-   */
-
+*/
   deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     if (index === 0) return this.shift();
@@ -843,58 +544,19 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param [elementOrNode] - Element or node to remove; if omitted/undefined, nothing happens.
    * @returns True if removed.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove first occurrence
  *  const list = new SinglyLinkedList<number>([1, 2, 3, 2]);
  *     list.delete(2);
  *     console.log(list.toArray()); // [1, 3, 2];
-   */
-
+*/
   delete(elementOrNode: E | SinglyLinkedListNode<E> | undefined): boolean {
     if (elementOrNode === undefined || !this.head) return false;
     const node = this.isNode(elementOrNode) ? elementOrNode : this.getNode(elementOrNode);
     if (!node) return false;
     const prevNode = this._getPrevNode(node);
-
     if (!prevNode) {
       this._head = node.next;
       if (node === this.tail) this._tail = undefined;
@@ -912,52 +574,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param index - Zero-based index.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Insert at index
  *  const list = new SinglyLinkedList<number>([1, 3]);
  *     list.addAt(1, 2);
  *     console.log(list.toArray()); // [1, 2, 3];
-   */
-
+*/
   addAt(index: number, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
     if (index < 0 || index > this._length) return false;
     if (index === 0) return this.unshift(newElementOrNode);
@@ -977,7 +601,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param value - New value.
    * @returns True if updated.
    */
-
   setAt(index: number, value: E): boolean {
     const node = this.getNodeAt(index);
     if (!node) return false;
@@ -989,51 +612,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Check whether the list is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Check empty
  *  console.log(new SinglyLinkedList().isEmpty()); // true;
-   */
-
+*/
   isEmpty(): boolean {
     return this._length === 0;
   }
@@ -1042,53 +626,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove all
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
  *     list.clear();
  *     console.log(list.isEmpty()); // true;
-   */
-
+*/
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
@@ -1099,55 +644,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Reverse the list in-place
  *  const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
  *     list.reverse();
  *     console.log([...list]); // [4, 3, 2, 1];
-   */
-
+*/
   reverse(): this {
     if (!this.head || this.head === this.tail) return this;
     let prev: SinglyLinkedListNode<E> | undefined;
@@ -1169,7 +673,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [elementNodeOrPredicate] - Element, node, or node predicate to match.
    * @returns Matching node or undefined.
    */
-
   getNode(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean) | undefined
   ): SinglyLinkedListNode<E> | undefined {
@@ -1191,7 +694,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
    */
-
   addBefore(
     existingElementOrNode: E | SinglyLinkedListNode<E>,
     newElementOrNode: E | SinglyLinkedListNode<E>
@@ -1200,7 +702,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
     if (!existingNode) return false;
     const prevNode = this._getPrevNode(existingNode);
     const newNode = this._ensureNode(newElementOrNode);
-
     if (!prevNode) {
       newNode.next = this._head;
       this._head = newNode;
@@ -1221,7 +722,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
    */
-
   addAfter(existingElementOrNode: E | SinglyLinkedListNode<E>, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
     const existingNode = this.getNode(existingElementOrNode);
     if (!existingNode) return false;
@@ -1241,16 +741,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [items] - Elements to insert after `start`.
    * @returns A new list containing the removed elements (typed as `this`).
    */
-
   override splice(start: number, deleteCount = 0, ...items: E[]): this {
     start = Math.max(0, Math.min(start, this.length));
     deleteCount = Math.max(0, deleteCount);
-
     const removedList = this._createInstance();
-
     const prevNode = start === 0 ? undefined : this.getNodeAt(start - 1);
     let cur = prevNode ? prevNode.next : this.head;
-
     let removedCount = 0;
     while (removedCount < deleteCount && cur) {
       removedList.push(cur.value);
@@ -1258,14 +754,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
       removedCount++;
     }
     const afterNode = cur;
-
     if (prevNode) {
       prevNode.next = afterNode;
     } else {
       this._head = afterNode;
     }
     if (!afterNode) this._tail = prevNode;
-
     if (items.length > 0) {
       let firstInserted: SinglyLinkedListNode<E> | undefined;
       let lastInserted: SinglyLinkedListNode<E> | undefined;
@@ -1277,17 +771,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
       }
       if (prevNode) prevNode.next = firstInserted!;
       else this._head = firstInserted!;
-
       lastInserted!.next = afterNode;
       if (!afterNode) this._tail = lastInserted!;
     }
-
     this._length += items.length - removedCount;
     if (this._length === 0) {
       this._head = undefined;
       this._tail = undefined;
     }
-
     return removedList as unknown as this;
   }
 
@@ -1297,7 +788,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elementOrNode - Element, node, or node predicate to match.
    * @returns Number of matches in the list.
    */
-
   countOccurrences(elementOrNode: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)): number {
     const predicate = elementOrPredicate(elementOrNode, this._equals);
     let count = 0;
@@ -1315,7 +805,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param equals - Equality predicate (a, b) → boolean.
    * @returns This list.
    */
-
   setEquality(equals: (a: E, b: E) => boolean): this {
     this._equals = equals;
     return this;
@@ -1327,7 +816,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param predicate - Predicate (value, index, list) → boolean to decide deletion.
    * @returns True if a node was removed.
    */
-
   deleteWhere(predicate: (value: E, index: number, list: this) => boolean): boolean {
     let prev: SinglyLinkedListNode<E> | undefined;
     let current = this.head;
@@ -1354,55 +842,16 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Deep clone this list (values are copied by reference).
    * @remarks Time O(N), Space O(N)
    * @returns A new list with the same element sequence.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Deep copy
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
  *     const copy = list.clone();
  *     copy.pop();
  *     console.log(list.length); // 3;
  *     console.log(copy.length); // 2;
-   */
-
+*/
   clone(): this {
     const out = this._createInstance();
     for (const v of this) out.push(v);
@@ -1415,49 +864,9 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // SinglyLinkedList filter and map operations
  *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
  *
@@ -1472,8 +881,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
  *     // Use reduce to sum
  *     const sum = list.reduce((acc, value) => acc + value, 0);
  *     console.log(sum); // 15;
-   */
-
+*/
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance();
     let index = 0;
@@ -1488,7 +896,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with mapped values.
    */
-
   mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
     const out = this._createInstance();
     let index = 0;
@@ -1508,55 +915,14 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new SinglyLinkedList with mapped values.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform elements
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
  *     const doubled = list.map(n => n * 2);
  *     console.log([...doubled]); // [2, 4, 6];
-   */
-
+*/
   map<EM, RM = any>(
     callback: ElementCallback<E, R, EM>,
     options?: SinglyLinkedListOptions<EM, RM>,
@@ -1574,7 +940,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param value - Value to wrap in a node.
    * @returns A new SinglyLinkedListNode instance.
    */
-
   protected createNode(value: E): SinglyLinkedListNode<E> {
     return new SinglyLinkedListNode<E>(value);
   }
@@ -1585,7 +950,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elementNodeOrPredicate - Element, node, or node predicate.
    * @returns True if input is a predicate function.
    */
-
   protected _isPredicate(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ): elementNodeOrPredicate is (node: SinglyLinkedListNode<E>) => boolean {
@@ -1598,7 +962,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elementOrNode - Element or node.
    * @returns A SinglyLinkedListNode for the provided input.
    */
-
   protected _ensureNode(elementOrNode: E | SinglyLinkedListNode<E>) {
     if (this.isNode(elementOrNode)) return elementOrNode;
     return this.createNode(elementOrNode);
@@ -1610,7 +973,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param elementNodeOrPredicate - Element, node, or predicate.
    * @returns A predicate taking a node and returning true/false.
    */
-
   protected _ensurePredicate(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ) {
@@ -1626,7 +988,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param node - A node in the list.
    * @returns Previous node or undefined.
    */
-
   protected _getPrevNode(node: SinglyLinkedListNode<E>): SinglyLinkedListNode<E> | undefined {
     if (!this.head || this.head === node) return undefined;
     let current = this.head;
@@ -1639,7 +1000,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of values (E).
    */
-
   protected *_getIterator(): IterableIterator<E> {
     let current = this.head;
     while (current) {
@@ -1653,7 +1013,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(N)
    * @returns Iterator of values (E).
    */
-
   protected *_getReverseIterator(): IterableIterator<E> {
     const reversedArr = [...this].reverse();
     for (const item of reversedArr) yield item;
@@ -1664,7 +1023,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of nodes.
    */
-
   protected *_getNodeIterator(): IterableIterator<SinglyLinkedListNode<E>> {
     let current = this.head;
     while (current) {
@@ -1679,7 +1037,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options forwarded to the constructor.
    * @returns An empty like-kind list instance.
    */
-
   protected _createInstance(options?: SinglyLinkedListOptions<E, R>): this {
     const Ctor = this.constructor as new (
       elements?: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>,
@@ -1697,7 +1054,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options forwarded to the constructor.
    * @returns A like-kind SinglyLinkedList instance.
    */
-
   protected _createLike<EM, RM>(
     elements: Iterable<EM> | Iterable<RM> | Iterable<SinglyLinkedListNode<EM>> = [],
     options?: SinglyLinkedListOptions<EM, RM>
@@ -1717,12 +1073,10 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options forwarded to the constructor.
    * @returns An empty like-kind SinglyLinkedList instance.
    */
-
   protected _spawnLike<EM, RM>(options?: SinglyLinkedListOptions<EM, RM>): SinglyLinkedList<EM, RM> {
     return this._createLike<EM, RM>([], options);
   }
 }
-
 function elementOrPredicate<E>(
   input: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean),
   equals: (a: E, b: E) => boolean

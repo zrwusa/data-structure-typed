@@ -5,21 +5,18 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { MapGraphCoordinate, VertexKey } from '../../types';
 import { DirectedEdge, DirectedGraph, DirectedVertex } from './directed-graph';
 
 export class MapVertex<V = any> extends DirectedVertex<V> {
   lat: number;
   long: number;
-
   constructor(key: VertexKey, value: V, lat: number, long: number) {
     super(key, value);
     this.lat = lat;
     this.long = long;
   }
 }
-
 export class MapEdge<E = any> extends DirectedEdge<E> {
   constructor(src: VertexKey, dest: VertexKey, weight?: number, value?: E) {
     super(src, dest, weight, value);
@@ -99,6 +96,7 @@ export class MapGraph<
   VO extends MapVertex<V> = MapVertex<V>,
   EO extends MapEdge<E> = MapEdge<E>
 > extends DirectedGraph<V, E, VO, EO> {
+
   /**
    * Construct a MapGraph.
    * @param originCoord - Origin coordinate `[lat, long]` used as default.
@@ -110,15 +108,11 @@ export class MapGraph<
     this._originCoord = originCoord;
     this._bottomRight = bottomRight;
   }
-
   protected _originCoord: MapGraphCoordinate = [0, 0];
-
   get originCoord(): MapGraphCoordinate {
     return this._originCoord;
   }
-
   protected _bottomRight: MapGraphCoordinate | undefined;
-
   get bottomRight(): MapGraphCoordinate | undefined {
     return this._bottomRight;
   }

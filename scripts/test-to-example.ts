@@ -410,7 +410,9 @@ function addExamplesToSourceFile(
   const updatedContent =
     sourceContent.slice(0, commentStart) + newCommentBlock + sourceContent.slice(commentEndInclusive);
 
-  fs.writeFileSync(sourceFilePath, updatedContent, 'utf-8');
+  // Clean up whitespace-only lines
+  const cleanedContent = updatedContent.replace(/^[ \t]+$/gm, '').replace(/\n{4,}/g, '\n\n\n');
+  fs.writeFileSync(sourceFilePath, cleanedContent, 'utf-8');
   console.log(`  ✅ [class] ${className} ← ${examples.length} example(s)`);
 }
 
@@ -477,12 +479,12 @@ function addExampleToMethod(
       // Replace existing @example block(s) with new one
       const updatedJsdoc = existingJsdoc.replace(/ \* @example[\s\S]*?(?= \* @[a-z]|\s*\*\/)/g, '');
       const updatedEnd = updatedJsdoc.lastIndexOf('*/');
-      const newJsdoc = updatedJsdoc.slice(0, updatedEnd) + exampleBlock + '   ' + updatedJsdoc.slice(updatedEnd);
+      const newJsdoc = updatedJsdoc.slice(0, updatedEnd) + exampleBlock + updatedJsdoc.slice(updatedEnd);
       sourceContent = sourceContent.slice(0, absJsdocStart) + newJsdoc + sourceContent.slice(absJsdocEnd);
     } else {
       // Insert before closing */
       const insertPos = memberFullStart + jsdocEndInLeading;
-      sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + '   ' + sourceContent.slice(insertPos);
+      sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + sourceContent.slice(insertPos);
     }
   } else {
     // No JSDoc — create one
@@ -491,6 +493,10 @@ function addExampleToMethod(
     sourceContent = sourceContent.slice(0, memberStart) + newJsdoc + sourceContent.slice(memberStart);
   }
 
+  // Clean up whitespace-only lines (prevent accumulation from repeated runs)
+  sourceContent = sourceContent.replace(/^[ \t]+$/gm, '');
+  // Collapse 3+ consecutive blank lines into 2
+  sourceContent = sourceContent.replace(/\n{4,}/g, '\n\n\n');
   fs.writeFileSync(sourceFilePath, sourceContent);
   console.log(`  ✅ [method] ${className}.${methodName} ← "${example.name}"`);
   return true;

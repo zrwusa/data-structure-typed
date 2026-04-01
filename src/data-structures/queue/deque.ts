@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type {
+
   DequeOptions,
   ElementCallback,
   IterableElementBaseOptions,
@@ -92,25 +92,21 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options such as bucketSize, toElementFn, and maxLen.
    * @returns New Deque instance.
    */
-
   constructor(elements?: IterableWithSizeOrLength<E>, options?: DequeOptions<E, R>);
   constructor(elements: IterableWithSizeOrLength<R>, options: DequeOptions<E, R> & { toElementFn: (rawElement: R) => E });
   constructor(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = [], options?: DequeOptions<E, R>) {
     super(options);
-
     if (options) {
       const { bucketSize, autoCompactRatio } = options;
       if (typeof bucketSize === 'number') this._bucketSize = bucketSize;
       if (typeof autoCompactRatio === 'number') this._autoCompactRatio = autoCompactRatio;
     }
-
     let _size: number;
     if ('length' in elements) {
       _size = typeof elements.length === 'function' ? elements.length() : elements.length;
     } else {
       _size = typeof elements.size === 'function' ? elements.size() : elements.size;
     }
-
     this._bucketCount = calcMinUnitsRequired(_size, this._bucketSize) || 1;
     for (let i = 0; i < this._bucketCount; ++i) {
       this._buckets.push(new Array(this._bucketSize));
@@ -120,7 +116,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     this._firstInBucket = this._lastInBucket = (this._bucketSize - (_size % this._bucketSize)) >> 1;
     this.pushMany(elements);
   }
-
   protected _bucketSize: number = 1 << 12;
 
   /**
@@ -128,11 +123,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Bucket capacity per bucket.
    */
-
   get bucketSize() {
     return this._bucketSize;
   }
-
   protected _autoCompactRatio = 0.5;
 
   /**
@@ -160,7 +153,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Only checks ratio every `_bucketSize` operations to minimize overhead.
    */
   protected _compactCounter = 0;
-
   protected _bucketFirst = 0;
 
   /**
@@ -168,11 +160,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Zero-based bucket index.
    */
-
   get bucketFirst(): number {
     return this._bucketFirst;
   }
-
   protected _firstInBucket = 0;
 
   /**
@@ -180,11 +170,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Zero-based index within the first bucket.
    */
-
   get firstInBucket(): number {
     return this._firstInBucket;
   }
-
   protected _bucketLast = 0;
 
   /**
@@ -192,11 +180,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Zero-based bucket index.
    */
-
   get bucketLast(): number {
     return this._bucketLast;
   }
-
   protected _lastInBucket = 0;
 
   /**
@@ -204,11 +190,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Zero-based index within the last bucket.
    */
-
   get lastInBucket(): number {
     return this._lastInBucket;
   }
-
   protected _bucketCount = 0;
 
   /**
@@ -216,11 +200,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Bucket count.
    */
-
   get bucketCount(): number {
     return this._bucketCount;
   }
-
   protected _buckets: E[][] = [];
 
   /**
@@ -228,11 +210,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Array of buckets storing values.
    */
-
   get buckets() {
     return this._buckets;
   }
-
   protected _length = 0;
 
   /**
@@ -240,7 +220,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Current length.
    */
-
   get length() {
     return this._length;
   }
@@ -249,44 +228,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns First element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
     * @example
  * // Deque peek at both ends
  *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
@@ -302,7 +243,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *     // Length unchanged
  *     console.log(deque.length); // 5;
    */
-
   /**
    * Peek at the front element without removing it (alias for `first`).
    * @remarks Time O(1), Space O(1)
@@ -314,10 +254,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
     /**
    * Deque peek at both ends
-  
-   
-   
-    * @example
+
+
+ * @example
  * // Deque peek at both ends
  *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
  *
@@ -331,7 +270,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *
  *     // Length unchanged
  *     console.log(deque.length); // 5;
-   */
+*/
   get first(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketFirst][this._firstInBucket];
@@ -341,55 +280,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the last element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Peek at the back element
  *  const dq = new Deque<string>(['a', 'b', 'c']);
  *     console.log(dq.last); // 'c';
  *     console.log(dq.first); // 'a';
-   */
-
+*/
   get last(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];
@@ -405,7 +303,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns A new Deque populated from the array.
    */
-
   static fromArray<E, R = any>(
     this: new (
       elements?: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>,
@@ -422,49 +319,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to append.
    * @returns True when appended.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // basic Deque creation and push/pop operations
  *  // Create a simple Deque with initial values
  *     const deque = new Deque([1, 2, 3, 4, 5]);
@@ -482,8 +339,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *     // Pop from the end
  *     const last = deque.pop();
  *     console.log(last); // 6;
-   */
-
+*/
   push(element: E): boolean {
     if (this._length) {
       if (this._lastInBucket < this._bucketSize - 1) {
@@ -507,55 +363,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the last element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove from the back
  *  const dq = new Deque<number>([1, 2, 3]);
  *     console.log(dq.pop()); // 3;
  *     console.log(dq.length); // 2;
-   */
-
+*/
   pop(): E | undefined {
     if (this._length === 0) return;
     const element = this._buckets[this._bucketLast][this._lastInBucket];
@@ -579,55 +394,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the first element.
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove from the front
  *  const dq = new Deque<number>([1, 2, 3]);
  *     console.log(dq.shift()); // 1;
  *     console.log(dq.length); // 2;
-   */
-
+*/
   shift(): E | undefined {
     if (this._length === 0) return;
     const element = this._buckets[this._bucketFirst][this._firstInBucket];
@@ -652,49 +426,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to prepend.
    * @returns True when prepended.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Deque shift and unshift operations
  *  const deque = new Deque<number>([20, 30, 40]);
  *
@@ -709,8 +443,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *     // Verify remaining elements
  *     console.log([...deque]); // [20, 30, 40];
  *     console.log(deque.length); // 3;
-   */
-
+*/
   unshift(element: E): boolean {
     if (this._length) {
       if (this._firstInBucket > 0) {
@@ -736,7 +469,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param elements - Iterable (or iterable-like) of elements/records.
    * @returns Array of per-element success flags.
    */
-
   pushMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -755,7 +487,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [elements] - Iterable (or iterable-like) of elements/records.
    * @returns Array of per-element success flags.
    */
-
   unshiftMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = []) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -772,52 +503,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Check whether the deque is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Check if empty
  *  const dq = new Deque();
  *     console.log(dq.isEmpty()); // true;
-   */
-
+*/
   isEmpty(): boolean {
     return this._length === 0;
   }
@@ -826,53 +518,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove all elements and reset structure.
    * @remarks Time O(1), Space O(1)
    * @returns void
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove all elements
  *  const dq = new Deque<number>([1, 2, 3]);
  *     dq.clear();
  *     console.log(dq.length); // 0;
-   */
-
+*/
   clear(): void {
     this._buckets = [new Array(this._bucketSize)];
     this._bucketCount = 1;
@@ -885,52 +538,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param pos - Zero-based position from the front.
    * @returns Element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Access by index
  *  const dq = new Deque<string>(['a', 'b', 'c']);
  *     console.log(dq.at(0)); // 'a';
  *     console.log(dq.at(2)); // 'c';
-   */
-
+*/
   at(pos: number): E | undefined {
     if (pos < 0 || pos >= this._length) return undefined;
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
@@ -944,7 +559,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param element - New element value.
    * @returns True if updated.
    */
-
   setAt(pos: number, element: E): boolean {
     rangeCheck(pos, 0, this._length - 1);
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
@@ -960,7 +574,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [num] - Number of times to insert (default 1).
    * @returns True if inserted.
    */
-
   addAt(pos: number, element: E, num = 1): boolean {
     const length = this._length;
     rangeCheck(pos, 0, length);
@@ -988,7 +601,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [isCutSelf] - When true, mutate this deque; otherwise return a new deque.
    * @returns This deque if in-place; otherwise a new deque of the prefix.
    */
-
   cut(pos: number, isCutSelf = false): Deque<E> {
     if (isCutSelf) {
       if (pos < 0) {
@@ -1007,7 +619,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
         const v = this.at(i);
         if (v !== undefined) newDeque.push(v);
       }
-
       return newDeque;
     }
   }
@@ -1020,31 +631,24 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [items] - Elements to insert after `start`.
    * @returns A new deque containing the removed elements (typed as `this`).
    */
-
   override splice(start: number, deleteCount: number = this._length - start, ...items: E[]): this {
     rangeCheck(start, 0, this._length);
     if (deleteCount < 0) deleteCount = 0;
     if (start + deleteCount > this._length) deleteCount = this._length - start;
-
     const removed = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
     removed._setBucketSize(this._bucketSize);
     for (let i = 0; i < deleteCount; i++) {
       const v = this.at(start + i);
       if (v !== undefined) removed.push(v);
     }
-
     const tail: E[] = [];
     for (let i = start + deleteCount; i < this._length; i++) {
       const v = this.at(i);
       if (v !== undefined) tail.push(v);
     }
-
     this.cut(start - 1, true);
-
     for (const it of items) this.push(it);
-
     for (const v of tail) this.push(v);
-
     return removed as unknown as this;
   }
 
@@ -1055,7 +659,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [isCutSelf] - When true, mutate this deque; otherwise return a new deque.
    * @returns This deque if in-place; otherwise a new deque of the suffix.
    */
-
   cutRest(pos: number, isCutSelf = false): Deque<E> {
     if (isCutSelf) {
       if (pos < 0) {
@@ -1084,10 +687,8 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param pos - Zero-based position from the front.
    * @returns Removed element or undefined.
    */
-
   deleteAt(pos: number): E | undefined {
     rangeCheck(pos, 0, this._length - 1);
-
     let deleted: E | undefined;
     if (pos === 0) {
       return this.shift();
@@ -1099,13 +700,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       const length = this._length - 1;
       const { bucketIndex: targetBucket, indexInBucket: targetPointer } = this._getBucketAndPosition(pos);
       deleted = this._buckets[targetBucket][targetPointer];
-
       for (let i = pos; i < length; i++) {
         const { bucketIndex: curBucket, indexInBucket: curPointer } = this._getBucketAndPosition(i);
         const { bucketIndex: nextBucket, indexInBucket: nextPointer } = this._getBucketAndPosition(i + 1);
         this._buckets[curBucket][curPointer] = this._buckets[nextBucket][nextPointer];
       }
-
       this.pop();
       return deleted;
     }
@@ -1116,52 +715,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (using the configured equality).
    * @returns True if an element was removed.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove element
  *  const dq = new Deque<number>([1, 2, 3]);
  *     dq.delete(2);
  *     console.log(dq.length); // 2;
-   */
-
+*/
   delete(element: E): boolean {
     const size = this._length;
     if (size === 0) return false;
@@ -1185,7 +746,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param predicate - Function (value, index, deque) → boolean.
    * @returns True if a match was removed.
    */
-
   deleteWhere(predicate: (value: E, index: number, deque: this) => boolean): boolean {
     for (let i = 0; i < this._length; i++) {
       const v = this.at(i);
@@ -1203,7 +763,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param equals - Equality predicate (a, b) → boolean.
    * @returns This deque.
    */
-
   setEquality(equals: (a: E, b: E) => boolean): this {
     this._equals = equals;
     return this;
@@ -1213,45 +772,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Reverse the deque by reversing buckets and pointers.
    * @remarks Time O(N), Space O(N)
    * @returns This deque.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
     * @example
  * // Deque for...of iteration and reverse
  *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
@@ -1271,18 +791,19 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *     }
  *     console.log(backward); // ['D', 'C', 'B', 'A'];
    */
-
   /**
    * Find the last value matching a predicate (scans back-to-front).
    * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
    * @param predicate - Function called with (value, index, deque).
    * @returns Matching value or undefined.
-    * @example
+
+
+ * @example
  * // Find last matching value
  *  const d = new Deque([1, 2, 3, 4, 5]);
  *     console.log(d.findLast(v => v > 2)); // 5;
  *     console.log(d.findLast(v => v % 2 === 0)); // 4;
-   */
+*/
   findLast(predicate: (value: E, index: number, deque: this) => boolean): E | undefined {
     for (let i = this.length - 1; i >= 0; i--) {
       const val = this.at(i)!;
@@ -1296,12 +817,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Provided for familiarity when migrating from Array. Time O(n), Space O(1).
    * @param predicate - Function called with (value, index, deque).
    * @returns Matching index, or -1 if not found.
-    * @example
+
+
+ * @example
  * // Find last matching index
  *  const d = new Deque([10, 20, 30, 20, 10]);
  *     console.log(d.findLastIndex(v => v === 20)); // 3;
  *     console.log(d.findLastIndex(v => v === 10)); // 4;
-   */
+*/
   findLastIndex(predicate: (value: E, index: number, deque: this) => boolean): number {
     for (let i = this.length - 1; i >= 0; i--) {
       if (predicate(this.at(i)!, i, this)) return i;
@@ -1311,9 +834,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
     /**
    * Deque for...of iteration and reverse
-  
-   
-    * @example
+
+
+ * @example
  * // Deque for...of iteration and reverse
  *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
  *
@@ -1331,7 +854,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
  *       backward.push(item);
  *     }
  *     console.log(backward); // ['D', 'C', 'B', 'A'];
-   */
+*/
   reverse(): this {
     this._buckets.reverse().forEach(function (bucket) {
       bucket.reverse();
@@ -1349,7 +872,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns This deque.
    */
-
   unique(): this {
     if (this._length <= 1) {
       return this;
@@ -1372,7 +894,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns void
    */
-
   /**
    * (Protected) Trigger auto-compaction if space utilization drops below threshold.
    * Only checks every `_bucketSize` operations to minimize hot-path overhead.
@@ -1380,11 +901,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    */
   protected _autoCompact(): void {
     if (this._autoCompactRatio <= 0 || this._bucketCount <= 1) return;
-
     this._compactCounter++;
     if (this._compactCounter < this._bucketSize) return;
     this._compactCounter = 0;
-
     const utilization = this._length / (this._bucketCount * this._bucketSize);
     if (utilization < this._autoCompactRatio) {
       this.shrinkToFit();
@@ -1400,59 +919,21 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Compact the deque by removing unused buckets.
    * @remarks Time O(N), Space O(1)
    * @returns True if compaction was performed (bucket count reduced).
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Reclaim memory
  *  const dq = new Deque<number>([1, 2, 3, 4, 5]);
  *     dq.shift();
  *     dq.shift();
  *     dq.compact();
  *     console.log(dq.length); // 3;
-   */
+*/
   compact(): boolean {
     const before = this._bucketCount;
     this.shrinkToFit();
     return this._bucketCount < before;
   }
-
   shrinkToFit(): void {
     if (this._length === 0) return;
     const newBuckets = [] as E[][];
@@ -1479,55 +960,16 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Deep clone this deque, preserving options.
    * @remarks Time O(N), Space O(N)
    * @returns A new deque with the same content and options.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Create independent copy
  *  const dq = new Deque<number>([1, 2, 3]);
  *     const copy = dq.clone();
  *     copy.pop();
  *     console.log(dq.length); // 3;
  *     console.log(copy.length); // 2;
-   */
-
+*/
   clone(): this {
     return this._createLike<E, R>(this, {
       bucketSize: this.bucketSize,
@@ -1542,53 +984,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param predicate - Predicate (value, index, deque) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new deque with kept elements.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Filter elements
  *  const dq = new Deque<number>([1, 2, 3, 4]);
  *     const result = dq.filter(x => x > 2);
  *     console.log(result.length); // 2;
-   */
-
+*/
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setBucketSize(this._bucketSize);
@@ -1607,7 +1010,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new deque with mapped values.
    */
-
   mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
     out._setBucketSize(this._bucketSize);
@@ -1628,52 +1030,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options for the output deque (e.g., bucketSize, toElementFn, maxLen).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Deque with mapped elements.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform elements
  *  const dq = new Deque<number>([1, 2, 3]);
  *     const result = dq.map(x => x * 10);
  *     console.log(result.toArray()); // [10, 20, 30];
-   */
-
+*/
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
     options?: IterableElementBaseOptions<EM, RM>,
@@ -1699,10 +1063,8 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param size - Bucket capacity to assign.
    * @returns void
    */
-
   protected _setBucketSize(size: number): void {
     this._bucketSize = size;
-
     // When adjusting bucketSize on a freshly created empty deque (common in helpers like cut/splice/clone),
     // we must also realign internal pointers/buckets to avoid `_getBucketAndPosition` producing out-of-range
     // indices based on the previous bucketSize.
@@ -1719,7 +1081,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of elements.
    */
-
   protected *_getIterator(): IterableIterator<E> {
     for (let i = 0; i < this._length; ++i) {
       const v = this.at(i);
@@ -1733,7 +1094,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [needBucketNum] - How many extra buckets to add; defaults to half of current.
    * @returns void
    */
-
   protected _reallocate(needBucketNum?: number) {
     const newBuckets = [] as E[][];
     const addBucketNum = needBucketNum || this._bucketCount >> 1 || 1;
@@ -1762,23 +1122,18 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param pos - Zero-based position.
    * @returns An object containing bucketIndex and indexInBucket.
    */
-
   protected _getBucketAndPosition(pos: number) {
     let bucketIndex: number;
     let indexInBucket: number;
-
     const overallIndex = this._firstInBucket + pos;
     bucketIndex = this._bucketFirst + Math.floor(overallIndex / this._bucketSize);
-
     if (bucketIndex >= this._bucketCount) {
       bucketIndex -= this._bucketCount;
     }
-
     indexInBucket = ((overallIndex + 1) % this._bucketSize) - 1;
     if (indexInBucket < 0) {
       indexInBucket = this._bucketSize - 1;
     }
-
     return { bucketIndex, indexInBucket };
   }
 
@@ -1788,7 +1143,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns An empty like-kind deque instance.
    */
-
   protected override _createInstance(options?: LinearBaseOptions<E, R>): this {
     const Ctor = this.constructor as new (
       elements?: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>,
@@ -1806,7 +1160,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns A like-kind Deque instance.
    */
-
   protected _createLike<T = E, RR = R>(
     elements: IterableWithSizeOrLength<T> | IterableWithSizeOrLength<RR> = [],
     options?: DequeOptions<T, RR>
@@ -1823,7 +1176,6 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of elements.
    */
-
   protected *_getReverseIterator(): IterableIterator<E> {
     for (let i = this._length - 1; i > -1; i--) {
       const v = this.at(i);

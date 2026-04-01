@@ -5,7 +5,6 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
 import type { ElementCallback, LinearBaseOptions, QueueOptions } from '../../types';
 import { SinglyLinkedList } from '../linked-list';
 import { LinearBase } from '../base/linear-base';
@@ -89,6 +88,7 @@ import { LinearBase } from '../base/linear-base';
  *     console.log(q.toArray()); // [10, 20, 30];
  */
 export class Queue<E = any, R = any> extends LinearBase<E, R> {
+
   /**
    * Create a Queue and optionally bulk-insert elements.
    * @remarks Time O(N), Space O(N)
@@ -96,7 +96,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options such as toElementFn, maxLen, and autoCompactRatio.
    * @returns New Queue instance.
    */
-
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: QueueOptions<E, R>) {
     super(options);
     if (options) {
@@ -105,7 +104,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
     }
     this.pushMany(elements);
   }
-
   protected _elements: E[] = [];
 
   /**
@@ -113,11 +111,9 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Backing array of elements.
    */
-
   get elements(): E[] {
     return this._elements;
   }
-
   protected _offset = 0;
 
   /**
@@ -125,11 +121,9 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Zero-based offset.
    */
-
   get offset(): number {
     return this._offset;
   }
-
   protected _autoCompactRatio = 0.5;
 
   /**
@@ -137,7 +131,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Auto-compaction ratio in (0,1].
    */
-
   get autoCompactRatio(): number {
     return this._autoCompactRatio;
   }
@@ -148,7 +141,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param value - New ratio; compacts when offset/size exceeds this value.
    * @returns void
    */
-
   set autoCompactRatio(value: number) {
     this._autoCompactRatio = value;
   }
@@ -157,57 +149,16 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the number of elements currently in the queue.
    * @remarks Time O(1), Space O(1)
    * @returns Current length.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Track queue length
  *  const q = new Queue<number>();
  *     console.log(q.length); // 0;
  *     q.push(1);
  *     q.push(2);
  *     console.log(q.length); // 2;
-   */
-
+*/
   get length(): number {
     return this.elements.length - this._offset;
   }
@@ -216,55 +167,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element (front) without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Front element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // View the front element
  *  const q = new Queue<string>(['first', 'second', 'third']);
  *     console.log(q.first); // 'first';
  *     console.log(q.length); // 3;
-   */
-
+*/
   get first(): E | undefined {
     return this.length > 0 ? this.elements[this._offset] : undefined;
   }
@@ -283,7 +193,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Back element or undefined.
    */
-
   get last(): E | undefined {
     return this.length > 0 ? this.elements[this.elements.length - 1] : undefined;
   }
@@ -295,7 +204,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param elements - Array of elements to enqueue in order.
    * @returns A new queue populated from the array.
    */
-
   static fromArray<E>(elements: E[]): Queue<E> {
     return new Queue(elements);
   }
@@ -304,49 +212,9 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Check whether the queue is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Queue for...of iteration and isEmpty check
  *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
  *
@@ -364,8 +232,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
  *     }
  *
  *     console.log(queue.length); // 0;
-   */
-
+*/
   isEmpty(): boolean {
     return this.length === 0;
   }
@@ -375,49 +242,9 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to enqueue.
    * @returns True on success.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // basic Queue creation and push operation
  *  // Create a simple Queue with initial values
  *     const queue = new Queue([1, 2, 3, 4, 5]);
@@ -427,8 +254,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
  *
  *     // Check length
  *     console.log(queue.length); // 5;
-   */
-
+*/
   push(element: E): boolean {
     this.elements.push(element);
     if (this._maxLen > 0 && this.length > this._maxLen) this.shift();
@@ -441,7 +267,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param elements - Iterable of elements (or raw records if toElementFn is set).
    * @returns Array of per-element success flags.
    */
-
   pushMany(elements: Iterable<E> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -455,49 +280,9 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Dequeue one element from the front (amortized via offset).
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Queue shift and peek operations
  *  const queue = new Queue<number>([10, 20, 30, 40]);
  *
@@ -511,8 +296,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
  *     // Verify remaining elements and length decreased
  *     console.log([...queue]); // [20, 30, 40];
  *     console.log(queue.length); // 3;
-   */
-
+*/
   shift(): E | undefined {
     if (this.length === 0) return undefined;
     const first = this.first;
@@ -526,52 +310,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to remove (strict equality via Object.is).
    * @returns True if an element was removed.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove specific element
  *  const q = new Queue<number>([1, 2, 3, 2]);
  *     q.delete(2);
  *     console.log(q.length); // 3;
-   */
-
+*/
   delete(element: E): boolean {
     for (let i = this._offset; i < this.elements.length; i++) {
       if (Object.is(this.elements[i], element)) {
@@ -587,52 +333,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param index - Zero-based index from the front.
    * @returns Element or undefined.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Access element by index
  *  const q = new Queue<string>(['a', 'b', 'c']);
  *     console.log(q.at(0)); // 'a';
  *     console.log(q.at(2)); // 'c';
-   */
-
+*/
   at(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
     return this._elements[this._offset + index];
@@ -644,7 +352,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param index - Zero-based index from the front.
    * @returns Removed element or undefined.
    */
-
   deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
     const gi = this._offset + index;
@@ -659,7 +366,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param newElement - Element to insert.
    * @returns True if inserted.
    */
-
   addAt(index: number, newElement: E): boolean {
     if (index < 0 || index > this.length) return false;
     this._elements.splice(this._offset + index, 0, newElement);
@@ -673,7 +379,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param newElement - New element to set.
    * @returns True if updated.
    */
-
   setAt(index: number, newElement: E): boolean {
     if (index < 0 || index >= this.length) return false;
     this._elements[this._offset + index] = newElement;
@@ -701,7 +406,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(N)
    * @returns This queue.
    */
-
   reverse(): this {
     this._elements = this.elements.slice(this._offset).reverse();
     this._offset = 0;
@@ -712,53 +416,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Remove all elements and reset offset.
    * @remarks Time O(1), Space O(1)
    * @returns void
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Remove all elements
  *  const q = new Queue<number>([1, 2, 3]);
  *     q.clear();
  *     console.log(q.length); // 0;
-   */
-
+*/
   clear(): void {
     this._elements = [];
     this._offset = 0;
@@ -768,54 +433,16 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Compact storage by discarding consumed head elements.
    * @remarks Time O(N), Space O(N)
    * @returns True when compaction performed.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Reclaim unused memory
  *  const q = new Queue<number>([1, 2, 3, 4, 5]);
  *     q.shift();
  *     q.shift();
  *     q.compact();
  *     console.log(q.length); // 3;
-   */
-
+*/
   compact(): boolean {
     this._elements = this.elements.slice(this._offset);
     this._offset = 0;
@@ -830,20 +457,15 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [items] - Elements to insert after `start`.
    * @returns A new queue containing the removed elements (typed as `this`).
    */
-
   override splice(start: number, deleteCount: number = 0, ...items: E[]): this {
     start = Math.max(0, Math.min(start, this.length));
     deleteCount = Math.max(0, Math.min(deleteCount, this.length - start));
-
     const gi = this._offset + start;
     const removedArray = this._elements.splice(gi, deleteCount, ...items);
-
     if (this.elements.length > 0 && this.offset / this.elements.length > this.autoCompactRatio) this.compact();
-
     const removed = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     removed._setAutoCompactRatio(this._autoCompactRatio);
     removed.pushMany(removedArray);
-
     return removed as unknown as this;
   }
 
@@ -851,55 +473,16 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Deep clone this queue and its parameters.
    * @remarks Time O(N), Space O(N)
    * @returns A new queue with the same content and options.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Create independent copy
  *  const q = new Queue<number>([1, 2, 3]);
  *     const copy = q.clone();
  *     copy.shift();
  *     console.log(q.length); // 3;
  *     console.log(copy.length); // 2;
-   */
-
+*/
   clone(): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setAutoCompactRatio(this._autoCompactRatio);
@@ -913,53 +496,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param predicate - Predicate (element, index, queue) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new queue with kept elements.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Filter elements
  *  const q = new Queue<number>([1, 2, 3, 4, 5]);
  *     const evens = q.filter(x => x % 2 === 0);
  *     console.log(evens.length); // 2;
-   */
-
+*/
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     out._setAutoCompactRatio(this._autoCompactRatio);
@@ -980,52 +524,14 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options for the output queue (e.g., toElementFn, maxLen, autoCompactRatio).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new Queue with mapped elements.
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    * @example
+
+
+ * @example
  * // Transform elements
  *  const q = new Queue<number>([1, 2, 3]);
  *     const doubled = q.map(x => x * 2);
  *     console.log(doubled.toArray()); // [2, 4, 6];
-   */
-
+*/
   map<EM, RM>(callback: ElementCallback<E, R, EM>, options?: QueueOptions<EM, RM>, thisArg?: unknown): Queue<EM, RM> {
     const out = new (this.constructor as new (
       elements?: Iterable<EM> | Iterable<RM>,
@@ -1048,7 +554,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new queue with mapped elements (same element type).
    */
-
   mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
     const Ctor = this.constructor as new (
       elements?: Iterable<E> | Iterable<R>,
@@ -1074,7 +579,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param value - New ratio to assign.
    * @returns void
    */
-
   protected _setAutoCompactRatio(value: number): void {
     this._autoCompactRatio = value;
   }
@@ -1084,7 +588,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of E.
    */
-
   protected *_getIterator(): IterableIterator<E> {
     for (let i = this._offset; i < this.elements.length; i++) yield this.elements[i];
   }
@@ -1094,7 +597,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns Iterator of E.
    */
-
   protected *_getReverseIterator(): IterableIterator<E> {
     for (let i = this.length - 1; i >= 0; i--) {
       const cur = this.at(i);
@@ -1108,7 +610,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns An empty like-kind queue instance.
    */
-
   protected override _createInstance(options?: LinearBaseOptions<E, R>): this {
     const Ctor = this.constructor as new (elements?: Iterable<E> | Iterable<R>, options?: QueueOptions<E, R>) => this;
     return new Ctor([], options as QueueOptions<E, R> | undefined);
@@ -1123,7 +624,6 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param [options] - Options forwarded to the constructor.
    * @returns A like-kind Queue instance.
    */
-
   protected _createLike<EM = E, RM = R>(
     elements: Iterable<EM> | Iterable<RM> = [],
     options?: QueueOptions<EM, RM>
@@ -1144,12 +644,12 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
  * @example examples will be generated by unit test
  */
 export class LinkedListQueue<E = any, R = any> extends SinglyLinkedList<E, R> {
+
   /**
    * Deep clone this linked-list-based queue.
    * @remarks Time O(N), Space O(N)
    * @returns A new queue with the same sequence of elements.
    */
-
   override clone(): this {
     const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
     for (const v of this) out.push(v);
