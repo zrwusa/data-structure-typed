@@ -113,7 +113,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    */
   count(key: K): number {
     this._validateKey(key);
-    return this.#core.get(key) ?? 0;
+    return this.#core.getNode(key)?.value ?? 0;
   }
 
   /**
@@ -133,9 +133,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
     this._validateKey(key);
     this._validateCount(n);
     if (n === 0) return false;
-    const old = this.#core.get(key) ?? 0;
+    const node = this.#core.getNode(key);
+    const old = node?.value ?? 0;
     const next = old + n;
-    this.#core.set(key, next);
+    this.#core.set(node?.key ?? key, next);
     this._size += n;
     return true;
   }
@@ -153,12 +154,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   setCount(key: K, n: number): boolean {
     this._validateKey(key);
     this._validateCount(n);
-    const old = this.#core.get(key) ?? 0;
+    const node = this.#core.getNode(key);
+    const old = node?.value ?? 0;
     if (old === n) return false;
     if (n === 0) {
-      if (old !== 0) this.#core.delete(key);
+      if (node) this.#core.delete(node);
     } else {
-      this.#core.set(key, n);
+      this.#core.set(node?.key ?? key, n);
     }
     this._size += n - old;
     return true;
@@ -179,12 +181,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
     this._validateKey(key);
     this._validateCount(n);
     if (n === 0) return false;
-    const old = this.#core.get(key) ?? 0;
+    const node = this.#core.getNode(key);
+    const old = node?.value ?? 0;
     if (old === 0) return false;
     const removed = Math.min(old, n);
     const next = old - removed;
-    if (next === 0) this.#core.delete(key);
-    else this.#core.set(key, next);
+    if (next === 0) this.#core.delete(node);
+    else this.#core.set(node?.key ?? key, next);
     this._size -= removed;
     return true;
   }
@@ -202,9 +205,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    */
   deleteAll(key: K): boolean {
     this._validateKey(key);
-    const old = this.#core.get(key) ?? 0;
+    const node = this.#core.getNode(key);
+    const old = node?.value ?? 0;
     if (old === 0) return false;
-    this.#core.delete(key);
+    this.#core.delete(node);
     this._size -= old;
     return true;
   }

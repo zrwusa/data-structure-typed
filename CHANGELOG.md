@@ -8,7 +8,15 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v2.6.0](https://github.com/zrwusa/data-structure-typed/compare/v2.5.3...main) (upcoming)
+## [v2.6.2](https://github.com/zrwusa/data-structure-typed/compare/v2.6.1...v2.6.2) (24 June 2026)
+
+### Changes
+
+- fix(TreeMultiSet): preserve counts for comparator-equal object keys [`#131`](https://github.com/zrwusa/data-structure-typed/issues/131)
+
+## [v2.6.1](https://github.com/zrwusa/data-structure-typed/compare/v2.6.0...v2.6.1) (2 April 2026)
+
+## [v2.6.0](https://github.com/zrwusa/data-structure-typed/compare/v2.5.3...v2.6.0) (31 March 2026)
 
 ## [v2.5.3](https://github.com/zrwusa/data-structure-typed/compare/v2.5.1...v2.5.3) (31 March 2026)
 

@@ -499,6 +499,32 @@ describe('TreeMultiSet', () => {
       expect(ms.size).toBe(3);
     });
 
+    it('handles comparator-equal non-identical objects without corrupting size', () => {
+      const ms = new TreeMultiSet<{ key: number }>([], {
+        comparator: (a, b) => a.key - b.key
+      });
+      const nodeA = { key: 1 };
+      const nodeB = { key: 1 };
+
+      ms.add(nodeA);
+      ms.add(nodeB);
+
+      expect(ms.size).toBe(2);
+      expect(ms.distinctSize).toBe(1);
+      expect(ms.count(nodeA)).toBe(2);
+      expect(ms.count(nodeB)).toBe(2);
+      expect(ms.toArray()).toEqual([nodeA, nodeA]);
+
+      while (ms.size > 0) {
+        const node = ms.first();
+        expect(node).toBe(nodeA);
+        expect(ms.delete(node!)).toBe(true);
+      }
+
+      expect(ms.first()).toBeUndefined();
+      expect(ms.distinctSize).toBe(0);
+    });
+
     it('rejects non-primitive types without comparator', () => {
       const ms = new TreeMultiSet<{ id: number }>();
       expect(() => ms.add({ id: 1 })).toThrow(TypeError);
