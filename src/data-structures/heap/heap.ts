@@ -232,7 +232,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
 
   /**
    * Build a Heap from an iterable in linear time given a comparator.
-   * @remarks Time O(N), Space O(N)
+   * @remarks Time N log(N), Space O(N)
    * @template EE
    * @template RR
    * @param elements - Iterable of elements.
